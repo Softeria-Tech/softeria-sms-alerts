@@ -336,14 +336,18 @@ class smspro_WC_Order_SMS
         if ('on' === $smspro_reg_notify && ! empty($billing_phone) ) {
             $search = array(
             '[username]',
+            '[store_name]',
             '[email]',
             '[billing_phone]',
+            '[role]',
             );
 
             $replace           = array(
             $user->user_login,
+            $store_name,
             $user->user_email,
             $billing_phone,
+            $role_display_name,
             );
             $sms_body_new_user = str_replace($search, $replace, $sms_body_new_user);
             // do_action( 'sa_send_sms', $billing_phone, $sms_body_new_user ); //commented on 25-08-2021
