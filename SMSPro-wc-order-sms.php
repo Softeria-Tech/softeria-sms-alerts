@@ -1,6 +1,6 @@
 <?php
 /**
- * This is a WooCommerce add-on. By Using this plugin admin and buyer can get notification after placing order via sms using SMS Pro.
+ * This is a WooCommerce add-on. By Using this plugin admin and cusomer can get notification after placing order via sms using SMS Pro.
  * PHP version 5
  *
  * @category Helper
@@ -11,7 +11,7 @@
  * Plugin Name: SMSPro - WooCommerce
  * Plugin URI: https://wordpress.org/plugins/sms-pro/
  * Description: This is a WooCommerce add-on. By Using this plugin admin and buyer can get notification after placing order via sms using SMS Pro.
- * Version: 3.8.3
+ * Version: 1.0.0
  * Author: Softeria Technologies Ltd.
  * Author URI: https://sms.softeriatech.com
  * WC requires at least: 4.6
