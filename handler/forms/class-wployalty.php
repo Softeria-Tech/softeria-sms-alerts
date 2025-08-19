@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -26,8 +26,8 @@ use Wlr\App\Helpers\Base;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * WpLoyaltyRules class 
@@ -65,8 +65,8 @@ class WpLoyalty extends FormInterface
             'points',
         ];
         foreach ($bookingStatuses as $ks) {
-            $defaults['smspro_wpl_general']['customer_wpl_notify_' . $ks]   = 'off';
-            $defaults['smspro_wpl_message']['customer_sms_wpl_body_' . $ks] = '';
+            $defaults['softeria_alerts_wpl_general']['customer_wpl_notify_' . $ks]   = 'off';
+            $defaults['softeria_alerts_wpl_message']['customer_sms_wpl_body_' . $ks] = '';
         }
         
         return $defaults;
@@ -103,17 +103,8 @@ class WpLoyalty extends FormInterface
         $tabs['wp-loyalty']['inner_nav']['wp-loyalty_cust']['tabContent']     = $customerParam;
         $tabs['wp-loyalty']['inner_nav']['wp-loyalty_cust']['filePath']       = 'views/message-template.php';
         $tabs['wp-loyalty']['help_links'] = [
-            /* 'youtube_link' => [
-                'href'   => 'https://youtu.be/4BXd_XZt9zM',
-                'target' => '_blank',
-                'alt'    => 'Watch steps on Youtube',
-                'class'  => 'btn-outline',
-                'label'  => 'Youtube',
-                'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-            ], */
             'kb_link'      => [
-                'href'   => 'https://sms.softeriatech.com/knowledgebase/wployalty-sms-integration/',
+                'href'   => 'https://sms.softeriatech.com',
                 'target' => '_blank',
                 'alt'    => 'Read how to integrate with wployalty',
                 'class'  => 'btn-outline',
@@ -137,15 +128,15 @@ class WpLoyalty extends FormInterface
             'points',
         ];
         $templates           = [];
-        $currentVal      = smspro_get_option('customer_wpl_notify_points', 'smspro_wpl_general', 'on');
+        $currentVal      = softeria_alerts_get_option('customer_wpl_notify_points', 'softeria_alerts_wpl_general', 'on');
 
-        $checkboxNameId  = 'smspro_wpl_general[customer_wpl_notify_points]';
-        $textareaNameId  = 'smspro_wpl_message[customer_sms_wpl_body_points]';
+        $checkboxNameId  = 'softeria_alerts_wpl_general[customer_wpl_notify_points]';
+        $textareaNameId  = 'softeria_alerts_wpl_message[customer_sms_wpl_body_points]';
 
-        $defaultTemplate = smspro_get_option('customer_sms_wpl_body_points', 'smspro_wpl_message', sprintf(__('%1$s: %2$s store credits added in your account! Total store credits are %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[store_name]', '[points]', '[total_points]', PHP_EOL, PHP_EOL));
+        $defaultTemplate = softeria_alerts_get_option('customer_sms_wpl_body_points', 'softeria_alerts_wpl_message', sprintf(__('%1$s: %2$s store credits added in your account! Total store credits are %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', '[points]', '[total_points]', PHP_EOL, PHP_EOL));
 
 
-        $textBody       = smspro_get_option('customer_sms_wpl_body_points', 'smspro_wpl_message', $defaultTemplate);
+        $textBody       = softeria_alerts_get_option('customer_sms_wpl_body_points', 'softeria_alerts_wpl_message', $defaultTemplate);
 
         $templates[0]['title']          = 'When customer add points ';
         $templates[0]['enabled']        = $currentVal;
@@ -155,15 +146,15 @@ class WpLoyalty extends FormInterface
         $templates[0]['textareaNameId'] = $textareaNameId;
         $templates[0]['token']          = self::getWpLoyaltyvariables();
               
-        $currentVal      = smspro_get_option('customer_wpl_notify_rewards', 'smspro_wpl_general', 'on');
+        $currentVal      = softeria_alerts_get_option('customer_wpl_notify_rewards', 'softeria_alerts_wpl_general', 'on');
 
-        $checkboxNameId  = 'smspro_wpl_general[customer_wpl_notify_rewards]';
-        $textareaNameId  = 'smspro_wpl_message[customer_sms_wpl_body_rewards]';
+        $checkboxNameId  = 'softeria_alerts_wpl_general[customer_wpl_notify_rewards]';
+        $textareaNameId  = 'softeria_alerts_wpl_message[customer_sms_wpl_body_rewards]';
 
-        $defaultTemplate = smspro_get_option('customer_sms_wpl_body_rewards', 'smspro_wpl_message', sprintf(__('Dear %1$s, %2$s loyalty points has been debited from your account.Your total points : %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[first_name]', '[points]', '[total_points]', PHP_EOL, PHP_EOL));
+        $defaultTemplate = softeria_alerts_get_option('customer_sms_wpl_body_rewards', 'softeria_alerts_wpl_message', sprintf(__('Dear %1$s, %2$s loyalty points has been debited from your account.Your total points : %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[first_name]', '[points]', '[total_points]', PHP_EOL, PHP_EOL));
 
 
-        $textBody       = smspro_get_option('customer_sms_wpl_body_rewards', 'smspro_wpl_message', $defaultTemplate);
+        $textBody       = softeria_alerts_get_option('customer_sms_wpl_body_rewards', 'softeria_alerts_wpl_message', $defaultTemplate);
 
         $templates[1]['title']          = 'When customer redeem reward' ;
         $templates[1]['enabled']        = $currentVal;
@@ -342,9 +333,9 @@ class WpLoyalty extends FormInterface
       */
     public function sendSmsOn($buyerNumber, $points, $action_type,$data)
     {    
-        $customerMessage   = smspro_get_option('customer_sms_wpl_body_points', 'smspro_wpl_message', '');
+        $customerMessage   = softeria_alerts_get_option('customer_sms_wpl_body_points', 'softeria_alerts_wpl_message', '');
         
-        $customerNotify    = smspro_get_option('customer_wpl_notify_points', 'smspro_wpl_general', 'on');
+        $customerNotify    = softeria_alerts_get_option('customer_wpl_notify_points', 'softeria_alerts_wpl_general', 'on');
     
         if (($customerNotify === 'on' && $customerMessage !== '')) {
             $buyerMessage = $this->parseSmsBody($points, $data, $customerMessage);
@@ -384,8 +375,8 @@ class WpLoyalty extends FormInterface
             $data['billing_phone'] = get_user_meta($data['ID'], 'billing_phone', true);
             
             $buyerNumber = $data['billing_phone'];
-            $customerMessage   = smspro_get_option('customer_sms_wpl_body_rewards', 'smspro_wpl_message', '');
-            $customerNotify    = smspro_get_option('customer_wpl_notify_rewards', 'smspro_wpl_general', 'on');
+            $customerMessage   = softeria_alerts_get_option('customer_sms_wpl_body_rewards', 'softeria_alerts_wpl_message', '');
+            $customerNotify    = softeria_alerts_get_option('customer_wpl_notify_rewards', 'softeria_alerts_wpl_general', 'on');
             
             
             
@@ -401,8 +392,8 @@ class WpLoyalty extends FormInterface
             $first_name = $data['user_login'];
             $data['billing_phone'] = get_user_meta($data['ID'], 'billing_phone', true);  
             $buyerNumber = $data['billing_phone'];
-            $customerMessage   = smspro_get_option('customer_sms_wpl_body_points', 'smspro_wpl_message', '');
-            $customerNotify    = smspro_get_option('customer_wpl_notify_points', 'smspro_wpl_general', 'on');
+            $customerMessage   = softeria_alerts_get_option('customer_sms_wpl_body_points', 'softeria_alerts_wpl_message', '');
+            $customerNotify    = softeria_alerts_get_option('customer_wpl_notify_points', 'softeria_alerts_wpl_general', 'on');
         } elseif ($data['action_type'] =='new_user_add' 
             && $data['transaction_type'] =='credit'
         ) {
@@ -414,8 +405,8 @@ class WpLoyalty extends FormInterface
             $first_name = $data['user_login'];
             $data['billing_phone'] = get_user_meta($data['ID'], 'billing_phone', true); 
             $buyerNumber = $data['billing_phone'];
-            $customerMessage   = smspro_get_option('customer_sms_wpl_body_points', 'smspro_wpl_message', '');
-            $customerNotify    = smspro_get_option('customer_wpl_notify_points', 'smspro_wpl_general', 'on');
+            $customerMessage   = softeria_alerts_get_option('customer_sms_wpl_body_points', 'softeria_alerts_wpl_message', '');
+            $customerNotify    = softeria_alerts_get_option('customer_wpl_notify_points', 'softeria_alerts_wpl_general', 'on');
         } else if ($data['action_type'] =='admin_change' 
             && $data['transaction_type'] =='debit'
         ) {
@@ -428,8 +419,8 @@ class WpLoyalty extends FormInterface
             $first_name = $data['user_login'];
             $data['billing_phone'] = get_user_meta($data['ID'], 'billing_phone', true);
             $buyerNumber = $data['billing_phone'];
-            $customerMessage   = smspro_get_option('customer_sms_wpl_body_rewards', 'smspro_wpl_message', '');
-            $customerNotify    = smspro_get_option('customer_wpl_notify_rewards', 'smspro_wpl_general', 'on');
+            $customerMessage   = softeria_alerts_get_option('customer_sms_wpl_body_rewards', 'softeria_alerts_wpl_message', '');
+            $customerNotify    = softeria_alerts_get_option('customer_wpl_notify_rewards', 'softeria_alerts_wpl_general', 'on');
         }
 
         if (($customerNotify === 'on' && $customerMessage !== '')) {
@@ -525,7 +516,7 @@ class WpLoyalty extends FormInterface
     public function isFormEnabled()
     {
 
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('wp-loyalty-rules/wp-loyalty-rules.php') === true) && ($islogged === true)) {
             return true;

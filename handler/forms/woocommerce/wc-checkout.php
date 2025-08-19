@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */ 
@@ -23,8 +23,8 @@ use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableControlle
   * PHP version 5
   *
   * @category Handler
-  * @package  SMSPro
-  * @author   SMS Pro <support@softeriatech.com>
+  * @package  SOFTSMSAlerts
+  * @author   Softeria Tech <billing@softeriatech.com>
   * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
   * @link     https://sms.softeriatech.com/
   *
@@ -105,21 +105,21 @@ class WooCommerceCheckOutForm extends FormInterface
     {
         add_filter('woocommerce_checkout_fields', array( $this, 'getCheckoutFields' ), 1, 1);
         add_action('woocommerce_after_checkout_validation', array( $this, 'woocommerceSiteCheckoutErrors' ), 10, 2);
-        $checkout_otp_enabled = smspro_get_option('buyer_checkout_otp', 'smspro_general');		
-        $post_verification = smspro_get_option('post_order_verification', 'smspro_general');
+        $checkout_otp_enabled = softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general');		
+        $post_verification = softeria_alerts_get_option('post_order_verification', 'softeria_alerts_general');
         if ('on' === $post_verification && 'on' === $checkout_otp_enabled) {
             add_action('woocommerce_thankyou_order_received_text', array( $this, 'sendPostOrderOtp' ), 10, 2);
             add_action('woocommerce_order_details_after_order_table', array( $this, 'orderDetailsAfterPostOrderOtp' ), 10);
         }
 
         add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_after', array( $this, 'showButtonOnBlockPage' ) );
-        $this->allow_otp_countries = maybe_unserialize(smspro_get_option('allow_otp_country', 'smspro_general' , null)); 
-        $this->payment_methods           = maybe_unserialize(smspro_get_option('checkout_payment_plans', 'smspro_general'));
-        $this->otp_for_selected_gateways = ( smspro_get_option('otp_for_selected_gateways', 'smspro_general') === 'on' ) ? true : false;
-        $this->popup_enabled             = ( (smspro_get_option('checkout_show_otp_button', 'smspro_general') !== 'on') || (smspro_get_option('checkout_otp_popup', 'smspro_general', 'off') === 'on') ||  (smspro_get_option('buyer_checkout_otp', 'smspro_general', 'off') !== 'on' && smspro_get_option('checkout_show_otp_button', 'smspro_general') === 'on')) ? true : false;
-        $this->guest_check_out_only      = ( smspro_get_option('checkout_show_otp_guest_only', 'smspro_general') === 'on' ) ? true : false;
-        $this->show_button               = ( smspro_get_option('checkout_show_otp_button', 'smspro_general') === 'on' ) ? true : false;
-        $register_otp_enabled = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $this->allow_otp_countries = maybe_unserialize(softeria_alerts_get_option('allow_otp_country', 'softeria_alerts_general' , null)); 
+        $this->payment_methods           = maybe_unserialize(softeria_alerts_get_option('checkout_payment_plans', 'softeria_alerts_general'));
+        $this->otp_for_selected_gateways = ( softeria_alerts_get_option('otp_for_selected_gateways', 'softeria_alerts_general') === 'on' ) ? true : false;
+        $this->popup_enabled             = ( (softeria_alerts_get_option('checkout_show_otp_button', 'softeria_alerts_general') !== 'on') || (softeria_alerts_get_option('checkout_otp_popup', 'softeria_alerts_general', 'off') === 'on') ||  (softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general', 'off') !== 'on' && softeria_alerts_get_option('checkout_show_otp_button', 'softeria_alerts_general') === 'on')) ? true : false;
+        $this->guest_check_out_only      = ( softeria_alerts_get_option('checkout_show_otp_guest_only', 'softeria_alerts_general') === 'on' ) ? true : false;
+        $this->show_button               = ( softeria_alerts_get_option('checkout_show_otp_button', 'softeria_alerts_general') === 'on' ) ? true : false;
+        $register_otp_enabled = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
 
         if (( 'on' === $checkout_otp_enabled ) || ( 'on' !== $checkout_otp_enabled && 'on' === $register_otp_enabled ) ) {
             add_action('woocommerce_review_order_after_submit', array( $this, 'addShortcode' ), 1, 1);
@@ -174,16 +174,16 @@ class WooCommerceCheckOutForm extends FormInterface
          $buyerNumber          = !empty($order->get_billing_phone())?$order->get_billing_phone():$order->get_shipping_phone();
 		}
 		$new_status           = 'partially_refunded';
-        $buyer_sms_body       = smspro_get_option('sms_body_'.$new_status, 'smspro_message');
+        $buyer_sms_body       = softeria_alerts_get_option('sms_body_'.$new_status, 'softeria_alerts_message');
         $buyer_sms_body       = str_replace('[order_status]', 'partially refunded', $buyer_sms_body);    
         $buyer_sms_body       =str_replace('[refund_amount]', $refundamount, $buyer_sms_body);
         $sms_data['sms_body'] = $buyer_sms_body;
         $buyerMessage         =  WooCommerceCheckOutForm::pharseSmsBody($sms_data, $order_id);
         do_action('sa_send_sms', $buyerNumber, $buyerMessage['sms_body']);    
         /* Admin Notification  */
-        $admin_phone_number    = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $admin_phone_number    = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $admin_phone_number    = str_replace('postauthor', 'post_author', $admin_phone_number);    
-        if (smspro_get_option('admin_notification_' . $new_status, 'smspro_general', 'on') === 'on' && ! empty($admin_phone_number) ) {
+        if (softeria_alerts_get_option('admin_notification_' . $new_status, 'softeria_alerts_general', 'on') === 'on' && ! empty($admin_phone_number) ) {
             // send sms to post author.
             $has_sub_order = metadata_exists('post', $order_id, 'has_sub_order');
             if (( strpos($admin_phone_number, 'post_author') !== false ) 
@@ -209,7 +209,7 @@ class WooCommerceCheckOutForm extends FormInterface
             }
             $default_template           = SmsAlertMessages::showMessage('DEFAULT_ADMIN_SMS_' . str_replace('-', '_', strtoupper($new_status)));
             $default_admin_sms          = ( ( ! empty($default_template) ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_ADMIN_SMS_STATUS_CHANGED') );
-            $admin_sms_body             = smspro_get_option('admin_sms_body_' . $new_status, 'smspro_message', $default_admin_sms);
+            $admin_sms_body             = softeria_alerts_get_option('admin_sms_body_' . $new_status, 'softeria_alerts_message', $default_admin_sms);
             $admin_sms_body             = str_replace('[refund_amount]', $refundamount, $admin_sms_body);
             $admin_sms_body             = str_replace('[order_status]', 'partially refunded', $admin_sms_body);    
             $admin_sms_data['sms_body'] = $admin_sms_body;
@@ -256,16 +256,16 @@ class WooCommerceCheckOutForm extends FormInterface
         }
         $verify = check_ajax_referer('woocommerce-process_checkout', 'woocommerce-process-checkout-nonce', false);
         if (!$verify) {
-            $errors->add('registration-error-invalid-nonce', __('Sorry, nonce did not verify.', 'sms-pro'));
+            $errors->add('registration-error-invalid-nonce', __('Sorry, nonce did not verify.', 'softeria-sms-alerts'));
         }
         if (! SmsAlertUtility::isBlank(array_filter($errors->errors)) ) {
             return $errors;
         }
-        if (isset($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option']) === 'smspro-woocommerce-checkout-process') ) {
+        if (isset($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option']) === 'softeria-alert-woocommerce-checkout-process') ) {
             SmsAlertUtility::initialize_transaction($this->form_session_var2);
         } 
         if (SmsAlertUtility::isBlank($user_phone)) {
-            $errors->add('registration-error-invalid-phone', __('Please enter phone number.', 'sms-pro'));
+            $errors->add('registration-error-invalid-phone', __('Please enter phone number.', 'softeria-sms-alerts'));
         } else if (! isset($user_phone) || ! SmsAlertUtility::validatePhoneNumber($user_phone) ) {
             global $phoneLogic;
             $errors->add('registration-error-invalid-phone', str_replace('##phone##', $user_phone, $phoneLogic->_get_otp_invalid_format_message()));
@@ -283,11 +283,11 @@ class WooCommerceCheckOutForm extends FormInterface
                 }
             }
             
-            if (smspro_get_option('allow_multiple_user', 'smspro_general') !== 'on' ) {
+            if (softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') !== 'on' ) {
 
                 $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
                 if (count($getusers) > 0 ) {
-                    $errors->add('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'sms-pro'));
+                    $errors->add('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
                 }
             }
         }
@@ -312,7 +312,7 @@ class WooCommerceCheckOutForm extends FormInterface
     {
         $phone_no  = ( ! empty($_POST['billing_phone']) ) ? sanitize_text_field(wp_unslash($_POST['billing_phone'])) : '';
         $phone_num = preg_replace('/[^0-9]/', '', $phone_no);
-        smspro_site_challenge_otp(null, null, $errors, $phone_num, 'phone', null);
+        softeria_alerts_site_challenge_otp(null, null, $errors, $phone_num, 'phone', null);
     }
 
     /**
@@ -322,20 +322,20 @@ class WooCommerceCheckOutForm extends FormInterface
      */
     public function addShortcode()
     { 
-        $checkout_otp_enabled = smspro_get_option('buyer_checkout_otp', 'smspro_general');
+        $checkout_otp_enabled = softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general');
         $inline_script = 'var signup_checkout = "'.get_option('woocommerce_enable_signup_and_login_from_checkout').'";
 	var guest_checkout = "'.get_option('woocommerce_enable_guest_checkout').'";
 	var user_logged_in = "'.is_user_logged_in().'";
 	var is_popup = "'.$this->popup_enabled.'";
 	var selected_payment = "'.$this->otp_for_selected_gateways.'";
-	var post_verify = "'.( ( smspro_get_option('post_order_verification', 'smspro_general') === 'on' ) ? true : false ).'";
-	var enable_country = "'.( ( smspro_get_option('checkout_show_country_code', 'smspro_general') === 'on' ) ? true : false ).'";
-	var allow_otp_verification = "'.( ( smspro_get_option('allow_otp_verification', 'smspro_general') === 'on' ) ? true : false ).'";
+	var post_verify = "'.( ( softeria_alerts_get_option('post_order_verification', 'softeria_alerts_general') === 'on' ) ? true : false ).'";
+	var enable_country = "'.( ( softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general') === 'on' ) ? true : false ).'";
+	var allow_otp_verification = "'.( ( softeria_alerts_get_option('allow_otp_verification', 'softeria_alerts_general') === 'on' ) ? true : false ).'";
 	var ask_otp = "'.( $this->guest_check_out_only && is_user_logged_in() ? false : (($checkout_otp_enabled === 'on' ) ? true : false) ).'";
 	var paymentMethods = '.json_encode($this->payment_methods).';
 	var allow_otp_countries = '.json_encode($this->allow_otp_countries).';
-	var register_otp = "'.( ( smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ? true : false ).'";
-	var btn_text = "'.smspro_get_option('otp_verify_btn_text', 'smspro_general', '').'";
+	var register_otp = "'.( ( softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ? true : false ).'";
+	var btn_text = "'.softeria_alerts_get_option('otp_verify_btn_text', 'softeria_alerts_general', '').'";
 	function saCheckoutOtp()
 	{
 	function smspro() {
@@ -385,7 +385,7 @@ class WooCommerceCheckOutForm extends FormInterface
 	}
 	} 
 	jQuery(document).on("updated_checkout",function() {
-    jQuery("#order_verify_field,#smspro_otp_token_submit").addClass("sa-default-btn-hide");
+    jQuery("#order_verify_field,#softeria_alerts_otp_token_submit").addClass("sa-default-btn-hide");
     smspro();
 	if (enable_country && jQuery(\'.woocommerce [name="billing_phone"]:hidden\').length == 0)
 	{
@@ -444,13 +444,13 @@ class WooCommerceCheckOutForm extends FormInterface
 			if (jQuery("form").hasClass("wc-block-components-form"))
 			{
 				var phone_selector = (jQuery("#billing-phone").length != 0)?"#billing-phone":"#shipping-phone";
-				add_smspro_button(".wc-block-components-checkout-place-order-button",phone_selector,uniqueid,btn_text);
+				add_softeria_alerts_button(".wc-block-components-checkout-place-order-button",phone_selector,uniqueid,btn_text);
 				jQuery(document).on("click", "#sa_verify_"+uniqueid,function(event){
 					event.preventDefault();
 				send_otp(this,".wc-block-components-checkout-place-order-button",phone_selector,"","");
 				});
 			} else {
-			add_smspro_button("#place_order","#billing_phone",uniqueid,btn_text);
+			add_softeria_alerts_button("#place_order","#billing_phone",uniqueid,btn_text);
 			jQuery(document).on("click", "#sa_verify_"+uniqueid,function(event){
 					event.preventDefault();
 			send_otp(this,"#place_order","#billing_phone","","");
@@ -466,17 +466,17 @@ class WooCommerceCheckOutForm extends FormInterface
 				}
 			});
 			} else {
-			jQuery("#order_verify_field,#smspro_otp_token_submit").removeClass("sa-default-btn-hide")	
+			jQuery("#order_verify_field,#softeria_alerts_otp_token_submit").removeClass("sa-default-btn-hide")	
 			}
 		}
 		function removeShortcode()
 		{
 			if (is_popup)
 			{
-			jQuery(".place-order .smspro_otp_btn_submit,.wc-block-components-checkout-place-order-button.smspro_otp_btn_submit").remove();
+			jQuery(".place-order .softeria_alerts_otp_btn_submit,.wc-block-components-checkout-place-order-button.softeria_alerts_otp_btn_submit").remove();
 			jQuery("#place_order,.wc-block-components-checkout-place-order-button").removeClass("sa-default-btn-hide");
 			} else {
-			jQuery("#order_verify_field,#smspro_otp_token_submit").addClass("sa-default-btn-hide")	
+			jQuery("#order_verify_field,#softeria_alerts_otp_token_submit").addClass("sa-default-btn-hide")	
 			}
 		}
 		function generateUniqueId()
@@ -532,7 +532,7 @@ class WooCommerceCheckOutForm extends FormInterface
         setTimeout(function() {
             if (jQuery(".modal.smsproModal").length==0)    
             {            
-            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_smspro_template("template/otp-popup.php", array(), true))).'\';
+            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_softeria_alerts_template("template/otp-popup.php", array(), true))).'\';
             jQuery("body").append(popup);
             }
         }, 200);
@@ -552,10 +552,10 @@ class WooCommerceCheckOutForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize     = new smspro_Setting_Options();
+        $user_authorize     = new softeria_alerts_Setting_Options();
         $islogged           = $user_authorize->is_user_authorised();
         $signup_on_checkout = get_option('woocommerce_enable_signup_and_login_from_checkout');
-        return ( $islogged && is_plugin_active('woocommerce/woocommerce.php') && ( 'on' === smspro_get_option('buyer_checkout_otp', 'smspro_general') || ( 'on' === smspro_get_option('buyer_signup_otp', 'smspro_general') && 'yes' === $signup_on_checkout ) ) ) ? true : false;
+        return ( $islogged && is_plugin_active('woocommerce/woocommerce.php') && ( 'on' === softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general') || ( 'on' === softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') && 'yes' === $signup_on_checkout ) ) ) ? true : false;
     }
 
     /**
@@ -569,7 +569,7 @@ class WooCommerceCheckOutForm extends FormInterface
             return;
         }
         $option = trim(sanitize_text_field(wp_unslash($_GET['option'])));
-        if (strcasecmp($option, 'smspro-woocommerce-checkout') === 0 || strcasecmp($option, 'smspro-woocommerce-post-checkout') === 0 ) {
+        if (strcasecmp($option, 'softeria-alert-woocommerce-checkout') === 0 || strcasecmp($option, 'softeria-alert-woocommerce-post-checkout') === 0 ) {
             $this->handleWoocommereCheckoutForm($_POST);
         }
 
@@ -585,14 +585,14 @@ class WooCommerceCheckOutForm extends FormInterface
     public function handleWoocommereCheckoutForm( $getdata )
     {
         SmsAlertUtility::checkSession();
-        if (! empty($_GET['option']) && sanitize_text_field(wp_unslash($_GET['option'])) === 'smspro-woocommerce-post-checkout' ) {
+        if (! empty($_GET['option']) && sanitize_text_field(wp_unslash($_GET['option'])) === 'softeria-alert-woocommerce-post-checkout' ) {
             SmsAlertUtility::initialize_transaction($this->form_session_var3);
         } else {
             SmsAlertUtility::initialize_transaction($this->form_session_var);
         }
         $phone_num = SmsAlertcURLOTP::checkPhoneNos($getdata['user_phone']);
         $email = !empty($getdata['user_email']) ? $getdata['user_email'] : null;
-        smspro_site_challenge_otp('test', $email, null, trim($phone_num), 'phone');
+        softeria_alerts_site_challenge_otp('test', $email, null, trim($phone_num), 'phone');
     }
 
     /**
@@ -608,7 +608,7 @@ class WooCommerceCheckOutForm extends FormInterface
 
         SmsAlertUtility::checkSession();
         if (empty($_POST['order_verify']) ) {
-            wc_add_notice(__('Your mobile number is not verified yet. Please verify your mobile number.', 'sms-pro'), 'error');
+            wc_add_notice(__('Your mobile number is not verified yet. Please verify your mobile number.', 'softeria-sms-alerts'), 'error');
             return true;
         }
     }
@@ -626,7 +626,7 @@ class WooCommerceCheckOutForm extends FormInterface
         setTimeout(function() {
             if (jQuery(".modal.smsproModal").length==0)    
             {            
-            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_smspro_template("template/otp-popup.php", array(), true))).'\';
+            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_softeria_alerts_template("template/otp-popup.php", array(), true))).'\';
             jQuery("body").append(popup);
             }
         }, 200);
@@ -641,7 +641,7 @@ class WooCommerceCheckOutForm extends FormInterface
             return;
         }
 
-        $checkout_otp_enabled = smspro_get_option('buyer_checkout_otp', 'smspro_general');
+        $checkout_otp_enabled = softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general');
          
         if ('on' === $checkout_otp_enabled && ! $this->popup_enabled ) {
             $this->showValidationButtonOrText();
@@ -671,9 +671,9 @@ class WooCommerceCheckOutForm extends FormInterface
      */
     public function showButtonOnPage()
     {
-        $otp_verify_btn_text = smspro_get_option('otp_verify_btn_text', 'smspro_general', '');
+        $otp_verify_btn_text = softeria_alerts_get_option('otp_verify_btn_text', 'softeria_alerts_general', '');
         echo wp_kses_post(
-            '<button type="submit" class="button alt" id="smspro_otp_token_submit" value="'
+            '<button type="submit" class="button alt" id="softeria_alerts_otp_token_submit" value="'
             . $otp_verify_btn_text . '" ><span class="button__text">' . $otp_verify_btn_text . '</span></button>'
         );
     }
@@ -695,14 +695,14 @@ class WooCommerceCheckOutForm extends FormInterface
      */
     public function enableDisableScriptForButtonOnPage()
     {
-		$otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):smspro_get_option('otp_resend_timer', 'smspro_general', '15');
+		$otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):softeria_alerts_get_option('otp_resend_timer', 'softeria_alerts_general', '15');
         $inline_script = 'jQuery(document).ready(function() {
 		var ischeckout = "'.is_checkout().'";
-		var sa_country_enable = "'.smspro_get_option("checkout_show_country_code", "smspro_general").'";
+		var sa_country_enable = "'.softeria_alerts_get_option("checkout_show_country_code", "softeria_alerts_general").'";
 		jQuery("div.woocommerce #billing_phone").addClass("phone-valid");
 		jQuery(".woocommerce-message").length>0&&(jQuery("#order_verify").focus(),jQuery("#salert_message").addClass("woocommerce-message"));
-        jQuery("#smspro_otp_token_submit").click(function(o){
-        var action_url = "'. esc_url(site_url()) . '/?option=smspro-shortcode-ajax-verify";
+        jQuery("#softeria_alerts_otp_token_submit").click(function(o){
+        var action_url = "'. esc_url(site_url()) . '/?option=softeria-alert-shortcode-ajax-verify";
         
         if (ischeckout && sa_country_enable === "on" ) {
             m=jQuery(this).parents("form").find("input[name=billing_phone]").intlTelInput("getNumber");
@@ -727,7 +727,7 @@ class WooCommerceCheckOutForm extends FormInterface
 		);
 		return false;
 		});
-        ""!=jQuery("input[name=billing_phone]").val()&&jQuery("#smspro_otp_token_submit").prop( "disabled", false );
+        ""!=jQuery("input[name=billing_phone]").val()&&jQuery("#softeria_alerts_otp_token_submit").prop( "disabled", false );
 		jQuery(document).on("input change","input[name=billing_phone]",function() {
 			jQuery(this).val(jQuery(this).val().replace(/^0+/, "").replace(/\s+/g, ""));
 			
@@ -742,9 +742,9 @@ class WooCommerceCheckOutForm extends FormInterface
 			if (typeof phone != "undefined" && phone.replace(/\s+/g, "").match(' . esc_attr(SmsAlertConstants::getPhonePattern()) . ') && (typeof jQuery(".sa_phone_error") == "undefined" || jQuery(".sa_phone_error").text()==""))  
 			{
 			
-				jQuery("#smspro_otp_token_submit").prop( "disabled", false );
+				jQuery("#softeria_alerts_otp_token_submit").prop( "disabled", false );
 			
-		} else { jQuery("#smspro_otp_token_submit").prop( "disabled", true ); }});
+		} else { jQuery("#softeria_alerts_otp_token_submit").prop( "disabled", true ); }});
 		jQuery("input[name=billing_phone]").trigger( "input").trigger( "change");
 		});';
 		if ( ! wp_script_is( 'sainlinescript-handle-footer', 'enqueued' ) ) {
@@ -761,9 +761,9 @@ class WooCommerceCheckOutForm extends FormInterface
      */
     public function myCustomCheckoutFieldProcess()
     {
-        $post_verification    = smspro_get_option('post_order_verification', 'smspro_general');
-        $checkout_otp_enabled = smspro_get_option('buyer_checkout_otp', 'smspro_general');
-        $buyer_checkout_otp   = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $post_verification    = softeria_alerts_get_option('post_order_verification', 'softeria_alerts_general');
+        $checkout_otp_enabled = softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general');
+        $buyer_checkout_otp   = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
 
         if ('on' === $post_verification ) {
             return;
@@ -858,10 +858,10 @@ class WooCommerceCheckOutForm extends FormInterface
         } elseif (isset($_SESSION[ $this->form_session_var3 ]) ) {
             $order_id = ! empty($_REQUEST['o_id']) ? sanitize_text_field(wp_unslash($_REQUEST['o_id'])) : '';
 			if ( version_compare( WC_VERSION, '8.2', '<' ) ) {
-			  $output   = update_post_meta($order_id, '_smspro_post_order_verification', 1);
+			  $output   = update_post_meta($order_id, '_softeria_alerts_post_order_verification', 1);
 			} else {
 				$order = wc_get_order( $order_id );
-				$order->update_meta_data( '_smspro_post_order_verification', 1 );
+				$order->update_meta_data( '_softeria_alerts_post_order_verification', 1 );
 				$output = $order->save();
 			}
             if ($output > 0 ) {
@@ -908,7 +908,7 @@ class WooCommerceCheckOutForm extends FormInterface
     public function handleFormOptions()
     {
         add_action('add_meta_boxes', array( $this, 'addSendSmsMetaBox' ));
-        add_action('wp_ajax_wc_sms_pro_sms_send_order_sms', array( $this, 'sendCustomSms' ));
+        add_action('wp_ajax_wc_softeria_alerts_sms_send_order_sms', array( $this, 'sendCustomSms' ));
 
         if (is_plugin_active('woocommerce/woocommerce.php') ) {
             add_action('sa_addTabs', array( $this, 'addTabs' ), 1);
@@ -928,14 +928,14 @@ class WooCommerceCheckOutForm extends FormInterface
     {
         $order_id          = $order->get_id();
 		if ( version_compare( WC_VERSION, '7.1', '<' ) ) {
-          $post_verification = get_post_meta($order_id, '_smspro_post_order_verification', true);
+          $post_verification = get_post_meta($order_id, '_softeria_alerts_post_order_verification', true);
         } else {
-			$post_verification  = $order->get_meta('_smspro_post_order_verification'); 
+			$post_verification  = $order->get_meta('_softeria_alerts_post_order_verification'); 
 		}
         if ($post_verification ) {
             echo '
-			<p><strong>SMS Pro Post Verified</strong></p>
-			<span class="dashicons dashicons-yes" style="color: #fff;width: 22px;height: 22px;background: #07930b;border-radius: 25px;line-height: 22px;" title="SMS Pro Post Verified"></span>';
+			<p><strong>Softeria Tech Post Verified</strong></p>
+			<span class="dashicons dashicons-yes" style="color: #fff;width: 22px;height: 22px;background: #07930b;border-radius: 25px;line-height: 22px;" title="Softeria Tech Post Verified"></span>';
         }
     }
 
@@ -996,14 +996,14 @@ class WooCommerceCheckOutForm extends FormInterface
         $order_statuses = is_plugin_active('woocommerce/woocommerce.php') ? wc_get_order_statuses() : array();
 
         $order_statuses['partially_refunded'] = 'Partially Refunded';
-        $smspro_notification_status     = smspro_get_option('order_status', 'smspro_general', '');
-        $smspro_notification_onhold     = ( is_array($smspro_notification_status) && array_key_exists('on-hold', $smspro_notification_status) ) ? $smspro_notification_status['on-hold'] : 'on-hold';
-        $smspro_notification_processing = ( is_array($smspro_notification_status) && array_key_exists('processing', $smspro_notification_status) ) ? $smspro_notification_status['processing'] : 'processing';
-        $smspro_notification_completed  = ( is_array($smspro_notification_status) && array_key_exists('completed', $smspro_notification_status) ) ? $smspro_notification_status['completed'] : 'completed';
-        $smspro_notification_cancelled  = ( is_array($smspro_notification_status) && array_key_exists('cancelled', $smspro_notification_status) ) ? $smspro_notification_status['cancelled'] : 'cancelled';
+        $softeria_alerts_notification_status     = softeria_alerts_get_option('order_status', 'softeria_alerts_general', '');
+        $softeria_alerts_notification_onhold     = ( is_array($softeria_alerts_notification_status) && array_key_exists('on-hold', $softeria_alerts_notification_status) ) ? $softeria_alerts_notification_status['on-hold'] : 'on-hold';
+        $softeria_alerts_notification_processing = ( is_array($softeria_alerts_notification_status) && array_key_exists('processing', $softeria_alerts_notification_status) ) ? $softeria_alerts_notification_status['processing'] : 'processing';
+        $softeria_alerts_notification_completed  = ( is_array($softeria_alerts_notification_status) && array_key_exists('completed', $softeria_alerts_notification_status) ) ? $softeria_alerts_notification_status['completed'] : 'completed';
+        $softeria_alerts_notification_cancelled  = ( is_array($softeria_alerts_notification_status) && array_key_exists('cancelled', $softeria_alerts_notification_status) ) ? $softeria_alerts_notification_status['cancelled'] : 'cancelled';
 
-        $smspro_notification_notes = smspro_get_option('buyer_notification_notes', 'smspro_general', 'on');
-        $sms_body_new_note           = smspro_get_option('sms_body_new_note', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_NOTE'));
+        $softeria_alerts_notification_notes = softeria_alerts_get_option('buyer_notification_notes', 'softeria_alerts_general', 'on');
+        $sms_body_new_note           = softeria_alerts_get_option('sms_body_new_note', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_NOTE'));
 
         $templates = array();
         foreach ( $order_statuses as $ks  => $order_status ) {
@@ -1014,15 +1014,15 @@ class WooCommerceCheckOutForm extends FormInterface
                 $vs = substr($vs, strlen($prefix));
             }
 
-            $current_val = ( is_array($smspro_notification_status) && array_key_exists($vs, $smspro_notification_status) ) ? $smspro_notification_status[ $vs ] : $vs;
+            $current_val = ( is_array($softeria_alerts_notification_status) && array_key_exists($vs, $softeria_alerts_notification_status) ) ? $softeria_alerts_notification_status[ $vs ] : $vs;
 
             $current_val = ( $current_val === $vs ) ? 'on' : 'off';
 
-            $checkbox_name_id = 'smspro_general[order_status][' . $vs . ']';
-            $textarea_name_id = 'smspro_message[sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_general[order_status][' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_message[sms_body_' . $vs . ']';
 
             $default_template = SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_' . str_replace('-', '_', strtoupper($vs)));
-            $text_body        = smspro_get_option('sms_body_' . $vs, 'smspro_message', ( ( ! empty($default_template) ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_STATUS_CHANGED') ));
+            $text_body        = softeria_alerts_get_option('sms_body_' . $vs, 'softeria_alerts_message', ( ( ! empty($default_template) ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_STATUS_CHANGED') ));
 
             $templates[ $ks ]['title']          = 'When Order is ' . ucwords($order_status);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -1038,11 +1038,11 @@ class WooCommerceCheckOutForm extends FormInterface
         $new_note                                = self::getOrderVariables();
         $new_note['[note]']                      = 'Order Note';
         $templates['new-note']['title']          = 'When a new note is added to order';
-        $templates['new-note']['enabled']        = $smspro_notification_notes;
+        $templates['new-note']['enabled']        = $softeria_alerts_notification_notes;
         $templates['new-note']['status']         = 'new-note';
         $templates['new-note']['text-body']      = $sms_body_new_note;
-        $templates['new-note']['checkboxNameId'] = 'smspro_general[buyer_notification_notes]';
-        $templates['new-note']['textareaNameId'] = 'smspro_message[sms_body_new_note]';
+        $templates['new-note']['checkboxNameId'] = 'softeria_alerts_general[buyer_notification_notes]';
+        $templates['new-note']['textareaNameId'] = 'softeria_alerts_message[sms_body_new_note]';
         $templates['new-note']['token']          = $new_note;
         return $templates;
     }
@@ -1060,11 +1060,11 @@ class WooCommerceCheckOutForm extends FormInterface
         foreach ( $order_statuses as $ks  => $order_status ) {
 
             $vs               = $ks;
-            $current_val      = smspro_get_option('multivendor_notification_' . $vs, 'smspro_general', 'on');
-            $checkbox_name_id = 'smspro_general[multivendor_notification_' . $vs . ']';
-            $textarea_name_id = 'smspro_message[multivendor_sms_body_' . $vs . ']';
+            $current_val      = softeria_alerts_get_option('multivendor_notification_' . $vs, 'softeria_alerts_general', 'on');
+            $checkbox_name_id = 'softeria_alerts_general[multivendor_notification_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_message[multivendor_sms_body_' . $vs . ']';
             $default_template = SmsAlertMessages::showMessage('DEFAULT_NEW_USER_' . str_replace('-', '_', strtoupper($vs)));
-            $text_body        = smspro_get_option('multivendor_sms_body_' . $vs, 'smspro_message', ( ( ! empty($default_template) ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_ADMIN_SMS_STATUS_CHANGED') ));
+            $text_body        = softeria_alerts_get_option('multivendor_sms_body_' . $vs, 'softeria_alerts_message', ( ( ! empty($default_template) ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_ADMIN_SMS_STATUS_CHANGED') ));
 
             $templates[ $ks ]['title']          = 'When Vendor Account is ' . ucwords($order_status);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -1101,11 +1101,11 @@ class WooCommerceCheckOutForm extends FormInterface
                 $vs = substr($vs, strlen($prefix));
             }
 
-            $current_val      = smspro_get_option('admin_notification_' . $vs, 'smspro_general', 'on');
-            $checkbox_name_id = 'smspro_general[admin_notification_' . $vs . ']';
-            $textarea_name_id = 'smspro_message[admin_sms_body_' . $vs . ']';
+            $current_val      = softeria_alerts_get_option('admin_notification_' . $vs, 'softeria_alerts_general', 'on');
+            $checkbox_name_id = 'softeria_alerts_general[admin_notification_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_message[admin_sms_body_' . $vs . ']';
             $default_template = SmsAlertMessages::showMessage('DEFAULT_ADMIN_SMS_' . str_replace('-', '_', strtoupper($vs)));
-            $text_body        = smspro_get_option('admin_sms_body_' . $vs, 'smspro_message', ( ( ! empty($default_template) ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_ADMIN_SMS_STATUS_CHANGED') ));
+            $text_body        = softeria_alerts_get_option('admin_sms_body_' . $vs, 'softeria_alerts_message', ( ( ! empty($default_template) ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_ADMIN_SMS_STATUS_CHANGED') ));
 
             $templates[ $ks ]['title']          = 'When Order is ' . ucwords($order_status);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -1144,56 +1144,22 @@ class WooCommerceCheckOutForm extends FormInterface
         'templates'        => self::getMVAdminTemplates(),
         );
 
-        $tabs['woocommerce']['nav']                                     = 'Woocommerce';
+        $tabs['woocommerce']['nav']                                     = 'Shop';
         $tabs['woocommerce']['icon']                                    = 'dashicons-list-view';
-        $tabs['woocommerce']['inner_nav']['wc_customer']['title']       = 'Customer Notifications';
+        $tabs['woocommerce']['inner_nav']['wc_customer']['title']       = 'Customer';
         $tabs['woocommerce']['inner_nav']['wc_customer']['tab_section'] = 'customertemplates';
 
         $tabs['woocommerce']['inner_nav']['wc_customer']['tabContent'] = $customer_param;
         $tabs['woocommerce']['inner_nav']['wc_customer']['filePath']   = 'views/message-template.php';
-        $tabs['woocommerce']['inner_nav']['wc_customer']['help_links']                        = array(
-        'youtube_link' => array(
-        'href'   => 'https://youtu.be/91ek7RjRavo',
-        'target' => '_blank',
-        'alt'    => 'Watch steps on Youtube',
-        'class'  => 'btn-outline',
-        'label'  => 'Youtube',
-        'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-        ),
-        'kb_link'      => array(
-        'href'   => 'https://sms.softeriatech.com/knowledgebase/woocommerce-sms-notifications/#notification-to-buyer',
-        'target' => '_blank',
-        'alt'    => 'Read how to use customer notifications',
-        'class'  => 'btn-outline',
-        'label'  => 'Documentation',
-        'icon'   => '<span class="dashicons dashicons-format-aside"></span>',
-        ),
+        $tabs['woocommerce']['inner_nav']['wc_customer']['help_links']= array(
 
         );
         $tabs['woocommerce']['inner_nav']['wc_customer']['first_active'] = true;
-        $tabs['woocommerce']['inner_nav']['wc_admin']['title']           = 'Admin Notifications';
+        $tabs['woocommerce']['inner_nav']['wc_admin']['title']           = 'Admin';
         $tabs['woocommerce']['inner_nav']['wc_admin']['tab_section']     = 'admintemplates';
         $tabs['woocommerce']['inner_nav']['wc_admin']['tabContent']      = $admin_param;
         $tabs['woocommerce']['inner_nav']['wc_admin']['filePath']        = 'views/message-template.php';
-        $tabs['woocommerce']['inner_nav']['wc_admin']['help_links']                        = array(
-        'youtube_link' => array(
-        'href'   => 'https://youtu.be/91ek7RjRavo',
-        'target' => '_blank',
-        'alt'    => 'Watch steps on Youtube',
-        'class'  => 'btn-outline',
-        'label'  => 'Youtube',
-        'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-        ),
-        'kb_link'      => array(
-        'href'   => 'https://sms.softeriatech.com/knowledgebase/woocommerce-sms-notifications/#notification-to-admin',
-        'target' => '_blank',
-        'alt'    => 'Read how to use admin notifications',
-        'class'  => 'btn-outline',
-        'label'  => 'Documentation',
-        'icon'   => '<span class="dashicons dashicons-format-aside"></span>',
-        ),
+        $tabs['woocommerce']['inner_nav']['wc_admin']['help_links']= array(
 
         );
         if (is_plugin_active('dc-woocommerce-multi-vendor/dc_product_vendor.php') || is_plugin_active('dokan-lite/dokan.php') || is_plugin_active('wc-frontend-manager/wc_frontend_manager.php') ) {
@@ -1236,17 +1202,17 @@ class WooCommerceCheckOutForm extends FormInterface
             if (substr($ks, 0, strlen($prefix)) === $prefix ) {
                 $ks = substr($ks, strlen($prefix));
             }
-            $defaults['smspro_general'][ 'admin_notification_' . $ks ] = 'off';
-            $defaults['smspro_general']['order_status'][ $ks ]         = '';
-            $defaults['smspro_message'][ 'admin_sms_body_' . $ks ]     = '';
-            $defaults['smspro_message'][ 'sms_body_' . $ks ]           = '';
+            $defaults['softeria_alerts_general'][ 'admin_notification_' . $ks ] = 'off';
+            $defaults['softeria_alerts_general']['order_status'][ $ks ]         = '';
+            $defaults['softeria_alerts_message'][ 'admin_sms_body_' . $ks ]     = '';
+            $defaults['softeria_alerts_message'][ 'sms_body_' . $ks ]           = '';
         }
 
         $mv_statuses = is_plugin_active('woocommerce/woocommerce.php') ? self::multivendorstatuses() : array();
         foreach ( $mv_statuses as $ks  => $mv_status ) {
 
-            $defaults['smspro_general'][ 'multivendor_notification_' . $ks ] = 'off';
-            $defaults['smspro_message'][ 'multivendor_sms_body_' . $ks ]     = '';
+            $defaults['softeria_alerts_general'][ 'multivendor_notification_' . $ks ] = 'off';
+            $defaults['softeria_alerts_message'][ 'multivendor_sms_body_' . $ks ]     = '';
         }
         return $defaults;
     }
@@ -1477,9 +1443,9 @@ class WooCommerceCheckOutForm extends FormInterface
     public static function trigger_new_customer_note( $data )
     {
 
-        if (smspro_get_option('buyer_notification_notes', 'smspro_general') === 'on' ) {
+        if (softeria_alerts_get_option('buyer_notification_notes', 'softeria_alerts_general') === 'on' ) {
             $order_id                   = $data['order_id'];
-            $buyer_sms_body             = smspro_get_option('sms_body_new_note', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_NOTE'));
+            $buyer_sms_body             = softeria_alerts_get_option('sms_body_new_note', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_NOTE'));
             $buyer_sms_data             = array();
             $order       = wc_get_order($order_id );
 			if ( version_compare( WC_VERSION, '7.1', '<' ) ) {
@@ -1496,7 +1462,7 @@ class WooCommerceCheckOutForm extends FormInterface
             $response       = json_decode($buyer_response, true);
 
 			if ('success' === $response['status'] ) {
-                $order->add_order_note(__('Order note SMS Sent to buyer', 'sms-pro'));
+                $order->add_order_note(__('Order note SMS Sent to buyer', 'softeria-sms-alerts'));
             } else {
                 if (is_array($response['description']) && array_key_exists('desc', $response['description']) ) {
                     $order->add_order_note($response['description']['desc']);
@@ -1517,8 +1483,8 @@ class WooCommerceCheckOutForm extends FormInterface
     {
 		$screen = wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled()? wc_get_page_screen_id( 'shop-order' ): 'shop_order';
         add_meta_box(
-            'wc_sms_pro_send_sms_meta_box',
-            'SMS Pro (Custom SMS)',
+            'wc_softeria_alerts_send_sms_meta_box',
+            'Softeria Tech (Custom SMS)',
             array( $this, 'displaySendSmsMetaBox' ),
             $screen,
             'side',
@@ -1541,15 +1507,15 @@ class WooCommerceCheckOutForm extends FormInterface
 		$data = ( ($data instanceof WP_Post) || !(\Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled()) ) ? wc_get_order( $data->ID ) : new WC_Order($data->get_id()); 
         $order_id = $data->get_id();
 		
-        $username  = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password  = smspro_get_option('smspro_password', 'smspro_gateway');
+        $username  = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password  = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
         $result    = SmsAlertcURLOTP::getTemplates($username, $password);
         $templates = (array)json_decode($result, true);
         $post_type = get_post_type($data);
-        wp_enqueue_script('admin-smspro-scripts', SA_MOV_URL . 'js/admin.js', array( 'jquery' ), SmsAlertConstants::SA_VERSION, true);
+        wp_enqueue_script('admin-softeria-alert-scripts', SA_MOV_URL . 'js/admin.js', array( 'jquery' ), SmsAlertConstants::SA_VERSION, true);
 
         wp_localize_script(
-            'admin-smspro-scripts',
+            'admin-softeria-alert-scripts',
             'smspro',
             array(
             'ajaxurl' => admin_url('admin-ajax.php'),
@@ -1559,13 +1525,13 @@ class WooCommerceCheckOutForm extends FormInterface
         if ('shop_order' !== $post_type  && 'post' !== $post_type) {
             echo '<style>.inside{position:relative}.woocommerce-help-tip{color:#666;display:inline-block;font-size:1.1em;font-style:normal;height:16px;line-height:16px;position:relative;vertical-align:middle;width:16px}.woocommerce-help-tip::after{font-family:Dashicons;speak:none;font-weight:400;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;margin:0;text-indent:0;position:absolute;top:0;left:0;width:100%;height:100%;text-align:center;content:"";cursor:help}</style>';
 
-            echo '<div id="wc_sms_pro_send_sms_meta_box" class="postbox ">
-				<h2 class="hndle ui-sortable-handle"><span style="font-size: 22px;">SMS Pro (Custom SMS)</span></h2>
+            echo '<div id="wc_softeria_alerts_send_sms_meta_box" class="postbox ">
+				<h2 class="hndle ui-sortable-handle"><span style="font-size: 22px;">Softeria Tech (Custom SMS)</span></h2>
 					<div class="inside">';
         }
         ?>
-                        <select name="smspro_templates" id="smspro_templates" style="width:87%;" onchange="return selecttemplate(this, '#wc_sms_pro_sms_order_message');">
-                        <option value=""><?php esc_html_e('Select Template', 'sms-pro'); ?></option>
+                        <select name="softeria_alerts_templates" id="softeria_alerts_templates" style="width:87%;" onchange="return selecttemplate(this, '#wc_softeria_alerts_sms_order_message');">
+                        <option value=""><?php esc_html_e('Select Template', 'softeria-sms-alerts'); ?></option>
         <?php
         if (!empty($templates['description']) && is_array($templates['description']) && ( ! array_key_exists('desc', $templates['description']) ) ) {
             foreach ( $templates['description'] as $template ) {
@@ -1577,11 +1543,11 @@ class WooCommerceCheckOutForm extends FormInterface
         ?>
                         </select>
                         <span class="woocommerce-help-tip" data-tip="You can add templates from your sms.softeriatech.com Dashboard" title="You can add templates&#13&#10from your&#13&#10sms.softeriatech.com Dashboard"></span>
-                        <p><textarea type="text" name="wc_sms_pro_sms_order_message" id="wc_sms_pro_sms_order_message" class="input-text token-area" style="width: 100%;margin-top: 15px;" rows="4" value=""></textarea></p>
+                        <p><textarea type="text" name="wc_softeria_alerts_sms_order_message" id="wc_softeria_alerts_sms_order_message" class="input-text token-area" style="width: 100%;margin-top: 15px;" rows="4" value=""></textarea></p>
                         <div id="menu_custom" class="sa-menu-token" role="listbox"></div>
-                        <input type="hidden" class="wc_sms_pro_order_id" id="wc_sms_pro_order_id" value="<?php echo esc_attr($order_id); ?>" >
-                        <p><a class="button tips" id="wc_sms_pro_sms_order_send_message" data-tip="<?php esc_html_e('Send an SMS to the billing phone number for this order.', 'sms-pro'); ?>"><?php esc_html_e('Send SMS', 'sms-pro'); ?></a>
-                        <span id="wc_sms_pro_sms_order_message_char_count" style="color: green; float: right; font-size: 16px;">0</span></p>
+                        <input type="hidden" class="wc_softeria_alerts_order_id" id="wc_softeria_alerts_order_id" value="<?php echo esc_attr($order_id); ?>" >
+                        <p><a class="button tips" id="wc_softeria_alerts_sms_order_send_message" data-tip="<?php esc_html_e('Send an SMS to the billing phone number for this order.', 'softeria-sms-alerts'); ?>"><?php esc_html_e('Send SMS', 'softeria-sms-alerts'); ?></a>
+                        <span id="wc_softeria_alerts_sms_order_message_char_count" style="color: green; float: right; font-size: 16px;">0</span></p>
                         <div id="custom_token_list" style="display:none"></div>
         <?php
         if ('shop_order' !== $post_type && 'post' !== $post_type) {
@@ -1940,8 +1906,8 @@ class WooCommerceCheckOutForm extends FormInterface
         $admin_sms_data = array();
         $buyer_sms_data = array();
 
-        $order_status_settings = smspro_get_option('order_status', 'smspro_general', array());
-        $admin_phone_number    = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $order_status_settings = softeria_alerts_get_option('order_status', 'softeria_alerts_general', array());
+        $admin_phone_number    = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $admin_phone_number    = str_replace('postauthor', 'post_author', $admin_phone_number);
 
         if (count($order_status_settings) < 0 ) {
@@ -1951,7 +1917,7 @@ class WooCommerceCheckOutForm extends FormInterface
         if (in_array($new_status, $order_status_settings, true) && ( 0 === $order->get_parent_id() ) ) {
             $default_buyer_sms = defined('SmsAlertMessages::DEFAULT_BUYER_SMS_' . str_replace(' ', '_', strtoupper($new_status))) ? constant('SmsAlertMessages::DEFAULT_BUYER_SMS_' . str_replace(' ', '_', strtoupper($new_status))) : SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_STATUS_CHANGED');
 
-            $buyer_sms_body             = smspro_get_option('sms_body_' . $new_status, 'smspro_message', $default_buyer_sms);
+            $buyer_sms_body             = softeria_alerts_get_option('sms_body_' . $new_status, 'softeria_alerts_message', $default_buyer_sms);
 			if ( version_compare( WC_VERSION, '7.1', '<' ) ) {
               $buyer_sms_data['number']   = get_post_meta( $order_id, '_billing_phone', true );
 			} else {
@@ -1964,7 +1930,7 @@ class WooCommerceCheckOutForm extends FormInterface
             $response       = json_decode($buyer_response, true);
 
             if ('success' === $response['status'] ) {
-                $order->add_order_note(__('SMS Send to buyer Successfully.', 'sms-pro'));
+                $order->add_order_note(__('SMS Send to buyer Successfully.', 'softeria-sms-alerts'));
             } else {
                 if (isset($response['description']) && is_array($response['description']) && array_key_exists('desc', $response['description']) ) {
                     $order->add_order_note($response['description']['desc']);
@@ -1974,7 +1940,7 @@ class WooCommerceCheckOutForm extends FormInterface
             }
         }
 
-        if (smspro_get_option('admin_notification_' . $new_status, 'smspro_general', 'on') === 'on' && ! empty($admin_phone_number) ) {
+        if (softeria_alerts_get_option('admin_notification_' . $new_status, 'softeria_alerts_general', 'on') === 'on' && ! empty($admin_phone_number) ) {
             // send sms to post author.
             $has_sub_order = metadata_exists('post', $order_id, 'has_sub_order');
             if (( strpos($admin_phone_number, 'post_author') !== false ) 
@@ -2003,7 +1969,7 @@ class WooCommerceCheckOutForm extends FormInterface
 
             $default_admin_sms = ( ( ! empty($default_template) ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_ADMIN_SMS_STATUS_CHANGED') );
 
-            $admin_sms_body             = smspro_get_option('admin_sms_body_' . $new_status, 'smspro_message', $default_admin_sms);
+            $admin_sms_body             = softeria_alerts_get_option('admin_sms_body_' . $new_status, 'softeria_alerts_message', $default_admin_sms);
             $admin_sms_data['number']   = $admin_phone_number;
             $admin_sms_data['sms_body'] = $admin_sms_body;
 
@@ -2012,7 +1978,7 @@ class WooCommerceCheckOutForm extends FormInterface
             $admin_response = SmsAlertcURLOTP::sendsms($admin_sms_data);
             $response       = json_decode($admin_response, true);
             if ('success' === $response['status'] ) {
-                $order->add_order_note(__('SMS Sent Successfully.', 'sms-pro'));
+                $order->add_order_note(__('SMS Sent Successfully.', 'softeria-sms-alerts'));
             } else {
                 if (is_array($response['description']) && array_key_exists('desc', $response['description']) ) {
                     $order->add_order_note($response['description']['desc']);
@@ -2065,9 +2031,9 @@ class WooCommerceCheckOutForm extends FormInterface
             return;
         }
 		if ( version_compare( WC_VERSION, '7.1', '<' ) ) {
-          $post_verification = get_post_meta($order_id, '_smspro_post_order_verification', true);
+          $post_verification = get_post_meta($order_id, '_softeria_alerts_post_order_verification', true);
         } else {
-			$post_verification  = $order->get_meta('_smspro_post_order_verification'); 
+			$post_verification  = $order->get_meta('_softeria_alerts_post_order_verification'); 
 		}
         if (!$post_verification && is_wc_endpoint_url('view-order') && ( 'processing' === $order->get_status() ) ) {
             $this->sendPostOrderOtp('', $order);
@@ -2086,14 +2052,14 @@ class WooCommerceCheckOutForm extends FormInterface
     public function sendPostOrderOtp( $title = null, $order = array() )
     {
         $order_id                = $order->get_id();
-        $post_order_verification = smspro_get_option('post_order_verification', 'smspro_general');
+        $post_order_verification = softeria_alerts_get_option('post_order_verification', 'softeria_alerts_general');
 
         wp_localize_script(
             'wccheckout',
             'otp_for_selected_gateways',
             array(
             'is_thank_you' => true,
-            'post_verify'  => ( ( 'on' === smspro_get_option('post_order_verification', 'smspro_general') ) ? true : false ),
+            'post_verify'  => ( ( 'on' === softeria_alerts_get_option('post_order_verification', 'softeria_alerts_general') ) ? true : false ),
 
             )
         );
@@ -2118,13 +2084,13 @@ class WooCommerceCheckOutForm extends FormInterface
             return;
         }
         if ( version_compare( WC_VERSION, '7.1', '<' ) ) {
-          $post_verification = get_post_meta($order_id, '_smspro_post_order_verification', true);
+          $post_verification = get_post_meta($order_id, '_softeria_alerts_post_order_verification', true);
         } else {
-			$post_verification  = $order->get_meta('_smspro_post_order_verification'); 
+			$post_verification  = $order->get_meta('_softeria_alerts_post_order_verification'); 
 		}
         if ( !$post_verification ) {
             $billing_phone       = $order->get_billing_phone();
-            $otp_verify_btn_text = smspro_get_option('otp_verify_btn_text', 'smspro_general', '');
+            $otp_verify_btn_text = softeria_alerts_get_option('otp_verify_btn_text', 'softeria_alerts_general', '');
 
             echo "<div class='post_verification_section'><p>Your order has been placed but your mobile number is not verified yet. Please verify your mobile number.</p>";
 
@@ -2136,14 +2102,14 @@ class WooCommerceCheckOutForm extends FormInterface
             echo '</p>';
             $this->showValidationButtonOrText(true);
             echo '</form>';
-            echo do_shortcode('[sa_verify id="form1" phone_selector=".sa-phone-field" submit_selector= "#smspro_otp_token_submit" ]');
+            echo do_shortcode('[sa_verify id="form1" phone_selector=".sa-phone-field" submit_selector= "#softeria_alerts_otp_token_submit" ]');
             echo '<script>';
             echo 'document.addEventListener("DOMContentLoaded", function() {jQuery(".woocommerce-thankyou-order-received").hide();});';
             echo '</script>';
             echo '</div>';
             echo '<style>.post_verification_section{padding: 1em 1.618em;border: 1px solid #f2f2f2;background: #fff;box-shadow: 10px 5px 5px -6px #ccc;}</style>';
         } else {
-            return __('Thank you, Your mobile number has been verified successfully.', 'sms-pro');
+            return __('Thank you, Your mobile number has been verified successfully.', 'softeria-sms-alerts');
         }
     }
 }
@@ -2154,8 +2120,8 @@ new WooCommerceCheckOutForm();
   * PHP version 5
   *
   * @category Handler
-  * @package  SMSPro
-  * @author   SMS Pro <support@softeriatech.com>
+  * @package  SOFTSMSAlerts
+  * @author   Softeria Tech <billing@softeriatech.com>
   * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
   * @link     https://sms.softeriatech.com/
   * Sa_all_order_variable class
@@ -2284,8 +2250,8 @@ new sa_all_order_variable();
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_CodTOPrepaid class
@@ -2302,7 +2268,7 @@ class SA_CodTOPrepaid
         add_action('sa_addTabs', array( $this, 'addTabs' ), 10);
         add_action('sa_tabContent', array( $this, 'tabContent' ), 1);
         add_filter('sAlertDefaultSettings', array( $this, 'addDefaultSetting' ), 1);
-        $notification_enabled = smspro_get_option('customer_notify', 'smspro_cod_to_prepaid', 'off');
+        $notification_enabled = softeria_alerts_get_option('customer_notify', 'softeria_alerts_cod_to_prepaid', 'off');
         if ('on' === $notification_enabled) {
             add_action('cod_to_prepaid_cart_notification_sendsms_hook', array( $this, 'sendSms' ), 10);
             add_filter('woocommerce_valid_order_statuses_for_payment', array( $this,'filterWoocommerceValidOrderStatusesForPayment'), 10, 2);
@@ -2321,11 +2287,11 @@ class SA_CodTOPrepaid
      */
     function filterWoocommerceValidOrderStatusesForPayment( $array, $instance )
     {
-        $order_status       = str_replace('wc-', '', smspro_get_option('order_status', 'smspro_cod_to_prepaid', ""));
+        $order_status       = str_replace('wc-', '', softeria_alerts_get_option('order_status', 'softeria_alerts_cod_to_prepaid', ""));
 		$payment_method     = $instance->Payment_method;
 		$payment_Status     = $instance->Status;    
-		$payment_method2    = smspro_get_option('checkout_payment_plans', 'smspro_cod_to_prepaid', "");		
-        $order_status       = str_replace('wc-', '', smspro_get_option('order_status', 'smspro_cod_to_prepaid', ""));	
+		$payment_method2    = softeria_alerts_get_option('checkout_payment_plans', 'softeria_alerts_cod_to_prepaid', "");		
+        $order_status       = str_replace('wc-', '', softeria_alerts_get_option('order_status', 'softeria_alerts_cod_to_prepaid', ""));	
 		if ('' === $order_status || $payment_method !== $payment_method2 || $payment_Status !== $order_status) {
 			return $array;
 		}	
@@ -2341,15 +2307,15 @@ class SA_CodTOPrepaid
      */
     public function addDefaultSetting( $defaults = array() )
     {
-        //$this->payment_methods           = maybe_unserialize(smspro_get_option('checkout_payment_plans', 'smspro_cod_to_prepaid'));
-        //$this->otp_for_selected_gateways = ( smspro_get_option('otp_for_selected_gateways', 'smspro_cod_to_prepaid') === 'on' ) ? true : false;         
-        $defaults['smspro_cod_to_prepaid']['order_status']                   = 'Processing';
-        $defaults['smspro_cod_to_prepaid']['notification_frequency']         = '10';
-        $defaults['smspro_cod_to_prepaid']['customer_notify']                = 'off';
-        $defaults['smspro_cod_to_prepaid_scheduler']['cron'][0]['frequency'] = '60';
-        $defaults['smspro_cod_to_prepaid_scheduler']['cron'][0]['message']   = '';
-        $defaults['smspro_cod_to_prepaid_scheduler']['cron'][1]['frequency'] = '120';
-        $defaults['smspro_cod_to_prepaid_scheduler']['cron'][1]['message']   = '';
+        //$this->payment_methods           = maybe_unserialize(softeria_alerts_get_option('checkout_payment_plans', 'softeria_alerts_cod_to_prepaid'));
+        //$this->otp_for_selected_gateways = ( softeria_alerts_get_option('otp_for_selected_gateways', 'softeria_alerts_cod_to_prepaid') === 'on' ) ? true : false;         
+        $defaults['softeria_alerts_cod_to_prepaid']['order_status']                   = 'Processing';
+        $defaults['softeria_alerts_cod_to_prepaid']['notification_frequency']         = '10';
+        $defaults['softeria_alerts_cod_to_prepaid']['customer_notify']                = 'off';
+        $defaults['softeria_alerts_cod_to_prepaid_scheduler']['cron'][0]['frequency'] = '60';
+        $defaults['softeria_alerts_cod_to_prepaid_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_cod_to_prepaid_scheduler']['cron'][1]['frequency'] = '120';
+        $defaults['softeria_alerts_cod_to_prepaid_scheduler']['cron'][1]['message']   = '';
 
         return $defaults;
     }
@@ -2383,11 +2349,11 @@ class SA_CodTOPrepaid
      */
     public function getSmsAlertCodTemplates()
     {
-        $current_val      = smspro_get_option('customer_notify', 'smspro_cod_to_prepaid', 'off');
+        $current_val      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_cod_to_prepaid', 'off');
         
-        $checkbox_name_id = 'smspro_cod_to_prepaid[customer_notify]';
+        $checkbox_name_id = 'softeria_alerts_cod_to_prepaid[customer_notify]';
 
-        $scheduler_data = get_option('smspro_cod_to_prepaid_scheduler');
+        $scheduler_data = get_option('softeria_alerts_cod_to_prepaid_scheduler');
         
         $templates      = array();
         $count          = 0;
@@ -2404,9 +2370,9 @@ class SA_CodTOPrepaid
         }
 
         foreach ( $scheduler_data['cron'] as $key => $data ) {
-            $textarea_name_id = 'smspro_cod_to_prepaid_scheduler[cron][' . $count . '][message]';
+            $textarea_name_id = 'softeria_alerts_cod_to_prepaid_scheduler[cron][' . $count . '][message]';
             
-            $selectNameId     = 'smspro_cod_to_prepaid_scheduler[cron][' . $count . '][frequency]';
+            $selectNameId     = 'softeria_alerts_cod_to_prepaid_scheduler[cron][' . $count . '][frequency]';
             $text_body        = $data['message'];
 
             $templates[ $key ]['frequency']      = $data['frequency'];
@@ -2436,10 +2402,10 @@ class SA_CodTOPrepaid
      */
     function sendSms()
     { 
-        $order_statuses = smspro_get_option('order_status', 'smspro_cod_to_prepaid', "processing");
+        $order_statuses = softeria_alerts_get_option('order_status', 'softeria_alerts_cod_to_prepaid', "processing");
         
-        $payment_method     = smspro_get_option('checkout_payment_plans', 'smspro_cod_to_prepaid', "cod");
-        $notification_enabled = smspro_get_option('customer_notify', 'smspro_cod_to_prepaid', 'off');
+        $payment_method     = softeria_alerts_get_option('checkout_payment_plans', 'softeria_alerts_cod_to_prepaid', "cod");
+        $notification_enabled = softeria_alerts_get_option('customer_notify', 'softeria_alerts_cod_to_prepaid', 'off');
         if ('off' === $notification_enabled ) {
             return;
         }
@@ -2448,7 +2414,7 @@ class SA_CodTOPrepaid
      
         $cron_frequency = CART_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
        
-        $scheduler_data = get_option('smspro_cod_to_prepaid_scheduler');
+        $scheduler_data = get_option('softeria_alerts_cod_to_prepaid_scheduler');
         
         foreach ( $scheduler_data['cron'] as $sdata ) {
             
@@ -2501,11 +2467,11 @@ class SA_CodTOPrepaid
         global $pagenow;
 
         // Checking if we are on open plugin page
-        if ('admin.php' === $pagenow && 'sms-pro' === sanitize_text_field($_GET['page']) ) {
+        if ('admin.php' === $pagenow && 'softeria-sms-alerts' === sanitize_text_field($_GET['page']) ) {
 
             // Checking if WP Cron hooks are scheduled
             $missing_hooks = array();
-            // $user_settings_notification_frequency = smspro_get_option('customer_notify','smspro_abandoned_cart');
+            // $user_settings_notification_frequency = softeria_alerts_get_option('customer_notify','softeria_alerts_abandoned_cart');
 
             if (wp_next_scheduled('cod_to_prepaid_cart_notification_sendsms_hook') === false ) { // If we havent scheduled msg notifications and notifications have not been disabled
                 $missing_hooks[] = 'cod_to_prepaid_cart_notification_sendsms_hook';
@@ -2526,15 +2492,15 @@ class SA_CodTOPrepaid
                 <?php
                 echo sprintf(
                 /* translators: %s - Cron event name */
-                    _n('It seems that WP Cron event <strong>%s</strong> required for automation is not scheduled.', 'It seems that WP Cron events <strong>%s</strong> required for automation are not scheduled.', $total, 'sms-pro'),
+                    _n('It seems that WP Cron event <strong>%s</strong> required for automation is not scheduled.', 'It seems that WP Cron events <strong>%s</strong> required for automation are not scheduled.', $total, 'softeria-sms-alerts'),
                     $hooks
                 );
                 ?>
                 <?php
                 echo sprintf(
                 /* translators: %1$s - Plugin name, %2$s - Link */
-                    __('Please try disabling and enabling %1$s plugin. If this notice does not go away after that, please <a href="https://wordpress.org/support/plugin/sms-pro/" target="_blank">get in touch with us</a>.', 'sms-pro'),
-                    SMSPRO_PLUGIN_NAME
+                    __('Please try disabling and enabling %1$s plugin. If this notice does not go away after that, please <a href="https://wordpress.org/support/plugin/softeria-sms-alerts/" target="_blank">get in touch with us</a>.', 'softeria-sms-alerts'),
+                    SOFTERIA_ALERTS_PLUGIN_NAME
                 );
                 ?>
                     </p>
@@ -2547,7 +2513,7 @@ class SA_CodTOPrepaid
                 if (DISABLE_WP_CRON == true ) {
                     ?>
                     <div class="warning notice updated">
-                        <p class="left-part"><?php esc_html_e('WP Cron has been disabled. Several WordPress core features, such as checking for updates or sending notifications utilize this function. Please enable it or contact your system administrator to help you with this.', 'sms-pro'); ?></p>
+                        <p class="left-part"><?php esc_html_e('WP Cron has been disabled. Several WordPress core features, such as checking for updates or sending notifications utilize this function. Please enable it or contact your system administrator to help you with this.', 'softeria-sms-alerts'); ?></p>
                     </div>
                     <?php
                 }
@@ -2564,8 +2530,8 @@ if (! class_exists('WP_List_Table') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/ 
  * Class All_Order_List 
@@ -2608,7 +2574,7 @@ class All_Order_List extends WP_List_Table
      */
     public function no_items()
     {
-        esc_html_e('No Order.', 'sms-pro');
+        esc_html_e('No Order.', 'softeria-sms-alerts');
     }
 
     /**
@@ -2843,7 +2809,7 @@ jQuery(document).ready(function(){
             var token = jQuery(this).attr('value');
             var datas = [];
             datas['token'] = token;
-            datas['type'] = 'smspro_token';
+            datas['type'] = 'softeria_alerts_token';
             window.parent.postMessage(datas, '*');
         });
     }

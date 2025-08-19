@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Template
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -25,8 +25,8 @@ if (! headers_sent() ) {
 							<div class="sa_customer_validation-modal-dialog sa_customer_validation-modal-md">
 								<div class="login sa_customer_validation-modal-content">
 									<div class="sa_customer_validation-modal-header">
-										<b>' . esc_html__('Change Password', 'sms-pro') . '</b>
-										<a class="go_back" href="#" onclick="sa_validation_goback();" style="box-shadow: none;">&larr; ' . esc_html__('Go Back', 'sms-pro') . '</a>
+										<b>' . esc_html__('Change Password', 'softeria-sms-alerts') . '</b>
+										<a class="go_back" href="#" onclick="sa_validation_goback();" style="box-shadow: none;">&larr; ' . esc_html__('Go Back', 'softeria-sms-alerts') . '</a>
 									</div>
 									<div class="sa_customer_validation-modal-body center">
 										<div>' . esc_attr($message) . '</div><br /> ';
@@ -35,12 +35,12 @@ if (! SmsAlertUtility::isBlank($user_email) || ! SmsAlertUtility::isBlank($phone
 												<form name="f" method="post" action="">
 													<input type="hidden" name="option" value="' . esc_attr($action) . '" />
 													<label>New password</label>
-													<input type="password" name="smspro_user_newpwd"  autofocus="true" placeholder="" id="smspro_user_pwd" required="true" title="Enter Your New password" />
+													<input type="password" name="softeria_alerts_user_newpwd"  autofocus="true" placeholder="" id="softeria_alerts_user_pwd" required="true" title="Enter Your New password" />
 													
 													<label>Confirm password</label>
-													<input type="password" name="smspro_user_cnfpwd"  autofocus="true" placeholder="" id="smspro_user_cnfpwd" required="true" title="Confirm password" />
+													<input type="password" name="softeria_alerts_user_cnfpwd"  autofocus="true" placeholder="" id="softeria_alerts_user_cnfpwd" required="true" title="Confirm password" />
 													
-													<br /><input type="submit" name="smspro_reset_password_btn" id="smspro_reset_password_btn" class="smspro_otp_token_submit" value="' . esc_html__('Change Password', 'sms-pro') . '" />
+													<br /><input type="submit" name="softeria_alerts_reset_password_btn" id="softeria_alerts_reset_password_btn" class="softeria_alerts_otp_token_submit" value="' . esc_html__('Change Password', 'softeria-sms-alerts') . '" />
 													<input type="hidden" name="otp_type" value="' . esc_attr($otp_type) . '">';
 
 

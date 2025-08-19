@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -29,8 +29,8 @@ use BookneticApp\Providers\Helpers\Date;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * 
@@ -68,10 +68,10 @@ class SMBooknetic extends FormInterface
           ];
 
           foreach ($bookingStatuses as $ks => $vs) {
-              $defaults['smspro_bnc_general']['customer_bnc_notify_' . $vs]   = 'off';
-              $defaults['smspro_bnc_message']['customer_sms_bnc_body_' . $vs] = '';
-              $defaults['smspro_bnc_general']['admin_bnc_notify_' . $vs]      = 'off';
-              $defaults['smspro_bnc_message']['admin_sms_bnc_body_' . $vs]    = '';
+              $defaults['softeria_alerts_bnc_general']['customer_bnc_notify_' . $vs]   = 'off';
+              $defaults['softeria_alerts_bnc_message']['customer_sms_bnc_body_' . $vs] = '';
+              $defaults['softeria_alerts_bnc_general']['admin_bnc_notify_' . $vs]      = 'off';
+              $defaults['softeria_alerts_bnc_message']['admin_sms_bnc_body_' . $vs]    = '';
           }
           return $defaults;
     }
@@ -134,15 +134,15 @@ class SMBooknetic extends FormInterface
 
         foreach ($bookingStatuses as $ks => $vs) {
 
-            $currentVal      = smspro_get_option('customer_bnc_notify_' . strtolower($ks), 'smspro_bnc_general', 'on');
+            $currentVal      = softeria_alerts_get_option('customer_bnc_notify_' . strtolower($ks), 'softeria_alerts_bnc_general', 'on');
 
-            $checkboxNameId  = 'smspro_bnc_general[customer_bnc_notify_' . strtolower($ks) . ']';
-            $textareaNameId  = 'smspro_bnc_message[customer_sms_bnc_body_' . strtolower($ks) . ']';
+            $checkboxNameId  = 'softeria_alerts_bnc_general[customer_bnc_notify_' . strtolower($ks) . ']';
+            $textareaNameId  = 'softeria_alerts_bnc_message[customer_sms_bnc_body_' . strtolower($ks) . ']';
 
-            $defaultTemplate = smspro_get_option('customer_sms_bnc_body_' . strtolower($ks), 'smspro_bnc_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[first_name]', '[service_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[service_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
-            $textBody       = smspro_get_option('customer_sms_bnc_body_' . strtolower($ks), 'smspro_bnc_message', $defaultTemplate);
+            $textBody       = softeria_alerts_get_option('customer_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -171,14 +171,14 @@ class SMBooknetic extends FormInterface
         $templates           = []; 
         foreach ($bookingStatuses as $ks => $vs) {
        
-            $currentVal      = smspro_get_option('admin_bnc_notify_' . strtolower($ks), 'smspro_bnc_general', 'on');
-            $checkboxNameId  = 'smspro_bnc_general[admin_bnc_notify_' . strtolower($ks) . ']';
-            $textareaNameId  = 'smspro_bnc_message[admin_sms_bnc_body_' . strtolower($ks) . ']';
+            $currentVal      = softeria_alerts_get_option('admin_bnc_notify_' . strtolower($ks), 'softeria_alerts_bnc_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_bnc_general[admin_bnc_notify_' . strtolower($ks) . ']';
+            $textareaNameId  = 'softeria_alerts_bnc_message[admin_sms_bnc_body_' . strtolower($ks) . ']';
 
-            $defaultTemplate = smspro_get_option('admin_sms_bnc_body_' . strtolower($ks), 'smspro_bnc_message', sprintf(__('%1$s status of booking has been changed to %2$s.', 'sms-pro'), '[store_name]:', $vs));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', sprintf(__('%1$s status of booking has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', $vs));
 
 
-            $textBody = smspro_get_option('admin_sms_bnc_body_' . strtolower($ks), 'smspro_bnc_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('admin_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin change status to ' . $vs;
             $templates[$ks]['enabled']        = $currentVal;
@@ -220,19 +220,19 @@ class SMBooknetic extends FormInterface
         $bookingStatus     = $appointmentData->status; 		
         $buyerNumber     = !empty($appointmentData->customerData['phone']) ? $appointmentData->customerData['phone'] : $customerInfo->phone_number;
 
-        $customerMessage   = smspro_get_option('customer_sms_bnc_body_' .$bookingStatus, 'smspro_bnc_message', '');
+        $customerMessage   = softeria_alerts_get_option('customer_sms_bnc_body_' .$bookingStatus, 'softeria_alerts_bnc_message', '');
 
-        $customerNotify    = smspro_get_option('customer_bnc_notify_' . $bookingStatus, 'smspro_bnc_general', 'on');
+        $customerNotify    = softeria_alerts_get_option('customer_bnc_notify_' . $bookingStatus, 'softeria_alerts_bnc_general', 'on');
         if (($customerNotify === 'on' && $customerMessage !== '' && $buyerNumber != '')) {
             $buyerMessage = $this->parseSmsBody($customerInfo, $appointmentData, $customerMessage);
             do_action('sa_send_sms', $buyerNumber,  $buyerMessage);
         }
         
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         if (empty($adminPhoneNumber) === false) {
-            $adminNotify        = smspro_get_option('admin_bnc_notify_' .$bookingStatus, 'smspro_bnc_general', 'on');
-            $adminMessage       = smspro_get_option('admin_sms_bnc_body_' . $bookingStatus, 'smspro_bnc_message', '');
+            $adminNotify        = softeria_alerts_get_option('admin_bnc_notify_' .$bookingStatus, 'softeria_alerts_bnc_general', 'on');
+            $adminMessage       = softeria_alerts_get_option('admin_sms_bnc_body_' . $bookingStatus, 'softeria_alerts_bnc_message', '');
             $nos = explode(',', $adminPhoneNumber);
             $adminPhoneNumber   = array_diff($nos, array('postauthor', 'post_author'));
             $adminPhoneNumber   = implode(',', $adminPhoneNumber);
@@ -375,7 +375,7 @@ class SMBooknetic extends FormInterface
     public function isFormEnabled()
     {
 
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('booknetic/init.php') === true) && ($islogged === true)) {
             return true;

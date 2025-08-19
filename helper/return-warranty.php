@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -23,8 +23,8 @@ if (! is_plugin_active('woocommerce/woocommerce.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Sa_Return_Warranty class
@@ -72,10 +72,10 @@ class Sa_Return_Warranty
      */
     public function updateWcWarrantySettings( $data )
     {
-		if(current_user_can('manage_options') && wp_verify_nonce( $_POST['smspro_nonce'], 'smspro_wp_nonce' ))
+		if(current_user_can('manage_options') && wp_verify_nonce( $_POST['softeria_alerts_nonce'], 'softeria_alerts_wp_nonce' ))
         {
           $options = $_POST;
-          if ('smspro_warranty' === $options['tab'] ) {
+          if ('softeria_alerts_warranty' === $options['tab'] ) {
 			foreach ( $options as $name => $value ) {
 				if(!is_array($value))
 				{
@@ -102,10 +102,10 @@ class Sa_Return_Warranty
      */
     public function sendRmaStatusSms( $request_id, $status )
     {
-        $wc_warranty_checkbox = smspro_get_option('warranty_status_' . $status, 'smspro_warranty', '');
+        $wc_warranty_checkbox = softeria_alerts_get_option('warranty_status_' . $status, 'softeria_alerts_warranty', '');
         $is_sms_enabled       = ( 'on' === $wc_warranty_checkbox ) ? true : false;
         if ($is_sms_enabled ) {
-            $sms_content = smspro_get_option('sms_text_' . $status, 'smspro_warranty', '');
+            $sms_content = softeria_alerts_get_option('sms_text_' . $status, 'softeria_alerts_warranty', '');
             $order_id    = get_post_meta($request_id, '_order_id', true);
             $rma_id      = get_post_meta($request_id, '_code', true);
             $order       = wc_get_order($order_id);
@@ -205,7 +205,7 @@ class Sa_Return_Warranty
     {
         $active_tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : '';
         ?>
-        <a href="admin.php?page=warranties-settings&tab=smspro_warranty" class="nav-tab <?php echo ( 'smspro_warranty' === $active_tab ) ? 'nav-tab-active' : ''; ?>"><?php esc_attr_e('SMS Pro', 'wc_warranty'); ?></a>
+        <a href="admin.php?page=warranties-settings&tab=softeria_alerts_warranty" class="nav-tab <?php echo ( 'softeria_alerts_warranty' === $active_tab ) ? 'nav-tab-active' : ''; ?>"><?php esc_attr_e('Softeria Tech', 'wc_warranty'); ?></a>
         <?php
     }
 
@@ -218,13 +218,13 @@ class Sa_Return_Warranty
     {
         $active_tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : '';
 
-        if ('smspro_warranty' === $active_tab ) {
+        if ('softeria_alerts_warranty' === $active_tab ) {
             $return_warranty_param = array(
             'checkTemplateFor' => 'return_warranty',
             'templates'        => self::getReturnWarrantyTemplates(),
             );
-			echo wp_nonce_field('smspro_wp_nonce', 'smspro_nonce', true, false);
-            get_smspro_template('views/message-template.php', $return_warranty_param);
+			echo wp_nonce_field('softeria_alerts_wp_nonce', 'softeria_alerts_nonce', true, false);
+            get_softeria_alerts_template('views/message-template.php', $return_warranty_param);
         }
     }
 
@@ -241,8 +241,8 @@ class Sa_Return_Warranty
 
         foreach ( $wc_warrant_status as $ks                           => $vs ) {
             $vs = str_replace(' ', '-', strtolower($vs));
-            $defaults['smspro_warranty'][ 'warranty_status_' . $vs ] = 'off';
-            $defaults['smspro_warranty']['sms_text_'][ $vs ]         = '';
+            $defaults['softeria_alerts_warranty'][ 'warranty_status_' . $vs ] = 'off';
+            $defaults['softeria_alerts_warranty']['sms_text_'][ $vs ]         = '';
         }
         return $defaults;
     }
@@ -269,13 +269,13 @@ class Sa_Return_Warranty
         foreach ( $wc_warrant_status as $ks                           => $vs ) {
 
             $vs               = str_replace(' ', '-', strtolower($vs));
-            $wc_warranty_text = smspro_get_option('sms_text_' . $vs, 'smspro_warranty', '');
-            $current_val      = smspro_get_option('warranty_status_' . $vs, 'smspro_warranty', '');
+            $wc_warranty_text = softeria_alerts_get_option('sms_text_' . $vs, 'softeria_alerts_warranty', '');
+            $current_val      = softeria_alerts_get_option('warranty_status_' . $vs, 'softeria_alerts_warranty', '');
 
-            $checkbox_name_id  = 'smspro_warranty[warranty_status_' . $vs . ']';
-            $text_area_name_id = 'smspro_warranty[sms_text_' . $vs . ']';
+            $checkbox_name_id  = 'softeria_alerts_warranty[warranty_status_' . $vs . ']';
+            $text_area_name_id = 'softeria_alerts_warranty[sms_text_' . $vs . ']';
 
-            $text_body = smspro_get_option('sms_text_' . $vs, 'smspro_warranty', '') ? smspro_get_option('sms_text_' . $vs, 'smspro_warranty', '') : SmsAlertMessages::showMessage('DEFAULT_WARRANTY_STATUS_CHANGED');
+            $text_body = softeria_alerts_get_option('sms_text_' . $vs, 'softeria_alerts_warranty', '') ? softeria_alerts_get_option('sms_text_' . $vs, 'softeria_alerts_warranty', '') : SmsAlertMessages::showMessage('DEFAULT_WARRANTY_STATUS_CHANGED');
 
             $templates[ $ks ]['title']          = 'When RMA is ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;

@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! is_plugin_active('events-manager/events-manager.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SmsAlertEMBooking class
@@ -87,10 +87,10 @@ class SmsAlertEMBooking
         $embk_booking_statuses = self::em_booking_statuses();
 
         foreach ( $embk_booking_statuses as $ks => $vs ) {
-            $defaults['smspro_embk_general'][ 'embk_admin_notification_' . $vs ] = 'off';
-            $defaults['smspro_embk_general'][ 'embk_order_status_' . $vs ]       = 'off';
-            $defaults['smspro_embk_message'][ 'embk_admin_sms_body_' . $vs ]     = '';
-            $defaults['smspro_embk_message'][ 'embk_sms_body_' . $vs ]           = '';
+            $defaults['softeria_alerts_embk_general'][ 'embk_admin_notification_' . $vs ] = 'off';
+            $defaults['softeria_alerts_embk_general'][ 'embk_order_status_' . $vs ]       = 'off';
+            $defaults['softeria_alerts_embk_message'][ 'embk_admin_sms_body_' . $vs ]     = '';
+            $defaults['softeria_alerts_embk_message'][ 'embk_sms_body_' . $vs ]           = '';
         }
         return $defaults;
     }
@@ -109,14 +109,14 @@ class SmsAlertEMBooking
 
             $ks          = $vs;
             $ks          = str_replace(' ', '_', $ks);
-            $current_val = smspro_get_option('embk_order_status_' . $vs, 'smspro_embk_general', 'on');
+            $current_val = softeria_alerts_get_option('embk_order_status_' . $vs, 'softeria_alerts_embk_general', 'on');
 
-            $checkbox_name_id = 'smspro_embk_general[embk_order_status_' . $vs . ']';
-            $textarea_name_id = 'smspro_embk_message[embk_sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_embk_general[embk_order_status_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_embk_message[embk_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option(
+            $text_body = softeria_alerts_get_option(
                 'embk_sms_body_' . $vs,
-                'smspro_embk_message',
+                'softeria_alerts_embk_message',
                 SmsAlertMessages::showMessage('DEFAULT_EM_CUSTOMER_MESSAGE')
             );
 
@@ -143,14 +143,14 @@ class SmsAlertEMBooking
         $templates = array();
         foreach ( $embk_booking_statuses as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('embk_admin_notification_' . $vs, 'smspro_embk_general', 'on');
+            $current_val = softeria_alerts_get_option('embk_admin_notification_' . $vs, 'softeria_alerts_embk_general', 'on');
 
-            $checkbox_name_id = 'smspro_embk_general[embk_admin_notification_' . $vs . ']';
-            $textarea_name_id = 'smspro_embk_message[embk_admin_sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_embk_general[embk_admin_notification_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_embk_message[embk_admin_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option(
+            $text_body = softeria_alerts_get_option(
                 'embk_admin_sms_body_' . $vs,
-                'smspro_embk_message',
+                'softeria_alerts_embk_message',
                 SmsAlertMessages::showMessage('DEFAULT_EM_ADMIN_MESSAGE')
             );
 
@@ -241,17 +241,17 @@ class SmsAlertEMBooking
             $booking_status     = $booking->status_array;
             $current_booking    = $booking->booking_status;
             $buyer_phone_number = $booking->get_person()->phone;
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
-            $is_enabled = smspro_get_option('embk_order_status_' . $booking_status[ $current_booking ], 'smspro_embk_general');
+            $is_enabled = softeria_alerts_get_option('embk_order_status_' . $booking_status[ $current_booking ], 'softeria_alerts_embk_general');
             if ('' !== $buyer_phone_number && 'on' === $is_enabled ) {
-                $buyer_message = smspro_get_option('embk_sms_body_' . $booking_status[ $current_booking ], 'smspro_embk_message', '');
+                $buyer_message = softeria_alerts_get_option('embk_sms_body_' . $booking_status[ $current_booking ], 'softeria_alerts_embk_message', '');
 
                 $buyer_message = str_replace('[#_BOOKINGSTATUS]', $booking_status[ $current_booking ], $buyer_message);
                 do_action('sa_send_sms', $buyer_phone_number, self::parseSmsBody($buyer_message, $booking));
             }
-            if (smspro_get_option('embk_admin_notification_' . $booking_status[ $current_booking ], 'smspro_embk_general') === 'on' && '' !== $admin_phone_number ) {
-                $admin_message = smspro_get_option('embk_admin_sms_body_' . $booking_status[ $current_booking ], 'smspro_embk_message', '');
+            if (softeria_alerts_get_option('embk_admin_notification_' . $booking_status[ $current_booking ], 'softeria_alerts_embk_general') === 'on' && '' !== $admin_phone_number ) {
+                $admin_message = softeria_alerts_get_option('embk_admin_sms_body_' . $booking_status[ $current_booking ], 'softeria_alerts_embk_message', '');
                 $admin_message = str_replace('[#_BOOKINGSTATUS]', $booking_status[ $current_booking ], $admin_message);
                 do_action('sa_send_sms', $admin_phone_number, self::parseSmsBody($admin_message, $booking));
             }
@@ -277,10 +277,10 @@ class SmsAlertEMBooking
             $booking            = em_get_booking($booking_id);
             $booking_status     = $booking->status_array;
             $current_booking    = $booking->booking_status;
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
-            if (smspro_get_option('embk_admin_notification_' . $booking_status[ $current_booking ], 'smspro_embk_general') === 'on' && '' !== $admin_phone_number ) {
-                $admin_message = smspro_get_option('embk_admin_sms_body_' . $booking_status[ $current_booking ], 'smspro_embk_message', '');
+            if (softeria_alerts_get_option('embk_admin_notification_' . $booking_status[ $current_booking ], 'softeria_alerts_embk_general') === 'on' && '' !== $admin_phone_number ) {
+                $admin_message = softeria_alerts_get_option('embk_admin_sms_body_' . $booking_status[ $current_booking ], 'softeria_alerts_embk_message', '');
                 $admin_message = str_replace('[#_BOOKINGSTATUS]', $booking_status[ $current_booking ], $admin_message);
                 do_action('sa_send_sms', $admin_phone_number, self::parseSmsBody($admin_message, $booking));
             }

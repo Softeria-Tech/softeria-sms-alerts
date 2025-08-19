@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('woocommerce/woocommerce.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Share_Cart class
@@ -41,9 +41,9 @@ class Share_Cart
         add_action('sa_addTabs', array( $this, 'addTabs' ), 10);
         add_action('sa_tabContent', array( $this, 'tabContent' ), 1);
         add_filter('sAlertDefaultSettings', array( $this, 'add_default_setting' ), 1);
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         if ($user_authorize->is_user_authorised()) {
-            $share_cart_enable = smspro_get_option('customer_notify', 'smspro_share_cart_general');
+            $share_cart_enable = softeria_alerts_get_option('customer_notify', 'softeria_alerts_share_cart_general');
             
             if ('on' === $share_cart_enable ) {
                 add_action('init', array( $this, 'shareCartButtonPosition' ));
@@ -125,24 +125,7 @@ class Share_Cart
         $tabs['woocommerce']['inner_nav']['share_cart']['tab_section'] = 'smsprosharecarttemplates';
         $tabs['woocommerce']['inner_nav']['share_cart']['tabContent'] = $smsprosharecart_param;
         $tabs['woocommerce']['inner_nav']['share_cart']['filePath'] = 'views/sharecart-template.php';
-        $tabs['woocommerce']['inner_nav']['share_cart']['help_links']                        = array(
-        'youtube_link' => array(
-        'href'   => 'https://youtu.be/vFJhnIiDrE8',
-        'target' => '_blank',
-        'alt'    => 'Watch steps on Youtube',
-        'class'  => 'btn-outline',
-        'label'  => 'Youtube',
-        'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-        ),
-        'kb_link'      => array(
-        'href'   => 'https://sms.softeriatech.com/knowledgebase/share-cart/',
-        'target' => '_blank',
-        'alt'    => 'Read how to use share cart',
-        'class'  => 'btn-outline',
-        'label'  => 'Documentation',
-        'icon'   => '<span class="dashicons dashicons-format-aside"></span>',
-        ),
+        $tabs['woocommerce']['inner_nav']['share_cart']['help_links'] = array(
         );
         return $tabs;
     }
@@ -156,10 +139,10 @@ class Share_Cart
      */
     public function add_default_setting( $defaults = array() )
     {
-        $defaults['smspro_share_cart_general']['customer_notify'] = 'off';
-        $defaults['smspro_share_cart_general']['share_btnpos']    = 'after_cart_table';
-        $defaults['smspro_share_cart_general']['share_btntext']   = 'Share Cart';
-        $defaults['smspro_share_cart_message']['customer_notify'] = '';
+        $defaults['softeria_alerts_share_cart_general']['customer_notify'] = 'off';
+        $defaults['softeria_alerts_share_cart_general']['share_btnpos']    = 'after_cart_table';
+        $defaults['softeria_alerts_share_cart_general']['share_btntext']   = 'Share Cart';
+        $defaults['softeria_alerts_share_cart_message']['customer_notify'] = '';
         return $defaults;
     }
 
@@ -170,20 +153,20 @@ class Share_Cart
      */
     public function getSmsAlertShareCartTemplates()
     {
-        $current_val      = smspro_get_option(
+        $current_val      = softeria_alerts_get_option(
             'customer_notify',
-            'smspro_share_cart_general
+            'softeria_alerts_share_cart_general
 		',
             'on'
         );
-        $checkbox_name_id = 'smspro_share_cart_general[customer_notify]';
+        $checkbox_name_id = 'softeria_alerts_share_cart_general[customer_notify]';
 
         $templates = array();
 
-        $textarea_name_id = 'smspro_share_cart_message[customer_notify]';
-        $text_body        = smspro_get_option(
+        $textarea_name_id = 'softeria_alerts_share_cart_message[customer_notify]';
+        $text_body        = softeria_alerts_get_option(
             'customer_notify',
-            'smspro_share_cart_message',
+            'softeria_alerts_share_cart_message',
             SmsAlertMessages::showMessage('DEFAULT_SHARE_CART_MSG')
         );
 
@@ -206,8 +189,8 @@ class Share_Cart
     function shareCartButtonPosition()
     {
         $share_btnpos = '';
-        if (! empty(smspro_get_option('share_btnpos', 'smspro_share_cart_general')) ) {
-            $share_btnpos = smspro_get_option('share_btnpos', 'smspro_share_cart_general');
+        if (! empty(softeria_alerts_get_option('share_btnpos', 'softeria_alerts_share_cart_general')) ) {
+            $share_btnpos = softeria_alerts_get_option('share_btnpos', 'softeria_alerts_share_cart_general');
         }
 
         if ('before_cart_table' === $share_btnpos || 'before_cart' === $share_btnpos ) {
@@ -251,8 +234,8 @@ class Share_Cart
         $cart_total = isset(WC()->cart->total)?WC()->cart->total:'';
         if (!empty($cart_total)) {
             add_action('wp_footer', array( $this, 'shareCartPopupDiv' ));    
-            $btn_text = smspro_get_option('share_btntext', 'smspro_share_cart_general');
-            return '<button class="button button-primary" id="smspro_share_cart"><span class="button__text">' . esc_html__($btn_text) . '</span></button>';
+            $btn_text = softeria_alerts_get_option('share_btntext', 'softeria_alerts_share_cart_general');
+            return '<button class="button button-primary" id="softeria_alerts_share_cart"><span class="button__text">' . esc_html__($btn_text) . '</span></button>';
         } else if (current_user_can('administrator')) {
             return $empty_msg;;
         }
@@ -270,8 +253,8 @@ class Share_Cart
         if (empty($cart_total)) {
             return;
         }
-        $modal_style = smspro_get_option('modal_style', 'smspro_general', 'center');
-        $post = get_page_by_path('sharecart_style', OBJECT, 'sms-pro');
+        $modal_style = softeria_alerts_get_option('modal_style', 'softeria_alerts_general', 'center');
+        $post = get_page_by_path('sharecart_style', OBJECT, 'softeria-sms-alerts');
         if (is_plugin_active('elementor/elementor.php') && !empty($post)) {  
             $post_id= $post->ID;    
             $frontent = new Frontend();
@@ -281,7 +264,7 @@ class Share_Cart
         
         }
         ?>
-        <div id="smspro_sharecart_popup" class="smspro_sharecart_popup_class smsproModal <?php echo esc_attr($modal_style); ?>" data-modal-close="<?php echo esc_attr(substr($modal_style, 0, -2)); ?>">
+        <div id="softeria_alerts_sharecart_popup" class="softeria_alerts_sharecart_popup_class smsproModal <?php echo esc_attr($modal_style); ?>" data-modal-close="<?php echo esc_attr(substr($modal_style, 0, -2)); ?>">
         <?php 
         echo $content; 
         ?>  
@@ -296,7 +279,7 @@ class Share_Cart
      */
     function saveShareCartData()
     {
-        $verify = check_ajax_referer('smspro_wp_sharecart_nonce', 'smspro_sharecart_nonce', false);
+        $verify = check_ajax_referer('softeria_alerts_wp_sharecart_nonce', 'softeria_alerts_sharecart_nonce', false);
         if (!$verify) {
             echo 'Sorry, nonce did not verify.';
             die();
@@ -321,7 +304,7 @@ class Share_Cart
                 echo $invalid_fmob;die();
             }
             
-            $public = new SA_Cart_Public(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+            $public = new SA_Cart_Public(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
             global $wpdb;
             $table_name = $wpdb->prefix . SA_CART_TABLE_NAME; // do not forget about tables prefix
@@ -415,7 +398,7 @@ class Share_Cart
 			$data['friend_phone'] = $sc_fmobile;
 			$data['your_phone']   = $sc_umobile;
 			$data['your_name']    = $name;
-			$message              = smspro_get_option('customer_notify', 'smspro_share_cart_message');
+			$message              = softeria_alerts_get_option('customer_notify', 'softeria_alerts_share_cart_message');
 			do_action('sa_send_sms', $sc_fmobile, $this->parseSmsBody($data, $message));
 
             echo 'Cart Shared Successfully.';

@@ -3,7 +3,7 @@ $sa(
     function () {
         $sa('.woocommerce-address-fields [name=billing_phone]').on(
             "change", function (e) {
-                if(smspro_mdet.update_otp_enable=='on') {
+                if(softeria_alerts_mdet.update_otp_enable=='on') {
                     var new_phone = $sa('[name=billing_phone]:last-child').val();
                     var old_phone = $sa('#old_billing_phone').val();
                     if(new_phone != '' && new_phone != old_phone) {
@@ -24,24 +24,24 @@ $sa(
         
         $sa('input[id="reg_email"]').each(
             function (index) {
-                //if(smspro_mdet.mail_accept==0)
+                //if(softeria_alerts_mdet.mail_accept==0)
                 {
                      //$sa(this).closest(".form-required").removeClass("form-required").find(".description").remove();
                      //$sa(this).parent().hide();
                 }
-                /* else if(smspro_mdet.mail_accept==1){
+                /* else if(softeria_alerts_mdet.mail_accept==1){
                 $sa(this).parent().children("label").html("Email");
                 $sa(this).closest(".form-required").removeClass("form-required").find(".description").remove();
                 } */
             }
         );
-        var register = $sa("#smspro_name").closest(".register");
+        var register = $sa("#softeria_alerts_name").closest(".register");
         register.find(".woocommerce-Button, button[name='register']").each(
             function () {
                 if ($sa(this).attr("name") == "register") {
-                    if (!$sa(this).text()!=smspro_mdet.signupwithotp) {
-                        //$sa(this).val(smspro_mdet.signupwithotp);
-                        //$sa(this).find('span').text(smspro_mdet.signupwithotp);
+                    if (!$sa(this).text()!=softeria_alerts_mdet.signupwithotp) {
+                        //$sa(this).val(softeria_alerts_mdet.signupwithotp);
+                        //$sa(this).find('span').text(softeria_alerts_mdet.signupwithotp);
                     }
                 }
             }
@@ -58,17 +58,17 @@ $sa(
         var tokenCon;
         var akCallback = -1;
         var body = $sa("body");
-        var modcontainer = $sa(".smspro-modal");
+        var modcontainer = $sa(".softeria-alert-modal");
         var noanim = false;
-        /* $.fn.smspro_login_modal = function($this) {
-        show_smspro_login_modal($this);
+        /* $.fn.softeria_alerts_login_modal = function($this) {
+        show_softeria_alerts_login_modal($this);
         return false
         }; */
         $sa(document).on(
-            "click", ".smspro-login-modal", function () {
-                //$sa('.smspro-modal').show();
+            "click", ".softeria-alert-login-modal", function () {
+                //$sa('.softeria-alert-modal').show();
                 // if (!$sa(this).attr("attr-disclick")) {
-                show_smspro_login_modal($sa(this))
+                show_softeria_alerts_login_modal($sa(this))
                 // }
                 return false
             }
@@ -85,7 +85,7 @@ $sa(
             return params;
         }
     
-        function show_smspro_login_modal($this)
+        function show_softeria_alerts_login_modal($this)
         {
             //$sa(".u-column2").css("display",'none');
             var windowWidth = $sa(window).width();
@@ -94,7 +94,7 @@ $sa(
             var showonly     = params["showonly"];
             var modal_id     = params["modal_id"];
         
-            $sa("#"+modal_id+".smspro-modal").show();
+            $sa("#"+modal_id+".softeria-alert-modal").show();
         
             if (showonly == 'login,register' || showonly == 'register,login') {
         
@@ -126,8 +126,8 @@ $sa(
         
             var display = $this.attr('data-display');
         
-            $sa("#"+modal_id+".smspro-modal.smsproModal").removeClass("from-left from-right");
-            $sa("#"+modal_id+".smspro-modal.smsproModal").addClass(display);
+            $sa("#"+modal_id+".softeria-alert-modal.smsproModal").removeClass("from-left from-right");
+            $sa("#"+modal_id+".softeria-alert-modal.smsproModal").addClass(display);
         
             if(display == 'from-right') {
                 $sa("#"+modal_id+".from-right > .modal-content").animate(
@@ -140,7 +140,7 @@ $sa(
                         easing: 'swing',
                         duration: 200,
                         complete: function () { 
-                            var wc_width = $sa("#"+modal_id+" .smspro_validate_field").width();
+                            var wc_width = $sa("#"+modal_id+" .softeria_alerts_validate_field").width();
                             if($sa("#"+modal_id+" #slide_form .u-column1").length==0) {
                                 $sa("#"+modal_id+" #slide_form .woocommerce").css({"width":wc_width});
                             }
@@ -164,7 +164,7 @@ $sa(
                         duration: 200,
                         complete: function () { 
                             if($sa("#"+modal_id+" #slide_form .u-column1").length==0) {
-                                var wc_width = $sa("#"+modal_id+" .smspro_validate_field").width();
+                                var wc_width = $sa("#"+modal_id+" .softeria_alerts_validate_field").width();
                                 $sa("#"+modal_id+" #slide_form .woocommerce").css({"width":wc_width});
                             }
                             else
@@ -189,8 +189,8 @@ $sa(
     
 
         $sa(document).on(
-            "click", ".smspro-modal .backtoLogin", function () {
-                var modal_id = $sa(this).parents(".smspro-modal").attr("id");
+            "click", ".softeria-alert-modal .backtoLogin", function () {
+                var modal_id = $sa(this).parents(".softeria-alert-modal").attr("id");
                 $sa("#"+modal_id+" .backtoLoginContainer").css("display",'none');
                 $sa("#"+modal_id+" .signdesc").css("display",'block');
         
@@ -210,9 +210,9 @@ $sa(
         );
     
         $sa(document).on(
-            "click", ".smspro-modal .signupbutton", function () {
+            "click", ".softeria-alert-modal .signupbutton", function () {
     
-                var modal_id = $sa(this).parents(".smspro-modal").attr("id");
+                var modal_id = $sa(this).parents(".softeria-alert-modal").attr("id");
                 $sa("#"+modal_id+" .backtoLoginContainer").css("display",'block');
                 $sa("#"+modal_id+" .signdesc").css("display",'none');
                 //if($sa("#"+modal_id+".from-left #slide_form").length || $sa("#"+modal_id+".from-right #slide_form").length || $sa("#"+modal_id+".center #slide_form").length){
@@ -231,13 +231,13 @@ $sa(
     }
 );
 
-/* $sa(document).on("click", ".smspro-login-modal", function(){
+/* $sa(document).on("click", ".softeria-alert-login-modal", function(){
     
     var modal_id = $sa(this).attr('data-modal-id');
     var display = $sa(this).attr('data-display');
     
-    $sa(".smspro-modal.smsproModal").removeClass("from-left from-right");
-    $sa(".smspro-modal.smsproModal").addClass(display);
+    $sa(".softeria-alert-modal.smsproModal").removeClass("from-left from-right");
+    $sa(".softeria-alert-modal.smsproModal").addClass(display);
     if(display == 'from-right'){
         $sa(".from-right > .modal-content").animate({right:'0',opacity:'1'}, 100);
     }
@@ -249,7 +249,7 @@ $sa(
 $sa(document).on(
     "click",".from-right > .modal-content > .close,.from-left > .modal-content > .close",function () {
         $sa(".modal-content").removeAttr("style");
-        $sa(".smspro-modal.smsproModal").hide('slow');
+        $sa(".softeria-alert-modal.smsproModal").hide('slow');
     }
 );
 
@@ -257,7 +257,7 @@ $sa('body').click(
     function (e) {
         var container = $sa(".modal-content");
         if (!container.is(e.target) && container.has(e.target).length === 0) {
-            $sa('.smspro-modal > .modal-content > .close').trigger('click');
+            $sa('.softeria-alert-modal > .modal-content > .close').trigger('click');
         }
     }
 );

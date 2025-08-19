@@ -5,15 +5,15 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
 
 namespace SMS_ALERT;
 use FormInterface;
-use smspro_Setting_Options;
+use softeria_alerts_Setting_Options;
 use FormSessionVars;
 use SmsAlertUtility;
 use SmsAlertMessages;
@@ -30,8 +30,8 @@ if (is_plugin_active('armember-membership/armember-membership.php') === false) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * 
@@ -73,7 +73,7 @@ class Armember extends FormInterface
      * */
     public function addLoginOtp($field_content, $form)
     {
-        $default_login_otp = smspro_get_option('buyer_login_otp', 'smspro_general');
+        $default_login_otp = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
         if ($form->type=='login' && 'on' ===$default_login_otp) {                
             $field_content.= do_shortcode('[sa_verify user_selector="user_login" pwd_selector="user_pass" submit_selector=".arm_form_field_submit_button"]');    
         }
@@ -101,7 +101,7 @@ class Armember extends FormInterface
                     'required' => 1,
                     'blank_message' => 'Phone can not be left blank.'
                 );
-            $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');
+            $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
             if ('on' === $buyer_signup_otp ) {                
                 $content.=do_shortcode('[sa_verify phone_selector="billing_phone" submit_selector= ".arm_form_field_submit_button"]');    
             }            
@@ -121,10 +121,10 @@ class Armember extends FormInterface
         $bookingStatuses = array('cancelled', 'changed', 'renewed');
 
         foreach ($bookingStatuses as $ks => $vs) {
-            $defaults['smspro_arm_general']['customer_arm_notify_' . $vs] = 'off';
-            $defaults['smspro_arm_message']['customer_sms_arm_body_' . $vs] = '';
-            $defaults['smspro_arm_general']['admin_arm_notify_' . $vs]    = 'off';
-            $defaults['smspro_arm_message']['admin_sms_arm_body_' . $vs]  = '';
+            $defaults['softeria_alerts_arm_general']['customer_arm_notify_' . $vs] = 'off';
+            $defaults['softeria_alerts_arm_message']['customer_sms_arm_body_' . $vs] = '';
+            $defaults['softeria_alerts_arm_general']['admin_arm_notify_' . $vs]    = 'off';
+            $defaults['softeria_alerts_arm_message']['admin_sms_arm_body_' . $vs]  = '';
         }
         return $defaults;
 
@@ -164,15 +164,7 @@ class Armember extends FormInterface
         $tabs['ar_member']['inner_nav']['ar_member_admin']['tabContent']  = $admin_param;
         $tabs['ar_member']['inner_nav']['ar_member_admin']['filePath']    = 'views/message-template.php';
         $tabs['ar_member']['help_links'] = [
-            /* 'youtube_link' => [
-                'href'   => 'https://youtu.be/4BXd_XZt9zM',
-                'target' => '_blank',
-                'alt'    => 'Watch steps on Youtube',
-                'class'  => 'btn-outline',
-                'label'  => 'Youtube',
-                'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-            ], */
+            
             'kb_link'      => [
                 'href'   => 'https://sms.softeriatech.com/knowledgebase/armember-sms-integration/',
                 'target' => '_blank',
@@ -201,14 +193,14 @@ class Armember extends FormInterface
 
         $templates = array();
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal = smspro_get_option('customer_arm_notify_' . strtolower($vs), 'smspro_arm_general', 'on');
+            $currentVal = softeria_alerts_get_option('customer_arm_notify_' . strtolower($vs), 'softeria_alerts_arm_general', 'on');
 
-            $checkboxNameId = 'smspro_arm_general[customer_arm_notify_' . strtolower($vs) . ']';
-            $textareaNameId = 'smspro_arm_message[customer_sms_arm_body_' . strtolower($vs) . ']';
+            $checkboxNameId = 'softeria_alerts_arm_general[customer_arm_notify_' . strtolower($vs) . ']';
+            $textareaNameId = 'softeria_alerts_arm_message[customer_sms_arm_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = smspro_get_option('admin_sms_arm_body_' . strtolower($vs), 'smspro_arm_message', sprintf(__('Hello %1$s, status of your plan %2$s with %3$s has been %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[member_name]', '[plan_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', sprintf(__('Hello %1$s, status of your plan %2$s with %3$s has been %4$s.%5$s', 'softeria-sms-alerts'), '[member_name]', '[plan_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
-            $textBody = smspro_get_option('customer_sms_arm_body_' . strtolower($vs), 'smspro_arm_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('customer_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When Users subscription ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -238,14 +230,14 @@ class Armember extends FormInterface
         $templates = array();
         foreach ($bookingStatuses as $ks  => $vs) {
 
-            $currentVal     = smspro_get_option('admin_arm_notify_' . strtolower($vs), 'smspro_arm_general', 'on');
-            $checkboxNameId = 'smspro_arm_general[admin_arm_notify_' . strtolower($vs) . ']';
-            $textareaNameId = 'smspro_arm_message[admin_sms_arm_body_' . strtolower($vs) . ']';
+            $currentVal     = softeria_alerts_get_option('admin_arm_notify_' . strtolower($vs), 'softeria_alerts_arm_general', 'on');
+            $checkboxNameId = 'softeria_alerts_arm_general[admin_arm_notify_' . strtolower($vs) . ']';
+            $textareaNameId = 'softeria_alerts_arm_message[admin_sms_arm_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = smspro_get_option('admin_sms_arm_body_' . strtolower($vs), 'smspro_arm_message', sprintf(__('Hello admin, status of your plan %1$s with %2$s has been changed to %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[plan_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', sprintf(__('Hello admin, status of your plan %1$s with %2$s has been changed to %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[plan_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
-            $textBody = smspro_get_option('admin_sms_arm_body_' . strtolower($vs), 'smspro_arm_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('admin_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin Users subscription ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -272,22 +264,22 @@ class Armember extends FormInterface
         $user_phone   = get_user_meta($user_id, 'billing_phone', true);
         $planData     = get_user_meta($user_id, "arm_user_plan_{$plan_id}", true);
         $buyerSmsData = array();                  
-        $customerMessage  = smspro_get_option('customer_sms_arm_body_renewed', 'smspro_arm_message', '');
-        $customerRrNotify = smspro_get_option('customer_arm_notify_renewed', 'smspro_arm_general', 'on');
+        $customerMessage  = softeria_alerts_get_option('customer_sms_arm_body_renewed', 'softeria_alerts_arm_message', '');
+        $customerRrNotify = softeria_alerts_get_option('customer_arm_notify_renewed', 'softeria_alerts_arm_general', 'on');
         if ($customerRrNotify === 'on' && $customerMessage !== '') {
             $buyerMessage = $this->parseSmsBody($planData, $user_id, $customerMessage);
             do_action('sa_send_sms', $user_phone, $buyerMessage);
         }
 
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $nos              = explode(',', $adminPhoneNumber);
         $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
         $adminPhoneNumber = implode(',', $adminPhoneNumber);
 
         if (empty($adminPhoneNumber) === false) {
-            $adminRrNotify = smspro_get_option('admin_arm_notify_renewed', 'smspro_arm_general', 'on');
-            $adminMessage   = smspro_get_option('admin_sms_arm_body_renewed', 'smspro_arm_message', '');
+            $adminRrNotify = softeria_alerts_get_option('admin_arm_notify_renewed', 'softeria_alerts_arm_general', 'on');
+            $adminMessage   = softeria_alerts_get_option('admin_sms_arm_body_renewed', 'softeria_alerts_arm_message', '');
             if ('on' === $adminRrNotify && '' !== $adminMessage) {
                 $adminMessage = $this->parseSmsBody($planData, $user_id, $adminMessage);
                 do_action('sa_send_sms', $adminPhoneNumber, $adminMessage);
@@ -309,22 +301,22 @@ class Armember extends FormInterface
         $user_phone   = get_user_meta($user_id, 'billing_phone', true);
         $planData     = get_user_meta($user_id, "arm_user_plan_{$plan_id}", true);
         $buyerSmsData = array();                  
-        $customerMessage  = smspro_get_option('customer_sms_arm_body_cancelled', 'smspro_arm_message', '');
-        $customerRrNotify = smspro_get_option('customer_arm_notify_cancelled', 'smspro_arm_general', 'on');
+        $customerMessage  = softeria_alerts_get_option('customer_sms_arm_body_cancelled', 'softeria_alerts_arm_message', '');
+        $customerRrNotify = softeria_alerts_get_option('customer_arm_notify_cancelled', 'softeria_alerts_arm_general', 'on');
         if ($customerRrNotify === 'on' && $customerMessage !== '') {
             $buyerMessage = $this->parseSmsBody($planData, $user_id, $customerMessage);
             do_action('sa_send_sms', $user_phone, $buyerMessage);
         }
 
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $nos              = explode(',', $adminPhoneNumber);
         $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
         $adminPhoneNumber = implode(',', $adminPhoneNumber);
 
         if (empty($adminPhoneNumber) === false) {
-            $adminRrNotify = smspro_get_option('admin_arm_notify_cancelled', 'smspro_arm_general', 'on');
-            $adminMessage   = smspro_get_option('admin_sms_arm_body_cancelled', 'smspro_arm_message', '');
+            $adminRrNotify = softeria_alerts_get_option('admin_arm_notify_cancelled', 'softeria_alerts_arm_general', 'on');
+            $adminMessage   = softeria_alerts_get_option('admin_sms_arm_body_cancelled', 'softeria_alerts_arm_message', '');
             if ('on' === $adminRrNotify && '' !== $adminMessage) {
                 $adminMessage = $this->parseSmsBody($planData, $user_id, $adminMessage);
                 do_action('sa_send_sms', $adminPhoneNumber, $adminMessage);
@@ -346,19 +338,19 @@ class Armember extends FormInterface
         $planData = get_user_meta($user_id, "arm_user_plan_{$plan_id}", true);
         $buyerNumber   = $user_phone;
         $subscriptionstatus   = strtolower('changed');     
-        $customerMessage = smspro_get_option('customer_sms_arm_body_' . $subscriptionstatus, 'smspro_arm_message', '');
-        $customerNotify = smspro_get_option('customer_arm_notify_' . $subscriptionstatus, 'smspro_arm_general', 'on');
+        $customerMessage = softeria_alerts_get_option('customer_sms_arm_body_' . $subscriptionstatus, 'softeria_alerts_arm_message', '');
+        $customerNotify = softeria_alerts_get_option('customer_arm_notify_' . $subscriptionstatus, 'softeria_alerts_arm_general', 'on');
         if (($customerNotify === 'on' && $customerMessage !== '')) {
             $buyerMessage = $this->parseSmsBody($planData, $user_id, $customerMessage);
             do_action('sa_send_sms', $buyerNumber, $buyerMessage);
         }
 
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         if (empty($adminPhoneNumber) === false) {
-            $adminNotify  = smspro_get_option('admin_arm_notify_' . $subscriptionstatus, 'smspro_arm_general', 'on');
-            $adminMessage = smspro_get_option('admin_sms_arm_body_' . $subscriptionstatus, 'smspro_arm_message', '');
+            $adminNotify  = softeria_alerts_get_option('admin_arm_notify_' . $subscriptionstatus, 'softeria_alerts_arm_general', 'on');
+            $adminMessage = softeria_alerts_get_option('admin_sms_arm_body_' . $subscriptionstatus, 'softeria_alerts_arm_message', '');
             $nos = explode(',', $adminPhoneNumber);
             $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
             $adminPhoneNumber = implode(',', $adminPhoneNumber);
@@ -470,7 +462,7 @@ class Armember extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('armember-membership/armember-membership.php') === true) && ($islogged === true)) {
             return true;
@@ -494,7 +486,7 @@ class Armember extends FormInterface
         if (isset($_SESSION[$this->form_session_var]) === false) {
             return;
         }
-        if ((empty($_REQUEST['option']) === false) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form') {
+        if ((empty($_REQUEST['option']) === false) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form') {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -522,7 +514,7 @@ class Armember extends FormInterface
         if (isset($_SESSION[$this->form_session_var]) === false) {
             return;
         }
-        if ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form') {
+        if ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form') {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {

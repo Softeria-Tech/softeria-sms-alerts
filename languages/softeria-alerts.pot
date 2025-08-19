@@ -1,7 +1,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SMSPro - WooCommerce\n"
+"Project-Id-Version: SOFTSMSAlerts - WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-30 05:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.6.2; wp-6.0\n"
-"X-Domain: sms-pro"
+"X-Domain: softeria-sms-alerts"
 
 #. %1$s - Time, e.g. 1 minute, 5 hours
 #: helper/class-abandonedcart.php:1483
@@ -37,7 +37,7 @@ msgstr ""
 #, php-format
 msgid ""
 "%1$s Status of subscription %2$s worth Ksh. %3$s is changed to %4$s."
-"%5$sPowered by%6$ssms.softeriatech.com"
+"%5$s"
 msgstr ""
 
 #: helper/messages.php:127
@@ -66,7 +66,7 @@ msgstr ""
 #, php-format
 msgid ""
 "%1$s: Hello %2$s, you have been assigned a new delivery for %3$s%4$s."
-"%5$sPowered by%6$ssms.softeriatech.com"
+"%5$s"
 msgstr ""
 
 #: helper/messages.php:35
@@ -167,7 +167,7 @@ msgid "%1$s: Your order %2$s Ksh. %3$s. is On Hold Now."
 msgstr ""
 
 #. %1$s: tag, %2$s: tag
-#: handler/smspro_phone_logic.php:157
+#: handler/softeria_alerts_phone_logic.php:157
 #, php-format
 msgid ""
 "%1$sphone%2$s is not a valid phone number. Please enter a valid Phone Number"
@@ -219,7 +219,7 @@ msgid ""
 " "
 msgstr ""
 
-#. %s: SMS Pro Pricing URL
+#. %s: Softeria Tech Pricing URL
 #: classes/setting-options.php:795
 #, php-format
 msgid "<a href=\"%s\" target=\"_blank\">Click Here</a> to purchase. "
@@ -229,7 +229,7 @@ msgstr ""
 #: classes/setting-options.php:118
 #, php-format
 msgid ""
-"<a href=\"%s\" target=\"_blank\">Login to SMS Pro</a> to configure SMS "
+"<a href=\"%s\" target=\"_blank\">Login to Softeria Tech</a> to configure SMS "
 "Notifications"
 msgstr ""
 
@@ -292,7 +292,7 @@ msgstr ""
 msgid "Admin Notifications"
 msgstr ""
 
-#: views/smspro_general_tab.php:93
+#: views/softeria_alerts_general_tab.php:93
 msgid "Admin order sms notifications will be sent to this number."
 msgstr ""
 
@@ -316,7 +316,7 @@ msgstr ""
 msgid "Admin sms notifications will be sent to this number."
 msgstr ""
 
-#: views/smspro_nav_tabs.php:36
+#: views/softeria_alerts_nav_tabs.php:36
 msgid "Advanced Settings"
 msgstr ""
 
@@ -518,7 +518,7 @@ msgstr ""
 msgid "Credits"
 msgstr ""
 
-#: helper/class-abandonedcart.php:754 views/smspro_general_tab.php:73
+#: helper/class-abandonedcart.php:754 views/softeria_alerts_general_tab.php:73
 msgid "Custom"
 msgstr ""
 
@@ -651,19 +651,19 @@ msgstr ""
 msgid "disable pre-order verification"
 msgstr ""
 
-#: views/smspro_general_tab.php:48
+#: views/softeria_alerts_general_tab.php:48
 msgid "display name for SMS's to be sent"
 msgstr ""
 
-#: SMSPro-wc-order-sms.php:591
+#: SOFTSMSAlerts-wc-order-sms.php:591
 msgid "Docs"
 msgstr ""
 
-#. %s: SMS Pro Signup URL
+#. %s: Softeria Tech Signup URL
 #: classes/setting-options.php:1126
 #, php-format
 msgid ""
-"Don't have an account on SMS Pro? <a href=\"%s\" target=\"_blank\">Signup "
+"Don't have an account on Softeria Tech? <a href=\"%s\" target=\"_blank\">Signup "
 "Here for FREE</a> "
 msgstr ""
 
@@ -781,7 +781,7 @@ msgstr ""
 msgid "Exit Intent image:"
 msgstr ""
 
-#: views/smspro_nav_tabs.php:10
+#: views/softeria_alerts_nav_tabs.php:10
 msgid "General Settings"
 msgstr ""
 
@@ -805,7 +805,7 @@ msgstr ""
 #, php-format
 msgid ""
 "Hello %1$s, a new note has been added to your order %2$s on %3$s: "
-"%4$s%5$sPowered by%6$ssms.softeriatech.com"
+"%4$s%5$s"
 msgstr ""
 
 #: helper/learnpress.php:468
@@ -817,14 +817,14 @@ msgstr ""
 #, php-format
 msgid ""
 "Hello %1$s, status of your %2$s with %3$s has been changed to %4$s."
-"%5$sPowered by%6$ssms.softeriatech.com"
+"%5$s"
 msgstr ""
 
 #: helper/messages.php:62
 #, php-format
 msgid ""
 "Hello %1$s, status of your affiliate account %2$s with %3$s has been changed "
-"to %4$s.%5$sPowered by%6$ssms.softeriatech.com"
+"to %4$s.%5$s"
 msgstr ""
 
 #: helper/messages.php:83
@@ -838,7 +838,7 @@ msgstr ""
 #, php-format
 msgid ""
 "Hello %1$s, status of your order %2$s with %3$s has been changed to %4$s."
-"%5$sPowered by%6$ssms.softeriatech.com"
+"%5$s"
 msgstr ""
 
 #: helper/messages.php:120
@@ -859,14 +859,14 @@ msgstr ""
 #, php-format
 msgid ""
 "Hello %1$s, status of your RMA no. %2$s with %3$s has been changed to %4$s."
-"%5$sPowered by%6$ssms.softeriatech.com"
+"%5$s"
 msgstr ""
 
 #: helper/messages.php:130
 #, php-format
 msgid ""
 "Hello %1$s, status of your subscription %2$s with %3$s has been changed to "
-"%4$s.%5$sPowered by%6$ssms.softeriatech.com"
+"%4$s.%5$s"
 msgstr ""
 
 #: helper/messages.php:39
@@ -918,7 +918,7 @@ msgstr ""
 #, php-format
 msgid ""
 "Hello %1$s, your subscription %2$s with %3$s is due for renewal on %4$s."
-"%5$sPowered by%6$ssms.softeriatech.com"
+"%5$s"
 msgstr ""
 
 #: helper/messages.php:104
@@ -960,7 +960,7 @@ msgstr ""
 #, php-format
 msgid ""
 "Hey %1$s, your friend %2$s has shared his %3$s cart with you. Click %4$s to "
-"view.%5$sPowered by%6$ssms.softeriatech.com"
+"view.%5$s"
 msgstr ""
 
 #: helper/messages.php:65
@@ -976,7 +976,7 @@ msgid "Hide default Login form"
 msgstr ""
 
 #. URI of the plugin
-msgid "https://wordpress.org/plugins/sms-pro/"
+msgid "https://github.com/softeria-tech/softeria-sms-alerts-wp-plugin"
 msgstr ""
 
 #. Author URI of the plugin
@@ -1077,7 +1077,7 @@ msgstr ""
 msgid "Login with OTP"
 msgstr ""
 
-#: views/smspro_general_tab.php:57
+#: views/softeria_alerts_general_tab.php:57
 msgid "Logout"
 msgstr ""
 
@@ -1204,7 +1204,7 @@ msgstr ""
 msgid "OTP Re-send Timer"
 msgstr ""
 
-#: views/smspro_nav_tabs.php:33
+#: views/softeria_alerts_nav_tabs.php:33
 msgid "OTP Settings"
 msgstr ""
 
@@ -1273,7 +1273,7 @@ msgstr ""
 msgid "Please choose your senderid."
 msgstr ""
 
-#. %1$s: SMS Pro support Email ID, %2$s: SMS Pro support Email ID
+#. %1$s: Softeria Tech support Email ID, %2$s: Softeria Tech support Email ID
 #: classes/setting-options.php:415
 #, php-format
 msgid ""
@@ -1285,7 +1285,7 @@ msgstr ""
 msgid "Please enable Email Notification at Cart Bounty Setting page."
 msgstr ""
 
-#. %1$s: SMS Pro website URL, %2$s: Current website URL
+#. %1$s: Softeria Tech website URL, %2$s: Current website URL
 #: classes/setting-options.php:419
 #, php-format
 msgid ""
@@ -1335,7 +1335,7 @@ msgstr ""
 msgid "Please wait..."
 msgstr ""
 
-#: views/smspro_general_tab.php:74
+#: views/softeria_alerts_general_tab.php:74
 msgid "Post Author"
 msgstr ""
 
@@ -1393,7 +1393,7 @@ msgid "Seems like you have already subscribed to this product"
 msgstr ""
 
 #: classes/setting-options.php:694 views/cf7-template.php:119
-#: views/signup-with-otp-template.php:48 views/smspro_general_tab.php:46
+#: views/signup-with-otp-template.php:48 views/softeria_alerts_general_tab.php:46
 msgid "SELECT"
 msgstr ""
 
@@ -1421,7 +1421,7 @@ msgstr ""
 msgid "Select Template"
 msgstr ""
 
-#: views/smspro_general_tab.php:68 handler/forms/class-wpforms.php:142
+#: views/softeria_alerts_general_tab.php:68 handler/forms/class-wpforms.php:142
 msgid "Send Admin SMS To"
 msgstr ""
 
@@ -1510,7 +1510,7 @@ msgstr ""
 msgid "Show Verify Button next to phone field"
 msgstr ""
 
-#: SMSPro-wc-order-sms.php:347
+#: SOFTSMSAlerts-wc-order-sms.php:347
 msgid "Sign Up Notifications"
 msgstr ""
 
@@ -1537,26 +1537,26 @@ msgid "SMS ALERT"
 msgstr ""
 
 #: handler/forms/class-elementor.php:202 handler/forms/class-formidable.php:123
-msgid "SMS Pro"
+msgid "Softeria Tech"
 msgstr ""
 
-#: views/smspro_general_tab.php:22
-msgid "SMS Pro Password"
+#: views/softeria_alerts_general_tab.php:22
+msgid "Softeria Tech Password"
 msgstr ""
 
-#: views/smspro_general_tab.php:37
-msgid "SMS Pro Sender Id"
+#: views/softeria_alerts_general_tab.php:37
+msgid "Softeria Tech Sender Id"
 msgstr ""
 
 #: handler/forms/class-formidable.php:124
-msgid "SMS Pro Settings"
+msgid "Softeria Tech Settings"
 msgstr ""
 
-#: views/smspro_general_tab.php:5
-msgid "SMS Pro Username"
+#: views/softeria_alerts_general_tab.php:5
+msgid "Softeria Tech Username"
 msgstr ""
 
-#: classes/setting-options.php:773 views/smspro_nav_tabs.php:39
+#: classes/setting-options.php:773 views/softeria_alerts_nav_tabs.php:39
 msgid "SMS Credits"
 msgstr ""
 
@@ -1565,11 +1565,11 @@ msgid "SMS Notification"
 msgstr ""
 
 #: handler/forms/class-elementor.php:20 handler/forms/class-elementor.php:186
-msgid "SMSPro"
+msgid "SOFTSMSAlerts"
 msgstr ""
 
 #. Name of the plugin
-msgid "SMSPro - WooCommerce"
+msgid "SOFTSMSAlerts - WooCommerce"
 msgstr ""
 
 #: helper/messages.php:108
@@ -1586,7 +1586,7 @@ msgstr ""
 msgid "Stock Notifications"
 msgstr ""
 
-#: views/smspro_general_tab.php:76
+#: views/softeria_alerts_general_tab.php:76
 msgid "Store Manager"
 msgstr ""
 
@@ -1598,7 +1598,7 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
-#: views/smspro_nav_tabs.php:42
+#: views/softeria_alerts_nav_tabs.php:42
 msgid "Support"
 msgstr ""
 
@@ -1642,7 +1642,7 @@ msgid ""
 msgstr ""
 
 #. %s: Plugin help URL
-#: handler/smspro_phone_logic.php:149
+#: handler/softeria_alerts_phone_logic.php:149
 #, php-format
 msgid ""
 "There was an error in sending the OTP to the given Phone Number. Please Try "
@@ -1652,13 +1652,13 @@ msgstr ""
 
 #: classes/setting-options.php:851
 msgid ""
-"This action can not be reversed. You will be logged out of SMS Pro plugin."
+"This action can not be reversed. You will be logged out of Softeria Tech plugin."
 msgstr ""
 
 #. Description of the plugin
 msgid ""
 "This is a WooCommerce add-on. By Using this plugin admin and buyer can get "
-"notification after placing order via sms using SMS Pro."
+"notification after placing order via sms using Softeria Tech."
 msgstr ""
 
 #: helper/class-abandonedcart.php:748
@@ -1797,7 +1797,7 @@ msgid "Write yout text or use fields shortcode"
 msgstr ""
 
 #: helper/curl.php:197
-msgid "Wrong SMSPro credentials"
+msgid "Wrong SOFTSMSAlerts credentials"
 msgstr ""
 
 #: handler/forms/class-wpjobs.php:198 handler/forms/class-wpjobs.php:214
@@ -1850,12 +1850,12 @@ msgid ""
 "Your mobile number is not verified yet. Please verify your mobile number."
 msgstr ""
 
-#: views/smspro_general_tab.php:31
-msgid "your SMS Pro password"
+#: views/softeria_alerts_general_tab.php:31
+msgid "your Softeria Tech password"
 msgstr ""
 
-#: views/smspro_general_tab.php:18
-msgid "your SMS Pro user name"
+#: views/softeria_alerts_general_tab.php:18
+msgid "your Softeria Tech user name"
 msgstr ""
 
 #: helper/messages.php:59

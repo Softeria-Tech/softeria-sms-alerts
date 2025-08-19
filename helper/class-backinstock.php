@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -21,8 +21,8 @@ if (! is_plugin_active('woocommerce/woocommerce.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Abandoned_Cart class.
@@ -37,7 +37,7 @@ class Sa_Backinstock
     public function __construct()
     {
 
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         if (! $islogged ) {
             return false;
@@ -46,9 +46,9 @@ class Sa_Backinstock
         add_filter('sAlertDefaultSettings', __CLASS__ . '::add_default_setting', 1);
         add_action('woocommerce_product_set_stock', array( $this, 'triggerOnProductStockChanged' ), 10, 1);
         add_action('woocommerce_variation_set_stock_status', array( $this, 'triggerOnVariationStockChanged' ), 999, 3);
-        $smspro_bis_subscribed_notify = smspro_get_option('subscribed_bis_notify', 'smspro_bis_general', 'on');
+        $softeria_alerts_bis_subscribed_notify = softeria_alerts_get_option('subscribed_bis_notify', 'softeria_alerts_bis_general', 'on');
 
-        if ('on' === $smspro_bis_subscribed_notify ) {
+        if ('on' === $softeria_alerts_bis_subscribed_notify ) {
             add_action('woocommerce_simple_add_to_cart', array( $this, 'displayInSimpleProduct' ), 63);
             add_action('woocommerce_after_variations_form', array( $this, 'saDisplayInNoVariationProduct' ));
             add_filter('woocommerce_available_variation', array( $this, 'saDisplayInVariation' ), 100, 3);
@@ -80,10 +80,10 @@ class Sa_Backinstock
     {
         if ('subscribe_data' === $type) {
             global $wpdb;
-            $post_data = $wpdb->get_row("SELECT ID , post_title, post_author FROM {$wpdb->prefix}posts WHERE post_status = 'smspro_subscribed' and ID = '$post_id'", ARRAY_A);
+            $post_data = $wpdb->get_row("SELECT ID , post_title, post_author FROM {$wpdb->prefix}posts WHERE post_status = 'softeria_alerts_subscribed' and ID = '$post_id'", ARRAY_A);
 
             $post_user_id = $post_data['post_author'];
-            $product_id   = get_post_meta($post_id, 'smspro_instock_pid', true);
+            $product_id   = get_post_meta($post_id, 'softeria_alerts_instock_pid', true);
             $message = $this->parseBody($post_user_id, $product_id, $message);
         }
         return $message;
@@ -113,8 +113,8 @@ class Sa_Backinstock
 
         echo wp_kses(
             '<p class="form-field form-row form-row-full">
-		<label for="smspro_backinstock_subscribers">' . __('Backorders', 'sms-pro') . '</label>
-		<input type="text" name="smspro_backinstock_subscribers" value="' . All_Subscriber_List::getNosSubscribersByProductId($variation->ID) . '" class="input-text short smspro_backinstock_subscribers" disabled style="border:none;box-shadow:none"/>
+		<label for="softeria_alerts_backinstock_subscribers">' . __('Backorders', 'softeria-sms-alerts') . '</label>
+		<input type="text" name="softeria_alerts_backinstock_subscribers" value="' . All_Subscriber_List::getNosSubscribersByProductId($variation->ID) . '" class="input-text short softeria_alerts_backinstock_subscribers" disabled style="border:none;box-shadow:none"/>
 	</p>',
             $allowedposttags
         );
@@ -142,8 +142,8 @@ class Sa_Backinstock
 
             echo wp_kses(
                 '<p class="form-field">
-            <label for="smspro_backinstock_subscribers">' . esc_html__('Backorders', 'sms-pro') . '</label>
-			<input type="text" name="smspro_backinstock_subscribers" value="' . All_Subscriber_List::getNosSubscribersByProductId($post->ID) . '" class="input-text short smspro_backinstock_subscribers" disabled style="border:none;box-shadow:none"/>
+            <label for="softeria_alerts_backinstock_subscribers">' . esc_html__('Backorders', 'softeria-sms-alerts') . '</label>
+			<input type="text" name="softeria_alerts_backinstock_subscribers" value="' . All_Subscriber_List::getNosSubscribersByProductId($post->ID) . '" class="input-text short softeria_alerts_backinstock_subscribers" disabled style="border:none;box-shadow:none"/>
         </p>',
                 $allowedposttags
             );
@@ -186,18 +186,18 @@ class Sa_Backinstock
             'sa_single_product',
             'sa_otp_settings',
             array(
-            'show_countrycode' => smspro_get_option('checkout_show_country_code', 'smspro_general', 'off'),
+            'show_countrycode' => softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general', 'off'),
             ),
             'sa_default_countrycode',
-            smspro_get_option('default_country_code', 'smspro_general')
+            softeria_alerts_get_option('default_country_code', 'softeria_alerts_general')
         );
 
         wp_localize_script(
             'sa_single_product',
             'sa_notices',
             array(
-            'waiting_txt' => __('Please wait...', 'sms-pro'),
-            'enter_here'  => __('Enter Number Here', 'sms-pro'),
+            'waiting_txt' => __('Please wait...', 'softeria-sms-alerts'),
+            'enter_here'  => __('Enter Number Here', 'softeria-sms-alerts'),
             )
         );
         wp_enqueue_script('sa_single_product');
@@ -217,7 +217,7 @@ class Sa_Backinstock
         'templates'        => self::getBackInStockTemplates(),
         );
 
-        $tabs['woocommerce']['inner_nav']['backinstock']['title']       = __('Notify Me', 'sms-pro');
+        $tabs['woocommerce']['inner_nav']['backinstock']['title']       = __('Notify Me', 'softeria-sms-alerts');
         $tabs['woocommerce']['inner_nav']['backinstock']['tab_section'] = 'backinstocktemplates';
         $tabs['woocommerce']['inner_nav']['backinstock']['tabContent']  = $backinstock_param;
         $tabs['woocommerce']['inner_nav']['backinstock']['filePath']    = 'views/notifyme-template.php';
@@ -242,12 +242,12 @@ class Sa_Backinstock
         );
 
         // product back in stock.
-        $current_val      = smspro_get_option('customer_bis_notify', 'smspro_bis_general', 'on');
-        $checkbox_name_id = 'smspro_bis_general[customer_bis_notify]';
-        $textarea_name_id = 'smspro_bis_message[customer_bis_notify]';
-        $text_body        = smspro_get_option(
+        $current_val      = softeria_alerts_get_option('customer_bis_notify', 'softeria_alerts_bis_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_bis_general[customer_bis_notify]';
+        $textarea_name_id = 'softeria_alerts_bis_message[customer_bis_notify]';
+        $text_body        = softeria_alerts_get_option(
             'customer_bis_notify',
-            'smspro_bis_message',
+            'softeria_alerts_bis_message',
             SmsAlertMessages::showMessage('DEFAULT_BACK_IN_STOCK_CUST_MSG')
         );
 
@@ -262,12 +262,12 @@ class Sa_Backinstock
         $templates['backinstock_msg']['token']          = $variables;
 
         // product subscribed.
-        $current_val      = smspro_get_option('subscribed_bis_notify', 'smspro_bis_general', 'on');
-        $checkbox_name_id = 'smspro_bis_general[subscribed_bis_notify]';
-        $textarea_name_id = 'smspro_bis_message[subscribed_bis_notify]';
-        $text_body        = smspro_get_option(
+        $current_val      = softeria_alerts_get_option('subscribed_bis_notify', 'softeria_alerts_bis_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_bis_general[subscribed_bis_notify]';
+        $textarea_name_id = 'softeria_alerts_bis_message[subscribed_bis_notify]';
+        $text_body        = softeria_alerts_get_option(
             'subscribed_bis_notify',
-            'smspro_bis_message',
+            'softeria_alerts_bis_message',
             SmsAlertMessages::showMessage('DEFAULT_BACK_IN_STOCK_SUBSCRIBE_MSG')
         );
 
@@ -279,26 +279,7 @@ class Sa_Backinstock
         $templates['subscribed']['textareaNameId'] = $textarea_name_id;
         $templates['subscribed']['token']          = $variables;
         
-        $templates['subscribed']['help_links']  = array(
-        'youtube_link' => array(
-        'href'   => 'https://www.youtube.com/watch?v=UnCUGSan7zM&t=80s',
-        'target' => '_blank',
-        'alt'    => 'Watch steps on Youtube',
-        'class'  => 'btn-outline',
-        'label'  => 'Youtube',
-        'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-        ),
-        'kb_link'      => array(
-        'href'   => 'https://sms.softeriatech.com/knowledgebase/notify-me/',
-        'target' => '_blank',
-        'alt'    => 'Woocommerce - Back in Stock Notifier via SMS',
-        'class'  => 'btn-outline',
-        'label'  => 'Documentation',
-        'icon'   => '<span class="dashicons dashicons-format-aside"></span>',
-        ),
-
-        );
+        $templates['subscribed']['help_links']  = array();
 
         return $templates;
     }
@@ -361,7 +342,7 @@ class Sa_Backinstock
         $datas = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$table_prefix}postmeta WHERE meta_key = %s AND meta_value = %s",
-				'smspro_instock_pid',
+				'softeria_alerts_instock_pid',
 				$product_id
 			),
 			ARRAY_A
@@ -376,16 +357,16 @@ class Sa_Backinstock
 					"SELECT ID, post_title, post_author 
 					 FROM {$table_prefix}posts 
 					 WHERE post_status = %s AND ID = %d",
-					'smspro_subscribed',
+					'softeria_alerts_subscribed',
 					$post_id
 				),
 				ARRAY_A
 			);
             $post_user_id             = $post_data[0]['post_author'];
-            $smspro_bis_cust_notify = smspro_get_option('customer_bis_notify', 'smspro_bis_general', 'on');
-            if (! empty($post_data) && 'instock' === $product_status && 'on' === $smspro_bis_cust_notify ) {
+            $softeria_alerts_bis_cust_notify = softeria_alerts_get_option('customer_bis_notify', 'softeria_alerts_bis_general', 'on');
+            if (! empty($post_data) && 'instock' === $product_status && 'on' === $softeria_alerts_bis_cust_notify ) {
                 $posts[ $dkey ]['post_id'] = $post_data[0]['ID'];
-                $backinstock_message       = smspro_get_option('customer_bis_notify', 'smspro_bis_message', '');
+                $backinstock_message       = softeria_alerts_get_option('customer_bis_notify', 'softeria_alerts_bis_message', '');
                 $obj[ $dkey ]['number']    = $post_data[0]['post_title'];
                 $obj[ $dkey ]['sms_body']  = $this->parseBody($post_user_id, $product_id, $backinstock_message);
             }
@@ -395,7 +376,7 @@ class Sa_Backinstock
         $response_arr = json_decode($response, true);
         if (!empty($response_arr['status']) && 'success' === $response_arr['status']) {
             $desc   = ( ! empty($response_arr['description']['desc']) ) ? $response_arr['description']['desc'] : '';
-            $status = 'smspro_msgsent';
+            $status = 'softeria_alerts_msgsent';
         } else {
             $desc   = ( ! empty($response_arr['description']['desc']) ) ? $response_arr['description']['desc'] : ( ( ! empty($response_arr['description']) ) ? $response_arr['description'] : '' );
             $status = 'sa_general_error';
@@ -432,10 +413,10 @@ class Sa_Backinstock
      */
     public static function add_default_setting( $defaults = array() )
     {
-        $defaults['smspro_bis_general']['customer_bis_notify']   = 'off';
-        $defaults['smspro_bis_message']['customer_bis_notify']   = '';
-        $defaults['smspro_bis_general']['subscribed_bis_notify'] = 'off';
-        $defaults['smspro_bis_message']['subscribed_bis_notify'] = '';
+        $defaults['softeria_alerts_bis_general']['customer_bis_notify']   = 'off';
+        $defaults['softeria_alerts_bis_message']['customer_bis_notify']   = '';
+        $defaults['softeria_alerts_bis_general']['subscribed_bis_notify'] = 'off';
+        $defaults['softeria_alerts_bis_message']['subscribed_bis_notify'] = '';
         return $defaults;
     }
 
@@ -483,7 +464,7 @@ class Sa_Backinstock
     {
         SmsAlertUtility::enqueue_script_for_intellinput();
 
-        $get_option              = get_option('smspro_instocksettings');
+        $get_option              = get_option('softeria_alerts_instocksettings');
         $check_guest_visibility  = isset($get_option['hide_form_guests']) && '' !== $get_option['hide_form_guests'] && ! is_user_logged_in() ? false : true;
         $check_member_visibility = isset($get_option['hide_form_members']) && '' !== $get_option['hide_form_members'] && is_user_logged_in() ? false : true;
         $product_id              = $product->get_id();
@@ -500,13 +481,13 @@ class Sa_Backinstock
             'product_id'   => $product_id,
             'variation_id' => $variation_id,
             );
-            return get_smspro_template('template/backinstock-template.php', $params, true);
+            return get_softeria_alerts_template('template/backinstock-template.php', $params, true);
         } elseif ($variation && ! $variation->is_in_stock() || ( ( $variation && ( ( $variation->managing_stock() && $variation->backorders_allowed() && $variation->is_on_backorder(1) ) || $variation->is_on_backorder(1) ) && $visibility_backorder ) ) ) {
             $params = array(
             'product_id'   => $product_id,
             'variation_id' => $variation_id,
             );
-            return get_smspro_template('template/backinstock-template.php', $params, true);
+            return get_softeria_alerts_template('template/backinstock-template.php', $params, true);
         } else {
             return '';
         }
@@ -576,24 +557,24 @@ class Sa_Backinstock
 
             if (! empty($check_is_already_subscribed) ) {
                 $data['status']      = 'error';
-                $data['description'] = __('Seems like you have already subscribed to this product', 'sms-pro');
+                $data['description'] = __('Seems like you have already subscribed to this product', 'softeria-sms-alerts');
             } else {
                 if ('' !== $subscriber_phone ) {
 
                     $post_id      = $this->insertSubscriber($subscriber_phone, $get_user_id);
                     $product_id   = ( $variation_id > '0' || $variation_id > 0 ) ? $variation_id : $product_id;
                     $default_data = array(
-                    'smspro_instock_variation_id' => $variation_id,
-                    'smspro_subscriber_phone'     => $subscriber_phone,
-                    'smspro_instock_user_id'      => $get_user_id,
-                    'smspro_instock_pid'          => $product_id,
+                    'softeria_alerts_instock_variation_id' => $variation_id,
+                    'softeria_alerts_subscriber_phone'     => $subscriber_phone,
+                    'softeria_alerts_instock_user_id'      => $get_user_id,
+                    'softeria_alerts_instock_pid'          => $product_id,
                     );
                     foreach ( $default_data as $key => $value ) {
                         update_post_meta($post_id, $key, $value);
                     }
 
-                    $subscribed_bis_notify = smspro_get_option('subscribed_bis_notify', 'smspro_bis_general', '');
-                    $subscribed_message       = smspro_get_option('subscribed_bis_notify', 'smspro_bis_message', '');
+                    $subscribed_bis_notify = softeria_alerts_get_option('subscribed_bis_notify', 'softeria_alerts_bis_general', '');
+                    $subscribed_message       = softeria_alerts_get_option('subscribed_bis_notify', 'softeria_alerts_bis_message', '');
 
                     if ('on' === $subscribed_bis_notify && '' !== $subscribed_message ) {
                         $buyer_sms_data['number']   = $subscriber_phone;
@@ -601,7 +582,7 @@ class Sa_Backinstock
                         SmsAlertcURLOTP::sendsms($buyer_sms_data);
                     }
                     $data['status']      = 'success';
-                    $data['description'] = __('You have subscribed successfully.', 'sms-pro');
+                    $data['description'] = __('You have subscribed successfully.', 'softeria-sms-alerts');
                 }
             }
         }
@@ -621,7 +602,7 @@ class Sa_Backinstock
         $args = array(
         'post_title'  => $mobileno,
         'post_type'   => 'sainstocknotifier',
-        'post_status' => 'smspro_subscribed',
+        'post_status' => 'softeria_alerts_subscribed',
         'post_author' => $user_id,
         );
         global $wp_rewrite;
@@ -698,9 +679,9 @@ class Sa_Backinstock
 							AND pm2.meta_key = %s 
 							AND pm2.meta_value IN (%s, %s, %s)
 						",
-						'smspro_instock_pid',
+						'softeria_alerts_instock_pid',
 						$product_id,
-						'smspro_subscriber_phone',
+						'softeria_alerts_subscriber_phone',
 						$wcc_ph,
 						$wocc_ph,
 						$wth_pls_ph
@@ -716,7 +697,7 @@ class Sa_Backinstock
         $post_data = array();
 
         if (! empty($post_ids) ) {
-            $post_data = $wpdb->get_results("SELECT ID,post_title, post_status FROM {$table_prefix}posts WHERE post_status = 'smspro_subscribed' and ID in (" . implode(',', $post_ids) . ')', ARRAY_A);
+            $post_data = $wpdb->get_results("SELECT ID,post_title, post_status FROM {$table_prefix}posts WHERE post_status = 'softeria_alerts_subscribed' and ID in (" . implode(',', $post_ids) . ')', ARRAY_A);
         }
         return $post_data;
     }
@@ -752,8 +733,8 @@ if (! class_exists('WP_List_Table') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * All_Subscriber_List extends WP_List_Table class.
@@ -794,7 +775,7 @@ class All_Subscriber_List extends WP_List_Table
 			 INNER JOIN {$wpdb->prefix}postmeta PM ON P.ID = PM.post_id
 			 WHERE P.post_type = %s AND PM.meta_key = %s",
 			'sainstocknotifier',
-			'smspro_instock_pid'
+			'softeria_alerts_instock_pid'
 		);
 
         if (! empty($_REQUEST['orderby']) ) {
@@ -831,8 +812,8 @@ class All_Subscriber_List extends WP_List_Table
 			   AND P.post_status = %s 
 			   AND PM.meta_value = %s",
 			'sainstocknotifier',
-			'smspro_instock_pid',
-			'smspro_subscribed',
+			'softeria_alerts_instock_pid',
+			'softeria_alerts_subscribed',
 			$product_id
 		);
 		$result = $wpdb->get_results($sql, ARRAY_A);
@@ -850,7 +831,7 @@ class All_Subscriber_List extends WP_List_Table
     {
         global $wpdb;
         global $product;
-        $sql          = "SELECT count(*) as cnt FROM {$wpdb->prefix}posts P inner join {$wpdb->prefix}postmeta PM on P.ID = PM.post_id WHERE P.post_type = 'sainstocknotifier' and PM.meta_key = 'smspro_instock_pid' and P.post_status = 'smspro_subscribed'";
+        $sql          = "SELECT count(*) as cnt FROM {$wpdb->prefix}posts P inner join {$wpdb->prefix}postmeta PM on P.ID = PM.post_id WHERE P.post_type = 'sainstocknotifier' and PM.meta_key = 'softeria_alerts_instock_pid' and P.post_status = 'softeria_alerts_subscribed'";
         $product_type = $product->get_type();
         if ('variable' === $product_type ) {
             $product_ids = count($product->get_children()) > 0 ? $product->get_children() : array();
@@ -869,7 +850,7 @@ class All_Subscriber_List extends WP_List_Table
      */
     public function no_items()
     {
-        esc_html_e('No Subscriber.', 'sms-pro');
+        esc_html_e('No Subscriber.', 'softeria-sms-alerts');
     }
 
     /**
@@ -909,7 +890,7 @@ class All_Subscriber_List extends WP_List_Table
      */
     public function column_post_status( $item )
     {
-        if ('smspro_subscribed' === $item['post_status'] ) {
+        if ('softeria_alerts_subscribed' === $item['post_status'] ) {
             $post_status = '<button class="button-primary"/>Subscribed</a>';
         } elseif ('sa_general_error' === $item['post_status'] ) {
             $post_status = '<button class="button-primary" style="background: red;border: 1px solid red;" title="' . $item['post_content'] . '">General Error</a>';
@@ -994,7 +975,7 @@ class All_Subscriber_List extends WP_List_Table
     {
         $actions = array(
         'delete' => 'Delete',
-        'sa_sub_sendsms' => __('Send SMS', 'sms-pro'),
+        'sa_sub_sendsms' => __('Send SMS', 'softeria-sms-alerts'),
         );
         return $actions;
     }
@@ -1015,7 +996,7 @@ class All_Subscriber_List extends WP_List_Table
         $verify = !empty($_REQUEST['_wpnonce'])?wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-' . $this->_args['plural']):false;
         if ($verify) {
             if ('delete' === $this->current_action() ) {
-                $ids = isset($_REQUEST['ID']) ? smspro_sanitize_array($_REQUEST['ID']) : array();
+                $ids = isset($_REQUEST['ID']) ? softeria_alerts_sanitize_array($_REQUEST['ID']) : array();
                 if (is_array($ids) ) {
                     $ids = implode(',', $ids);
                 }
@@ -1026,12 +1007,12 @@ class All_Subscriber_List extends WP_List_Table
             }
             
             if ('sa_sub_sendsms' === $this->current_action() ) {
-                $id = isset($_REQUEST['ID']) ? smspro_sanitize_array($_REQUEST['ID']) : array();
+                $id = isset($_REQUEST['ID']) ? softeria_alerts_sanitize_array($_REQUEST['ID']) : array();
                 $params =array(
                 'post_ids'=> $id,
                 'type'=> 'subscribe_data',
                 );
-                echo get_smspro_template('template/sms_campaign.php', $params, true);
+                echo get_softeria_alerts_template('template/sms_campaign.php', $params, true);
                 exit();
             }
         }

@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -23,8 +23,8 @@ if (! is_plugin_active('formidable/formidable.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Formidable class.
@@ -46,7 +46,7 @@ class Formidable extends FormInterface
      */
     public function handleForm()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         if ($user_authorize->is_user_authorised() ) {
             $setting = new FrmSettings();
             $recaptcha_v =  $setting->re_type;
@@ -122,7 +122,7 @@ class Formidable extends FormInterface
             return $errors;
         }
         $form_id = $values['form_id'];           
-        if (isset($_REQUEST['option']) && 'smspro_frm_show_form_otp' === sanitize_text_field(wp_unslash($_REQUEST['option']))) {
+        if (isset($_REQUEST['option']) && 'softeria_alerts_frm_show_form_otp' === sanitize_text_field(wp_unslash($_REQUEST['option']))) {
             SmsAlertUtility::initialize_transaction($this->form_session_var);
         } else {
             return;
@@ -131,7 +131,7 @@ class Formidable extends FormInterface
         $visitor_phone         = isset($datas['visitor_phone'])?$datas['visitor_phone']:'';
         $phone = !empty($_POST['item_meta'][$visitor_phone])?$_POST['item_meta'][$visitor_phone]:'';          
         if (isset($phone) && SmsAlertUtility::isBlank($phone)) {            
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'sms-pro'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
             exit();
         }
         return $this->processFormFields($phone);            
@@ -152,7 +152,7 @@ class Formidable extends FormInterface
             wp_send_json(SmsAlertUtility::_create_json_response(str_replace('##phone##', $phone_num, $phoneLogic->_get_otp_invalid_format_message()), SmsAlertConstants::ERROR_JSON_TYPE));
             exit();
         }        
-        smspro_site_challenge_otp('test', null, null, $phone_num, 'phone', null, null, 'ajax');
+        softeria_alerts_site_challenge_otp('test', null, null, $phone_num, 'phone', null, null, 'ajax');
     }
 
 
@@ -170,11 +170,11 @@ class Formidable extends FormInterface
         global $wpdb;
         $datas = self::get_form_settings($form_id);
         if (!empty($datas)) {
-            $smspro_enable_message     = isset($datas['smspro_enable_message'])?$datas['smspro_enable_message']:'';
-            $enable_otp                 = isset($datas['smspro_enable_otp'])?$datas['smspro_enable_otp']:'';
+            $softeria_alerts_enable_message     = isset($datas['softeria_alerts_enable_message'])?$datas['softeria_alerts_enable_message']:'';
+            $enable_otp                 = isset($datas['softeria_alerts_enable_otp'])?$datas['softeria_alerts_enable_otp']:'';
             $visitor_phone                 = isset($datas['visitor_phone'])?$datas['visitor_phone']:'';
 
-            if (( '1' === $smspro_enable_message || '1' === $enable_otp ) && $visitor_phone!='') {
+            if (( '1' === $softeria_alerts_enable_message || '1' === $enable_otp ) && $visitor_phone!='') {
                 $field_table_name = $wpdb->prefix . 'frm_fields';
                 $results = $wpdb->get_results("SELECT * FROM $field_table_name where `id`=$visitor_phone and `form_id`=$form_id");
 
@@ -215,14 +215,14 @@ class Formidable extends FormInterface
      */
     public function smsproFormidableShowWarnings($errors, $values )
     {
-        $enable_message = !empty($values['options']['smspro_enable_message']) ? $values['options']['smspro_enable_message'] : "";
+        $enable_message = !empty($values['options']['softeria_alerts_enable_message']) ? $values['options']['softeria_alerts_enable_message'] : "";
         $visitor_phone     = !empty($values['options']['visitor_phone']) ? $values['options']['visitor_phone'] : "";
-        $enable_otp     = !empty($values['options']['smspro_enable_otp']) ? $values['options']['smspro_enable_otp'] : "";
+        $enable_otp     = !empty($values['options']['softeria_alerts_enable_otp']) ? $values['options']['softeria_alerts_enable_otp'] : "";
 
         if ((!empty($enable_message) || !empty($enable_otp)) && empty($visitor_phone)) {                
             $errors[] = esc_html__(
                 '
-					Please choose SMS Pro phone field in SMS Pro tab', 'sms-pro' 
+					Please choose Softeria Tech phone field in Softeria Tech tab', 'softeria-sms-alerts' 
             );
         }   
         return $errors;     
@@ -270,10 +270,10 @@ class Formidable extends FormInterface
     public function frmAddSettings( $sections,$values )
     {
         $sections['smspro'] = array(
-        'name'     => __('SMS Pro', 'sms-pro'),
-        'title'    => __('SMS Pro Settings', 'sms-pro'),
-        'function' => array( 'Formidable', 'smspro_settings' ),
-        'id'       => 'frm_smspro_settings',
+        'name'     => __('Softeria Tech', 'softeria-sms-alerts'),
+        'title'    => __('Softeria Tech Settings', 'softeria-sms-alerts'),
+        'function' => array( 'Formidable', 'softeria_alerts_settings' ),
+        'id'       => 'frm_softeria_alerts_settings',
         'icon'     => 'frm_icon_font frm_mail_bulk_icon',
         );
         return $sections;
@@ -286,7 +286,7 @@ class Formidable extends FormInterface
      *
      * @return void
      */
-    public static function smspro_settings( $values )
+    public static function softeria_alerts_settings( $values )
     {
         include plugin_dir_path(__DIR__) . '../views/formidable-settings.php';
     }
@@ -304,7 +304,7 @@ class Formidable extends FormInterface
         $datas = self::get_form_settings($form_id);
         
         if (!empty($datas)) {
-            $enable_message     = isset($datas['smspro_enable_message'])?$datas['smspro_enable_message']:'';
+            $enable_message     = isset($datas['softeria_alerts_enable_message'])?$datas['softeria_alerts_enable_message']:'';
             $visitor_phone         = isset($datas['visitor_phone'])?$datas['visitor_phone']:'';
             $visitor_message     = isset($datas['visitor_message'])?$datas['visitor_message']:'';
             $admin_number         = isset($datas['admin_number'])?$datas['admin_number']:'';
@@ -328,7 +328,7 @@ class Formidable extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( $islogged && is_plugin_active('formidable/formidable.php') ) ? true : false;
     }
@@ -348,7 +348,7 @@ class Formidable extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -375,7 +375,7 @@ class Formidable extends FormInterface
             return;
         }
         $_SESSION['sa_mobile_verified'] = true;
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {

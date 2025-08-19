@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! is_plugin_active('woocommerce-bookings/woocommerce-bookings.php') || ! is_
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SmsAlertWcBooking class
@@ -65,9 +65,9 @@ class SmsAlertWcBooking
             $buyer_mob = !empty($order->get_billing_phone())?$order->get_billing_phone():$order->get_shipping_phone();
         }
         
-        $customer_notify = smspro_get_option('customer_notify', 'smspro_wcbk_general', 'on');
+        $customer_notify = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wcbk_general', 'on');
         global $wpdb;
-        $table_name           = $wpdb->prefix . 'smspro_booking_reminder';
+        $table_name           = $wpdb->prefix . 'softeria_alerts_booking_reminder';
         $source = 'woocommerce-bookings';
         $booking_details = $wpdb->get_results("SELECT * FROM $table_name WHERE booking_id = $booking_id and source = '$source'");
         if ('confirmed' === $booking_status && 'on' === $customer_notify ) {
@@ -103,15 +103,15 @@ class SmsAlertWcBooking
      */
     function sendReminderSms()
     {
-        if ('on' !== smspro_get_option('customer_notify', 'smspro_wcbk_general') ) {
+        if ('on' !== softeria_alerts_get_option('customer_notify', 'softeria_alerts_wcbk_general') ) {
             return;
         }
 
         global $wpdb;
         $cron_frequency = BOOKING_REMINDER_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
-        $table_name     = $wpdb->prefix . 'smspro_booking_reminder';
+        $table_name     = $wpdb->prefix . 'softeria_alerts_booking_reminder';
         $source = 'woocommerce-bookings';
-        $scheduler_data = get_option('smspro_wcbk_reminder_scheduler');
+        $scheduler_data = get_option('softeria_alerts_wcbk_reminder_scheduler');
 
         foreach ( $scheduler_data['cron'] as $sdata ) {
 
@@ -182,7 +182,7 @@ class SmsAlertWcBooking
         $tabs['woocommerce_booking']['nav']  = 'Woocommerce Booking';
         $tabs['woocommerce_booking']['icon'] = 'dashicons-admin-users';
 
-        $tabs['woocommerce_booking']['inner_nav']['wcbk_customer']['title']        = 'Customer Notifications';
+        $tabs['woocommerce_booking']['inner_nav']['wcbk_customer']['title']        = 'Customer Alerts';
         $tabs['woocommerce_booking']['inner_nav']['wcbk_customer']['tab_section']  = 'wcbkcsttemplates';
         $tabs['woocommerce_booking']['inner_nav']['wcbk_customer']['first_active'] = true;
         $tabs['woocommerce_booking']['inner_nav']['wcbk_customer']['tabContent']   = $customer_param;
@@ -212,12 +212,12 @@ class SmsAlertWcBooking
 
         foreach ( $wcbk_order_statuses as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('wcbk_order_status_' . $vs, 'smspro_wcbk_general', 'on');
+            $current_val = softeria_alerts_get_option('wcbk_order_status_' . $vs, 'softeria_alerts_wcbk_general', 'on');
 
-            $check_box_name_id = 'smspro_wcbk_general[wcbk_order_status_' . $vs . ']';
-            $text_area_name_id = 'smspro_wcbk_message[wcbk_sms_body_' . $vs . ']';
+            $check_box_name_id = 'softeria_alerts_wcbk_general[wcbk_order_status_' . $vs . ']';
+            $text_area_name_id = 'softeria_alerts_wcbk_message[wcbk_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option('wcbk_sms_body_' . $vs, 'smspro_wcbk_message', sprintf('Hello %1$s, status of your booking %2$s with %3$s has been changed to %4$s.', '[first_name]', '[booking_id]', '[store_name]', '[booking_status]'));
+            $text_body = softeria_alerts_get_option('wcbk_sms_body_' . $vs, 'softeria_alerts_wcbk_message', sprintf('Hello %1$s, status of your booking %2$s with %3$s has been changed to %4$s.', '[first_name]', '[booking_id]', '[store_name]', '[booking_status]'));
 
             $templates[ $ks ]['title']          = 'When Order is ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -242,12 +242,12 @@ class SmsAlertWcBooking
 
         foreach ( $wcbk_order_statuses as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('wcbk_admin_notification_' . $vs, 'smspro_wcbk_general', 'on');
+            $current_val = softeria_alerts_get_option('wcbk_admin_notification_' . $vs, 'softeria_alerts_wcbk_general', 'on');
 
-            $check_box_name_id = 'smspro_wcbk_general[wcbk_admin_notification_' . $vs . ']';
-            $text_area_name_id = 'smspro_wcbk_message[wcbk_admin_sms_body_' . $vs . ']';
+            $check_box_name_id = 'softeria_alerts_wcbk_general[wcbk_admin_notification_' . $vs . ']';
+            $text_area_name_id = 'softeria_alerts_wcbk_message[wcbk_admin_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option('wcbk_admin_sms_body_' . $vs, 'smspro_wcbk_message', sprintf('%1$s status of order %2$s has been changed to %3$s.', '[store_name]:', '#[booking_id]', '[booking_status]'));
+            $text_body = softeria_alerts_get_option('wcbk_admin_sms_body_' . $vs, 'softeria_alerts_wcbk_message', sprintf('%1$s status of order %2$s has been changed to %3$s.', '[store_name]:', '#[booking_id]', '[booking_status]'));
 
             $templates[ $ks ]['title']          = 'When Order is ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -267,10 +267,10 @@ class SmsAlertWcBooking
      * */
     public static function getReminderTemplates()
     {
-        $current_val      = smspro_get_option('customer_notify', 'smspro_wcbk_general', 'on');
-        $checkbox_name_id = 'smspro_wcbk_general[customer_notify]';
+        $current_val      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wcbk_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_wcbk_general[customer_notify]';
 
-        $scheduler_data = get_option('smspro_wcbk_reminder_scheduler');
+        $scheduler_data = get_option('softeria_alerts_wcbk_reminder_scheduler');
         $templates      = array();
         $count          = 0;
         if (empty($scheduler_data) ) {
@@ -282,8 +282,8 @@ class SmsAlertWcBooking
         }
         foreach ( $scheduler_data['cron'] as $key => $data ) {
 
-            $text_area_name_id = 'smspro_wcbk_reminder_scheduler[cron][' . $count . '][message]';
-            $select_name_id    = 'smspro_wcbk_reminder_scheduler[cron][' . $count . '][frequency]';
+            $text_area_name_id = 'softeria_alerts_wcbk_reminder_scheduler[cron][' . $count . '][message]';
+            $select_name_id    = 'softeria_alerts_wcbk_reminder_scheduler[cron][' . $count . '][frequency]';
             $text_body         = $data['message'];
 
             $templates[ $key ]['notify_id']      = 'woocommerce-bookings';
@@ -339,14 +339,14 @@ class SmsAlertWcBooking
         $wcbk_order_statuses = self::getBookingStatuses();
 
         foreach ( $wcbk_order_statuses as $ks => $vs ) {
-            $defaults['smspro_wcbk_general'][ 'wcbk_admin_notification_' . $vs ] = 'off';
-            $defaults['smspro_wcbk_general'][ 'wcbk_order_status_' . $vs ]       = 'off';
-            $defaults['smspro_wcbk_message'][ 'wcbk_admin_sms_body_' . $vs ]     = '';
-            $defaults['smspro_wcbk_message'][ 'wcbk_sms_body_' . $vs ]           = '';
+            $defaults['softeria_alerts_wcbk_general'][ 'wcbk_admin_notification_' . $vs ] = 'off';
+            $defaults['softeria_alerts_wcbk_general'][ 'wcbk_order_status_' . $vs ]       = 'off';
+            $defaults['softeria_alerts_wcbk_message'][ 'wcbk_admin_sms_body_' . $vs ]     = '';
+            $defaults['softeria_alerts_wcbk_message'][ 'wcbk_sms_body_' . $vs ]           = '';
         }
-        $defaults['smspro_wcbk_general']['customer_notify']                = 'off';
-        $defaults['smspro_wcbk_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_wcbk_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_wcbk_general']['customer_notify']                = 'off';
+        $defaults['softeria_alerts_wcbk_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_wcbk_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
     }
 
@@ -405,10 +405,10 @@ class SmsAlertWcBooking
             }
 
             $booking_status = $object->status;
-            $admin_message  = smspro_get_option('wcbk_admin_sms_body_' . $booking_status, 'smspro_wcbk_message', '');
-            $is_enabled     = smspro_get_option('wcbk_order_status_' . $booking_status, 'smspro_wcbk_general');
+            $admin_message  = softeria_alerts_get_option('wcbk_admin_sms_body_' . $booking_status, 'softeria_alerts_wcbk_message', '');
+            $is_enabled     = softeria_alerts_get_option('wcbk_order_status_' . $booking_status, 'softeria_alerts_wcbk_general');
 
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             $admin_phone_number = str_replace('postauthor', 'post_author', $admin_phone_number);
             if (version_compare(WC_VERSION, '7.1', '<') ) {
                 $buyer_mob         = get_post_meta($order_id, '_billing_phone', true);
@@ -418,19 +418,19 @@ class SmsAlertWcBooking
             }
 
             if ('' !== $buyer_mob && 'on' === $is_enabled ) {
-                $buyer_message = smspro_get_option('wcbk_sms_body_' . $booking_status, 'smspro_wcbk_message', '');
+                $buyer_message = softeria_alerts_get_option('wcbk_sms_body_' . $booking_status, 'softeria_alerts_wcbk_message', '');
                 $content       = self::parseSmsBody($booking_id, $buyer_message);
                 do_action('sa_send_sms', $buyer_mob, $content);
             }
 
-            if ('on' === smspro_get_option('wcbk_admin_notification_' . $booking_status, 'smspro_wcbk_general') && '' !== $admin_phone_number ) {
+            if ('on' === softeria_alerts_get_option('wcbk_admin_notification_' . $booking_status, 'softeria_alerts_wcbk_general') && '' !== $admin_phone_number ) {
 
                 if (! empty($prod_id) ) {
                     $author_no          = apply_filters('sa_post_author_no', $prod_id);
                     $admin_phone_number = str_replace('post_author', $author_no, $admin_phone_number);
                 }
 
-                $admin_message = smspro_get_option('wcbk_admin_sms_body_' . $booking_status, 'smspro_wcbk_message', '');
+                $admin_message = softeria_alerts_get_option('wcbk_admin_sms_body_' . $booking_status, 'softeria_alerts_wcbk_message', '');
                 $content       = self::parseSmsBody($booking_id, $admin_message);
                 do_action('sa_send_sms', $admin_phone_number, $content);
             }

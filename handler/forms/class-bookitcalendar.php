@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ if (is_plugin_active('bookit/bookit.php') === false) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -66,9 +66,9 @@ class BookitCalendar extends FormInterface
 
         $booking_start  = date('Y-m-d H:i:s', $appointment->start_time);
         $buyer_mob      = $appointment->customer_phone;
-        $customerNotify = smspro_get_option('customer_notify', 'smspro_bcc_general', 'on');
+        $customerNotify = softeria_alerts_get_option('customer_notify', 'softeria_alerts_bcc_general', 'on');
         global $wpdb;
-        $tableName       = $wpdb->prefix.'smspro_booking_reminder';
+        $tableName       = $wpdb->prefix.'softeria_alerts_booking_reminder';
         $source          = 'bookit-calendar';
         $booking_details = $wpdb->get_results("SELECT * FROM $tableName WHERE booking_id = $booking_id and source = '$source'");
         if ($bookingStatus === 'approved' && $customerNotify === 'on') {
@@ -105,16 +105,16 @@ class BookitCalendar extends FormInterface
      */
     function sendReminderSms()
     {
-        if (smspro_get_option('customer_notify', 'smspro_bcc_general') !== 'on') {
+        if (softeria_alerts_get_option('customer_notify', 'softeria_alerts_bcc_general') !== 'on') {
             return;
         }
 
         global $wpdb;
         $cronFrequency = BOOKING_REMINDER_CRON_INTERVAL;
         // pick data from previous CART_CRON_INTERVAL min
-        $tableName     = $wpdb->prefix.'smspro_booking_reminder';
+        $tableName     = $wpdb->prefix.'softeria_alerts_booking_reminder';
         $source        = 'bookit-calendar';
-        $schedulerData = get_option('smspro_bcc_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_bcc_reminder_scheduler');
 
         foreach ($schedulerData['cron'] as $sdata) {
             $datetime = current_time('mysql');
@@ -179,16 +179,16 @@ class BookitCalendar extends FormInterface
         ];
 
         foreach ($bookingStatuses as $ks => $vs) {
-            $defaults['smspro_bcc_general']['customer_bcc_notify_'.$vs]   = 'off';
-            $defaults['smspro_bcc_message']['customer_sms_bcc_body_'.$vs] = '';
-            $defaults['smspro_bcc_general']['admin_bcc_notify_'.$vs]      = 'off';
-            $defaults['smspro_bcc_message']['admin_sms_bcc_body_'.$vs]    = '';
+            $defaults['softeria_alerts_bcc_general']['customer_bcc_notify_'.$vs]   = 'off';
+            $defaults['softeria_alerts_bcc_message']['customer_sms_bcc_body_'.$vs] = '';
+            $defaults['softeria_alerts_bcc_general']['admin_bcc_notify_'.$vs]      = 'off';
+            $defaults['softeria_alerts_bcc_message']['admin_sms_bcc_body_'.$vs]    = '';
         }
 
-        $defaults['smspro_bcc_general']['otp_enable']      = 'off';
-        $defaults['smspro_bcc_general']['customer_notify'] = 'off';
-        $defaults['smspro_bcc_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_bcc_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_bcc_general']['otp_enable']      = 'off';
+        $defaults['softeria_alerts_bcc_general']['customer_notify'] = 'off';
+        $defaults['softeria_alerts_bcc_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_bcc_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
 
     }//end add_default_setting()
@@ -257,23 +257,23 @@ class BookitCalendar extends FormInterface
      * */
     public static function getReminderTemplates()
     {
-        $currentVal     = smspro_get_option('customer_notify', 'smspro_bcc_general', 'on');
-        $checkboxMameId = 'smspro_bcc_general[customer_notify]';
+        $currentVal     = softeria_alerts_get_option('customer_notify', 'softeria_alerts_bcc_general', 'on');
+        $checkboxMameId = 'softeria_alerts_bcc_general[customer_notify]';
 
-        $schedulerData = get_option('smspro_bcc_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_bcc_reminder_scheduler');
         $templates     = [];
         $count         = 0;
         if (empty($schedulerData) === true) {
             $schedulerData  = array();
             $schedulerData['cron'][] = [
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[customer_name]', '#[id]', '[store_name]', '[start_time]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[customer_name]', '#[id]', '[store_name]', '[start_time]', PHP_EOL, PHP_EOL),
             ];
         }
 
         foreach ($schedulerData['cron'] as $key => $data) {
-            $textAreaNameId = 'smspro_bcc_reminder_scheduler[cron]['.$count.'][message]';
-            $selectNameId   = 'smspro_bcc_reminder_scheduler[cron]['.$count.'][frequency]';
+            $textAreaNameId = 'softeria_alerts_bcc_reminder_scheduler[cron]['.$count.'][message]';
+            $selectNameId   = 'softeria_alerts_bcc_reminder_scheduler[cron]['.$count.'][frequency]';
             $textBody       = $data['message'];
 
             $templates[$key]['notify_id']      = 'bookit-calendar';
@@ -309,14 +309,14 @@ class BookitCalendar extends FormInterface
 
         $templates = [];
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal = smspro_get_option('customer_bcc_notify_'.strtolower($vs), 'smspro_bcc_general', 'on');
+            $currentVal = softeria_alerts_get_option('customer_bcc_notify_'.strtolower($vs), 'softeria_alerts_bcc_general', 'on');
 
-            $checkboxMameId = 'smspro_bcc_general[customer_bcc_notify_'.strtolower($vs).']';
-            $textareaNameId = 'smspro_bcc_message[customer_sms_bcc_body_'.strtolower($vs).']';
+            $checkboxMameId = 'softeria_alerts_bcc_general[customer_bcc_notify_'.strtolower($vs).']';
+            $textareaNameId = 'softeria_alerts_bcc_message[customer_sms_bcc_body_'.strtolower($vs).']';
 
-            $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[customer_name]', '[id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[customer_name]', '[id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
 
-            $textBody = smspro_get_option('customer_sms_bcc_body_'.strtolower($vs), 'smspro_bcc_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('customer_sms_bcc_body_'.strtolower($vs), 'softeria_alerts_bcc_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer booking is '.ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -347,13 +347,13 @@ class BookitCalendar extends FormInterface
 
         $templates = [];
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal     = smspro_get_option('admin_bcc_notify_'.strtolower($vs), 'smspro_bcc_general', 'on');
-            $checkboxMameId = 'smspro_bcc_general[admin_bcc_notify_'.strtolower($vs).']';
-            $textareaNameId = 'smspro_bcc_message[admin_sms_bcc_body_'.strtolower($vs).']';
+            $currentVal     = softeria_alerts_get_option('admin_bcc_notify_'.strtolower($vs), 'softeria_alerts_bcc_general', 'on');
+            $checkboxMameId = 'softeria_alerts_bcc_general[admin_bcc_notify_'.strtolower($vs).']';
+            $textareaNameId = 'softeria_alerts_bcc_message[admin_sms_bcc_body_'.strtolower($vs).']';
 
-            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
 
-            $textBody = smspro_get_option('admin_sms_bcc_body_'.strtolower($vs), 'smspro_bcc_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('admin_sms_bcc_body_'.strtolower($vs), 'softeria_alerts_bcc_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin change status to '.ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -381,8 +381,8 @@ class BookitCalendar extends FormInterface
         $appointment       = \Bookit\Classes\Database\Appointments::get_full_appointment_by_id($app_id);
         $buyerSmsData      = [];
         $buyerNumber       = $appointment->customer_phone;
-        $customerMessage   = smspro_get_option('customer_sms_bcc_body_pending', 'smspro_bcc_message', '');
-        $customerBccNotify = smspro_get_option('customer_bcc_notify_pending', 'smspro_bcc_general', 'on');
+        $customerMessage   = softeria_alerts_get_option('customer_sms_bcc_body_pending', 'softeria_alerts_bcc_message', '');
+        $customerBccNotify = softeria_alerts_get_option('customer_bcc_notify_pending', 'softeria_alerts_bcc_general', 'on');
 
         if ($customerBccNotify === 'on' && $customerMessage !== '') {
             $buyerMessage = $this->parseBookitSmsBody($appointment, $customerMessage);
@@ -390,15 +390,15 @@ class BookitCalendar extends FormInterface
         }
 
         // send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         $nos = explode(',', $adminPhoneNumber);
         $adminPhoneNumber = array_diff($nos, ['postauthor', 'post_author']);
         $adminPhoneNumber = implode(',', $adminPhoneNumber);
 
         if (empty($adminPhoneNumber) === false) {
-            $adminBccNotify = smspro_get_option('admin_bcc_notify_pending', 'smspro_bcc_general', 'on');
-            $adminMessage   = smspro_get_option('admin_sms_bcc_body_pending', 'smspro_bcc_message', '');
+            $adminBccNotify = softeria_alerts_get_option('admin_bcc_notify_pending', 'softeria_alerts_bcc_general', 'on');
+            $adminMessage   = softeria_alerts_get_option('admin_sms_bcc_body_pending', 'softeria_alerts_bcc_message', '');
 
             if ($adminBccNotify === 'on' && $adminMessage !== '') {
                 $adminMessage = $this->parseBookitSmsBody($booking, $adminMessage);
@@ -424,9 +424,9 @@ class BookitCalendar extends FormInterface
 
         $this->setBookingReminder($appointment);
 
-        $customerMessage = smspro_get_option('customer_sms_bcc_body_'.$bookingStatus, 'smspro_bcc_message', '');
+        $customerMessage = softeria_alerts_get_option('customer_sms_bcc_body_'.$bookingStatus, 'softeria_alerts_bcc_message', '');
 
-        $customerNotify = smspro_get_option('customer_bcc_notify_'.$bookingStatus, 'smspro_bcc_general', 'on');
+        $customerNotify = softeria_alerts_get_option('customer_bcc_notify_'.$bookingStatus, 'softeria_alerts_bcc_general', 'on');
 
         if (($customerNotify === 'on' && $customerMessage !== '')) {
             $buyerMessage = $this->parseBookitSmsBody($appointment, $customerMessage);
@@ -435,12 +435,12 @@ class BookitCalendar extends FormInterface
         }
 
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         if (empty($adminPhoneNumber) === false) {
-            $adminNotify = smspro_get_option('admin_bcc_notify_'.$bookingStatus, 'smspro_bcc_general', 'on');
+            $adminNotify = softeria_alerts_get_option('admin_bcc_notify_'.$bookingStatus, 'softeria_alerts_bcc_general', 'on');
 
-            $adminMessage = smspro_get_option('admin_sms_bcc_body_'.$bookingStatus, 'smspro_bcc_message', '');
+            $adminMessage = softeria_alerts_get_option('admin_sms_bcc_body_'.$bookingStatus, 'softeria_alerts_bcc_message', '');
 
             $nos = explode(',', $adminPhoneNumber);
             $adminPhoneNumber = array_diff($nos, ['postauthor', 'post_author']);
@@ -569,7 +569,7 @@ class BookitCalendar extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('bookit/bookit.php') === true) && ($islogged === true)) {
             return true;

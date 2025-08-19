@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ if (is_plugin_active('restaurant-reservations/restaurant-reservations.php') === 
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Restaurantreservation class 
@@ -61,7 +61,7 @@ class Restaurantreservation extends FormInterface
      * */
     public function getFormField()
     {
-        if (smspro_get_option('otp_enable', 'smspro_rr_general') === 'on') {
+        if (softeria_alerts_get_option('otp_enable', 'softeria_alerts_rr_general') === 'on') {
             echo do_shortcode('[sa_verify phone_selector="#rtb-phone" submit_selector= ".rtb-form-submit button"]');
         }
     }
@@ -83,9 +83,9 @@ class Restaurantreservation extends FormInterface
         $bookingId     = $booking->ID;
         $bookingStart  = date('Y-m-d H:i:s', strtotime($booking->date));
         $buyerMob      = $booking->phone;
-        $customerNotify = smspro_get_option('customer_notify', 'smspro_rr_general', 'on');
+        $customerNotify = softeria_alerts_get_option('customer_notify', 'softeria_alerts_rr_general', 'on');
         global $wpdb;
-        $tableName           = $wpdb->prefix . 'smspro_booking_reminder';
+        $tableName           = $wpdb->prefix . 'softeria_alerts_booking_reminder';
         $source = 'restaurant-reservation';
         $booking_details = $wpdb->get_results("SELECT * FROM $tableName WHERE booking_id = $bookingId and source = '$source'");
         if ($bookingStatus === 'confirmed' && $customerNotify === 'on') {
@@ -122,15 +122,15 @@ class Restaurantreservation extends FormInterface
      */
     function sendReminderSms()
     {
-        if (smspro_get_option('customer_notify', 'smspro_rr_general') !== 'on') {
+        if (softeria_alerts_get_option('customer_notify', 'softeria_alerts_rr_general') !== 'on') {
             return;
         }
 
         global $wpdb;
         $cronFrequency = BOOKING_REMINDER_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
-        $tableName     = $wpdb->prefix . 'smspro_booking_reminder';
+        $tableName     = $wpdb->prefix . 'softeria_alerts_booking_reminder';
         $source        = 'restaurant-reservation';
-        $schedulerData = get_option('smspro_rr_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_rr_reminder_scheduler');
 
         foreach ($schedulerData['cron'] as $sdata) {
 
@@ -190,15 +190,15 @@ class Restaurantreservation extends FormInterface
         $bookingStatuses = array('pending', 'confirmed','closed');
 
         foreach ($bookingStatuses as $ks => $vs) {
-            $defaults['smspro_rr_general']['customer_rr_notify_' . $vs]   = 'off';
-            $defaults['smspro_rr_message']['customer_sms_rr_body_' . $vs] = '';
-            $defaults['smspro_rr_general']['admin_rr_notify_' . $vs]      = 'off';
-            $defaults['smspro_rr_message']['admin_sms_rr_body_' . $vs]    = '';
+            $defaults['softeria_alerts_rr_general']['customer_rr_notify_' . $vs]   = 'off';
+            $defaults['softeria_alerts_rr_message']['customer_sms_rr_body_' . $vs] = '';
+            $defaults['softeria_alerts_rr_general']['admin_rr_notify_' . $vs]      = 'off';
+            $defaults['softeria_alerts_rr_message']['admin_sms_rr_body_' . $vs]    = '';
         }
-        $defaults['smspro_rr_general']['otp_enable'] = 'off';
-        $defaults['smspro_rr_general']['customer_notify'] = 'off';
-        $defaults['smspro_rr_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_rr_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_rr_general']['otp_enable'] = 'off';
+        $defaults['softeria_alerts_rr_general']['customer_notify'] = 'off';
+        $defaults['softeria_alerts_rr_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_rr_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
 
     }//end add_default_setting()
@@ -247,15 +247,6 @@ class Restaurantreservation extends FormInterface
         $tabs['restauran_reservation']['inner_nav']['restauran_reservation_reminder']['filePath']    = 'views/booking-reminder-template.php';
 
         $tabs['restauran_reservation']['help_links'] = [
-            /* 'youtube_link' => [
-                'href'   => 'https://youtu.be/4BXd_XZt9zM',
-                'target' => '_blank',
-                'alt'    => 'Watch steps on Youtube',
-                'class'  => 'btn-outline',
-                'label'  => 'Youtube',
-                'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-            ], */
             'kb_link'      => [
                 'href'   => 'https://sms.softeriatech.com/knowledgebase/restaurantreservation-sms-integration/',
                 'target' => '_blank',
@@ -275,23 +266,23 @@ class Restaurantreservation extends FormInterface
      * */
     public static function getReminderTemplates()
     {
-        $currentVal      = smspro_get_option('customer_notify', 'smspro_rr_general', 'on');
-        $checkboxNameId  = 'smspro_rr_general[customer_notify]';
+        $currentVal      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_rr_general', 'on');
+        $checkboxNameId  = 'softeria_alerts_rr_general[customer_notify]';
 
-        $schedulerData  = get_option('smspro_rr_reminder_scheduler');
+        $schedulerData  = get_option('softeria_alerts_rr_reminder_scheduler');
         $templates      = array();
         $count          = 0;
         if (empty($schedulerData) === true) {
             $schedulerData  = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
 
-            $textAreaNameId = 'smspro_rr_reminder_scheduler[cron][' . $count . '][message]';
-            $selectNameId    = 'smspro_rr_reminder_scheduler[cron][' . $count . '][frequency]';
+            $textAreaNameId = 'softeria_alerts_rr_reminder_scheduler[cron][' . $count . '][message]';
+            $selectNameId    = 'softeria_alerts_rr_reminder_scheduler[cron][' . $count . '][frequency]';
             $textBody         = $data['message'];
 
             $templates[$key]['notify_id']      = 'restaurant-reservation';
@@ -324,14 +315,14 @@ class Restaurantreservation extends FormInterface
 
         $templates = array();
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal = smspro_get_option('customer_rr_notify_' . strtolower($vs), 'smspro_rr_general', 'on');
+            $currentVal = softeria_alerts_get_option('customer_rr_notify_' . strtolower($vs), 'softeria_alerts_rr_general', 'on');
 
-            $checkboxNameId = 'smspro_rr_general[customer_rr_notify_' . strtolower($vs) . ']';
-            $textareaNameId = 'smspro_rr_message[customer_sms_rr_body_' . strtolower($vs) . ']';
+            $checkboxNameId = 'softeria_alerts_rr_general[customer_rr_notify_' . strtolower($vs) . ']';
+            $textareaNameId = 'softeria_alerts_rr_message[customer_sms_rr_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = smspro_get_option('admin_sms_rr_body_' . strtolower($vs), 'smspro_rr_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[name]', '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_rr_body_' . strtolower($vs), 'softeria_alerts_rr_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
-            $textBody = smspro_get_option('customer_sms_rr_body_' . strtolower($vs), 'smspro_rr_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('customer_sms_rr_body_' . strtolower($vs), 'softeria_alerts_rr_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -360,14 +351,14 @@ class Restaurantreservation extends FormInterface
         $templates = array();
         foreach ($bookingStatuses as $ks  => $vs) {
 
-            $currentVal     = smspro_get_option('admin_rr_notify_' . strtolower($vs), 'smspro_rr_general', 'on');
-            $checkboxNameId = 'smspro_rr_general[admin_rr_notify_' . strtolower($vs) . ']';
-            $textareaNameId = 'smspro_rr_message[admin_sms_rr_body_' . strtolower($vs) . ']';
+            $currentVal     = softeria_alerts_get_option('admin_rr_notify_' . strtolower($vs), 'softeria_alerts_rr_general', 'on');
+            $checkboxNameId = 'softeria_alerts_rr_general[admin_rr_notify_' . strtolower($vs) . ']';
+            $textareaNameId = 'softeria_alerts_rr_message[admin_sms_rr_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = smspro_get_option('admin_sms_rr_body_' . strtolower($vs), 'smspro_rr_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_rr_body_' . strtolower($vs), 'softeria_alerts_rr_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
-            $textBody = smspro_get_option('admin_sms_rr_body_' . strtolower($vs), 'smspro_rr_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('admin_sms_rr_body_' . strtolower($vs), 'softeria_alerts_rr_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin change status to ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -391,8 +382,8 @@ class Restaurantreservation extends FormInterface
     {
         $buyerNumber   = $booking->phone;
         $buyerSmsData = array();
-        $customerMessage  = smspro_get_option('customer_sms_rr_body_pending', 'smspro_rr_message', '');
-        $customerRrNotify = smspro_get_option('customer_rr_notify_pending', 'smspro_rr_general', 'on');
+        $customerMessage  = softeria_alerts_get_option('customer_sms_rr_body_pending', 'softeria_alerts_rr_message', '');
+        $customerRrNotify = softeria_alerts_get_option('customer_rr_notify_pending', 'softeria_alerts_rr_general', 'on');
 
         if ($customerRrNotify === 'on' && $customerMessage !== '') {
             $buyerMessage = $this->parseSmsBody($booking, $customerMessage);
@@ -400,7 +391,7 @@ class Restaurantreservation extends FormInterface
         }
 
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         $nos                = explode(',', $adminPhoneNumber);
         $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
@@ -408,8 +399,8 @@ class Restaurantreservation extends FormInterface
 
         if (empty($adminPhoneNumber) === false) {
 
-            $adminRrNotify = smspro_get_option('admin_rr_notify_pending', 'smspro_rr_general', 'on');
-            $adminMessage   = smspro_get_option('admin_sms_rr_body_pending', 'smspro_rr_message', '');
+            $adminRrNotify = softeria_alerts_get_option('admin_rr_notify_pending', 'softeria_alerts_rr_general', 'on');
+            $adminMessage   = softeria_alerts_get_option('admin_sms_rr_body_pending', 'softeria_alerts_rr_message', '');
 
             if ('on' === $adminRrNotify && '' !== $adminMessage) {
                 $adminMessage = $this->parseSmsBody($booking, $adminMessage);
@@ -447,21 +438,21 @@ class Restaurantreservation extends FormInterface
         $buyerNumber   = $booking->phone;
         $bookingStatus   = $booking->post_status;
         $this->setBookingReminder($booking);
-        $customerMessage = smspro_get_option('customer_sms_rr_body_' . $bookingStatus, 'smspro_rr_message', '');
-        $customerNotify = smspro_get_option('customer_rr_notify_' . $bookingStatus, 'smspro_rr_general', 'on');
+        $customerMessage = softeria_alerts_get_option('customer_sms_rr_body_' . $bookingStatus, 'softeria_alerts_rr_message', '');
+        $customerNotify = softeria_alerts_get_option('customer_rr_notify_' . $bookingStatus, 'softeria_alerts_rr_general', 'on');
         if (($customerNotify === 'on' && $customerMessage !== '')) {
             $buyerMessage = $this->parseSmsBody($booking, $customerMessage);
             do_action('sa_send_sms', $buyerNumber, $buyerMessage);
         }
 
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         if (empty($adminPhoneNumber) === false) {
 
-            $adminNotify  = smspro_get_option('admin_rr_notify_' . $bookingStatus, 'smspro_rr_general', 'on');
+            $adminNotify  = softeria_alerts_get_option('admin_rr_notify_' . $bookingStatus, 'softeria_alerts_rr_general', 'on');
 
-            $adminMessage = smspro_get_option('admin_sms_rr_body_' . $bookingStatus, 'smspro_rr_message', '');
+            $adminMessage = softeria_alerts_get_option('admin_sms_rr_body_' . $bookingStatus, 'softeria_alerts_rr_message', '');
 
             $nos = explode(',', $adminPhoneNumber);
             $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
@@ -562,7 +553,7 @@ class Restaurantreservation extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('restaurant-reservations/restaurant-reservations.php') === true) && ($islogged === true)) {
             return true;
@@ -586,7 +577,7 @@ class Restaurantreservation extends FormInterface
         if (isset($_SESSION[$this->form_session_var]) === false) {
             return;
         }
-        if ((empty($_REQUEST['option']) === false) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form') {
+        if ((empty($_REQUEST['option']) === false) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form') {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -614,7 +605,7 @@ class Restaurantreservation extends FormInterface
         if (isset($_SESSION[$this->form_session_var]) === false) {
             return;
         }
-        if ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form') {
+        if ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form') {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {

@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -30,8 +30,8 @@ use Elementor\Plugin as Elementor;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -58,17 +58,17 @@ class SAPopup
         add_action('elementor/document/before_save', array( $this, 'checkSmsalertShareCartWidget' ), 100, 2);
         add_action('elementor/document/before_save', array( $this, 'checkSmsalertNotifyMeWidget' ), 100, 2);
         $this->routeData();        
-        $name = 'sms-pro';
+        $name = 'softeria-sms-alerts';
         $args = array(
         'public'    => true,
         'show_in_menu'     => false,
-        'label' => esc_html__('SMSPro', 'sms-pro'),
+        'label' => esc_html__('SOFTSMSAlerts', 'softeria-sms-alerts'),
         'supports' => array('title', 'editor', 'elementor', 'permalink'),
-        'capability_type' => array('sms-pro','sms-pro'),
+        'capability_type' => array('softeria-sms-alerts','softeria-sms-alerts'),
         'capabilities' => array(
-        'edit_post'          => 'edit_sms_pro', 
-        'edit_posts' => 'edit_sms_pro',
-        'read_post' => 'read_sms_pro',
+        'edit_post'          => 'edit_softeria_alerts', 
+        'edit_posts' => 'edit_softeria_alerts',
+        'read_post' => 'read_softeria_alerts',
         ),
         );
         add_action(
@@ -88,9 +88,9 @@ class SAPopup
     {
         // gets the administrator role
         $admins = get_role('administrator');
-        $admins->add_cap('edit_sms_pro'); 
-        $admins->add_cap('edit_sms_pros'); 
-        $admins->add_cap('read_sms_pro'); 
+        $admins->add_cap('edit_softeria_alerts'); 
+        $admins->add_cap('edit_softeria_alertss'); 
+        $admins->add_cap('read_softeria_alerts'); 
     }
     
     /**
@@ -129,8 +129,8 @@ class SAPopup
         if (!empty($_GET['post_name'])) {        
             switch ($_GET['post_name']) {
             case "modal_style":
-                    $otp_template_style = smspro_get_option('otp_template_style', 'smspro_general', 'popup-4');                
-                $post = get_page_by_path('modal_style', OBJECT, 'sms-pro');
+                    $otp_template_style = softeria_alerts_get_option('otp_template_style', 'softeria_alerts_general', 'popup-4');                
+                $post = get_page_by_path('modal_style', OBJECT, 'softeria-sms-alerts');
                 if (!empty($post) ) {
                     $builder_form_id = $post->ID;
                 } else {
@@ -156,8 +156,8 @@ class SAPopup
                                                               "form_list" => $otp_template_style, 
                                                               "sa_ele_f_mobile_lbl" => SmsAlertMessages::showMessage('OTP_SENT_PHONE'), 
                                                               "sa_ele_f_mobile_botton" => SmsAlertMessages::showMessage('VALIDATE_OTP'),
-                                                              "sa_ele_f_otp_resend"=> esc_html__('Didn\'t receive the code?', 'sms-pro'),
-                                                              "sa_ele_f_resend_btn"=> esc_html__('Resend', 'sms-pro'),
+                                                              "sa_ele_f_otp_resend"=> esc_html__('Didn\'t receive the code?', 'softeria-sms-alerts'),
+                                                              "sa_ele_f_resend_btn"=> esc_html__('Resend', 'softeria-sms-alerts'),
                                                               "sa_otp_re_send_timer"=>    '15',
                                                               "max_otp_resend_allowed"=>    '4',
                                                               "sa_edit_mobile_number"=>    'Edit Number',
@@ -166,7 +166,7 @@ class SAPopup
                                                            ], 
                                                            "elements" => [
                                                               ], 
-                                                           "widgetType" => "smspro-modal-widget" 
+                                                           "widgetType" => "softeria-alert-modal-widget" 
                                                         ] 
                                                      ], 
                                                   "isInner" => false 
@@ -181,7 +181,7 @@ class SAPopup
                 
                 break; 
             case "exitintent_style":                    
-                $post = get_page_by_path('exitintent_style', OBJECT, 'sms-pro');
+                $post = get_page_by_path('exitintent_style', OBJECT, 'softeria-sms-alerts');
                 if (!empty($post) ) {                
                     $builder_form_id = $post->ID;
                 } else {
@@ -204,14 +204,14 @@ class SAPopup
                                                           "id" => "df1545a", 
                                                           "elType" => "widget", 
                                                           "settings" => [
-                                                               "sa_ele_f_mobile_title"=> esc_html__('You were not leaving your cart just like that, right?', 'sms-pro'),
-                                                               "sa_ele_f_mobile_description"=>esc_html__('Just enter your mobile number below to save your shopping cart for later. And, who knows, maybe we will even send you a sweet discount code :)', 'sms-pro'),
-                                                               "sa_ele_f_mobile_label"=>esc_html__('Your Mobile No:', 'sms-pro'),    
-                                                               "sa_submit_button"=> esc_html__('Save cart', 'sms-pro')
+                                                               "sa_ele_f_mobile_title"=> esc_html__('You were not leaving your cart just like that, right?', 'softeria-sms-alerts'),
+                                                               "sa_ele_f_mobile_description"=>esc_html__('Just enter your mobile number below to save your shopping cart for later. And, who knows, maybe we will even send you a sweet discount code :)', 'softeria-sms-alerts'),
+                                                               "sa_ele_f_mobile_label"=>esc_html__('Your Mobile No:', 'softeria-sms-alerts'),    
+                                                               "sa_submit_button"=> esc_html__('Save cart', 'softeria-sms-alerts')
                                                            ], 
                                                           "elements" => [
                                                              ], 
-                                                          "widgetType" => "smspro-exitintent-widget" 
+                                                          "widgetType" => "softeria-alert-exitintent-widget" 
                                                        ] 
                                                     ], 
                                                  "isInner" => false 
@@ -225,7 +225,7 @@ class SAPopup
                 $this->get_editor($builder_form_id);                
                 break;
             case "sharecart_style":                        
-                    $post = get_page_by_path('sharecart_style', OBJECT, 'sms-pro');
+                    $post = get_page_by_path('sharecart_style', OBJECT, 'softeria-sms-alerts');
                 if (!empty($post) ) {                
                     $builder_form_id = $post->ID;
                 } else {
@@ -247,15 +247,15 @@ class SAPopup
                     [
                     "id" => "df1545a", 
                     "elType" => "widget", 
-                    "settings" => ["sa_ele_f_sharecart_title"=> esc_html__('Share cart', 'sms-pro'),
-                    "sa_ele_f_user_placehoder"=>esc_html__('Your Name*', 'sms-pro'),
-                    "sa_ele_f_user_phone_placeholder"=>esc_html__('Your Mobile No*', 'sms-pro'),    
-                    "sa_ele_f_frnd_placeholder"=> esc_html__('Friend Name*', 'sms-pro'),   
-                    "sa_ele_f_frnd_phone_placeholder"=> esc_html__('Friend Mobile No*', 'sms-pro'),   
-                    "sa_submit_button"=> esc_html__('Share Cart', 'sms-pro')  ], 
+                    "settings" => ["sa_ele_f_sharecart_title"=> esc_html__('Cart', 'softeria-sms-alerts'),
+                    "sa_ele_f_user_placehoder"=>esc_html__('Your Name*', 'softeria-sms-alerts'),
+                    "sa_ele_f_user_phone_placeholder"=>esc_html__('Your Mobile No*', 'softeria-sms-alerts'),    
+                    "sa_ele_f_frnd_placeholder"=> esc_html__('Friend Name*', 'softeria-sms-alerts'),   
+                    "sa_ele_f_frnd_phone_placeholder"=> esc_html__('Friend Mobile No*', 'softeria-sms-alerts'),   
+                    "sa_submit_button"=> esc_html__('Cart', 'softeria-sms-alerts')  ], 
                     "elements" => [
                     ], 
-                    "widgetType" => "smspro-sharecart-widget" 
+                    "widgetType" => "softeria-alert-sharecart-widget" 
                     ] 
                     ], 
                     "isInner" => false 
@@ -269,7 +269,7 @@ class SAPopup
                 $this->get_editor($builder_form_id);
                 break;
             case "notifyme_style":                        
-                     $post = get_page_by_path('notifyme_style', OBJECT, 'sms-pro');
+                     $post = get_page_by_path('notifyme_style', OBJECT, 'softeria-sms-alerts');
                 if (!empty($post) ) {                
                     $builder_form_id = $post->ID;
                 } else {
@@ -292,13 +292,13 @@ class SAPopup
                     "id" => "df1545a", 
                     "elType" => "widget", 
                     "settings" => [
-                    "sa_ele_f_notifyme_title"=> esc_html__('Notify Me when back in stock', 'sms-pro'),
-                    "sa_ele_f_notifyme_placehoder"=>esc_html__('Enter Number Here', 'sms-pro'),
-                    "sa_notifyme_button"=>esc_html__('Notify Me', 'sms-pro')
+                    "sa_ele_f_notifyme_title"=> esc_html__('Notify Me when back in stock', 'softeria-sms-alerts'),
+                    "sa_ele_f_notifyme_placehoder"=>esc_html__('Enter Number Here', 'softeria-sms-alerts'),
+                    "sa_notifyme_button"=>esc_html__('Notify Me', 'softeria-sms-alerts')
                         ], 
                         "elements" => [
                         ], 
-                        "widgetType" => "smspro-notifyme-widget" 
+                        "widgetType" => "softeria-alert-notifyme-widget" 
                     ] 
                     ], 
                     "isInner" => false 
@@ -332,7 +332,7 @@ class SAPopup
             'post_content' => '',
             'post_title'   => $title,
             'post_status'  => 'publish',
-            'post_type'    => 'sms-pro',
+            'post_type'    => 'softeria-sms-alerts',
             'post_name'    => $title,
         );        
         $builder_form_id = wp_insert_post($defaults);
@@ -364,7 +364,7 @@ class SAPopup
     { 
         $post_title = !empty($datas['settings']['post_title'])?$datas['settings']['post_title']:'';
         if ($post_title == "modal_style") {
-            $smspro_widget_added = 0;
+            $softeria_alerts_widget_added = 0;
             $sa_otp_re_send_timer = '';
             $max_otp_resend_allowed = '';
             if (!empty($datas['elements'])) {          
@@ -377,8 +377,8 @@ class SAPopup
                                     $widgetType = !empty($setting['widgetType'])?$setting['widgetType']:'';
                                 }
                             }
-                            if (!empty($widgetType) && $widgetType == 'smspro-modal-widget') {
-                                $smspro_widget_added++;
+                            if (!empty($widgetType) && $widgetType == 'softeria-alert-modal-widget') {
+                                $softeria_alerts_widget_added++;
                                 $sa_otp_re_send_timer = !empty($setting['settings']['sa_otp_re_send_timer'])?$setting['settings']['sa_otp_re_send_timer']:''; 
                                 $max_otp_resend_allowed = !empty($setting['settings']['max_otp_resend_allowed'])?$setting['settings']['max_otp_resend_allowed']:'';
                             }
@@ -386,16 +386,16 @@ class SAPopup
                     }
                 }          
             }
-            if ($smspro_widget_added==1) {
+            if ($softeria_alerts_widget_added==1) {
                 if (empty($sa_otp_re_send_timer)) {
-                    wp_send_json_error([ 'statusText' => esc_html__("OTP Re-send Timer field can't be empty.", 'sms-pro'),'readyState'=>4,'status'=>500 ]);
+                    wp_send_json_error([ 'statusText' => esc_html__("OTP Re-send Timer field can't be empty.", 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
                 } else if (empty($max_otp_resend_allowed)) {
-                    wp_send_json_error([ 'statusText' => esc_html__("Max OTP Re-send Allowed field can't be empty.", 'sms-pro'),'readyState'=>4,'status'=>500 ]);
+                    wp_send_json_error([ 'statusText' => esc_html__("Max OTP Re-send Allowed field can't be empty.", 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
                 }
-            } else if ($smspro_widget_added==0) {
-                wp_send_json_error([ 'statusText' => esc_html__('Please add smspro modal widget.', 'sms-pro'),'readyState'=>4,'status'=>500 ]);
-            } else if ($smspro_widget_added > 1) {
-                wp_send_json_error([ 'statusText' => esc_html__("You can't add multiple smspro modal widget.", 'sms-pro'),'readyState'=>4,'status'=>500 ]);
+            } else if ($softeria_alerts_widget_added==0) {
+                wp_send_json_error([ 'statusText' => esc_html__('Please add smspro modal widget.', 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
+            } else if ($softeria_alerts_widget_added > 1) {
+                wp_send_json_error([ 'statusText' => esc_html__("You can't add multiple smspro modal widget.", 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
             }
         }
     }
@@ -426,7 +426,7 @@ class SAPopup
     { 
         $post_title = !empty($datas['settings']['post_title'])?$datas['settings']['post_title']:'';
         if ($post_title == "exitintent_style") {
-            $smspro_exitintent_widget_added = 0;
+            $softeria_alerts_exitintent_widget_added = 0;
             if (!empty($datas['elements'])) {          
                 foreach ( $datas['elements'] as $data ) {
                     if (array_key_exists('elements', $data) ) {
@@ -437,17 +437,17 @@ class SAPopup
                                     $widgetType = !empty($setting['widgetType'])?$setting['widgetType']:'';
                                 }
                             }
-                            if (!empty($widgetType) && $widgetType == 'smspro-exitintent-widget') {
-                                                    $smspro_exitintent_widget_added++;
+                            if (!empty($widgetType) && $widgetType == 'softeria-alert-exitintent-widget') {
+                                                    $softeria_alerts_exitintent_widget_added++;
                             }
                         }
                     }
                 }          
             }
-            if ($smspro_exitintent_widget_added==0) {
-                wp_send_json_error([ 'statusText' => esc_html__('Please add smspro exit intent widget.', 'sms-pro'),'readyState'=>4,'status'=>500 ]);
-            } else if ($smspro_exitintent_widget_added > 1) {
-                wp_send_json_error([ 'statusText' => esc_html__("You can't add multiple smspro exit intent widget.", 'sms-pro'),'readyState'=>4,'status'=>500 ]);
+            if ($softeria_alerts_exitintent_widget_added==0) {
+                wp_send_json_error([ 'statusText' => esc_html__('Please add smspro exit intent widget.', 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
+            } else if ($softeria_alerts_exitintent_widget_added > 1) {
+                wp_send_json_error([ 'statusText' => esc_html__("You can't add multiple smspro exit intent widget.", 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
             }
         }
     }
@@ -464,7 +464,7 @@ class SAPopup
     { 
         $post_title = !empty($datas['settings']['post_title'])?$datas['settings']['post_title']:'';
         if ($post_title == "sharecart_style") {
-            $smspro_sharecart_widget_added = 0;
+            $softeria_alerts_sharecart_widget_added = 0;
             if (!empty($datas['elements'])) {          
                 foreach ( $datas['elements'] as $data ) {
                     if (array_key_exists('elements', $data) ) {
@@ -475,17 +475,17 @@ class SAPopup
                                     $widgetType = !empty($setting['widgetType'])?$setting['widgetType']:'';
                                 }
                             }
-                            if (!empty($widgetType) && $widgetType == 'smspro-sharecart-widget') {
-                                $smspro_sharecart_widget_added++;
+                            if (!empty($widgetType) && $widgetType == 'softeria-alert-sharecart-widget') {
+                                $softeria_alerts_sharecart_widget_added++;
                             }
                         }
                     }
                 }          
             }
-            if ($smspro_sharecart_widget_added==0) {
-                wp_send_json_error([ 'statusText' => esc_html__('Please add smspro share cart widget.', 'sms-pro'),'readyState'=>4,'status'=>500 ]);
-            } else if ($smspro_sharecart_widget_added > 1) {
-                wp_send_json_error([ 'statusText' => esc_html__("You can't add multiple smspro share cart widget.", 'sms-pro'),'readyState'=>4,'status'=>500 ]);
+            if ($softeria_alerts_sharecart_widget_added==0) {
+                wp_send_json_error([ 'statusText' => esc_html__('Please add smspro share cart widget.', 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
+            } else if ($softeria_alerts_sharecart_widget_added > 1) {
+                wp_send_json_error([ 'statusText' => esc_html__("You can't add multiple smspro share cart widget.", 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
             }
         }
     }
@@ -501,7 +501,7 @@ class SAPopup
     { 
         $post_title = !empty($datas['settings']['post_title'])?$datas['settings']['post_title']:'';
         if ($post_title == "notifyme_style") {
-            $smspro_notifyme_widget_added = 0;
+            $softeria_alerts_notifyme_widget_added = 0;
             if (!empty($datas['elements'])) {          
                 foreach ( $datas['elements'] as $data ) {
                     if (array_key_exists('elements', $data) ) {
@@ -512,17 +512,17 @@ class SAPopup
                                     $widgetType = !empty($setting['widgetType'])?$setting['widgetType']:'';
                                 }
                             }
-                            if (!empty($widgetType) && $widgetType == 'smspro-notifyme-widget') {
-                                $smspro_notifyme_widget_added++;
+                            if (!empty($widgetType) && $widgetType == 'softeria-alert-notifyme-widget') {
+                                $softeria_alerts_notifyme_widget_added++;
                             }
                         }
                     }
                 }          
             }
-            if ($smspro_notifyme_widget_added==0) {
-                wp_send_json_error([ 'statusText' => esc_html__('Please add smspro Notify me widget.', 'sms-pro'),'readyState'=>4,'status'=>500 ]);
-            } else if ($smspro_notifyme_widget_added > 1) {
-                wp_send_json_error([ 'statusText' => esc_html__("You can't add multiple smspro Notifyme widget.", 'sms-pro'),'readyState'=>4,'status'=>500 ]);
+            if ($softeria_alerts_notifyme_widget_added==0) {
+                wp_send_json_error([ 'statusText' => esc_html__('Please add smspro Notify me widget.', 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
+            } else if ($softeria_alerts_notifyme_widget_added > 1) {
+                wp_send_json_error([ 'statusText' => esc_html__("You can't add multiple smspro Notifyme widget.", 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
             }
         }
     }
@@ -539,7 +539,7 @@ class SAPopup
         $number_label = "";
         $edit_phone_form ='';
         $text ='';
-        $otp_in_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
+        $otp_in_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
         $close_class = 'close';
         if ('on' !== $otp_in_popup) {
             $close_class = 'back';
@@ -547,8 +547,8 @@ class SAPopup
         $otp_length             = esc_attr(SmsAlertUtility::get_otp_length());
         $sa_label        = ( ! empty($callback['sa_label']) ) ? $callback['sa_label'] :SmsAlertMessages::showMessage('OTP_SENT_PHONE');
         $placeholder     = ( ! empty($callback['placeholder']) ) ? $callback['placeholder'] : '';
-        $edit_phone_label     = ( ! empty($callback['edit_phone_label']) ) ? $callback['edit_phone_label'] : esc_html__('Edit Number', 'sms-pro');
-        $sa_mobile_meaasege     = ( ! empty($callback['sa_mobile_meaasege']) ) ? $callback['sa_mobile_meaasege'] : esc_html__('Please Enter Mobile Number To Send OTP', 'sms-pro');
+        $edit_phone_label     = ( ! empty($callback['edit_phone_label']) ) ? $callback['edit_phone_label'] : esc_html__('Edit Number', 'softeria-sms-alerts');
+        $sa_mobile_meaasege     = ( ! empty($callback['sa_mobile_meaasege']) ) ? $callback['sa_mobile_meaasege'] : esc_html__('Please Enter Mobile Number To Send OTP', 'softeria-sms-alerts');
         $otp_template_style     = ( ! empty($callback['otp_template_style']) ) ? $callback['otp_template_style'] : 'popup-4';
         $digit_class = ($otp_template_style!='popup-1' && $otp_template_style!='popup-4') ?(($otp_template_style=='popup-3')?'digit-group popup-3':'digit-group'):'';
         $hide_class = (($otp_template_style=='popup-1') || ($otp_template_style=='popup-4'))?'hide':'';
@@ -561,7 +561,7 @@ class SAPopup
         }                
         $content = '<div class="modal-content">
 		<div class="'.$close_class.'"><span></span></div><div class="modal-body"><div style="margin:1.7em 1.5em;">'.$edit_phone_form.'<div style="position:relative" class="sa-message">'.esc_attr($sa_label).'</span></div>'.$number_label.'</div>		
-		<div class="smspro_validate_field '.esc_attr($digit_class).'" style="margin:1.5em">       
+		<div class="softeria_alerts_validate_field '.esc_attr($digit_class).'" style="margin:1.5em">       
 		<input type="number" class="otp-number '.esc_attr($hide_class).'" id="digit-1" name="digit-1" oninput="saGroup(this)" onkeyup="tabChange(1,this)" data-next="digit-2" style="margin-right: 5px!important;" data-max="1"  autocomplete="off"/>';
         
         $j = $otp_length - 1;
@@ -570,9 +570,9 @@ class SAPopup
             $input.= '<input type="number" class="otp-number '.esc_attr($hide_class).'" id="digit-'.esc_attr($i + 1).'" name="digit-'.esc_attr($i + 1).'" oninput="saGroup(this)" onkeyup="tabChange('.esc_attr($i + 1).',this)" data-next="digit-'.esc_attr($i + 2).'" data-previous="digit-'.esc_attr($otp_length - $j--).'" data-max="1" autocomplete="off">';
         }
         $content.= $input;
-        $content.= '<input type="number" oninput="saGroup(this)" name="smspro_customer_validation_otp_token" placeholder="'.esc_attr($placeholder).'" id="smspro_customer_validation_otp_token" class="input-text otp_input" pattern="[0-9]{'.esc_attr($otp_length).'}" title="Only digits within range 4-8 are allowed." data-max="' . esc_attr($otp_length) . '">';
+        $content.= '<input type="number" oninput="saGroup(this)" name="softeria_alerts_customer_validation_otp_token" placeholder="'.esc_attr($placeholder).'" id="softeria_alerts_customer_validation_otp_token" class="input-text otp_input" pattern="[0-9]{'.esc_attr($otp_length).'}" title="Only digits within range 4-8 are allowed." data-max="' . esc_attr($otp_length) . '">';
         
-        $content.= '<br><button type="button" name="smspro_otp_validate_submit" style="color:grey; pointer-events:none;" id="sa_verify_otp" class="button smspro_otp_validate_submit" value="Validate OTP">'.esc_attr($sa_button).'</button><br><a href="#" style="float:right" class="sa_resend_btn" onclick="saResendOTP(this)">'.esc_attr($sa_resend_btns).'</a><span class="sa_timer" style="min-width:80px; float:right"><span class="satimer">00:00:00</span> sec</span><span class="sa_forgot" style="float:right">'.esc_attr($sa_resend_otp).'</span><br></div></div></div>';    
+        $content.= '<br><button type="button" name="softeria_alerts_otp_validate_submit" style="color:grey; pointer-events:none;" id="sa_verify_otp" class="button softeria_alerts_otp_validate_submit" value="Validate OTP">'.esc_attr($sa_button).'</button><br><a href="#" style="float:right" class="sa_resend_btn" onclick="saResendOTP(this)">'.esc_attr($sa_resend_btns).'</a><span class="sa_timer" style="min-width:80px; float:right"><span class="satimer">00:00:00</span> sec</span><span class="sa_forgot" style="float:right">'.esc_attr($sa_resend_otp).'</span><br></div></div></div>';    
         return $content;        
     }
     
@@ -585,12 +585,12 @@ class SAPopup
      */
     public static function getExitIntentStyle($callback=null)
     {        
-         $cvt_title          = !empty($callback['cvt_title']) ? $callback['cvt_title'] : esc_html__('You were not leaving your cart just like that, right?', 'sms-pro');
+         $cvt_title          = !empty($callback['cvt_title']) ? $callback['cvt_title'] : esc_html__('You were not leaving your cart just like that, right?', 'softeria-sms-alerts');
          
-        $cvt_description    = !empty($callback['cvt_description']) ? $callback['cvt_description'] : esc_html__('Just enter your mobile number below to save your shopping cart for later. And, who knows, maybe we will even send you a sweet discount code :)', 'sms-pro');
-        $cvt_label          = !empty($callback['cvt_label']) ? $callback['cvt_label'] : esc_html__('Your Mobile No:', 'sms-pro');
+        $cvt_description    = !empty($callback['cvt_description']) ? $callback['cvt_description'] : esc_html__('Just enter your mobile number below to save your shopping cart for later. And, who knows, maybe we will even send you a sweet discount code :)', 'softeria-sms-alerts');
+        $cvt_label          = !empty($callback['cvt_label']) ? $callback['cvt_label'] : esc_html__('Your Mobile No:', 'softeria-sms-alerts');
         $cvt_placeholder    = !empty($callback['cvt_placeholder']) ? $callback['cvt_placeholder'] : "";
-         $cvt_button         = !empty($callback['cvt_button']) ? $callback['cvt_button'] : esc_html__('Save cart', 'sms-pro');
+         $cvt_button         = !empty($callback['cvt_button']) ? $callback['cvt_button'] : esc_html__('Save cart', 'softeria-sms-alerts');
          
         
            $content = '<div id="cart-exit-intent-form-content-r">
@@ -599,7 +599,7 @@ class SAPopup
                <form>
                     <label for="cart-exit-intent-mobile" id="sa_label">'.esc_attr($cvt_label).'</label>                   
                     <input type="text" id="cart-exit-intent-mobile" class="phone-valid" size="20" placeholder="'.esc_attr($cvt_placeholder).'" required="">
-                    <button type="submit" name="cart-exit-intent-submit" id="cart-exit-intent-submit" class="button" value="submit">'.esc_attr($cvt_button).'</button>'.wp_nonce_field("smspro_wp_abcart_nonce", "smspro_abcart_nonce", true, false).'
+                    <button type="submit" name="cart-exit-intent-submit" id="cart-exit-intent-submit" class="button" value="submit">'.esc_attr($cvt_button).'</button>'.wp_nonce_field("softeria_alerts_wp_abcart_nonce", "softeria_alerts_abcart_nonce", true, false).'
 			</form>
             </div>';
             
@@ -616,21 +616,21 @@ class SAPopup
      */
     public static function getShareCartStyle($callback=null)
     {    
-        $sa_title         = !empty($callback['sa_title']) ? $callback['sa_title'] : esc_html__('Share cart', 'sms-pro');         
-        $sa_user_placeholder    = !empty($callback['sa_user_placeholder']) ? $callback['sa_user_placeholder'] : esc_html__('Your Name*', 'sms-pro');
-        $sa_user_phone          = !empty($callback['sa_user_phone']) ? $callback['sa_user_phone'] : esc_html__('Your Mobile No*', 'sms-pro');
-        $sa_frnd_placeholder    = !empty($callback['sa_frnd_placeholder']) ? $callback['sa_frnd_placeholder'] : esc_html__('Friend Name*', 'sms-pro');
-        $sa_frnd_phone    = !empty($callback['sa_frnd_phone']) ? $callback['sa_frnd_phone'] : esc_html__('Friend Mobile No*', 'sms-pro');
-        $sa_sharecart_button         = !empty($callback['sa_sharecart_button']) ? $callback['sa_sharecart_button'] : esc_html__('Share Cart', 'sms-pro');         
+        $sa_title         = !empty($callback['sa_title']) ? $callback['sa_title'] : esc_html__('Share cart', 'softeria-sms-alerts');         
+        $sa_user_placeholder    = !empty($callback['sa_user_placeholder']) ? $callback['sa_user_placeholder'] : esc_html__('Your Name*', 'softeria-sms-alerts');
+        $sa_user_phone          = !empty($callback['sa_user_phone']) ? $callback['sa_user_phone'] : esc_html__('Your Mobile No*', 'softeria-sms-alerts');
+        $sa_frnd_placeholder    = !empty($callback['sa_frnd_placeholder']) ? $callback['sa_frnd_placeholder'] : esc_html__('Friend Name*', 'softeria-sms-alerts');
+        $sa_frnd_phone    = !empty($callback['sa_frnd_phone']) ? $callback['sa_frnd_phone'] : esc_html__('Friend Mobile No*', 'softeria-sms-alerts');
+        $sa_sharecart_button         = !empty($callback['sa_sharecart_button']) ? $callback['sa_sharecart_button'] : esc_html__('Share Cart', 'softeria-sms-alerts');         
         $current_user_id = get_current_user_id();
         $phone = ( get_user_meta($current_user_id, 'billing_phone', true) !== '' ) ? SmsAlertUtility::formatNumberForCountryCode(get_user_meta($current_user_id, 'billing_phone', true)) : '';
         $uname = ( get_user_meta($current_user_id, 'first_name', true) !== '' ) ? ( get_user_meta($current_user_id, 'first_name', true) ) : '';
         
-        $content = '<div class="smspro_scp_close_modal-content modal-content">
-                <div class="smspro_scp_inner_div">
+        $content = '<div class="softeria_alerts_scp_close_modal-content modal-content">
+                <div class="softeria_alerts_scp_inner_div">
                     <div class="close"><span></span></div>
                     <form class="sc_form">
-                        <ul id="smspro_scp_ul">
+                        <ul id="softeria_alerts_scp_ul">
                             <h2 class="box-title">'.esc_attr($sa_title).'</h2>
                             <li class="savecart_li">
                                 <input type="text" name="sc_uname" id="sc_uname" placeholder="'.esc_attr($sa_user_placeholder).'" value="'.esc_attr($uname).'">
@@ -648,7 +648,7 @@ class SAPopup
                                 <button class="button btn" id="sc_btn" name="sc_btn"><span class="button__text">'.esc_attr($sa_sharecart_button).'</span></button>
                             </li>
                         </ul>
-						'.wp_nonce_field("smspro_wp_sharecart_nonce", "smspro_sharecart_nonce", true, false).'
+						'.wp_nonce_field("softeria_alerts_wp_sharecart_nonce", "softeria_alerts_sharecart_nonce", true, false).'
 						</form>
                     <div id="sc_response"></div>
                 </div>                
@@ -666,25 +666,25 @@ class SAPopup
      */
     public static function getNotifyMeStyle($callback=null)
     { 
-        $notify_title = !empty($callback['notify_title']) ? $callback['notify_title'] : esc_html__('Notify Me when back in stock', 'sms-pro');
-        $notify_placeholder = !empty($callback['notify_placeholder']) ? $callback['notify_placeholder'] : esc_html__('Enter Number Here', 'sms-pro');
-        $notify_button = !empty($callback['notify_button']) ? $callback['notify_button'] : esc_html__('Notify Me', 'sms-pro');
+        $notify_title = !empty($callback['notify_title']) ? $callback['notify_title'] : esc_html__('Notify Me when back in stock', 'softeria-sms-alerts');
+        $notify_placeholder = !empty($callback['notify_placeholder']) ? $callback['notify_placeholder'] : esc_html__('Enter Number Here', 'softeria-sms-alerts');
+        $notify_button = !empty($callback['notify_button']) ? $callback['notify_button'] : esc_html__('Notify Me', 'softeria-sms-alerts');
         $current_user_id = get_current_user_id();
         $phone  = ( get_user_meta($current_user_id, 'billing_phone', true) !== '' ) ? SmsAlertUtility::formatNumberForCountryCode(get_user_meta($current_user_id, 'billing_phone', true)) : '';
-        $content = '  <section class="smspro_instock-subscribe-form">
-			<div class="panel panel-primary smspro_instock-panel-primary">
+        $content = '  <section class="softeria_alerts_instock-subscribe-form">
+			<div class="panel panel-primary softeria_alerts_instock-panel-primary">
 				<form class="panel-body">
 					<div class="row">
-						<fieldset class="smspro_instock_field">
+						<fieldset class="softeria_alerts_instock_field">
 							<div class="col-md-12 hide-success">
-								<div class="panel-heading smspro_instock-panel-heading">
+								<div class="panel-heading softeria_alerts_instock-panel-heading">
 									<h4 class = "notify_title" style=""> '.esc_attr($notify_title).' </h4>
 								</div>
 								<div class="form-row">
 									<input type="text" class="input-text phone-valid" id="sa_bis_phone" name="sa_bis_phone_phone" placeholder="'.esc_attr($notify_placeholder).'" value="'.esc_attr($phone).'">
 								</div>
 								<div class="form-group center-block" style="text-align:center;margin-top:10px">
-									<button type="submit" id="sa_bis_submit" name="smspro_submit" class="button sa_bis_submit" style="width:100%">'.esc_attr($notify_button).'</button>
+									<button type="submit" id="sa_bis_submit" name="softeria_alerts_submit" class="button sa_bis_submit" style="width:100%">'.esc_attr($notify_button).'</button>
 								</div>
 							</div>						
 						</fieldset>

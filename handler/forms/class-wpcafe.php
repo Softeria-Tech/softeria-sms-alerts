@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -25,8 +25,8 @@ use WpCafe\Utils;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * WPCafe class 
@@ -60,10 +60,10 @@ class SAWPCafe extends FormInterface
      * */
     public function getFormField()
     { 
-        if (smspro_get_option('otp_enable', 'smspro_wcf_general') === 'on') {
+        if (softeria_alerts_get_option('otp_enable', 'softeria_alerts_wcf_general') === 'on') {
             $uniqueNo = rand();       
             $inline_script = 'document.addEventListener("DOMContentLoaded", function() {jQuery(document).ready(function(){
-			add_smspro_button(".confirm_booking_btn",".wpc_check_phone","'.$uniqueNo.'");
+			add_softeria_alerts_button(".confirm_booking_btn",".wpc_check_phone","'.$uniqueNo.'");
 			setTimeout(function(){ jQuery(".confirm_booking_btn#sa_verify_'.$uniqueNo.'").unbind("click"); }, 3000);
 						
 			jQuery(document).on("click", "#sa_verify_'.$uniqueNo.'",function(event){	
@@ -75,7 +75,7 @@ class SAWPCafe extends FormInterface
         setTimeout(function() {
             if (jQuery(".modal.smsproModal").length==0)    
             {            
-            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_smspro_template("template/otp-popup.php", array(), true))).'\';
+            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_softeria_alerts_template("template/otp-popup.php", array(), true))).'\';
             jQuery("body").append(popup);
             }
         }, 200);
@@ -109,9 +109,9 @@ class SAWPCafe extends FormInterface
         $bookingStatuses = get_post_meta($bookingId, 'wpc_reservation_state', true);        
         $bookingStart    = date('Y-m-d H:i:s', strtotime($date .' ' . $startTime));
         $buyerMob        = $post_arr['wpc_phone'];
-        $customerNotify  = smspro_get_option('customer_notify', 'smspro_wcf_general', 'on');
+        $customerNotify  = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wcf_general', 'on');
         global $wpdb;
-        $tableName           = $wpdb->prefix . 'smspro_booking_reminder';
+        $tableName           = $wpdb->prefix . 'softeria_alerts_booking_reminder';
         $source = 'wc-cafe';
         $booking_details = $wpdb->get_results("SELECT * FROM $tableName WHERE booking_id = $bookingId and source = '$source'");
         if ($bookingStatuses === 'confirmed' && $customerNotify === 'on') {
@@ -150,14 +150,14 @@ class SAWPCafe extends FormInterface
      */
     function sendReminderSms()
     {
-        if (smspro_get_option('customer_notify', 'smspro_wcf_general') !== 'on') {
+        if (softeria_alerts_get_option('customer_notify', 'softeria_alerts_wcf_general') !== 'on') {
             return;
         }
         global $wpdb;
         $cronFrequency = BOOKING_REMINDER_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
-        $tableName     = $wpdb->prefix . 'smspro_booking_reminder';        
+        $tableName     = $wpdb->prefix . 'softeria_alerts_booking_reminder';        
         $source        = 'wc-cafe';        
-        $schedulerData = get_option('smspro_wcf_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_wcf_reminder_scheduler');
         foreach ($schedulerData['cron'] as $sdata) {            
             $datetime = current_time('mysql');
             $fromdate = date('Y-m-d H:i:s', strtotime('+' . ($sdata['frequency'] * 60 - $cronFrequency) . ' minutes', strtotime($datetime)));
@@ -209,15 +209,15 @@ class SAWPCafe extends FormInterface
         $obj = new WpCafe\Utils\Wpc_Utilities();
         $bookingStatuses = $obj->get_reservation_states();
         foreach ($bookingStatuses as $ks => $vs) {
-            $defaults['smspro_wcf_general']['customer_wcf_notify_' . $ks]   = 'off';
-            $defaults['smspro_wcf_message']['customer_sms_wcf_body_' . $ks] = '';
-            $defaults['smspro_wcf_general']['admin_wcf_notify_' . $ks]      = 'off';
-            $defaults['smspro_wcf_message']['admin_sms_wcf_body_' . $ks]    = '';
+            $defaults['softeria_alerts_wcf_general']['customer_wcf_notify_' . $ks]   = 'off';
+            $defaults['softeria_alerts_wcf_message']['customer_sms_wcf_body_' . $ks] = '';
+            $defaults['softeria_alerts_wcf_general']['admin_wcf_notify_' . $ks]      = 'off';
+            $defaults['softeria_alerts_wcf_message']['admin_sms_wcf_body_' . $ks]    = '';
         }
-        $defaults['smspro_wcf_general']['otp_enable'] = 'off';
-        $defaults['smspro_wcf_general']['customer_notify'] = 'off';
-        $defaults['smspro_wcf_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_wcf_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_wcf_general']['otp_enable'] = 'off';
+        $defaults['softeria_alerts_wcf_general']['customer_notify'] = 'off';
+        $defaults['softeria_alerts_wcf_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_wcf_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
 
     }//end add_default_setting()
@@ -284,23 +284,23 @@ class SAWPCafe extends FormInterface
      * */
     public static function getReminderTemplates()
     {
-        $currentVal      = smspro_get_option('customer_notify', 'smspro_wcf_general', 'on');
-        $checkboxNameId  = 'smspro_wcf_general[customer_notify]';
+        $currentVal      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wcf_general', 'on');
+        $checkboxNameId  = 'softeria_alerts_wcf_general[customer_notify]';
 
-        $schedulerData  = get_option('smspro_wcf_reminder_scheduler');
+        $schedulerData  = get_option('softeria_alerts_wcf_reminder_scheduler');
         $templates      = array();
         $count          = 0;
         if (empty($schedulerData) === true) {
             $schedulerData  = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
 
-            $textAreaNameId   = 'smspro_wcf_reminder_scheduler[cron][' . $count . '][message]';
-            $selectNameId     = 'smspro_wcf_reminder_scheduler[cron][' . $count . '][frequency]';
+            $textAreaNameId   = 'softeria_alerts_wcf_reminder_scheduler[cron][' . $count . '][message]';
+            $selectNameId     = 'softeria_alerts_wcf_reminder_scheduler[cron][' . $count . '][frequency]';
             $textBody         = $data['message'];
             $templates[$key]['notify_id']      = 'wc-cafe';
             $templates[$key]['frequency']      = $data['frequency'];
@@ -329,11 +329,11 @@ class SAWPCafe extends FormInterface
         $bookingStatuses = $obj->get_reservation_states();
         $templates = array();
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal = smspro_get_option('customer_wcf_notify_' . strtolower($vs), 'smspro_wcf_general', 'on');
-            $checkboxNameId = 'smspro_wcf_general[customer_wcf_notify_' . strtolower($vs) . ']';
-            $textareaNameId = 'smspro_wcf_message[customer_sms_wcf_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('admin_sms_wcf_body_' . strtolower($vs), 'smspro_wcf_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[name]', '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
-            $textBody = smspro_get_option('customer_sms_wcf_body_' . strtolower($vs), 'smspro_wcf_message', $defaultTemplate);
+            $currentVal = softeria_alerts_get_option('customer_wcf_notify_' . strtolower($vs), 'softeria_alerts_wcf_general', 'on');
+            $checkboxNameId = 'softeria_alerts_wcf_general[customer_wcf_notify_' . strtolower($vs) . ']';
+            $textareaNameId = 'softeria_alerts_wcf_message[customer_sms_wcf_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $textBody = softeria_alerts_get_option('customer_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -356,14 +356,14 @@ class SAWPCafe extends FormInterface
         $bookingStatuses = $obj->get_reservation_states();
         $templates = array();
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal     = smspro_get_option('admin_wcf_notify_' . strtolower($vs), 'smspro_wcf_general', 'on');
-            $checkboxNameId = 'smspro_wcf_general[admin_wcf_notify_' . strtolower($vs) . ']';
-            $textareaNameId = 'smspro_wcf_message[admin_sms_wcf_body_' . strtolower($vs) . ']';
+            $currentVal     = softeria_alerts_get_option('admin_wcf_notify_' . strtolower($vs), 'softeria_alerts_wcf_general', 'on');
+            $checkboxNameId = 'softeria_alerts_wcf_general[admin_wcf_notify_' . strtolower($vs) . ']';
+            $textareaNameId = 'softeria_alerts_wcf_message[admin_sms_wcf_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = smspro_get_option('admin_sms_wcf_body_' . strtolower($vs), 'smspro_wcf_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
-            $textBody = smspro_get_option('admin_sms_wcf_body_' . strtolower($vs), 'smspro_wcf_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('admin_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin change status to ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -389,8 +389,8 @@ class SAWPCafe extends FormInterface
         $bookingStatuses =  get_post_meta($pid, 'wpc_reservation_state', true);
         $this->setBookingReminder($post_arr, $bookingStatuses, $pid);        
         $buyerNumber   = $post_arr['wpc_phone'];
-        $customerMessage  = smspro_get_option('customer_sms_wcf_body_' . $bookingStatuses, 'smspro_wcf_message', '');
-        $customerRrNotify = smspro_get_option('customer_wcf_notify_' . $bookingStatuses, 'smspro_wcf_general', 'on');
+        $customerMessage  = softeria_alerts_get_option('customer_sms_wcf_body_' . $bookingStatuses, 'softeria_alerts_wcf_message', '');
+        $customerRrNotify = softeria_alerts_get_option('customer_wcf_notify_' . $bookingStatuses, 'softeria_alerts_wcf_general', 'on');
 
         if ($customerRrNotify === 'on' && $customerMessage !== '') {
             $buyerMessage = $this->parseSmsBody($pid, $customerMessage);
@@ -398,7 +398,7 @@ class SAWPCafe extends FormInterface
         }
 
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         $nos                = explode(',', $adminPhoneNumber);
         $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
@@ -406,8 +406,8 @@ class SAWPCafe extends FormInterface
 
         if (empty($adminPhoneNumber) === false) {
 
-            $adminRrNotify = smspro_get_option('admin_wcf_notify_' . $bookingStatuses, 'smspro_wcf_general', 'on');
-            $adminMessage   = smspro_get_option('admin_sms_wcf_body_' . $bookingStatuses, 'smspro_wcf_message', '');
+            $adminRrNotify = softeria_alerts_get_option('admin_wcf_notify_' . $bookingStatuses, 'softeria_alerts_wcf_general', 'on');
+            $adminMessage   = softeria_alerts_get_option('admin_sms_wcf_body_' . $bookingStatuses, 'softeria_alerts_wcf_message', '');
 
             if ('on' === $adminRrNotify && '' !== $adminMessage) {
                 $adminMessage = $this->parseSmsBody($pid,  $adminMessage);
@@ -429,22 +429,22 @@ class SAWPCafe extends FormInterface
         $buyerNumber       = $post_arr['wpc_phone'];
         $bookingStatuses   = $post_arr['wpc_reservation_state'];
         $this->setBookingReminder($post_arr, $bookingStatuses, $pid);        
-        $customerMessage   = smspro_get_option('customer_sms_wcf_body_' . $bookingStatuses, 'smspro_wcf_message', '');
-        $customerRrNotify  = smspro_get_option('customer_wcf_notify_' . $bookingStatuses, 'smspro_wcf_general', 'on');
+        $customerMessage   = softeria_alerts_get_option('customer_sms_wcf_body_' . $bookingStatuses, 'softeria_alerts_wcf_message', '');
+        $customerRrNotify  = softeria_alerts_get_option('customer_wcf_notify_' . $bookingStatuses, 'softeria_alerts_wcf_general', 'on');
         if ($customerRrNotify === 'on' && $customerMessage !== '') {
             $buyerMessage = $this->parseSmsBody($pid,  $customerMessage);
             do_action('sa_send_sms', $buyerNumber, $buyerMessage);
         }
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $nos                = explode(',', $adminPhoneNumber);
         $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
         $adminPhoneNumber = implode(',', $adminPhoneNumber);
 
         if (empty($adminPhoneNumber) === false) {
 
-            $adminRrNotify = smspro_get_option('admin_wcf_notify_' . $bookingStatuses, 'smspro_wcf_general', 'on');
-            $adminMessage   = smspro_get_option('admin_sms_wcf_body_' . $bookingStatuses, 'smspro_wcf_message', '');
+            $adminRrNotify = softeria_alerts_get_option('admin_wcf_notify_' . $bookingStatuses, 'softeria_alerts_wcf_general', 'on');
+            $adminMessage   = softeria_alerts_get_option('admin_sms_wcf_body_' . $bookingStatuses, 'softeria_alerts_wcf_message', '');
 
             if ('on' === $adminRrNotify && '' !== $adminMessage) {
                 $adminMessage = $this->parseSmsBody($pid, $adminMessage);
@@ -542,7 +542,7 @@ class SAWPCafe extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('wp-cafe/wpcafe.php') === true) && ($islogged === true)) {
             return true;
@@ -566,7 +566,7 @@ class SAWPCafe extends FormInterface
         if (isset($_SESSION[$this->form_session_var]) === false) {
             return;
         }
-        if ((empty($_REQUEST['option']) === false) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form') {
+        if ((empty($_REQUEST['option']) === false) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form') {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -594,7 +594,7 @@ class SAWPCafe extends FormInterface
         if (isset($_SESSION[$this->form_session_var]) === false) {
             return;
         }
-        if ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form') {
+        if ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form') {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {

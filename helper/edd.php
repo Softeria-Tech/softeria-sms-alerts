@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ require_once WP_PLUGIN_DIR . '/easy-digital-downloads/includes/payments/class-ed
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SmsAlertLearnPress class 
@@ -51,8 +51,8 @@ class SmsAlertEdd
         add_filter('edd_settings_tabs', array($this, 'addAdminTab' ), 10, 1);
         add_filter('edd_registered_settings', array($this, 'addRegisterSettings' ), 10, 1);
         add_filter('edd_settings_sections', array($this, 'addSections' ), 10, 1);        
-        add_action('edd_settings_tab_bottom_smspro_customer_notification', array($this, 'getCustomerTemplate' ), 10);
-        add_action('edd_settings_tab_bottom_smspro_admin_notification', array($this, 'getAdminTemplate' ), 10);
+        add_action('edd_settings_tab_bottom_softeria_alerts_customer_notification', array($this, 'getCustomerTemplate' ), 10);
+        add_action('edd_settings_tab_bottom_softeria_alerts_admin_notification', array($this, 'getAdminTemplate' ), 10);
     }
     
     /**
@@ -67,12 +67,12 @@ class SmsAlertEdd
         $templates = array();
         foreach ( $edd_order_statuses as $ks  => $vs ) {
             
-            $current_val = smspro_get_option('edd_order_status_' . $vs, 'edd_settings', 'off');
+            $current_val = softeria_alerts_get_option('edd_order_status_' . $vs, 'edd_settings', 'off');
 
             $checkbox_name_id = 'edd_settings[edd_order_status_' . str_replace(' ', '_', $vs) . ']';
             $textarea_name_id = 'edd_settings[edd_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option(
+            $text_body = softeria_alerts_get_option(
                 'edd_sms_body_' . $vs,
                 'edd_settings',
                 SmsAlertMessages::showMessage('DEFAULT_EDD_BUYER_SMS_STATUS_CHANGED')
@@ -101,12 +101,12 @@ class SmsAlertEdd
         
         $templates = array();
         foreach ( $edd_order_statuses as $ks  => $vs ) {
-            $current_val       = smspro_get_option('edd_admin_notification_' . $vs, 'edd_settings', 'off');
+            $current_val       = softeria_alerts_get_option('edd_admin_notification_' . $vs, 'edd_settings', 'off');
 
             $checkbox_name_id = 'edd_settings[edd_admin_notification_' . str_replace(' ', '_', $vs) . ']';
             $textarea_name_id = 'edd_settings[edd_admin_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option(
+            $text_body = softeria_alerts_get_option(
                 'edd_admin_sms_body_' . $vs,
                 'edd_settings',
                 SmsAlertMessages::showMessage('DEFAULT_EDD_ADMIN_SMS_STATUS_CHANGED')
@@ -147,8 +147,8 @@ class SmsAlertEdd
     public function addSections($sections)
     {
         $sections['smspro']= array(
-        'customer_notification' => __('Customer Notifications', 'sms-pro'),
-        'admin_notification'    => __('Admin Notifications', 'sms-pro')
+        'customer_notification' => __('Customer Notifications', 'softeria-sms-alerts'),
+        'admin_notification'    => __('Admin Notifications', 'softeria-sms-alerts')
         );
         return $sections;
     }
@@ -169,14 +169,14 @@ class SmsAlertEdd
             'customer_notification' => array(
             'customer_setting' => array(
             'id'   => 'customer_setting',
-            'name' => '<h3>' . __('Customer', 'sms-pro') . '</h3>',
+            'name' => '<h3>' . __('Customer', 'softeria-sms-alerts') . '</h3>',
             'type' => 'descriptive_text'
                     )
             ),
             'admin_notification' => array(
                     'admin_setting' => array(
                         'id'   => 'admin_setting',
-                        'name' => '<h3>' . __('Admin', 'sms-pro') . '</h3>',
+                        'name' => '<h3>' . __('Admin', 'softeria-sms-alerts') . '</h3>',
                         'type' => 'descriptive_text'
             )
             )
@@ -194,7 +194,7 @@ class SmsAlertEdd
      */
     public function addAdminTab($tabs)
     {
-        $tabs['smspro'] = 'SMS Pro';
+        $tabs['smspro'] = 'Softeria Tech';
         return $tabs;
     }
 
@@ -391,11 +391,11 @@ class SmsAlertEdd
         $payments   = new EDD_Payment($payment_id);
         $status     = edd_get_payment_status($payment_id, true);
         
-        $admin_send = smspro_get_option('edd_admin_notification_' . $status, 'edd_settings');
-        $cst_send   = smspro_get_option('edd_order_status_' . $status, 'edd_settings');
+        $admin_send = softeria_alerts_get_option('edd_admin_notification_' . $status, 'edd_settings');
+        $cst_send   = softeria_alerts_get_option('edd_order_status_' . $status, 'edd_settings');
 
         if ('on' === $cst_send ) {
-            $content = smspro_get_option('edd_sms_body_' . $status, 'edd_settings');
+            $content = softeria_alerts_get_option('edd_sms_body_' . $status, 'edd_settings');
             
             $content = self::pharseSmsBody($content, $payment_id);
             $meta    = $payments->get_meta();
@@ -409,13 +409,13 @@ class SmsAlertEdd
         }
 
         if ('on' === $admin_send ) {
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
             $nos                = explode(',', $admin_phone_number);
             $admin_phone_number = array_diff($nos, array( 'postauthor', 'post_author' ));
             $admin_phone_number = implode(',', $admin_phone_number);
             
-            $content = smspro_get_option('edd_admin_sms_body_' . $status, 'edd_settings');
+            $content = softeria_alerts_get_option('edd_admin_sms_body_' . $status, 'edd_settings');
             
             $content = self::pharseSmsBody($content, $payment_id);
             if ('' !== $admin_phone_number ) {

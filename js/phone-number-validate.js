@@ -117,10 +117,10 @@ jQuery(window).on(
 							if("on" == buyer_checkout_otp && sa_intl_warning['is_checkout']){
 							if(jQuery.inArray(country_code,allow_otp_countries)== -1)	{						
 								removeShortcode();
-								jQuery("#smspro_otp_token_submit").addClass('sa-default-btn-hide');
+								jQuery("#softeria_alerts_otp_token_submit").addClass('sa-default-btn-hide');
 							}else{							
 								addShortcode();
-								jQuery("#smspro_otp_token_submit").removeClass('sa-default-btn-hide');
+								jQuery("#softeria_alerts_otp_token_submit").removeClass('sa-default-btn-hide');
 							}
 							}
 						}						
@@ -132,8 +132,8 @@ jQuery(window).on(
                             jQuery(this).intlTelInput("setNumber",fullnumber);
                             reset(this);
                             jQuery(this).parents("form").find("button, input[type=submit], input[type=button]").attr("disabled",false);
-                            jQuery(this).parents("form").find(".smspro_otp_btn_submit").css("cursor","pointer");
-                            jQuery(this).parents("form").find(".smspro_otp_btn_submit").attr("disabled",false);
+                            jQuery(this).parents("form").find(".softeria_alerts_otp_btn_submit").css("cursor","pointer");
+                            jQuery(this).parents("form").find(".softeria_alerts_otp_btn_submit").attr("disabled",false);
                         }
                         else
                         {    
@@ -142,10 +142,10 @@ jQuery(window).on(
                             if(iti.val()!='') {
                                 var errorCode = iti.intlTelInput('getValidationError');
                                 iti.parents(".iti--separate-dial-code").next(".sa_phone_error").text(errorMap[errorCode]);
-                                jQuery("#smspro_otp_token_submit,#sc_btn").attr("disabled",true);
+                                jQuery("#softeria_alerts_otp_token_submit,#sc_btn").attr("disabled",true);
                                 iti.parents(".iti--separate-dial-code").next(".sa_phone_error").removeAttr("style");
-                                iti.parents("form").find(".smspro_otp_btn_submit").css("cursor","not-allowed");
-                                iti.parents("form").find(".smspro_otp_btn_submit").attr("disabled",true);
+                                iti.parents("form").find(".softeria_alerts_otp_btn_submit").css("cursor","not-allowed");
+                                iti.parents("form").find(".softeria_alerts_otp_btn_submit").attr("disabled",true);
                                 jQuery("#sa_bis_submit").attr("disabled",true);
                             }
                         }
@@ -184,19 +184,19 @@ jQuery(window).on(
             var iti     = jQuery(obj);
             if (input.value.trim()) {
                 if (iti.intlTelInput('isValidNumber')) {
-                     jQuery("#smspro_otp_token_submit,#sc_btn").attr("disabled",false);
+                     jQuery("#softeria_alerts_otp_token_submit,#sc_btn").attr("disabled",false);
                      jQuery("#sa_bis_submit").attr("disabled",false);
                      iti.parents("form").find("button, input[type=submit], input[type=button]").attr("disabled",false);
-                     iti.parents("form").find(".smspro_otp_btn_submit").css("cursor","pointer");
-                     iti.parents("form").find(".smspro_otp_btn_submit").attr("disabled",false);
+                     iti.parents("form").find(".softeria_alerts_otp_btn_submit").css("cursor","pointer");
+                     iti.parents("form").find(".softeria_alerts_otp_btn_submit").attr("disabled",false);
 
                 } else{
                     var errorCode = iti.intlTelInput('getValidationError');
                     iti.parents(".iti--separate-dial-code").next(".sa_phone_error").text(errorMap[errorCode]);
-                    jQuery("#smspro_otp_token_submit,#sc_btn").attr("disabled",true);
+                    jQuery("#softeria_alerts_otp_token_submit,#sc_btn").attr("disabled",true);
                     iti.parents(".iti--separate-dial-code").next(".sa_phone_error").removeAttr("style");
-                    iti.parents("form").find(".smspro_otp_btn_submit").css("cursor","not-allowed");
-                    iti.parents("form").find(".smspro_otp_btn_submit").attr("disabled",true);
+                    iti.parents("form").find(".softeria_alerts_otp_btn_submit").css("cursor","not-allowed");
+                    iti.parents("form").find(".softeria_alerts_otp_btn_submit").attr("disabled",true);
                     jQuery("#sa_bis_submit").attr("disabled",true);
                 }
             
@@ -235,8 +235,8 @@ jQuery(window).on(
                 jQuery('#billing_phone_field .fl-wrap-input').addClass('fl-is-active');
                 reset(obj);
                 jQuery(obj).parents("form").find("button, input[type=submit], input[type=button]").attr("disabled",false);
-                jQuery(obj).parents("form").find(".smspro_otp_btn_submit").css("cursor","pointer");
-                jQuery(obj).parents("form").find(".smspro_otp_btn_submit").attr("disabled",false);
+                jQuery(obj).parents("form").find(".softeria_alerts_otp_btn_submit").css("cursor","pointer");
+                jQuery(obj).parents("form").find(".softeria_alerts_otp_btn_submit").attr("disabled",false);
             }
             else{
                 var iti     = jQuery(obj);
@@ -248,15 +248,15 @@ jQuery(window).on(
                 if(iti.val()!='') {
                     jQuery('#billing_phone_field .fl-wrap-input').addClass('fl-is-active');
                     iti.parents(".iti--separate-dial-code").next(".sa_phone_error").text(errorMap[errorCode]);
-                    jQuery("#smspro_otp_token_submit,#sc_btn").attr("disabled",true);
+                    jQuery("#softeria_alerts_otp_token_submit,#sc_btn").attr("disabled",true);
                     iti.parents(".iti--separate-dial-code").next(".sa_phone_error").removeAttr("style");
-                    iti.parents("form").find(".smspro_otp_btn_submit").attr("disabled",true);
+                    iti.parents("form").find(".softeria_alerts_otp_btn_submit").attr("disabled",true);
                     jQuery("#sa_bis_submit").attr("disabled",true);    
                 }
                 else{
                     jQuery('#billing_phone_field .fl-wrap-input').removeClass('fl-is-active');
                 }
-                   iti.parents("form").find(".smspro_otp_btn_submit").attr("disabled",true).css("cursor","not-allowed");                
+                   iti.parents("form").find(".softeria_alerts_otp_btn_submit").attr("disabled",true).css("cursor","not-allowed");                
             }    
         }
     

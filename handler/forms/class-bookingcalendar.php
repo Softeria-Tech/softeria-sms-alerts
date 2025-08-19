@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -21,8 +21,8 @@ if (! is_plugin_active('booking/wpdev-booking.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -73,9 +73,9 @@ class BookingCalendar extends FormInterface
             $booking_status = $booking['approved'];
             $booking_start=date('Y-m-d H:i:s', strtotime($booking['booking_date']));
             $buyer_mob     = $booking['formdata']['phone1'];
-            $customer_notify = smspro_get_option('customer_notify', 'smspro_bc_general', 'on');
+            $customer_notify = softeria_alerts_get_option('customer_notify', 'softeria_alerts_bc_general', 'on');
             global $wpdb;
-            $table_name           = $wpdb->prefix . 'smspro_booking_reminder';
+            $table_name           = $wpdb->prefix . 'softeria_alerts_booking_reminder';
             $source = 'booking-calendar';
             $booking_details = $wpdb->get_results("SELECT * FROM $table_name WHERE booking_id = $booking_id and source = '$source'");
             if ('1' === $booking_status && 'on' === $customer_notify ) {
@@ -112,15 +112,15 @@ class BookingCalendar extends FormInterface
      */
     function sendReminderSms()
     {
-        if ('on' !==smspro_get_option('customer_notify', 'smspro_bc_general')) {
+        if ('on' !==softeria_alerts_get_option('customer_notify', 'softeria_alerts_bc_general')) {
             return;
         }
 
         global $wpdb;
         $cron_frequency = BOOKING_REMINDER_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
-        $table_name     = $wpdb->prefix . 'smspro_booking_reminder';
+        $table_name     = $wpdb->prefix . 'softeria_alerts_booking_reminder';
         $source = 'booking-calendar';
-        $scheduler_data = get_option('smspro_bc_reminder_scheduler');
+        $scheduler_data = get_option('softeria_alerts_bc_reminder_scheduler');
 
         foreach ( $scheduler_data['cron'] as $sdata ) {
 
@@ -176,10 +176,10 @@ class BookingCalendar extends FormInterface
     public function getFormField($form , $my_boook_type)
     {
         $inline_script = 'document.addEventListener("DOMContentLoaded", function() {';
-        if ('on' === smspro_get_option('checkout_show_country_code', 'smspro_general') &&  'off' === smspro_get_option('otp_enable', 'smspro_bc_general') && ( 'on' === smspro_get_option('customer_bc_notify_pending', 'smspro_bc_general') || 'on' === smspro_get_option('customer_bc_notify_approved', 'smspro_bc_general') || 'on' === smspro_get_option('customer_bc_notify_trash', 'smspro_bc_general') )) {
+        if ('on' === softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general') &&  'off' === softeria_alerts_get_option('otp_enable', 'softeria_alerts_bc_general') && ( 'on' === softeria_alerts_get_option('customer_bc_notify_pending', 'softeria_alerts_bc_general') || 'on' === softeria_alerts_get_option('customer_bc_notify_approved', 'softeria_alerts_bc_general') || 'on' === softeria_alerts_get_option('customer_bc_notify_trash', 'softeria_alerts_bc_general') )) {
             $inline_script .= 'jQuery("#phone1").addClass("phone-valid");';
         } 
-        if ('on' === smspro_get_option('checkout_show_country_code', 'smspro_general') ||  'on' === smspro_get_option('otp_enable', 'smspro_bc_general')) {
+        if ('on' === softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general') ||  'on' === softeria_alerts_get_option('otp_enable', 'softeria_alerts_bc_general')) {
             $inline_script .= 'var get_click = jQuery(".btn-default").attr("onclick");
 					jQuery(".btn-default").removeAttr("onclick");
 					var sub_form = "";
@@ -196,7 +196,7 @@ class BookingCalendar extends FormInterface
 						default_click();
 			});';
         } 
-        if ('on' === smspro_get_option('otp_enable', 'smspro_bc_general')) {
+        if ('on' === softeria_alerts_get_option('otp_enable', 'softeria_alerts_bc_general')) {
 
             $form .= do_shortcode('[sa_verify phone_selector="#phone1" submit_selector= "form.booking_form button"]');
             $inline_script .= 'setTimeout(function (){jQuery(".sa-otp-btn-init").removeAttr("onclick")}, 1000);';
@@ -222,15 +222,15 @@ class BookingCalendar extends FormInterface
         $booking_statuses = array( 'new', 'pending', 'approved', 'trash' );
 
         foreach ( $booking_statuses as $ks => $vs ) {
-            $defaults['smspro_bc_general'][ 'customer_bc_notify_' . $vs ] = 'off';
-            $defaults['smspro_bc_message'][ 'customer_sms_bc_body_' . $vs ] = '';
-            $defaults['smspro_bc_general'][ 'admin_bc_notify_' . $vs ] = 'off';
-            $defaults['smspro_bc_message'][ 'admin_sms_bc_body_' . $vs ] = '';
+            $defaults['softeria_alerts_bc_general'][ 'customer_bc_notify_' . $vs ] = 'off';
+            $defaults['softeria_alerts_bc_message'][ 'customer_sms_bc_body_' . $vs ] = '';
+            $defaults['softeria_alerts_bc_general'][ 'admin_bc_notify_' . $vs ] = 'off';
+            $defaults['softeria_alerts_bc_message'][ 'admin_sms_bc_body_' . $vs ] = '';
         }
-        $defaults['smspro_bc_general'][ 'otp_enable'] = 'off';
-        $defaults['smspro_bc_general']['customer_notify']                = 'off';
-        $defaults['smspro_bc_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_bc_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_bc_general'][ 'otp_enable'] = 'off';
+        $defaults['softeria_alerts_bc_general']['customer_notify']                = 'off';
+        $defaults['softeria_alerts_bc_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_bc_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
     }
 
@@ -275,25 +275,8 @@ class BookingCalendar extends FormInterface
         $tabs['booking_calendar']['inner_nav']['booking_calendar_reminder']['tab_section'] = 'bookingremindertemplates';
         $tabs['booking_calendar']['inner_nav']['booking_calendar_reminder']['tabContent']  = $reminder_param;
         $tabs['booking_calendar']['inner_nav']['booking_calendar_reminder']['filePath']    = 'views/booking-reminder-template.php';
-        
-        $tabs['booking_calendar']['help_links']                        = array(
-        'youtube_link' => array(
-        'href'   => 'https://youtu.be/4BXd_XZt9zM',
-        'target' => '_blank',
-        'alt'    => 'Watch steps on Youtube',
-        'class'  => 'btn-outline',
-        'label'  => 'Youtube',
-        'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
 
-        ),
-        'kb_link'      => array(
-        'href'   => 'https://sms.softeriatech.com/knowledgebase/integrate-with-booking-calendar/',
-        'target' => '_blank',
-        'alt'    => 'Read how to integrate with booking calendar',
-        'class'  => 'btn-outline',
-        'label'  => 'Documentation',
-        'icon'   => '<span class="dashicons dashicons-format-aside"></span>',
-        ),
+        $tabs['booking_calendar']['help_links'] = array(
         );
         return $tabs;
     }
@@ -305,23 +288,23 @@ class BookingCalendar extends FormInterface
      * */
     public static function getReminderTemplates()
     {
-        $current_val      = smspro_get_option('customer_notify', 'smspro_bc_general', 'on');
-        $checkbox_name_id = 'smspro_bc_general[customer_notify]';
+        $current_val      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_bc_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_bc_general[customer_notify]';
 
-        $scheduler_data = get_option('smspro_bc_reminder_scheduler');
+        $scheduler_data = get_option('softeria_alerts_bc_reminder_scheduler');
         $templates      = array();
         $count          = 0;
         if (empty($scheduler_data) ) {
             $scheduler_data  = array();
             $scheduler_data['cron'][] = array(
             'frequency' => '1',
-            'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
+            'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ( $scheduler_data['cron'] as $key => $data ) {
 
-            $text_area_name_id = 'smspro_bc_reminder_scheduler[cron][' . $count . '][message]';
-            $select_name_id    = 'smspro_bc_reminder_scheduler[cron][' . $count . '][frequency]';
+            $text_area_name_id = 'softeria_alerts_bc_reminder_scheduler[cron][' . $count . '][message]';
+            $select_name_id    = 'softeria_alerts_bc_reminder_scheduler[cron][' . $count . '][frequency]';
             $text_body         = $data['message'];
             
             $templates[ $key ]['notify_id']      = 'booking-calendar';
@@ -355,14 +338,14 @@ class BookingCalendar extends FormInterface
 
         $templates = array();
         foreach ( $booking_statuses as $ks  => $vs ) {
-            $current_val = smspro_get_option('customer_bc_notify_' . strtolower($vs), 'smspro_bc_general', 'on');
+            $current_val = softeria_alerts_get_option('customer_bc_notify_' . strtolower($vs), 'softeria_alerts_bc_general', 'on');
 
-            $checkbox_name_id = 'smspro_bc_general[customer_bc_notify_' . strtolower($vs) . ']';
-            $textarea_name_id = 'smspro_bc_message[customer_sms_bc_body_' . strtolower($vs) . ']';
+            $checkbox_name_id = 'softeria_alerts_bc_general[customer_bc_notify_' . strtolower($vs) . ']';
+            $textarea_name_id = 'softeria_alerts_bc_message[customer_sms_bc_body_' . strtolower($vs) . ']';
 
             $default_template = SmsAlertMessages::showMessage('DEFAULT_BOOKING_CALENDAR_CUSTOMER_' . strtoupper($vs));
 
-            $text_body = smspro_get_option('customer_sms_bc_body_' . strtolower($vs), 'smspro_bc_message', ( ( '' !== $default_template ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_BOOKING_CALENDAR_CUSTOMER') ));
+            $text_body = softeria_alerts_get_option('customer_sms_bc_body_' . strtolower($vs), 'softeria_alerts_bc_message', ( ( '' !== $default_template ) ? $default_template : SmsAlertMessages::showMessage('DEFAULT_BOOKING_CALENDAR_CUSTOMER') ));
 
             $templates[ $ks ]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -392,12 +375,12 @@ class BookingCalendar extends FormInterface
         $templates = array();
         foreach ( $booking_statuses as $ks  => $vs ) {
 
-            $current_val      = smspro_get_option('admin_bc_notify_' . strtolower($vs), 'smspro_bc_general', 'on');
-            $checkbox_name_id = 'smspro_bc_general[admin_bc_notify_' . strtolower($vs) . ']';
-            $textarea_name_id = 'smspro_bc_message[admin_sms_bc_body_' . strtolower($vs) . ']';
+            $current_val      = softeria_alerts_get_option('admin_bc_notify_' . strtolower($vs), 'softeria_alerts_bc_general', 'on');
+            $checkbox_name_id = 'softeria_alerts_bc_general[admin_bc_notify_' . strtolower($vs) . ']';
+            $textarea_name_id = 'softeria_alerts_bc_message[admin_sms_bc_body_' . strtolower($vs) . ']';
 
             /* translators: %1$s: Store name tag, %2$s: Booking status */
-            $text_body = smspro_get_option('admin_sms_bc_body_' . strtolower($vs), 'smspro_bc_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $text_body = softeria_alerts_get_option('admin_sms_bc_body_' . strtolower($vs), 'softeria_alerts_bc_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
             $templates[ $ks ]['title']          = 'When admin change status to ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -426,8 +409,8 @@ class BookingCalendar extends FormInterface
             $booking        = wpbc_api_get_booking_by_id($booking_id);
             $buyer_number   = $booking['formdata']['phone1'];
 
-            $customer_message   = smspro_get_option('customer_sms_bc_body_pending', 'smspro_bc_message', '');
-            $customer_bc_notify = smspro_get_option('customer_bc_notify_pending', 'smspro_bc_general', 'on');
+            $customer_message   = softeria_alerts_get_option('customer_sms_bc_body_pending', 'softeria_alerts_bc_message', '');
+            $customer_bc_notify = softeria_alerts_get_option('customer_bc_notify_pending', 'softeria_alerts_bc_general', 'on');
 
             if ('on' === $customer_bc_notify && '' !== $customer_message ) {
                 $buyer_message = $this->parseSmsBody($booking, $customer_message);
@@ -435,7 +418,7 @@ class BookingCalendar extends FormInterface
             }
 
             // send msg to admin.
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
             $nos                = explode(',', $admin_phone_number);
             $admin_phone_number = array_diff($nos, array( 'postauthor', 'post_author' ));
@@ -443,8 +426,8 @@ class BookingCalendar extends FormInterface
 
             if (! empty($admin_phone_number) ) {
 
-                $admin_bc_notify = smspro_get_option('admin_bc_notify_pending', 'smspro_bc_general', 'on');
-                $admin_message   = smspro_get_option('admin_sms_bc_body_pending', 'smspro_bc_message', '');
+                $admin_bc_notify = softeria_alerts_get_option('admin_bc_notify_pending', 'softeria_alerts_bc_general', 'on');
+                $admin_message   = softeria_alerts_get_option('admin_sms_bc_body_pending', 'softeria_alerts_bc_message', '');
 
                 if ('on' === $admin_bc_notify && '' !== $admin_message ) {
                     $admin_message = $this->parseSmsBody($booking, $admin_message);
@@ -474,14 +457,14 @@ class BookingCalendar extends FormInterface
                 exit();
             }
             if ('1' === $is_approve_or_pending ) {
-                $customer_message = smspro_get_option('customer_sms_bc_body_approved', 'smspro_bc_message', '');
+                $customer_message = softeria_alerts_get_option('customer_sms_bc_body_approved', 'softeria_alerts_bc_message', '');
                  self::setBookingReminder($booking_id);
             } else {
-                $customer_message = smspro_get_option('customer_sms_bc_body_pending', 'smspro_bc_message', '');
+                $customer_message = softeria_alerts_get_option('customer_sms_bc_body_pending', 'softeria_alerts_bc_message', '');
             }
 
-            $customer_bc_pending_notify  = smspro_get_option('customer_bc_notify_pending', 'smspro_bc_general', 'on');
-            $customer_bc_approved_notify = smspro_get_option('customer_bc_notify_approved', 'smspro_bc_general', 'on');
+            $customer_bc_pending_notify  = softeria_alerts_get_option('customer_bc_notify_pending', 'softeria_alerts_bc_general', 'on');
+            $customer_bc_approved_notify = softeria_alerts_get_option('customer_bc_notify_approved', 'softeria_alerts_bc_general', 'on');
 
 
             if (( 'on' === $customer_bc_approved_notify && '' !== $customer_message ) || ( 'on' === $customer_bc_pending_notify && '' !== $customer_message ) ) {
@@ -490,29 +473,29 @@ class BookingCalendar extends FormInterface
             }
 
             // send msg to admin.
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
             if (! empty($admin_phone_number) ) {
 
-                $smspro_bc_admin_pending_notify = smspro_get_option('admin_bc_notify_pending', 'smspro_bc_general', 'on');
-                $smspro_bc_admin_approve_notify = smspro_get_option('admin_bc_notify_approved', 'smspro_bc_general', 'on');
+                $softeria_alerts_bc_admin_pending_notify = softeria_alerts_get_option('admin_bc_notify_pending', 'softeria_alerts_bc_general', 'on');
+                $softeria_alerts_bc_admin_approve_notify = softeria_alerts_get_option('admin_bc_notify_approved', 'softeria_alerts_bc_general', 'on');
 
                 if ('1' === $is_approve_or_pending ) {
-                    $admin_message = smspro_get_option('admin_sms_bc_body_approved', 'smspro_bc_message', '');
+                    $admin_message = softeria_alerts_get_option('admin_sms_bc_body_approved', 'softeria_alerts_bc_message', '');
                 } else {
-                    $admin_message = smspro_get_option('admin_sms_bc_body_pending', 'smspro_bc_message', '');
+                    $admin_message = softeria_alerts_get_option('admin_sms_bc_body_pending', 'softeria_alerts_bc_message', '');
                 }
 
                 $nos                = explode(',', $admin_phone_number);
                 $admin_phone_number = array_diff($nos, array( 'postauthor', 'post_author' ));
                 $admin_phone_number = implode(',', $admin_phone_number);
 
-                if ('on' === $smspro_bc_admin_pending_notify && '' !== $admin_message && '0' === $is_approve_or_pending ) {
+                if ('on' === $softeria_alerts_bc_admin_pending_notify && '' !== $admin_message && '0' === $is_approve_or_pending ) {
                     $admin_message = $this->parseSmsBody($booking, $admin_message);
                     do_action('sa_send_sms', $admin_phone_number, $admin_message);
                 }
 
-                if ('on' === $smspro_bc_admin_approve_notify && '' !== $admin_message && '1' === $is_approve_or_pending ) {
+                if ('on' === $softeria_alerts_bc_admin_approve_notify && '' !== $admin_message && '1' === $is_approve_or_pending ) {
                     $admin_message = $this->parseSmsBody($booking, $admin_message);
                     do_action('sa_send_sms', $admin_phone_number, $admin_message);
                 }
@@ -536,8 +519,8 @@ class BookingCalendar extends FormInterface
             $booking                  = wpbc_api_get_booking_by_id($booking_id);
             $buyer_sms_data['number'] = $booking['formdata']['phone1'];
 
-            $customer_message   = smspro_get_option('customer_sms_bc_body_trash', 'smspro_bc_message', '');
-            $customer_bc_notify = smspro_get_option('customer_bc_notify_trash', 'smspro_bc_general', 'on');
+            $customer_message   = softeria_alerts_get_option('customer_sms_bc_body_trash', 'softeria_alerts_bc_message', '');
+            $customer_bc_notify = softeria_alerts_get_option('customer_bc_notify_trash', 'softeria_alerts_bc_general', 'on');
 
             if ('on' === $customer_bc_notify && '' !== $customer_message ) {
                 $buyer_sms_data['sms_body'] = $this->parseSmsBody($booking, $customer_message);
@@ -545,7 +528,7 @@ class BookingCalendar extends FormInterface
             }
 
             // send msg to admin.
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
             $nos                = explode(',', $admin_phone_number);
             $admin_phone_number=array_diff($nos, array('postauthor', 'post_author'));
@@ -553,8 +536,8 @@ class BookingCalendar extends FormInterface
 
             if (! empty($admin_phone_number) ) {
 
-                $admin_bc_notify = smspro_get_option('admin_bc_notify_trash', 'smspro_bc_general', 'on');
-                $admin_message   = smspro_get_option('admin_sms_bc_body_trash', 'smspro_bc_message', '');
+                $admin_bc_notify = softeria_alerts_get_option('admin_bc_notify_trash', 'softeria_alerts_bc_general', 'on');
+                $admin_message   = softeria_alerts_get_option('admin_sms_bc_body_trash', 'softeria_alerts_bc_message', '');
 
                 if ('on' === $admin_bc_notify && '' !== $admin_message ) {
                     $admin_message = $this->parseSmsBody($booking, $admin_message);
@@ -651,7 +634,7 @@ class BookingCalendar extends FormInterface
      */
     public function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( is_plugin_active('booking/wpdev-booking.php') && $islogged ) ? true : false;
     }
@@ -671,7 +654,7 @@ class BookingCalendar extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -697,7 +680,7 @@ class BookingCalendar extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {

@@ -5,8 +5,8 @@
   * PHP version 5
   *
   * @category Handler
-  * @package  SMSPro
-  * @author   SMS Pro <support@softeriatech.com>
+  * @package  SOFTSMSAlerts
+  * @author   Softeria Tech <billing@softeriatech.com>
   * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
   * @link     https://sms.softeriatech.com/
   */
@@ -24,8 +24,8 @@ if (! is_plugin_active('everest-forms/everest-forms.php')) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -78,7 +78,7 @@ class EverestForm extends FormInterface
         $form_id         = $form_data['id'];
         $form_field     = $form_data['form_fields'];        
         $unique_class   = 'sa-class-'.mt_rand(1, 100);
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         $phone_field    = !empty(
             $form_data['settings']
@@ -133,7 +133,7 @@ class EverestForm extends FormInterface
     public function saEverestformBuilderSettingsSections($tab, $form_data)
     {
         $tab['smspro']= esc_html__(
-            'SMS Pro', 'smspro_form'
+            'Softeria Tech', 'softeria_alerts_form'
         );
         return $tab;
     }
@@ -148,9 +148,9 @@ class EverestForm extends FormInterface
         $form_data = $this->form_data();    
         $settings = isset($form_data['settings']) ? 
         $form_data['settings'] : array();        
-        echo '<div class="evf-content-section evf-content-smspro-settings">';
+        echo '<div class="evf-content-section evf-content-softeria-alert-settings">';
         echo '<div class="evf-content-section-title">';
-        esc_html_e('SMS Pro Message Configuration', 'smspro_form');
+        esc_html_e('Softeria Tech Message Configuration', 'softeria_alerts_form');
         echo '</div>';
         echo '<a href="https://sms.softeriatech.com/knowledgebase/everest-forms-sms-integration/" target="_blank" class="btn-outline"><span class="dashicons dashicons-format-aside"></span> Documentation</a><br>';        
         everest_forms_panel_field(
@@ -158,12 +158,12 @@ class EverestForm extends FormInterface
             'smspro',
             'enable_message',
             $form_data,
-            esc_html__('Enable Message', 'sms-pro'),
+            esc_html__('Enable Message', 'softeria-sms-alerts'),
             array(
             'default' => isset($this->form->enable_message) ? 
             $this->form->enable_message : '',
             'tooltip' => esc_html__(
-                'Enable to send customer and admin notifications', 'sms-pro'
+                'Enable to send customer and admin notifications', 'softeria-sms-alerts'
             ),
             'parent'     => 'settings',
             )
@@ -173,11 +173,11 @@ class EverestForm extends FormInterface
             'smspro',
             'otp_enable',
             $form_data,
-            esc_html__('Enable Mobile Verification', 'sms-pro'),
+            esc_html__('Enable Mobile Verification', 'softeria-sms-alerts'),
             array(
             'default' => isset($this->form->otp_enable) ? 
             $this->form->otp_enable : '',
-            'tooltip' => esc_html__('Enable Mobile Verification', 'sms-pro'),
+            'tooltip' => esc_html__('Enable Mobile Verification', 'softeria-sms-alerts'),
             'parent'     => 'settings',
             )
         );
@@ -186,12 +186,12 @@ class EverestForm extends FormInterface
             'smspro',
             'admin_number',
             $form_data,
-            esc_html__('Send Admin SMS To', 'sms-pro'),            
+            esc_html__('Send Admin SMS To', 'softeria-sms-alerts'),            
             array(
             'default' => isset($this->form->admin_number) ?
             $this->form->admin_number : '',
             'tooltip' => esc_html__(
-                'Admin sms notifications will be sent to this number', 'sms-pro'
+                'Admin sms notifications will be sent to this number', 'softeria-sms-alerts'
             ),
             'smarttags'  => array(
                                 'type'        => 'fields',
@@ -205,7 +205,7 @@ class EverestForm extends FormInterface
             'smspro',
             'admin_message',
             $form_data,
-            esc_html__('Admin Message', 'sms-pro'),            
+            esc_html__('Admin Message', 'softeria-sms-alerts'),            
             array(
             'default' => SmsAlertMessages::showMessage(
                 'DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'
@@ -222,12 +222,12 @@ class EverestForm extends FormInterface
             'smspro',
             'visitor_phone',
             $form_data,
-            esc_html__('Select Phone Field', 'sms-pro'),            
+            esc_html__('Select Phone Field', 'softeria-sms-alerts'),            
             array(
             'default' => isset($this->form->visitor_phone) ?
             $this->form->visitor_phone : '',
             'tooltip' => esc_html__(
-                'Customer sms notifications will be sent to this number', 'sms-pro'
+                'Customer sms notifications will be sent to this number', 'softeria-sms-alerts'
             ),
             'smarttags'  => array(
                                 'type'        => 'fields',
@@ -241,7 +241,7 @@ class EverestForm extends FormInterface
             'smspro',
             'visitor_message',
             $form_data,
-            esc_html__('Visitor Message', 'sms-pro'),            
+            esc_html__('Visitor Message', 'softeria-sms-alerts'),            
             array(
             'default' => SmsAlertMessages::showMessage(
                 'DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'
@@ -268,7 +268,7 @@ class EverestForm extends FormInterface
      */
     public function saSendSmsOnSubmission($fields, $entry, $form_data, $entry_id)
     {        
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         $msg_enable     = !empty(
             $form_data['settings']
@@ -327,7 +327,7 @@ class EverestForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( $islogged && (
         is_plugin_active('everest-forms/everest-forms.php') )) ? true : false;
@@ -350,7 +350,7 @@ class EverestForm extends FormInterface
         }
         if (! empty($_REQUEST['option']) && sanitize_text_field(
             wp_unslash($_REQUEST['option'])
-        ) === 'smspro-validate-otp-form' 
+        ) === 'softeria-alert-validate-otp-form' 
         ) {
             wp_send_json(
                 SmsAlertUtility::_create_json_response(
@@ -386,7 +386,7 @@ class EverestForm extends FormInterface
                 wp_unslash(
                     $_REQUEST['option']
                 )
-            )==='smspro-validate-otp-form' 
+            )==='softeria-alert-validate-otp-form' 
         ) {
             wp_send_json(
                 SmsAlertUtility::_create_json_response(

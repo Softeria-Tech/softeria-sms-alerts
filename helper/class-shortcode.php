@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -19,8 +19,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Shortcode class
@@ -35,7 +35,7 @@ class Shortcode
      */
     public function __construct()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         if ($user_authorize->is_user_authorised()) {           
             add_shortcode('sa_loginwithotp', array( $this, 'addSaLoginwithotp' ), 100);
             add_shortcode('sa_signupwithmobile', array( $this, 'addSaSignupwithmobile' ), 100);
@@ -55,31 +55,14 @@ class Shortcode
      */
     public static function addTabs( $tabs = array() )
     {
-        $tabs['signupwithotp']['nav'] = 'Shortcodes';
+        $tabs['signupwithotp']['nav'] = 'SMS Tags';
         $tabs['signupwithotp']['icon'] = 'dashicons-admin-users';
-        $tabs['signupwithotp']['inner_nav']['signup']['title']       = 'Shortcodes';
+        $tabs['signupwithotp']['inner_nav']['signup']['title']       = 'SMS Tags';
         $tabs['signupwithotp']['inner_nav']['signup']['tab_section'] = 'signup_with_phone';
         $tabs['signupwithotp']['inner_nav']['signup']['first_active'] = true;
         $tabs['signupwithotp']['inner_nav']['signup']['tabContent']  = array();
         $tabs['signupwithotp']['inner_nav']['signup']['filePath']    = 'views/signup-with-otp-template.php'; 
-        $tabs['signupwithotp']['help_links']                        = array(
-        'youtube_link' => array(
-        'href'   => 'https://youtu.be/mJ6IEFmmXhI',
-        'target' => '_blank',
-        'alt'    => 'Watch steps on Youtube',
-        'class'  => 'btn-outline',
-        'label'  => 'Youtube',
-        'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-        ),
-        'kb_link'      => array(
-        'href'   => 'https://sms.softeriatech.com/knowledgebase/sms-pro-shortcodes/',
-        'target' => '_blank',
-        'alt'    => 'Read how to use smspro shortcodes',
-        'class'  => 'btn-outline',
-        'label'  => 'Documentation',
-        'icon'   => '<span class="dashicons dashicons-format-aside"></span>',
-        ),
+        $tabs['signupwithotp']['help_links'] = array(
         );
         return $tabs;
     }
@@ -94,11 +77,11 @@ class Shortcode
     public static function addSaSubscribe($callback)
     {                        
         $grp_name = ( ! empty($callback['group_name']) ) ? $callback['group_name'] : '';
-        $sa_name = ( ! empty($callback['sa_name']) ) ? $callback['sa_name'] : esc_html__('Name', 'sms-pro');        
-        $sa_placeholder = ( ! empty($callback['sa_placeholder']) ) ? $callback['sa_placeholder'] : esc_html__('Enter Name', 'sms-pro');    
-        $sa_mobile = ( ! empty($callback['sa_mobile']) ) ? $callback['sa_mobile'] : esc_html__('Mobile', 'sms-pro');
-        $sa_mobile_placeholder = ( ! empty($callback['sa_mobile_placeholder']) ) ? $callback['sa_mobile_placeholder'] : esc_html__('Enter Mobile Number', 'sms-pro');
-        $sa_button = ( ! empty($callback['sa_button']) ) ? $callback['sa_button'] : esc_html__('Subscribe', 'sms-pro');
+        $sa_name = ( ! empty($callback['sa_name']) ) ? $callback['sa_name'] : esc_html__('Name', 'softeria-sms-alerts');        
+        $sa_placeholder = ( ! empty($callback['sa_placeholder']) ) ? $callback['sa_placeholder'] : esc_html__('Enter Name', 'softeria-sms-alerts');    
+        $sa_mobile = ( ! empty($callback['sa_mobile']) ) ? $callback['sa_mobile'] : esc_html__('Mobile', 'softeria-sms-alerts');
+        $sa_mobile_placeholder = ( ! empty($callback['sa_mobile_placeholder']) ) ? $callback['sa_mobile_placeholder'] : esc_html__('Enter Mobile Number', 'softeria-sms-alerts');
+        $sa_button = ( ! empty($callback['sa_button']) ) ? $callback['sa_button'] : esc_html__('Subscribe', 'softeria-sms-alerts');
         $form_html = "<form id='sa-subscribe-form'>
 			   <input type='hidden' name='grp_name' id='sa_grp_name' value='".esc_attr($grp_name)."'>
 			   <p>
@@ -171,9 +154,9 @@ class Shortcode
         $label_field    = ( ! empty($callback['sa_label']) ) ? $callback['sa_label'] : 'Mobile Number';
         $placeholder_field    = ( ! empty($callback['sa_placeholder']) ) ? $callback['sa_placeholder'] : 'Enter Number';
         $button_field    = ( ! empty($callback['sa_button']) ) ? $callback['sa_button'] : 'Login with OTP';
-        $enabled_login_with_otp = smspro_get_option('login_with_otp', 'smspro_general');
+        $enabled_login_with_otp = softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general');
         if ('on' !== $enabled_login_with_otp && current_user_can('administrator')) {
-            return(esc_html__('Please Enable Login With OTP.', 'sms-pro'));
+            return(esc_html__('Please Enable Login With OTP.', 'softeria-sms-alerts'));
         }
         $unique_class    = 'sa-lwo-'.mt_rand(1, 100);
         if (is_user_logged_in() && !current_user_can('administrator')) {
@@ -181,16 +164,16 @@ class Shortcode
         }    
         ob_start();
         global $wp;
-        echo '<form class="sa-lwo-form sa_loginwithotp-form '.$unique_class.'" method="post" action="' . home_url($wp->request) . '/?option=smspro_verify_login_with_otp">';
-        get_smspro_template('template/login-with-otp-form.php', array('label_field'=>$label_field, 'placeholder_field'=>$placeholder_field, 'button_field'=>$button_field, 'redirect_url'=>$redirect_url));
-        echo wp_nonce_field('smspro_wp_loginwithotp_nonce', 'smspro_loginwithotp_nonce', true, false);
+        echo '<form class="sa-lwo-form sa_loginwithotp-form '.$unique_class.'" method="post" action="' . home_url($wp->request) . '/?option=softeria_alerts_verify_login_with_otp">';
+        get_softeria_alerts_template('template/login-with-otp-form.php', array('label_field'=>$label_field, 'placeholder_field'=>$placeholder_field, 'button_field'=>$button_field, 'redirect_url'=>$redirect_url));
+        echo wp_nonce_field('softeria_alerts_wp_loginwithotp_nonce', 'softeria_alerts_loginwithotp_nonce', true, false);
         echo '</form><style>.sa_default_login_form{display:none;}</style>';
-        echo do_shortcode('[sa_verify phone_selector=".sa_mobileno" submit_selector= ".'.$unique_class.' .smspro_login_with_otp_btn"]');
+        echo do_shortcode('[sa_verify phone_selector=".sa_mobileno" submit_selector= ".'.$unique_class.' .softeria_alerts_login_with_otp_btn"]');
         $otp_modal = 'document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() {
             if (jQuery(".modal.smsproModal").length==0)    
             {            
-            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_smspro_template("template/otp-popup.php", array(), true))).'\';
+            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_softeria_alerts_template("template/otp-popup.php", array(), true))).'\';
             jQuery("body").append(popup);
             }
         }, 200);
@@ -218,10 +201,10 @@ class Shortcode
         $label_field    = ( ! empty($callback['sa_label']) ) ? $callback['sa_label'] : 'Mobile Number';
         $placeholder_field    = ( ! empty($callback['sa_placeholder']) ) ? $callback['sa_placeholder'] : 'Enter Number';
         $button_field    = ( ! empty($callback['sa_button']) ) ? $callback['sa_button'] : 'Signup with Mobile';
-        $enabled_signup_with_mobile = smspro_get_option('signup_with_mobile', 'smspro_general');
+        $enabled_signup_with_mobile = softeria_alerts_get_option('signup_with_mobile', 'softeria_alerts_general');
         $unique_class    = 'sa-swm-'.mt_rand(1, 100);
         if ('on' !== $enabled_signup_with_mobile && current_user_can('administrator')) {
-            return(esc_html__('Please Enable Signup With Mobile.', 'sms-pro'));
+            return(esc_html__('Please Enable Signup With Mobile.', 'softeria-sms-alerts'));
         }
         if (is_user_logged_in() && !current_user_can('administrator')) {
             return;
@@ -229,15 +212,15 @@ class Shortcode
         ob_start();
         global $wp;
         echo '<form class="sa-lwo-form sa-signupwithotp-form '.$unique_class.'" method="post" action="' . home_url($wp->request) . '/?option=signwthmob">';
-        get_smspro_template('template/sign-with-mobile-form.php', array('label_field'=>$label_field, 'placeholder_field'=>$placeholder_field, 'button_field'=>$button_field, 'redirect_url'=>$redirect_url));
-        echo wp_nonce_field('smspro_wp_signupwithmobile_nonce', 'smspro_signupwithmobile_nonce', true, false);
+        get_softeria_alerts_template('template/sign-with-mobile-form.php', array('label_field'=>$label_field, 'placeholder_field'=>$placeholder_field, 'button_field'=>$button_field, 'redirect_url'=>$redirect_url));
+        echo wp_nonce_field('softeria_alerts_wp_signupwithmobile_nonce', 'softeria_alerts_signupwithmobile_nonce', true, false);
         echo '</form><style>.sa_default_signup_form{display:none;}</style>';
-        echo do_shortcode('[sa_verify phone_selector="#reg_with_mob" submit_selector= ".'.$unique_class.' .smspro_reg_with_otp_btn"]');        
+        echo do_shortcode('[sa_verify phone_selector="#reg_with_mob" submit_selector= ".'.$unique_class.' .softeria_alerts_reg_with_otp_btn"]');        
         $otp_modal = 'document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() {
             if (jQuery(".modal.smsproModal").length==0)    
             {            
-            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_smspro_template("template/otp-popup.php", array(), true))).'\';
+            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_softeria_alerts_template("template/otp-popup.php", array(), true))).'\';
             jQuery("body").append(popup);
             }
         }, 200);

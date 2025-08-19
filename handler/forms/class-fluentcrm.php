@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ if (is_plugin_active('fluent-crm/fluent-crm.php') === false) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * fluent-crm 
@@ -60,10 +60,10 @@ class Fluentcrm extends FormInterface
         $bookingStatuses = fluentcrm_subscriber_statuses();
 
         foreach ($bookingStatuses as $ks => $vs) {
-            $defaults['smspro_ft_general']['customer_ft_notify_' . $vs]   = 'off';
-            $defaults['smspro_ft_message']['customer_sms_ft_body_' . $vs] = '';
-            $defaults['smspro_ft_general']['admin_ft_notify_' . $vs]      = 'off';
-            $defaults['smspro_ft_message']['admin_sms_ft_body_' . $vs]    = '';
+            $defaults['softeria_alerts_ft_general']['customer_ft_notify_' . $vs]   = 'off';
+            $defaults['softeria_alerts_ft_message']['customer_sms_ft_body_' . $vs] = '';
+            $defaults['softeria_alerts_ft_general']['admin_ft_notify_' . $vs]      = 'off';
+            $defaults['softeria_alerts_ft_message']['admin_sms_ft_body_' . $vs]    = '';
         }
         return $defaults;
     }
@@ -100,17 +100,9 @@ class Fluentcrm extends FormInterface
         $tabs['fluent-crm']['inner_nav']['fluent-crm_admin']['tabContent']  = $admin_param;
         $tabs['fluent-crm']['inner_nav']['fluent-crm_admin']['filePath']    = 'views/message-template.php';
         $tabs['fluent-crm']['help_links'] = [
-            /* 'youtube_link' => [
-                'href'   => 'https://youtu.be/4BXd_XZt9zM',
-                'target' => '_blank',
-                'alt'    => 'Watch steps on Youtube',
-                'class'  => 'btn-outline',
-                'label'  => 'Youtube',
-                'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-            ], */
+            
             'kb_link'      => [
-                'href'   => 'https://sms.softeriatech.com/knowledgebase/fluentcrm-sms-integration/',
+                'href'   => 'https://sms.softeriatech.com',
                 'target' => '_blank',
                 'alt'    => 'Read how to integrate with fluentcrm',
                 'class'  => 'btn-outline',
@@ -133,13 +125,13 @@ class Fluentcrm extends FormInterface
         $templates       = [];
 
         foreach ($bookingStatuses as $ks => $vs) {
-            $currentVal      = smspro_get_option('customer_ft_notify_' . strtolower($vs), 'smspro_ft_general', 'on');
-            $checkboxNameId  = 'smspro_ft_general[customer_ft_notify_' . strtolower($vs) . ']';
-            $textareaNameId  = 'smspro_ft_message[customer_sms_ft_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('customer_sms_ft_body_' . strtolower($vs), 'smspro_ft_message', sprintf(__('Hello %1$s, status of your contact with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[first_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $currentVal      = softeria_alerts_get_option('customer_ft_notify_' . strtolower($vs), 'softeria_alerts_ft_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_ft_general[customer_ft_notify_' . strtolower($vs) . ']';
+            $textareaNameId  = 'softeria_alerts_ft_message[customer_sms_ft_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', sprintf(__('Hello %1$s, status of your contact with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[first_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
-            $textBody = smspro_get_option('customer_sms_ft_body_' . strtolower($vs), 'smspro_ft_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('customer_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When status changed is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -163,13 +155,13 @@ class Fluentcrm extends FormInterface
         $templates           = [];
 
         foreach ($bookingStatuses as $ks => $vs) {
-            $currentVal      = smspro_get_option('admin_ft_notify_' . strtolower($vs), 'smspro_ft_general', 'on');
-            $checkboxNameId  = 'smspro_ft_general[admin_ft_notify_' . strtolower($vs) . ']';
-            $textareaNameId  = 'smspro_ft_message[admin_sms_ft_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('admin_sms_ft_body_' . strtolower($vs), 'smspro_ft_message', sprintf(__('Hello admin, status of your contact with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $currentVal      = softeria_alerts_get_option('admin_ft_notify_' . strtolower($vs), 'softeria_alerts_ft_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_ft_general[admin_ft_notify_' . strtolower($vs) . ']';
+            $textareaNameId  = 'softeria_alerts_ft_message[admin_sms_ft_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', sprintf(__('Hello admin, status of your contact with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
-            $textBody       = smspro_get_option('admin_sms_ft_body_' . strtolower($vs), 'smspro_ft_message', $defaultTemplate);
+            $textBody       = softeria_alerts_get_option('admin_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When status is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -210,18 +202,18 @@ class Fluentcrm extends FormInterface
         $status               = $contact->status;
         $phone_no             = $contact->phone;
 
-        $customerMessage      = smspro_get_option('customer_sms_ft_body_' . $status, 'smspro_ft_message', '');
-        $customerNotify = smspro_get_option('customer_ft_notify_' . $status, 'smspro_ft_general', 'on');
+        $customerMessage      = softeria_alerts_get_option('customer_sms_ft_body_' . $status, 'softeria_alerts_ft_message', '');
+        $customerNotify = softeria_alerts_get_option('customer_ft_notify_' . $status, 'softeria_alerts_ft_general', 'on');
 
         if (($customerNotify === 'on' && $customerMessage !== '')) {
                 $buyerMessage = $this->parseSmsBody($contact, $customerMessage);
                 do_action('sa_send_sms', $phone_no, $buyerMessage);
         }
             // Send msg to admin.
-            $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         if (empty($adminPhoneNumber) === false) {
-            $adminNotify      = smspro_get_option('admin_ft_notify_' . $status, 'smspro_ft_general', 'on');
-            $adminMessage     = smspro_get_option('admin_sms_ft_body_' . $status, 'smspro_ft_message', '');
+            $adminNotify      = softeria_alerts_get_option('admin_ft_notify_' . $status, 'softeria_alerts_ft_general', 'on');
+            $adminMessage     = softeria_alerts_get_option('admin_sms_ft_body_' . $status, 'softeria_alerts_ft_message', '');
             $nos = explode(',', $adminPhoneNumber);
             $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
             $adminPhoneNumber = implode(',', $adminPhoneNumber);
@@ -344,7 +336,7 @@ class Fluentcrm extends FormInterface
     public function isFormEnabled()
     {
 
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('fluent-crm/fluent-crm.php') === true) && ($islogged === true)) {
             return true;

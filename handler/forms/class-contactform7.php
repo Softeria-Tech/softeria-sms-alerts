@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -23,8 +23,8 @@ if (! is_plugin_active('contact-form-7/wp-contact-form-7.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -88,8 +88,8 @@ class ContactForm7 extends FormInterface
         add_filter('wpcf7_validate_text*', array( $this, 'validateFormPost' ), 1, 2);
         add_filter('wpcf7_validate_tel*', array( $this, 'validateFormPost' ), 1, 2);
         add_filter('wpcf7_validate_billing_phone*', array( $this, 'validateFormPost' ), 10, 2);
-        add_filter('wpcf7_validate_smspro_otp_input*', array( $this, 'validateFormPost' ), 1, 2);
-        add_shortcode('smspro_verify_phone', array( $this, 'cf7PhoneShortcode' ));
+        add_filter('wpcf7_validate_softeria_alerts_otp_input*', array( $this, 'validateFormPost' ), 1, 2);
+        add_shortcode('softeria_alerts_verify_phone', array( $this, 'cf7PhoneShortcode' ));
         $this->routeData();
         add_filter('wpcf7_editor_panels', array( $this, 'newMenuSmsAlert' ), 98);
         add_action('wpcf7_after_save', array( &$this, 'saveForm' ));
@@ -123,16 +123,16 @@ class ContactForm7 extends FormInterface
         } 
         
         $id = $_POST['_wpcf7'];
-        $options         = get_option('smspro_sms_c7_' . $id);
+        $options         = get_option('softeria_alerts_sms_c7_' . $id);
         $visitor_number = !empty($options['visitorNumber'])?$this->getCf7TagSToString($options['visitorNumber'], $_POST):'';
-        if (isset($_REQUEST['option']) && 'smspro_wpcf7_form_otp' === sanitize_text_field(wp_unslash($_REQUEST['option']))) {
+        if (isset($_REQUEST['option']) && 'softeria_alerts_wpcf7_form_otp' === sanitize_text_field(wp_unslash($_REQUEST['option']))) {
             SmsAlertUtility::initialize_transaction($this->form_session_var);
         } else {
             return $result;
         }        
            
         if (isset($visitor_number) && SmsAlertUtility::isBlank($visitor_number)) {            
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'sms-pro'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
             exit();
         }
 
@@ -156,11 +156,11 @@ class ContactForm7 extends FormInterface
             exit();
         }
         
-        smspro_site_challenge_otp('test', null, null, $phone_num, 'phone', null, null, 'ajax');
+        softeria_alerts_site_challenge_otp('test', null, null, $phone_num, 'phone', null, null, 'ajax');
     }    
     
     /**
-     * Show warning if sms-pro phone field not selected.
+     * Show warning if softeria-sms-alerts phone field not selected.
      *
      * @param object $page   get page objects.
      * @param object $action get action objects.
@@ -174,11 +174,11 @@ class ContactForm7 extends FormInterface
             return;
         }
         if (!empty($_REQUEST['post'])) {
-            $options         = get_option('smspro_sms_c7_' .$_REQUEST['post']);
+            $options         = get_option('softeria_alerts_sms_c7_' .$_REQUEST['post']);
             if (((!empty($options['visitor_notification']) && 'on' === $options['visitor_notification']) || (!empty($options['auto_sync']) && 'on' === $options['auto_sync'])) && (empty($options['visitorNumber']) || (!empty($options['visitorNumber']) && '[billing_phone]' !== $options['visitorNumber']))) {
                 echo sprintf(
                     '<div id="message" class="notice notice-warning"><p>%s</p></div>',
-                    esc_html__("Please choose SMS Pro phone field in SMS Pro tab", 'sms-pro')
+                    esc_html__("Please choose Softeria Tech phone field in Softeria Tech tab", 'softeria-sms-alerts')
                 );
             }
         }
@@ -192,7 +192,7 @@ class ContactForm7 extends FormInterface
     public function smsproWpcf7AddShortcodePhonefieldFrontend()
     {
         wpcf7_add_form_tag(
-            array( 'billing_phone', 'billing_phone*', 'smspro_otp_input', 'smspro_otp_input*' ),
+            array( 'billing_phone', 'billing_phone*', 'softeria_alerts_otp_input', 'softeria_alerts_otp_input*' ),
             array( $this, 'smsproWpcf7ShortcodeHandler' ),
             true
         );
@@ -223,7 +223,7 @@ class ContactForm7 extends FormInterface
         }
 
         if ($tag->has_option('otp_enabled_popup') ) {
-            $class .= ' wpcf7-smspro-otp-enabled phone-valid';
+            $class .= ' wpcf7-softeria-alert-otp-enabled phone-valid';
         } else {
             $class .= ' phone-valid';
         }
@@ -282,7 +282,7 @@ class ContactForm7 extends FormInterface
             $html .= do_shortcode("[sa_verify phone_selector='.wpcf7-billing_phone' submit_selector='#" . $unit_tag . " .wpcf7-submit' placeholder='" . $placeholder . "']");
         } elseif ($tag->has_option('otp_enabled') ) {
             $html .= '<div style="margin-bottom:3%">
-			<input class="smspro_cf7_otp_btn" type="button" class="button alt" style="width:100%" title="Please Enter a phone number to enable this." value="Click here to verify your Phone"><div id="salert_message" style="background-color: #f7f6f7;padding: 1em 2em 1em 3.5em;display:none;"></div>
+			<input class="softeria_alerts_cf7_otp_btn" type="button" class="button alt" style="width:100%" title="Please Enter a phone number to enable this." value="Click here to verify your Phone"><div id="salert_message" style="background-color: #f7f6f7;padding: 1em 2em 1em 3.5em;display:none;"></div>
 			</div>';
 
             $html .= $this->cf7PhoneShortcode();
@@ -348,8 +348,8 @@ class ContactForm7 extends FormInterface
         <th scope="row"><label for="<?php echo esc_attr($args['content'] . '-name'); ?>"><?php esc_html_e('Name', 'contact-form-7'); ?></label></th>
 
         <?php
-        if ('smspro_otp_input' === $type ) {
-            $field_name = 'smspro_customer_validation_otp_token';
+        if ('softeria_alerts_otp_input' === $type ) {
+            $field_name = 'softeria_alerts_customer_validation_otp_token';
         } else {
             $field_name = 'billing_phone';
         }
@@ -393,7 +393,7 @@ class ContactForm7 extends FormInterface
 
         <br class="clear" />
 
-        <p class="description mail-tag"><label for="<?php echo esc_attr($args['content'] . '-mailtag'); ?>"><?php echo wp_kses_post(sprintf(__('To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.', 'sms-pro'), '<strong><span class="mail-tag"></span></strong>')); ?><input type="text" class="mail-tag code hidden" readonly="readonly" id="<?php echo esc_attr($args['content'] . '-mailtag'); ?>" /></label></p>
+        <p class="description mail-tag"><label for="<?php echo esc_attr($args['content'] . '-mailtag'); ?>"><?php echo wp_kses_post(sprintf(__('To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.', 'softeria-sms-alerts'), '<strong><span class="mail-tag"></span></strong>')); ?><input type="text" class="mail-tag code hidden" readonly="readonly" id="<?php echo esc_attr($args['content'] . '-mailtag'); ?>" /></label></p>
     </div>
         <?php
     }
@@ -417,7 +417,7 @@ class ContactForm7 extends FormInterface
 		$tgg->print( 'field_type', array(
 			'with_required' => true,
 			'select_options' => array(
-				'billing_phone' => __( 'SMS Pro Phone', 'sms-pro' ),
+				'billing_phone' => __( 'Softeria Tech Phone', 'softeria-sms-alerts' ),
 			),
 		) );
 
@@ -456,7 +456,7 @@ class ContactForm7 extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( $islogged ) ? true : false;
     }
@@ -473,7 +473,7 @@ class ContactForm7 extends FormInterface
         }
 
         switch ( trim(sanitize_text_field(wp_unslash($_GET['option']))) ) {
-        case 'smspro-cf7-contact':
+        case 'softeria-alert-cf7-contact':
             $this->handleCf7ContactForm($_POST);
             break;
         }
@@ -494,9 +494,9 @@ class ContactForm7 extends FormInterface
         if (array_key_exists('user_phone', $getdata) && ! SmsAlertUtility::isBlank($getdata['user_phone']) ) {
             $_SESSION[ $this->form_phone_ver ] = trim($getdata['user_phone']);
             $message                           = str_replace('##phone##', $getdata['user_phone'], SmsAlertMessages::showMessage('OTP_SENT_PHONE'));
-            smspro_site_challenge_otp('test', null, null, trim($getdata['user_phone']), 'phone', null, null, true);
+            softeria_alerts_site_challenge_otp('test', null, null, trim($getdata['user_phone']), 'phone', null, null, true);
         } else {
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Enter a number in the following format : 9xxxxxxxxx', 'sms-pro'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Enter a number in the following format : 9xxxxxxxxx', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
         }
     }
 
@@ -516,7 +516,7 @@ class ContactForm7 extends FormInterface
         // $value = ( ! empty( $_POST[ $name ] ) ) ? trim( sanitize_text_field( wp_unslash( strtr( (string) $_POST[ $name ] ), "\n", ' ' ) ) ) : '';
         $value = ( ! empty($_POST[ $name ]) ) ? trim(sanitize_text_field(wp_unslash($_POST[ $name ]))) : '';
 
-        if (in_array($tag->basetype, array( 'billing_phone', 'smspro_otp_input' ), true) ) {
+        if (in_array($tag->basetype, array( 'billing_phone', 'softeria_alerts_otp_input' ), true) ) {
             if ($tag->is_required() && empty($value) ) {
                 $result->invalidate($tag, wpcf7_get_message('invalid_required'));
             } elseif (! empty($value) && ! wpcf7_is_tel($value) ) {
@@ -547,11 +547,11 @@ class ContactForm7 extends FormInterface
             }
         }
 
-        if (in_array($tag->basetype, array( 'number', 'text', 'tel', 'billing_phone', 'smspro_otp_input' ), true) && $name === $this->phone_field_key ) {
+        if (in_array($tag->basetype, array( 'number', 'text', 'tel', 'billing_phone', 'softeria_alerts_otp_input' ), true) && $name === $this->phone_field_key ) {
             $_SESSION[ $this->form_final_phone_ver ] = $value;
         }
 
-        if (in_array($tag->basetype, array( 'number', 'text', 'billing_phone', 'smspro_otp_input' ), true) && 'smspro_customer_validation_otp_token' === $name && ! empty($value) ) {
+        if (in_array($tag->basetype, array( 'number', 'text', 'billing_phone', 'softeria_alerts_otp_input' ), true) && 'softeria_alerts_customer_validation_otp_token' === $name && ! empty($value) ) {
             $_SESSION[ $this->form_session_tag_name ] = $name;
             // check if the otp verification field is empty.
             if ($this->checkIfVerificationCodeNotEntered($name) ) {
@@ -590,8 +590,8 @@ class ContactForm7 extends FormInterface
             $messages,
             array(
             'invalid_no' => array(
-            'description' => __('Invalid number', 'sms-pro'),
-            'default'     => __('Invalid number', 'sms-pro'),
+            'description' => __('Invalid number', 'softeria-sms-alerts'),
+            'default'     => __('Invalid number', 'softeria-sms-alerts'),
             ),
             )
         );
@@ -614,7 +614,7 @@ class ContactForm7 extends FormInterface
             return;
         }
 
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -640,7 +640,7 @@ class ContactForm7 extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {
@@ -655,7 +655,7 @@ class ContactForm7 extends FormInterface
      */
     public function validateOTPRequest()
     {
-        do_action('smspro_validate_otp', $_SESSION[ $this->form_session_tag_name ], null);
+        do_action('softeria_alerts_validate_otp', $_SESSION[ $this->form_session_tag_name ], null);
     }
 
     /**
@@ -698,16 +698,16 @@ class ContactForm7 extends FormInterface
      */
     public function cf7PhoneShortcode()
     {
-        $html  = '<script>jQuery(window).on(\'load\', function(){	jQuery(".smspro_cf7_otp_btn,#smspro_customer_validation_otp_token").unbind().click(function(o){';
+        $html  = '<script>jQuery(window).on(\'load\', function(){	jQuery(".softeria_alerts_cf7_otp_btn,#softeria_alerts_customer_validation_otp_token").unbind().click(function(o){';
         $html .= ' var target = jQuery(this); var e=target.parents("form").find("input[name=' . $this->phone_field_key . ']").val();
 		target.parents("form").find("#salert_message").empty(),target.parents("form").find("#salert_message").append("Loading..!Please wait"),';
-        $html .= 'target.parents("form").find("#salert_message").show(),jQuery.ajax({url:"' . site_url() . '/?option=smspro-cf7-contact",type:"POST",data:{user_phone:e},';
+        $html .= 'target.parents("form").find("#salert_message").show(),jQuery.ajax({url:"' . site_url() . '/?option=softeria-alert-cf7-contact",type:"POST",data:{user_phone:e},';
         $html .= 'crossDomain:!0,dataType:"json",success:function(o){
 			if(o.result=="success"){target.parents("form").find("#salert_message").empty(),';
         $html .= 'target.parents("form").find("#salert_message").append(o.message),target.parents("form").find("#salert_message").css("border-top","3px solid green"),';
         $html .= 'target.parents("form").find("input[name=email_verify]").focus()}else{target.parents("form").find("#salert_message").empty(),target.parents("form").find("#salert_message").append(o.message),';
-        $html .= 'target.parents("form").find("#salert_message").css("border-top","3px solid red"),target.parents("form").find("input[name=smspro_customer_validation_otp_token]").focus()} ;},';
-        $html .= 'error:function(o,e,n){console.log("error"+o)}})});jQuery("[name=smspro_customer_validation_otp_token]").on("change",function(){ jQuery(this).find("#salert_message").empty().css("border-top","none")});});</script>';
+        $html .= 'target.parents("form").find("#salert_message").css("border-top","3px solid red"),target.parents("form").find("input[name=softeria_alerts_customer_validation_otp_token]").focus()} ;},';
+        $html .= 'error:function(o,e,n){console.log("error"+o)}})});jQuery("[name=softeria_alerts_customer_validation_otp_token]").on("change",function(){ jQuery(this).find("#salert_message").empty().css("border-top","none")});});</script>';
 
         return $html;
     }
@@ -757,8 +757,8 @@ class ContactForm7 extends FormInterface
      */
     public function newMenuSmsAlert( $panels )
     {
-        $panels['sms-pro-sms-panel'] = array(
-        'title'    => __('SMS Pro'),
+        $panels['softeria-sms-alerts-sms-panel'] = array(
+        'title'    => __('Softeria Tech'),
         'callback' => array( $this, 'addPanelSmsAlert' ),
         );
         return $panels;
@@ -774,7 +774,7 @@ class ContactForm7 extends FormInterface
     public function addPanelSmsAlert( $form )
     {
         if (wpcf7_admin_has_edit_cap() ) {
-            $options = get_option('smspro_sms_c7_' . ( method_exists($form, 'id') ? $form->id() : $form->id ));
+            $options = get_option('softeria_alerts_sms_c7_' . ( method_exists($form, 'id') ? $form->id() : $form->id ));
             if (empty($options) || ! is_array($options) ) {
                 $options = array(
                  'phoneno'              => get_user_meta(get_current_user_id(), 'billing_phone', true),
@@ -783,9 +783,9 @@ class ContactForm7 extends FormInterface
                  'visitorNumber'        => '',
                  'admin_notification'   => 'on',
                  'visitorMessage'       => '',
-                 'smspro_group'       => '',
+                 'softeria_alerts_group'       => '',
                  'auto_sync'            => '',
-                 'smspro_name'        => '',
+                 'softeria_alerts_name'        => '',
                 );
             }
             $options['form'] = $form;
@@ -803,8 +803,8 @@ class ContactForm7 extends FormInterface
      */
     public function saveForm( $form)  
     {
-        $wpcf7smspro_settings = ( ! empty($_POST['wpcf7smspro-settings']) ) ? wp_unslash($_POST['wpcf7smspro-settings']) : '';
-        update_option('smspro_sms_c7_' . ( method_exists($form, 'id') ? $form->id() : $form->id ), smspro_sanitize_array($wpcf7smspro_settings));
+        $wpcf7softeria_alerts_settings = ( ! empty($_POST['wpcf7softeria-alert-settings']) ) ? wp_unslash($_POST['wpcf7softeria-alert-settings']) : '';
+        update_option('softeria_alerts_sms_c7_' . ( method_exists($form, 'id') ? $form->id() : $form->id ), softeria_alerts_sanitize_array($wpcf7softeria_alerts_settings));
     
     }
 
@@ -837,7 +837,7 @@ class ContactForm7 extends FormInterface
      */
     public function sendsmsC7( $form )
     {
-        $options         = get_option('smspro_sms_c7_' . ( method_exists($form, 'id') ? $form->id() : $form->id ));
+        $options         = get_option('softeria_alerts_sms_c7_' . ( method_exists($form, 'id') ? $form->id() : $form->id ));
         $send_to_admin   = false;
         $send_to_vistor  = false;
         $admin_number    = '';
@@ -868,15 +868,15 @@ class ContactForm7 extends FormInterface
         if (!empty($options['auto_sync']) && 'on' === $options['auto_sync'] ) {
             $obj                   = array();
             $extra_fields          = array();
-            $group_name            = $this->getCf7TagSToString($options['smspro_group'], $form);
-            $obj[0]['person_name'] = $this->getCf7TagSToString($options['smspro_name'], $form);
+            $group_name            = $this->getCf7TagSToString($options['softeria_alerts_group'], $form);
+            $obj[0]['person_name'] = $this->getCf7TagSToString($options['softeria_alerts_name'], $form);
             $obj[0]['number']      = $visitor_number;
             $contact_form          = WPCF7_ContactForm::get_instance($form->id());
             $form_fields           = $contact_form->scan_form_tags();
             if (! empty($form_fields) ) {
                 foreach ( $form_fields as $form_field ) {
                     $field = json_decode(wp_json_encode($form_field), true);
-                    if (! empty($field['name']) && '[' . $field['name'] . ']' !== $options['smspro_name'] && '[' . $field['name'] . ']' !== $options['visitorNumber'] ) {
+                    if (! empty($field['name']) && '[' . $field['name'] . ']' !== $options['softeria_alerts_name'] && '[' . $field['name'] . ']' !== $options['visitorNumber'] ) {
                         $extra_fields[ $field['name'] ] = $this->getCf7TagSToString('[' . $field['name'] . ']', $form);
                     }
                 }

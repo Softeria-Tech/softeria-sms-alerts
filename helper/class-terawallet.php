@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -21,8 +21,8 @@ if (! is_plugin_active('woo-wallet/woo-wallet.php') ) {
      * PHP version 5
      *
      * @category Handler
-     * @package  SMSPro
-     * @author   SMS Pro <support@softeriatech.com>
+     * @package  SOFTSMSAlerts
+     * @author   Softeria Tech <billing@softeriatech.com>
      * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
      * @link     https://sms.softeriatech.com/
      * TeraWallet class
@@ -56,7 +56,7 @@ class TeraWallet
         'templates'        => self::getWcWoowalletTemplates(),
         );
 
-        $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['title']       = __('TeraWallet Notifications', 'sms-pro');
+        $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['title']       = __('TeraWallet Notifications', 'softeria-sms-alerts');
         $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['tab_section'] = 'woowallettemplates';
         $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['tabContent']  = $woowallet_param;
         $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['filePath']    = 'views/message-template.php';
@@ -73,10 +73,10 @@ class TeraWallet
      */
     public static function add_default_setting( $defaults = array() )
     {
-        $defaults['smspro_general']['woo_wallet_credited_msg']          = 'off';
-        $defaults['smspro_general']['sms_body_woo_wallet_credited_msg'] = '';
-        $defaults['smspro_general']['woo_wallet_debited_msg']           = 'off';
-        $defaults['smspro_general']['sms_body_woo_wallet_debited_msg']  = '';
+        $defaults['softeria_alerts_general']['woo_wallet_credited_msg']          = 'off';
+        $defaults['softeria_alerts_general']['sms_body_woo_wallet_credited_msg'] = '';
+        $defaults['softeria_alerts_general']['woo_wallet_debited_msg']           = 'off';
+        $defaults['softeria_alerts_general']['sms_body_woo_wallet_debited_msg']  = '';
         return $defaults;
     }
 
@@ -87,11 +87,11 @@ class TeraWallet
      */
     public static function getWcWoowalletTemplates()
     {
-        $woo_wallet_credited_msg          = smspro_get_option('woo_wallet_credited_msg', 'smspro_general', 'on');
-        $sms_body_woo_wallet_credited_msg = smspro_get_option('sms_body_woo_wallet_credited_msg', 'smspro_message', sprintf(__('Dear %1$s, %2$s has been credited to your wallet. Current wallet balance is : %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[username]', '[amount]', '[wallet_amount]', PHP_EOL, PHP_EOL));
+        $woo_wallet_credited_msg          = softeria_alerts_get_option('woo_wallet_credited_msg', 'softeria_alerts_general', 'on');
+        $sms_body_woo_wallet_credited_msg = softeria_alerts_get_option('sms_body_woo_wallet_credited_msg', 'softeria_alerts_message', sprintf(__('Dear %1$s, %2$s has been credited to your wallet. Current wallet balance is : %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[username]', '[amount]', '[wallet_amount]', PHP_EOL, PHP_EOL));
 
-        $woo_wallet_debited_msg          = smspro_get_option('woo_wallet_debited_msg', 'smspro_general', 'on');
-        $sms_body_woo_wallet_debited_msg = smspro_get_option('sms_body_woo_wallet_debited_msg', 'smspro_message', sprintf(__('Dear %1$s, %2$s has been debited from your wallet. Current wallet balance is : %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[username]', '[amount]', '[wallet_amount]', PHP_EOL, PHP_EOL));
+        $woo_wallet_debited_msg          = softeria_alerts_get_option('woo_wallet_debited_msg', 'softeria_alerts_general', 'on');
+        $sms_body_woo_wallet_debited_msg = softeria_alerts_get_option('sms_body_woo_wallet_debited_msg', 'softeria_alerts_message', sprintf(__('Dear %1$s, %2$s has been debited from your wallet. Current wallet balance is : %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[username]', '[amount]', '[wallet_amount]', PHP_EOL, PHP_EOL));
 
         $templates = array();
 
@@ -106,16 +106,16 @@ class TeraWallet
         $templates['woo-wallet-credited']['enabled']        = $woo_wallet_credited_msg;
         $templates['woo-wallet-credited']['status']         = 'woo-wallet-credited';
         $templates['woo-wallet-credited']['text-body']      = $sms_body_woo_wallet_credited_msg;
-        $templates['woo-wallet-credited']['checkboxNameId'] = 'smspro_general[woo_wallet_credited_msg]';
-        $templates['woo-wallet-credited']['textareaNameId'] = 'smspro_message[sms_body_woo_wallet_credited_msg]';
+        $templates['woo-wallet-credited']['checkboxNameId'] = 'softeria_alerts_general[woo_wallet_credited_msg]';
+        $templates['woo-wallet-credited']['textareaNameId'] = 'softeria_alerts_message[sms_body_woo_wallet_credited_msg]';
         $templates['woo-wallet-credited']['token']          = $woo_wallet_variables;
 
         $templates['woo-wallet-debited']['title']          = 'When wallet is debited';
         $templates['woo-wallet-debited']['enabled']        = $woo_wallet_debited_msg;
         $templates['woo-wallet-debited']['status']         = 'woo-wallet-debited';
         $templates['woo-wallet-debited']['text-body']      = $sms_body_woo_wallet_debited_msg;
-        $templates['woo-wallet-debited']['checkboxNameId'] = 'smspro_general[woo_wallet_debited_msg]';
-        $templates['woo-wallet-debited']['textareaNameId'] = 'smspro_message[sms_body_woo_wallet_debited_msg]';
+        $templates['woo-wallet-debited']['checkboxNameId'] = 'softeria_alerts_general[woo_wallet_debited_msg]';
+        $templates['woo-wallet-debited']['textareaNameId'] = 'softeria_alerts_message[sms_body_woo_wallet_debited_msg]';
         $templates['woo-wallet-debited']['token']          = $woo_wallet_variables;
 
         return $templates;
@@ -134,9 +134,9 @@ class TeraWallet
     public function smsproSendMsgWalletTransaction( $transaction_id, $user_id, $amount, $type )
     {
         if ('credit' === $type ) {
-            $message                 = smspro_get_option('sms_body_woo_wallet_credited_msg', 'smspro_message', '');
+            $message                 = softeria_alerts_get_option('sms_body_woo_wallet_credited_msg', 'softeria_alerts_message', '');
             $message                 = $this->parseSmsBody($user_id, $amount, $message);
-            $woo_wallet_credited_msg = smspro_get_option('woo_wallet_credited_msg', 'smspro_general', 'on');
+            $woo_wallet_credited_msg = softeria_alerts_get_option('woo_wallet_credited_msg', 'softeria_alerts_general', 'on');
             if ('on' === $woo_wallet_credited_msg && '' !== $message ) {
                 $user_phone = get_user_meta($user_id, 'billing_phone', true);
                 //do_action( 'sa_send_sms', $user_phone, $message );
@@ -146,9 +146,9 @@ class TeraWallet
                 SmsAlertcURLOTP::sendsms($obj);
             }
         } elseif ('debit' === $type ) {
-            $message                = smspro_get_option('sms_body_woo_wallet_debited_msg', 'smspro_message', '');
+            $message                = softeria_alerts_get_option('sms_body_woo_wallet_debited_msg', 'softeria_alerts_message', '');
             $message                = $this->parseSmsBody($user_id, $amount, $message);
-            $woo_wallet_debited_msg = smspro_get_option('woo_wallet_debited_msg', 'smspro_general', 'on');
+            $woo_wallet_debited_msg = softeria_alerts_get_option('woo_wallet_debited_msg', 'softeria_alerts_general', 'on');
             if ('on' === $woo_wallet_debited_msg && '' !== $message ) {
                 $user_phone = get_user_meta($user_id, 'billing_phone', true);
                 //do_action( 'sa_send_sms', $user_phone, $message );

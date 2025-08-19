@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('ws-form/ws-form.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Wsform class.
@@ -60,9 +60,9 @@ class SA_Wsform extends FormInterface
     public function addSmsalertShortcode($form_object, $preview)
     {        
         $id = $form_object->id;
-        $form_enable = smspro_get_option('wsform_form_status_' . $id, 'smspro_wsform_general', 'on');
-        $otp_enable  = smspro_get_option('wsform_otp_' . $id, 'smspro_wsform_general', 'on');
-        $phone_field = smspro_get_option('wsform_sms_phone_' . $id, 'smspro_wsform_general', '');
+        $form_enable = softeria_alerts_get_option('wsform_form_status_' . $id, 'softeria_alerts_wsform_general', 'on');
+        $otp_enable  = softeria_alerts_get_option('wsform_otp_' . $id, 'softeria_alerts_wsform_general', 'on');
+        $phone_field = softeria_alerts_get_option('wsform_sms_phone_' . $id, 'softeria_alerts_wsform_general', '');
         $phone_field = preg_replace('/(\w+)_(\d+)/i', 'field_$2', $phone_field);    
         $phonevalue = explode("_", $phone_field);    
         $fieldid = !empty($phonevalue[1])?$phonevalue[1]:'';                            
@@ -86,22 +86,22 @@ class SA_Wsform extends FormInterface
     {        
         global  $get_meta, $get_groups;
         $form_id = $datas->form_id;        
-        $form_enable      = smspro_get_option('wsform_form_status_' . $form_id, 'smspro_wsform_general', 'on');        
-        $phone_field      = smspro_get_option('wsform_sms_phone_'. $form_id, 'smspro_wsform_general', '');
-        $buyer_sms_notify = smspro_get_option('wsform_message_' . $form_id, 'smspro_wsform_general', 'on');
-        $admin_sms_notify = smspro_get_option('wsform_admin_notification_' . $form_id, 'smspro_wsform_general', 'on');                        
+        $form_enable      = softeria_alerts_get_option('wsform_form_status_' . $form_id, 'softeria_alerts_wsform_general', 'on');        
+        $phone_field      = softeria_alerts_get_option('wsform_sms_phone_'. $form_id, 'softeria_alerts_wsform_general', '');
+        $buyer_sms_notify = softeria_alerts_get_option('wsform_message_' . $form_id, 'softeria_alerts_wsform_general', 'on');
+        $admin_sms_notify = softeria_alerts_get_option('wsform_admin_notification_' . $form_id, 'softeria_alerts_wsform_general', 'on');                        
         if ('on' === $form_enable && 'on' === $buyer_sms_notify) {
-            $buyer_sms_content = smspro_get_option('wsform_sms_body_'. $form_id, 'smspro_wsform_message', '');  
+            $buyer_sms_content = softeria_alerts_get_option('wsform_sms_body_'. $form_id, 'softeria_alerts_wsform_message', '');  
             $phone_field = preg_replace('/(\w+)_(\d+)/i', 'field_$2', $phone_field);
             $data = $datas->meta;            
             $mobile = !empty($data[$phone_field]['value']) ? $data[$phone_field]['value'] : "";            
             do_action('sa_send_sms', $mobile, self::parseSmsContent($buyer_sms_content, $datas->meta));
         }
         if ('on' === $admin_sms_notify ) {
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             $admin_phone_number = str_replace('post_author', '', $admin_phone_number);
             if (! empty($admin_phone_number) ) {
-                $admin_sms_content = smspro_get_option('wsform_admin_sms_body_' . $form_id, 'smspro_wsform_message', '');
+                $admin_sms_content = softeria_alerts_get_option('wsform_admin_sms_body_' . $form_id, 'softeria_alerts_wsform_message', '');
                 do_action('sa_send_sms', $admin_phone_number, self::parseSmsContent($admin_sms_content, $datas->meta));
             }
         } 
@@ -115,7 +115,7 @@ class SA_Wsform extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( is_plugin_active('ws-form/ws-form.php') && $islogged ) ? true : false;
     }
@@ -135,7 +135,7 @@ class SA_Wsform extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && 'smspro-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (! empty($_REQUEST['option']) && 'softeria-alert-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -161,7 +161,7 @@ class SA_Wsform extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && 'smspro-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (! empty($_REQUEST['option']) && 'softeria-alert-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {
@@ -298,15 +298,15 @@ class SA_Wsform extends FormInterface
     {
         $wpam_statuses = self::getWsForms();
         foreach ( $wpam_statuses as $ks => $vs ) {
-            $defaults['smspro_wsform_general'][ 'wsform_admin_notification_' . $ks ] = 'off';
-            $defaults['smspro_wsform_general'][ 'wsform_form_status_' . $ks ]        = 'off';
-            $defaults['smspro_wsform_general'][ 'wsform_message_' . $ks ]            = 'off';
-            $defaults['smspro_wsform_message'][ 'wsform_admin_sms_body_' . $ks ]     = '';
-            $defaults['smspro_wsform_message'][ 'wsform_sms_body_' . $ks ]           = '';
-            $defaults['smspro_wsform_general'][ 'wsform_sms_phone_' . $ks ]          = '';
-            $defaults['smspro_wsform_general'][ 'wsform_sms_otp_' . $ks ]            = '';
-            $defaults['smspro_wsform_general'][ 'wsform_otp_' . $ks ]                = '';
-            $defaults['smspro_wsform_message'][ 'wsform_otp_sms_' . $ks ]            = '';
+            $defaults['softeria_alerts_wsform_general'][ 'wsform_admin_notification_' . $ks ] = 'off';
+            $defaults['softeria_alerts_wsform_general'][ 'wsform_form_status_' . $ks ]        = 'off';
+            $defaults['softeria_alerts_wsform_general'][ 'wsform_message_' . $ks ]            = 'off';
+            $defaults['softeria_alerts_wsform_message'][ 'wsform_admin_sms_body_' . $ks ]     = '';
+            $defaults['softeria_alerts_wsform_message'][ 'wsform_sms_body_' . $ks ]           = '';
+            $defaults['softeria_alerts_wsform_general'][ 'wsform_sms_phone_' . $ks ]          = '';
+            $defaults['softeria_alerts_wsform_general'][ 'wsform_sms_otp_' . $ks ]            = '';
+            $defaults['softeria_alerts_wsform_general'][ 'wsform_otp_' . $ks ]                = '';
+            $defaults['softeria_alerts_wsform_message'][ 'wsform_otp_sms_' . $ks ]            = '';
         }
         return $defaults;
     }

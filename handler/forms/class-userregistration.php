@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('user-registration/user-registration.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * WpMemberForm class.
@@ -48,7 +48,7 @@ class UserRegistrationForm extends FormInterface
     {
         add_filter('user_registration_response_array', array( $this, 'smsproUrRegistrationValidation' ), 10, 3);
 
-        //add_action( 'user_registration_after_register_user_action', array( $this, 'smspro_ur_registration_complete' ), 9, 3 );
+        //add_action( 'user_registration_after_register_user_action', array( $this, 'softeria_alerts_ur_registration_complete' ), 9, 3 );
 
         add_action('user_registration_after_form_fields', array( $this, 'myPredefinedFields' ), 9, 3);
         
@@ -67,7 +67,7 @@ class UserRegistrationForm extends FormInterface
     {
         echo do_shortcode('[sa_verify phone_selector="#billing_phone" submit_selector= ".ur-submit-button"]');
         
-        $otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):smspro_get_option('otp_resend_timer', 'smspro_general', '15'); 
+        $otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):softeria_alerts_get_option('otp_resend_timer', 'softeria_alerts_general', '15'); 
         
         $ug_js = '
 		document.addEventListener("DOMContentLoaded", function() {
@@ -110,7 +110,7 @@ class UserRegistrationForm extends FormInterface
 							currentModel.find(".sa-message").addClass("woocommerce-message");
 							currentModel.show();
                             jQuery( "#sa_verify_otp" ).on( "click",{btn_class: ".ur-submit-button"}, validateOtp );							
-							currentModel.find(".smspro_validate_field").show();
+							currentModel.find(".softeria_alerts_validate_field").show();
 							sa_otp_timer(currentModel,"'.$otp_resend_timer.'");
 							jQuery(".ur-submit-button").attr("disabled",false);
 						}
@@ -123,7 +123,7 @@ class UserRegistrationForm extends FormInterface
 							if("error"==response.result && response.message!="")
 							{
 								var currentModel 	= jQuery(".modal.smsproModal");
-								(currentModel.find(".smspro_validate_field").hide(),
+								(currentModel.find(".softeria_alerts_validate_field").hide(),
 								currentModel.find(".sa-message").empty(),
 								currentModel.find(".sa-message").append(response.message),
 								currentModel.find(".sa-message").addClass("woocommerce-error"),
@@ -175,16 +175,16 @@ class UserRegistrationForm extends FormInterface
             }
         }
         
-        if ('on' !== smspro_get_option('allow_multiple_user', 'smspro_general') && ! SmsAlertUtility::isBlank($user_phone) ) {
+        if ('on' !== softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') && ! SmsAlertUtility::isBlank($user_phone) ) {
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
             if (count($getusers) > 0 ) {
-                $errors[]=  __('An account is already registered with this mobile number. Please login.', 'sms-pro');
+                $errors[]=  __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts');
                 return $errors;
             }
         }
 
         if (isset($user_phone) && SmsAlertUtility::isBlank($user_phone) ) {
-            $errors[]= __('Please enter phone number.', 'sms-pro');
+            $errors[]= __('Please enter phone number.', 'softeria-sms-alerts');
             return $errors;
         }
         return $this->processFormFields($username, $email, $errors, $password, $user_phone);
@@ -216,7 +216,7 @@ class UserRegistrationForm extends FormInterface
         if (! SmsAlertUtility::isBlank($phone_num) ) {
             $_SESSION[ $this->form_session_var ] = trim($phone_num);
         }
-        smspro_site_challenge_otp($username, $email, $errors, $phone_num, 'phone', $password);
+        softeria_alerts_site_challenge_otp($username, $email, $errors, $phone_num, 'phone', $password);
     }
 
     /**
@@ -250,9 +250,9 @@ class UserRegistrationForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( is_plugin_active('user-registration/user-registration.php') && $islogged && ( smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ) ? true : false;
+        return ( is_plugin_active('user-registration/user-registration.php') && $islogged && ( softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ) ? true : false;
     }
 
     /**

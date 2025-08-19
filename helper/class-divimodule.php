@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -16,13 +16,13 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
- * SMSProSelector.
+ * SofteriaAlertsSelector.
  */
-class SMSProSelector extends ET_Builder_Module
+class SofteriaAlertsSelector extends ET_Builder_Module
 {
 
     /**
@@ -30,7 +30,7 @@ class SMSProSelector extends ET_Builder_Module
      *
      * @var string
      */
-    public $slug = 'smspro_selector';
+    public $slug = 'softeria_alerts_selector';
 
     /**
      * VB support.
@@ -47,7 +47,7 @@ class SMSProSelector extends ET_Builder_Module
     public function init()
     {
 
-        $this->name = esc_html__('SMSPro', 'sms-pro');
+        $this->name = esc_html__('SOFTSMSAlerts', 'softeria-sms-alerts');
     }
 
     /**

@@ -1,83 +1,54 @@
 <?php
 /**
- * This is a WooCommerce add-on. By Using this plugin admin and cusomer can get notification after placing order via sms using SMS Pro.
+ * This is a WooCommerce add-on. By Using this plugin admin and cusomer can get notification after placing order via sms using Softeria Tech.
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
- * Plugin Name: SMSPro - WooCommerce
- * Plugin URI: https://wordpress.org/plugins/sms-pro/
- * Description: This is a WooCommerce add-on. By Using this plugin admin and buyer can get notification after placing order via sms using SMS Pro.
- * Version: 1.0.0
- * Author: Softeria Technologies Ltd.
+ * Plugin Name: SOFTSMSAlerts - WooCommerce
+ * Plugin URI: https://sms.softeriatech.com/plugins
+ * Description: This is a WooCommerce add-on. By Using this plugin admin and buyer can get notification after placing order via sms using Softeria Tech.
+ * Version: 1.0.1
+ * Author: Softeria Tech Ltd.
  * Author URI: https://sms.softeriatech.com
- * WC requires at least: 4.6
- * WC tested up to: 9.8
- * Text Domain: sms-pro
- * License: GPLv2
+ * Text Domain: softeria-sms-alerts
+ * License: GNU GPL
  */
 
-/**
-/**
- *
- * Released under the GPL license
- * http://www.opensource.org/licenses/gpl-license.php
- *
- * This is an add-on for WordPress
- * http://wordpress.org/
- *
- * **********************************************************************
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- * **********************************************************************
- */
-
-// don't call the file directly.
 
 if (! defined('ABSPATH') ) {
     exit;
 }
-if (! defined('SMSPRO_TEXT_DOMAIN') ) {
-    define('SMSPRO_TEXT_DOMAIN', 'sms-pro');
+if (! defined('SOFTERIA_ALERTS_TEXT_DOMAIN') ) {
+    define('SOFTERIA_ALERTS_TEXT_DOMAIN', 'softeria-sms-alerts');
 }
-if (! defined('SMSPRO_PLUGIN_NAME') ) {
-    define('SMSPRO_PLUGIN_NAME', 'SMS Pro Order Notifications – WooCommerce');
+if (! defined('SOFTERIA_ALERTS_PLUGIN_NAME') ) {
+    define('SOFTERIA_ALERTS_PLUGIN_NAME', 'Softeria Tech Order Notifications – WooCommerce');
 }
-if (! defined('SMSPRO_ABANDONED') ) {
-    define('SMSPRO_ABANDONED', 'smspro_abandoned');
+if (! defined('SOFTERIA_ALERTS_ABANDONED') ) {
+    define('SOFTERIA_ALERTS_ABANDONED', 'softeria_alerts_abandoned');
 }
-if (! defined('SMSPRO_PLUGIN_NAME_SLUG') ) {
-    define('SMSPRO_PLUGIN_NAME_SLUG', 'sms-pro');
+if (! defined('SOFTERIA_ALERTS_PLUGIN_NAME_SLUG') ) {
+    define('SOFTERIA_ALERTS_PLUGIN_NAME_SLUG', 'softeria-sms-alerts');
 }
 if (! defined('SA_CART_TABLE_NAME') ) {
     define('SA_CART_TABLE_NAME', 'sa_captured_wc_fields');
 }
 if (! defined('CART_CRON_INTERVAL') ) {
-    define('CART_CRON_INTERVAL', 10);// run ab cart cron every 10 min.
+    define('CART_CRON_INTERVAL', 10);
 }
 if (! defined('BOOKING_REMINDER_CRON_INTERVAL') ) {
-    define('BOOKING_REMINDER_CRON_INTERVAL', 10);// run booking reminder cron every 10 min.
+    define('BOOKING_REMINDER_CRON_INTERVAL', 10);
 }
-// In minutes. Defines the interval at which msg function is fired.
+
 if (! defined('CART_STILL_SHOPPING') ) {
-    define('CART_STILL_SHOPPING', 10); // In minutes. Defines the time period after which an msg notice will be sent and the cart is presumed abandoned.
+    define('CART_STILL_SHOPPING', 10);
 }
 if (! defined('CART_NEW_STATUS_NOTICE') ) {
-    define('CART_NEW_STATUS_NOTICE', 240); // Defining time in minutes how long New status is shown in the table.
+    define('CART_NEW_STATUS_NOTICE', 240);
 }
 
 if (! defined('CART_ENCRYPTION_KEY') ) {
@@ -96,14 +67,7 @@ add_action(
     }
 );
 
-/**
- * Sanitizes Array of vaues.
- *
- * @param array $arr Values to be sanitized.
- *
- * @return array
- */
-function smspro_sanitize_array( $arr )
+function softeria_alerts_sanitize_array( $arr )
 {
     global $wp_version;
     $older_version = ( $wp_version < '4.7' ) ? true : false;
@@ -113,35 +77,20 @@ function smspro_sanitize_array( $arr )
 
     $result = array();
     foreach ( $arr as $key => $val ) {
-        $result[ $key ] = is_array($val) ? smspro_sanitize_array($val) : ( ( $older_version ) ? stripcslashes(sanitize_text_field($val)) : stripcslashes(sanitize_textarea_field($val)) );
+        $result[ $key ] = is_array($val) ? softeria_alerts_sanitize_array($val) : ( ( $older_version ) ? stripcslashes(sanitize_text_field($val)) : stripcslashes(sanitize_textarea_field($val)) );
     }
 
     return $result;
 }
 
-/**
- * Creates a cookie.
- *
- * @param string $cookie_key   Cookie Key name.
- * @param string $cookie_value Cookie Value.
- *
- * @return array
- */
-function create_smspro_cookie( $cookie_key, $cookie_value )
+function create_softeria_alerts_cookie( $cookie_key, $cookie_value )
 {
     ob_start();
     setcookie($cookie_key, $cookie_value, time() + ( 15 * 60 ));
     ob_get_clean();
 }
 
-/**
- * Clears a cookie.
- *
- * @param string $cookie_key Cookie Key name.
- *
- * @return array
- */
-function clear_smspro_cookie( $cookie_key )
+function clear_softeria_alerts_cookie( $cookie_key )
 {
     if (isset($_COOKIE[ $cookie_key ]) ) {
         unset($_COOKIE[ $cookie_key ]);
@@ -149,14 +98,8 @@ function clear_smspro_cookie( $cookie_key )
     }
 }
 
-/**
- * Gets a cookie.
- *
- * @param string $cookie_key Cookie Key name.
- *
- * @return array
- */
-function get_smspro_cookie( $cookie_key )
+
+function get_softeria_alerts_cookie( $cookie_key )
 {
     if (! isset($_COOKIE[ $cookie_key ]) ) {
         return false;
@@ -165,16 +108,7 @@ function get_smspro_cookie( $cookie_key )
     }
 }
 
-/**
- * Gets key value from database.
- *
- * @param string $option  Option.
- * @param string $section Section.
- * @param string $default Default value.
- *
- * @return array
- */
-function smspro_get_option( $option, $section, $default = '' )
+function softeria_alerts_get_option( $option, $section, $default = '' )
 {
     $options = get_option($section);
 
@@ -184,16 +118,7 @@ function smspro_get_option( $option, $section, $default = '' )
     return $default;
 }
 
-/**
- * Gets a template.
- *
- * @param string  $filepath File path.
- * @param array   $datas    Values to be used in template.
- * @param boolean $ret      Return as string.
- *
- * @return array
- */
-function get_smspro_template( $filepath, $datas, $ret = false )
+function get_softeria_alerts_template( $filepath, $datas, $ret = false )
 {
     if ($ret ) {
         ob_start();
@@ -205,29 +130,10 @@ function get_smspro_template( $filepath, $datas, $ret = false )
     }
 }
 
-/**
- * PHP version 5
- *
- * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
- * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
- * @link     https://sms.softeriatech.com/
- * Plugin Name: SMSPro - WooCommerce
- * Plugin URI: https://wordpress.org/plugins/sms-pro/
- * Main class for plugin.
- */
-class smspro_WC_Order_SMS
+
+class softeriaAlerts_WC_Order_SMS
 {
 
-    /**
-     * Constructor for the smspro_WC_Order_SMS class
-     *
-     * Sets up all the appropriate hooks and actions
-     * within our plugin.
-     *
-     * @return array
-     */
     public function __construct()
     {
         // Instantiate necessary class.
@@ -247,12 +153,12 @@ class smspro_WC_Order_SMS
         add_action('woocommerce_new_customer_note', array( 'WooCommerceCheckOutForm', 'trigger_new_customer_note' ), 10);
         add_filter('default_checkout_billing_phone', array( $this, 'modifyBillingPhoneField' ), 1, 2); 
         add_action('user_register', array( $this, 'wcUserCreated' ), 1, 1);
-        add_action('smspro_after_update_new_user_phone', array( $this, 'smsproAfterUserRegister' ), 10, 2);
+        add_action('softeria_alerts_after_update_new_user_phone', array( $this, 'smsproAfterUserRegister' ), 10, 2);
 
         include_once 'helper/formlist.php';
         include_once 'views/common-elements.php';
         include_once 'handler/forms/FormInterface.php';
-        include_once 'handler/smspro_form_handler.php';
+        include_once 'handler/softeria_alerts_form_handler.php';
         include_once 'helper/shortcode.php';
 
         if (is_admin() ) {
@@ -262,7 +168,7 @@ class smspro_WC_Order_SMS
         }
 
         /*code to notify for daily balance begins */
-        add_action('smspro_balance_notify', array( $this, 'backgroundTask' ));
+        add_action('softeria_alerts_balance_notify', array( $this, 'backgroundTask' ));
         self::saSyncGrpAction();
         add_filter('sa_before_send_sms', array( $this, 'replaceCommonTokenName' ), 100, 1);
         //commented later we use for redirect after install , plugin.
@@ -272,68 +178,38 @@ class smspro_WC_Order_SMS
         //add_action( 'activated_plugin', array($this, 'cyb_activation_redirect') ); //testing part
     }
     
-    //testing part
-    //commented later we use for redirect after install the plugin.
-    // public function cyb_activation_redirect( $plugin ) {
-    // if ( $plugin == plugin_basename( __FILE__ ) ) {
-    // exit( wp_redirect( admin_url( 'admin.php?page=sms-pro' ) ) );
-    // }
-    // }
     
-    /**
-     * Onpage modify billing phone at checkout page when country code is enabled
-     *
-     * @param string $value Value of the field.
-     * @param string $input Name of the field.
-     *
-     * @return void
-     */
     public function modifyBillingPhoneField( $value, $input )
     {
         if ('billing_phone' === $input && ! empty($value) ) {
             return SmsAlertUtility::formatNumberForCountryCode($value);
         }
     }
-    
-    /**
-     * This function is executed after a user is created.
-     *
-     * @param int $user_id User id of the user.
-     *
-     * @return void
-     */
+  
     public function wcUserCreated( $user_id )
     {
         $billing_phone = ( ! empty($_POST['billing_phone']) ) ? sanitize_text_field(wp_unslash($_POST['billing_phone'])) : null;
         $billing_phone = apply_filters('sa_get_user_phone_no', $billing_phone, $user_id);
         $billing_phone = SmsAlertcURLOTP::checkPhoneNos($billing_phone);
         update_user_meta($user_id, 'billing_phone', $billing_phone);
-        do_action('smspro_after_update_new_user_phone', $user_id, $billing_phone);
+        do_action('softeria_alerts_after_update_new_user_phone', $user_id, $billing_phone);
     }
-    
-    /**
-     * This function is executed after a user has been registered.
-     *
-     * @param int    $user_id       Userid of the user.
-     * @param string $billing_phone Phone number of the user.
-     *
-     * @return void
-     */
+   
     public function smsproAfterUserRegister( $user_id, $billing_phone )
     {
         $user                = get_userdata($user_id);
         $role                = ( ! empty($user->roles[0]) ) ? $user->roles[0] : '';
         $role_display_name   = ( ! empty($role) ) ? self::get_user_roles($role) : '';
-        $smspro_reg_notify = smspro_get_option('wc_user_roles_' . $role, 'smspro_signup_general', 'off');
-        $sms_body_new_user   = smspro_get_option('signup_sms_body_' . $role, 'smspro_signup_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
+        $softeria_alerts_reg_notify = softeria_alerts_get_option('wc_user_roles_' . $role, 'softeria_alerts_signup_general', 'off');
+        $sms_body_new_user   = softeria_alerts_get_option('signup_sms_body_' . $role, 'softeria_alerts_signup_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
 
-        $smspro_reg_admin_notify = smspro_get_option('admin_registration_msg', 'smspro_general', 'off');
-        $sms_admin_body_new_user   = smspro_get_option('sms_body_registration_admin_msg', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
-        $admin_phone_number        = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $softeria_alerts_reg_admin_notify = softeria_alerts_get_option('admin_registration_msg', 'softeria_alerts_general', 'off');
+        $sms_admin_body_new_user   = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
+        $admin_phone_number        = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         $store_name = trim(get_bloginfo());
 
-        if ('on' === $smspro_reg_notify && ! empty($billing_phone) ) {
+        if ('on' === $softeria_alerts_reg_notify && ! empty($billing_phone) ) {
             $search = array(
             '[username]',
             '[store_name]',
@@ -357,7 +233,7 @@ class smspro_WC_Order_SMS
             SmsAlertcURLOTP::sendsms($obj);
         }
 
-        if ('on' === $smspro_reg_admin_notify && ! empty($admin_phone_number) ) {
+        if ('on' === $softeria_alerts_reg_admin_notify && ! empty($admin_phone_number) ) {
             $search = array(
             '[username]',
             '[store_name]',
@@ -386,13 +262,7 @@ class smspro_WC_Order_SMS
         }
     }
     
-    /**
-     * This function adds tabs.
-     *
-     * @param array $tabs Default tabs.
-     *
-     * @return void
-     */
+   
     public static function addTabs( $tabs = array() )
     {
         $signup_param = array(
@@ -405,10 +275,10 @@ class smspro_WC_Order_SMS
         'templates'        => self::getNewUserRegisterTemplates(),
         );
 
-        $tabs['user_registration']['nav']  = 'User Registration';
+        $tabs['user_registration']['nav']  = 'New Users';
         $tabs['user_registration']['icon'] = 'dashicons-admin-users';
 
-        $tabs['user_registration']['inner_nav']['wc_register']['title']        = __('Sign Up Notifications', 'sms-pro');
+        $tabs['user_registration']['inner_nav']['wc_register']['title']        = __('Sign Up Notifications', 'softeria-sms-alerts');
         $tabs['user_registration']['inner_nav']['wc_register']['tab_section']  = 'signup_templates';
         $tabs['user_registration']['inner_nav']['wc_register']['first_active'] = true;
 
@@ -427,11 +297,6 @@ class smspro_WC_Order_SMS
         return $tabs;
     }
     
-    /**
-     * Gets signup template.
-     *
-     * @return void
-     */
     public static function getSignupTemplates()
     {
         $wc_user_roles = self::get_user_roles();
@@ -446,11 +311,11 @@ class smspro_WC_Order_SMS
 
         $templates = array();
         foreach ( $wc_user_roles as $role_key  => $role ) {
-            $current_val = smspro_get_option('wc_user_roles_' . $role_key, 'smspro_signup_general', 'on');
+            $current_val = softeria_alerts_get_option('wc_user_roles_' . $role_key, 'softeria_alerts_signup_general', 'on');
 
-            $checkbox_name_id = 'smspro_signup_general[wc_user_roles_' . $role_key . ']';
-            $textarea_name_id = 'smspro_signup_message[signup_sms_body_' . $role_key . ']';
-            $text_body        = smspro_get_option('signup_sms_body_' . $role_key, 'smspro_signup_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
+            $checkbox_name_id = 'softeria_alerts_signup_general[wc_user_roles_' . $role_key . ']';
+            $textarea_name_id = 'softeria_alerts_signup_message[signup_sms_body_' . $role_key . ']';
+            $text_body        = softeria_alerts_get_option('signup_sms_body_' . $role_key, 'softeria_alerts_signup_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
 
             $templates[ $role_key ]['title']          = 'When ' . ucwords($role['name']) . ' is registered';
             $templates[ $role_key ]['enabled']        = $current_val;
@@ -463,15 +328,10 @@ class smspro_WC_Order_SMS
         return $templates;
     }
 
-    /**
-     * Gets new user registration template.
-     *
-     * @return void
-     */
     public static function getNewUserRegisterTemplates()
     {
-        $smspro_notification_reg_admin_msg = smspro_get_option('admin_registration_msg', 'smspro_general', 'on');
-        $sms_body_registration_admin_msg     = smspro_get_option('sms_body_registration_admin_msg', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
+        $softeria_alerts_notification_reg_admin_msg = softeria_alerts_get_option('admin_registration_msg', 'softeria_alerts_general', 'on');
+        $sms_body_registration_admin_msg     = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
 
         $templates = array();
 
@@ -485,43 +345,30 @@ class smspro_WC_Order_SMS
         );
 
         $templates['new-user']['title']          = 'When a new user is registered';
-        $templates['new-user']['enabled']        = $smspro_notification_reg_admin_msg;
+        $templates['new-user']['enabled']        = $softeria_alerts_notification_reg_admin_msg;
         $templates['new-user']['status']         = 'new-user';
         $templates['new-user']['text-body']      = $sms_body_registration_admin_msg;
-        $templates['new-user']['checkboxNameId'] = 'smspro_general[admin_registration_msg]';
-        $templates['new-user']['textareaNameId'] = 'smspro_message[sms_body_registration_admin_msg]';
+        $templates['new-user']['checkboxNameId'] = 'softeria_alerts_general[admin_registration_msg]';
+        $templates['new-user']['textareaNameId'] = 'softeria_alerts_message[sms_body_registration_admin_msg]';
         $templates['new-user']['token']          = $new_user_variables;
 
         return $templates;
     }
 
-    /**
-     * This function Adds default settings in configuration.
-     *
-     * @param array $defaults Default values.
-     *
-     * @return void
-     */
+ 
     public static function addDefaultSetting( $defaults = array() )
     {
-        $sms_body_registration_admin_msg = smspro_get_option('sms_body_registration_admin_msg', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
+        $sms_body_registration_admin_msg = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
 
         $wc_user_roles = self::get_user_roles();
         foreach ( $wc_user_roles as $role_key => $role ) {
-            $defaults['smspro_signup_general'][ 'wc_user_roles_' . $role_key ]   = 'off';
-            $defaults['smspro_signup_message'][ 'signup_sms_body_' . $role_key ] = $sms_body_registration_admin_msg;
+            $defaults['softeria_alerts_signup_general'][ 'wc_user_roles_' . $role_key ]   = 'off';
+            $defaults['softeria_alerts_signup_message'][ 'signup_sms_body_' . $role_key ] = $sms_body_registration_admin_msg;
         }
         return $defaults;
     }
 
-    
-    /**
-     * This function gets role display name from system name.
-     *
-     * @param bool $system_name System name of the role.
-     *
-     * @return void
-     */
+   
     public static function get_user_roles( $system_name = null )
     {
         global $wp_roles;
@@ -533,39 +380,28 @@ class smspro_WC_Order_SMS
             return $roles;
         }
     }
-    
-    /**
-     * Instantiate necessary Class
-     *
-     * @return void
-     */
+ 
     public function instantiate()
     {
         spl_autoload_register(array( $this, 'smsproSmsAutoload' ));
-        new smspro_Setting_Options();
+        new softeria_alerts_Setting_Options();
     }
 
-    /**
-     * Autoload class files on demand.
-     *
-     * @param string $class requested class name.
-     *
-     * @return void
-     */
+   
     public function smsproSmsAutoload( $class )
     {
 
-        include_once 'handler/smspro_logic_interface.php';
-        include_once 'handler/smspro_phone_logic.php';
+        include_once 'handler/softeria_alerts_logic_interface.php';
+        include_once 'handler/softeria_alerts_phone_logic.php';
         include_once 'helper/sessionVars.php';
         include_once 'helper/utility.php';
         include_once 'helper/constants.php';
         include_once 'helper/messages.php';
         include_once 'helper/curl.php';
 
-        if (stripos($class, 'smspro_') !== false ) {
+        if (stripos($class, 'softeria_alerts_') !== false ) {
 
-            $class_name = str_replace(array( 'smspro_', '_' ), array( '', '-' ), $class);
+            $class_name = str_replace(array( 'softeria_alerts_', '_' ), array( '', '-' ), $class);
             $filename   = dirname(__FILE__) . '/classes/' . strtolower($class_name) . '.php';
 
             if (file_exists($filename) ) {
@@ -574,33 +410,17 @@ class smspro_WC_Order_SMS
         }
     }
 
-    /**
-     * Initializes the SMSPro_WC_Order_SMS() class
-     *
-     * Checks for an existing SMSPro_WC_Order_SMS() instance
-     * and if it doesn't find one, creates it.
-     *
-     * @return void
-     */
+ 
     public static function init()
     {
         static $instance = false;
 
         if (! $instance ) {            
-            $instance = new SMSPro_WC_Order_SMS();
+            $instance = new SofteriaAlerts_WC_Order_SMS();
         }
         return $instance;
     }
 
-    /**
-     * Sends an SMS.
-     *
-     * @param string $number   Number to send SMS.
-     * @param string $content  Text of SMS to be sent.
-     * @param string $schedule SMS schedule time.
-     *
-     * @return void
-     */
     public function fnSaSendSms( $number, $content, $schedule = null )
     {
         $obj             = array();
@@ -611,13 +431,6 @@ class smspro_WC_Order_SMS
         return $response;
     }
 
-    /**
-     * Replaces common variables in SMS Text.
-     *
-     * @param string $fields Array containing text key.
-     *
-     * @return void
-     */
     public function replaceCommonTokenName( $fields )
     {
 
@@ -635,94 +448,59 @@ class smspro_WC_Order_SMS
         return $fields;
     }
 
-    /**
-     * Registers the send SMS hook.
-     *
-     * @return void
-     */
+
     public function registerHookSendSms()
     {
         add_action('sa_send_sms', array( $this, 'fnSaSendSms' ), 10, 3);
     }
-    
-    /**
-     * Initialize plugin for localization
-     *
-     * @uses load_plugin_textdomain()
-     *
-     * @return void
-     */
+
     public static function localization_setup()
     {
-        load_plugin_textdomain('sms-pro', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        load_plugin_textdomain('softeria-sms-alerts', false, dirname(plugin_basename(__FILE__)) . '/languages/');
     }
 
-    /**
-     * Enques scripts to be loaded in admin section.
-     *
-     * @return void
-     */
+
     public function adminEnqueueScripts()
     {
-        wp_enqueue_style('admin-smspro-styles', plugins_url('css/admin.css', __FILE__), array(), SmsAlertConstants::SA_VERSION);
+        wp_enqueue_style('admin-softeria-alert-styles', plugins_url('css/admin.css', __FILE__), array(), SmsAlertConstants::SA_VERSION);
         
-        wp_enqueue_style('admin-modal-styles', plugins_url('css/sms_pro_customer_validation_style.css', __FILE__), array(), SmsAlertConstants::SA_VERSION);
+        wp_enqueue_style('admin-modal-styles', plugins_url('css/softeria_alerts_customer_validation_style.css', __FILE__), array(), SmsAlertConstants::SA_VERSION);
     
-        wp_enqueue_script('admin-smspro-scripts', plugins_url('js/admin.js', __FILE__), array( 'jquery' ), SmsAlertConstants::SA_VERSION, true);
-        wp_enqueue_script('admin-smspro-taggedinput', plugins_url('js/tagged-input.js', __FILE__), array( 'jquery' ), SmsAlertConstants::SA_VERSION, false);
-        $user_authorize = new smspro_Setting_Options();
+        wp_enqueue_script('admin-softeria-alert-scripts', plugins_url('js/admin.js', __FILE__), array( 'jquery' ), SmsAlertConstants::SA_VERSION, true);
+        wp_enqueue_script('admin-softeria-alert-taggedinput', plugins_url('js/tagged-input.js', __FILE__), array( 'jquery' ), SmsAlertConstants::SA_VERSION, false);
+        $user_authorize = new softeria_alerts_Setting_Options();
         wp_localize_script(
-            'admin-smspro-scripts',
+            'admin-softeria-alert-scripts',
             'smspro',
             array(
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'whitelist_countries' => smspro_get_option('whitelist_country', 'smspro_general'),
-            'allow_otp_countries' => smspro_get_option('allow_otp_country', 'smspro_general'),
-            'sa_default_countrycode' => smspro_get_option('default_country_code', 'smspro_general'),
+            'whitelist_countries' => softeria_alerts_get_option('whitelist_country', 'softeria_alerts_general'),
+            'allow_otp_countries' => softeria_alerts_get_option('allow_otp_country', 'softeria_alerts_general'),
+            'sa_default_countrycode' => softeria_alerts_get_option('default_country_code', 'softeria_alerts_general'),
             'islogged' => $user_authorize->is_user_authorised(),
             'pattern' => SmsAlertConstants::PATTERN_PHONE,
-			'nonce' => wp_create_nonce('smspro-nonce')
+			'nonce' => wp_create_nonce('softeria-alert-nonce')
             )
         );
     }
 
-    /**
-     * Adds a meta row to plugin.
-     *
-     * @param string $plugin_meta Array of plugin meta.
-     * @param string $plugin_file plugin base file.
-     * @param string $plugin_data Array containing information about plugin.
-     * @param string $status      status.
-     *
-     * @return void
-     */
+ 
     public function pluginRowMetaLink( $plugin_meta, $plugin_file, $plugin_data, $status )
     {
-        if (isset($plugin_data['slug']) && ( 'sms-pro' === $plugin_data['slug'] ) && ! defined('smspro_DIR') ) {
-            $plugin_meta[] = '<a href="https://sms.softeriatech.com/wordpress" target="_blank">' . __('Docs', 'sms-pro') . '</a>';
-            $plugin_meta[] = '<a href="https://wordpress.org/support/plugin/sms-pro/reviews/#postform" target="_blank" class="wc-rating-link">★★★★★</a>';
+        if (isset($plugin_data['slug']) && ( 'softeria-sms-alerts' === $plugin_data['slug'] ) && ! defined('softeria_alerts_DIR') ) {
+            $plugin_meta[] = '<a href="https://sms.softeriatech.com/wordpress" target="_blank">' . __('Docs', 'softeria-sms-alerts') . '</a>';
+            $plugin_meta[] = '<a href="https://wordpress.org/support/plugin/softeria-sms-alerts/reviews/#postform" target="_blank" class="wc-rating-link">★★★★★</a>';
         }
         return $plugin_meta;
     }
 
-    /**
-     * Adds an action link in admin section.
-     *
-     * @param array $links Array of action links.
-     *
-     * @return void
-     */
+
     public function addActionLinks( $links )
     {
-        $links[] = sprintf('<a href="%s">Settings</a>', admin_url('admin.php?page=sms-pro'));
+        $links[] = sprintf('<a href="%s">Settings</a>', admin_url('admin.php?page=softeria-sms-alerts'));
         return $links;
     }
 
-    /**
-     * Returns the credit in users account.
-     *
-     * @return void
-     */
     public static function onlyCredit()
     {
         $trans_credit = [ "credit_balance"=> "0"];
@@ -733,54 +511,41 @@ class smspro_WC_Order_SMS
         return $trans_credit;
     }
 
-    /**
-     * This function is executed on plugin activate.
-     *
-     * @return void
-     */
     public static function runOnActivate()
     {
         
-        if (! get_option('smspro_activation_date') ) {
-            add_option('smspro_activation_date', date('Y-m-d'));
+        if (! get_option('softeria_alerts_activation_date') ) {
+            add_option('softeria_alerts_activation_date', date('Y-m-d'));
         }
-        if (! wp_next_scheduled('smspro_balance_notify') ) {
-            wp_schedule_event(time(), 'hourly', 'smspro_balance_notify');
+        if (! wp_next_scheduled('softeria_alerts_balance_notify') ) {
+            wp_schedule_event(time(), 'hourly', 'softeria_alerts_balance_notify');
         }
-        if (!wp_next_scheduled('smspro_followup_sms') ) {
-            $time_value = esc_attr(smspro_get_option('subscription_reminder_cron_time', 'smspro_general', '10:00'));
-            wp_schedule_event(strtotime(get_gmt_from_date($time_value)), 'daily', 'smspro_followup_sms');
+        if (!wp_next_scheduled('softeria_alerts_followup_sms') ) {
+            $time_value = esc_attr(softeria_alerts_get_option('subscription_reminder_cron_time', 'softeria_alerts_general', '10:00'));
+            wp_schedule_event(strtotime(get_gmt_from_date($time_value)), 'daily', 'softeria_alerts_followup_sms');
         }
         self::saCartActivate();
         
         //commented , use later for after plugin install.
-        add_option('smspro_do_activation_redirect', true);
+        add_option('softeria_alerts_do_activation_redirect', true);
     }
-    /**
-     * Commented , use later for after plugin install.
-     *
-     * @return void
-     */
+   
     function smsproPluginRedirect()
     {
-        if (get_option('smspro_do_activation_redirect', false)) {
-            delete_option('smspro_do_activation_redirect');
-            wp_redirect("admin.php?page=sms-pro");
+        if (get_option('softeria_alerts_do_activation_redirect', false)) {
+            delete_option('softeria_alerts_do_activation_redirect');
+            wp_redirect("admin.php?page=softeria-sms-alerts");
         }
     }                                  
 
-    /**
-     * This function is executed on plugin activate to create table for abondoned cart functionality.
-     *
-     * @return void
-     */
+   
     public static function saCartActivate()
     {
         global $wpdb, $table_name;
 
         $table_name      = $wpdb->prefix . SA_CART_TABLE_NAME;
-        $tabl_name = $wpdb->prefix . "smspro_renewal_reminders";                                                    
-        $reminder_table_name = $wpdb->prefix . "smspro_booking_reminder";                                                    
+        $tabl_name = $wpdb->prefix . "softeria_alerts_renewal_reminders";                                                    
+        $reminder_table_name = $wpdb->prefix . "softeria_alerts_booking_reminder";                                                    
         $charset_collate = $wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
@@ -835,18 +600,18 @@ class smspro_WC_Order_SMS
         }
         delete_option('ab_cart_fc_captured_abandoned_cart_count');
 
-        $user_settings_notification_frequency = smspro_get_option('customer_notify', 'smspro_abandoned_cart', 'on');
-        $user_cod_settings_notification_frequency = smspro_get_option('customer_notify', 'smspro_cod_to_prepaid', 'on');
-        $wcbk_reminder_frequency = smspro_get_option('customer_notify', 'smspro_wcbk_general', 'off');
-        $bc_reminder_frequency = smspro_get_option('customer_notify', 'smspro_bc_general', 'off');
-        $rr_reminder_frequency = smspro_get_option('customer_notify', 'smspro_rr_general', 'off');
-        $qr_reminder_frequency = smspro_get_option('customer_notify', 'smspro_qr_general', 'off');
-        $eap_reminder_frequency = smspro_get_option('customer_notify', 'smspro_eap_general', 'off');
-        $bcc_reminder_frequency = smspro_get_option('customer_notify', 'smspro_bcc_general', 'off');
-        $wcf_reminder_frequency = smspro_get_option('customer_notify', 'smspro_wcf_general', 'off');
-        $sln_reminder_frequency = smspro_get_option('customer_notify', 'smspro_sln_general', 'off');
-        $alb_reminder_frequency = smspro_get_option('customer_notify', 'smspro_alb_general', 'off');
-        $ssa_reminder_frequency = smspro_get_option('customer_notify', 'smspro_ssa_general', 'off');
+        $user_settings_notification_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_abandoned_cart', 'on');
+        $user_cod_settings_notification_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_cod_to_prepaid', 'on');
+        $wcbk_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wcbk_general', 'off');
+        $bc_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_bc_general', 'off');
+        $rr_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_rr_general', 'off');
+        $qr_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_qr_general', 'off');
+        $eap_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_eap_general', 'off');
+        $bcc_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_bcc_general', 'off');
+        $wcf_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wcf_general', 'off');
+        $sln_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_sln_general', 'off');
+        $alb_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_alb_general', 'off');
+        $ssa_reminder_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_ssa_general', 'off');
 
         if ('off' === $user_settings_notification_frequency) { // If SMS notifications have been disabled, we disable cron job.
             wp_clear_scheduled_hook('ab_cart_notification_sendsms_hook');
@@ -879,8 +644,8 @@ class smspro_WC_Order_SMS
      */
     public static function runOnDeactivate()
     {
-        wp_clear_scheduled_hook('smspro_balance_notify');
-        wp_clear_scheduled_hook('smspro_followup_sms');
+        wp_clear_scheduled_hook('softeria_alerts_balance_notify');
+        wp_clear_scheduled_hook('softeria_alerts_followup_sms');
         wp_clear_scheduled_hook('booking_reminder_sendsms_hook');
     }
 
@@ -891,38 +656,33 @@ class smspro_WC_Order_SMS
      */
     public static function runOnUninstall()
     {
-		$clear_all_data   = smspro_get_option('clear_all_data', 'smspro_general', 'off');
+		$clear_all_data   = softeria_alerts_get_option('clear_all_data', 'softeria_alerts_general', 'off');
 		if ('on' === $clear_all_data ) {
 			global $wpdb;
 
 			$main_table = $wpdb->prefix . 'sa_captured_wc_fields';
-			$booking_table = $wpdb->prefix . 'smspro_booking_reminder';
-			$renewal_table = $wpdb->prefix . 'smspro_renewal_reminders';
+			$booking_table = $wpdb->prefix . 'softeria_alerts_booking_reminder';
+			$renewal_table = $wpdb->prefix . 'softeria_alerts_renewal_reminders';
 
 			$wpdb->query("DROP TABLE IF EXISTS $main_table,$booking_table,$renewal_table");
 
 			delete_option('cart_captured_abandoned_cart_count');
-			delete_option('smspro_message');
-			delete_option('smspro_gateway');
-			delete_option('smspro_general');
-			delete_option('smspro_upgrade_settings');
-			delete_option('widget_smspro_widget');
-			delete_option('smspro_activation_date');
+			delete_option('softeria_alerts_message');
+			delete_option('softeria_alerts_gateway');
+			delete_option('softeria_alerts_general');
+			delete_option('softeria_alerts_upgrade_settings');
+			delete_option('widget_softeria_alerts_widget');
+			delete_option('softeria_alerts_activation_date');
 		}
     }
 
-    /**
-     * Background scheduler function to send email for low balance, etc.
-     *
-     * @return void
-     */
     public function backgroundTask()
     {
-        $low_bal_alert   = smspro_get_option('low_bal_alert', 'smspro_general', 'off');
-        $daily_bal_alert = smspro_get_option('daily_bal_alert', 'smspro_general', 'off');
-        $user_authorize  = new smspro_Setting_Options();
+        $low_bal_alert   = softeria_alerts_get_option('low_bal_alert', 'softeria_alerts_general', 'off');
+        $daily_bal_alert = softeria_alerts_get_option('daily_bal_alert', 'softeria_alerts_general', 'off');
+        $user_authorize  = new softeria_alerts_Setting_Options();
         $islogged        = $user_authorize->is_user_authorised();
-        $auto_sync       = smspro_get_option('auto_sync', 'smspro_general', 'off');
+        $auto_sync       = softeria_alerts_get_option('auto_sync', 'softeria_alerts_general', 'off');
         if ($islogged ) {
             if ('on' === $auto_sync ) {
                 self::syncCustomers();
@@ -936,33 +696,24 @@ class smspro_WC_Order_SMS
         }
     }
 
-    /**
-     * Syncs contacts to SMS Pro group.
-     *
-     * @return void
-     */
+  
     public function saSyncGrpAction()
     {
         if (array_key_exists('option', $_GET) ) {
             switch ( trim(sanitize_text_field(wp_unslash($_GET['option']))) ) {
-            case 'smspro-group-sync':
+            case 'softeria-alert-group-sync':
                 self::syncCustomers();
                 exit;
             }
         }
     }
 
-    /**
-     * Syncs contacts to SMS Pro group.
-     *
-     * @return void
-     */
     public static function syncCustomers()
     {
-        $group_name = smspro_get_option('group_auto_sync', 'smspro_general', '');
-        $update_id  = smspro_get_option('last_sync_userId', 'smspro_sync', '');
-        $username   = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password   = smspro_get_option('smspro_password', 'smspro_gateway');
+        $group_name = softeria_alerts_get_option('group_auto_sync', 'softeria_alerts_general', '');
+        $update_id  = softeria_alerts_get_option('last_sync_userId', 'softeria_alerts_sync', '');
+        $username   = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password   = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
         if (empty($group_name) ) {
             return;
         }
@@ -1002,7 +753,7 @@ class smspro_WC_Order_SMS
                     $cnt++;
                 }
                 $resp = SmsAlertcURLOTP::createContact($obj, $group_name);
-                update_option('smspro_sync', array( 'last_sync_userId' => $last_sync_id ));
+                update_option('softeria_alerts_sync', array( 'last_sync_userId' => $last_sync_id ));
                 $result = $resp;
                 if (true === $result['status'] ) {
                     wp_send_json(
@@ -1025,23 +776,18 @@ class smspro_WC_Order_SMS
         }
     }
 
-    /**
-     * Sends SMS Pro balance.
-     *
-     * @return void
-     */
     public static function sendSmsalertBalance()
     {
         $date            = date('Y-m-d');
-        $update_datetime = smspro_get_option('last_updated_lBal_alert', 'smspro_background_task', '');
+        $update_datetime = softeria_alerts_get_option('last_updated_lBal_alert', 'softeria_alerts_background_task', '');
 
         if ($update_datetime == $date ) {
             return;
         }
 
-        $username     = smspro_get_option('smspro_name', 'smspro_gateway', '');
-        $low_bal_val  = smspro_get_option('low_bal_val', 'smspro_general', '1000');
-        $to_mail      = smspro_get_option('alert_email', 'smspro_general', '');
+        $username     = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway', '');
+        $low_bal_val  = softeria_alerts_get_option('low_bal_val', 'softeria_alerts_general', '1000');
+        $to_mail      = softeria_alerts_get_option('alert_email', 'softeria_alerts_general', '');
         $trans_credit = self::onlyCredit();
 
         if (! empty($trans_credit) ) {
@@ -1051,27 +797,22 @@ class smspro_WC_Order_SMS
             'username'     => $username,
             'admin_url'    => admin_url(),
             );
-            $emailcontent = get_smspro_template('template/emails/smspro-low-bal.php', $params, true);
+            $emailcontent = get_softeria_alerts_template('template/emails/softeria-alert-low-bal.php', $params, true);
 
             if ($trans_credit['credit_balance'] <= $low_bal_val ) {
-                wp_mail($to_mail, '❗ ✱ SMS Pro ✱ Low Balance Alert', $emailcontent, 'content-type:text/html');
+                wp_mail($to_mail, '❗ ✱ Softeria Tech ✱ Low Balance Alert', $emailcontent, 'content-type:text/html');
             }
 
-            update_option('smspro_background_task', array( 'last_updated_lBal_alert' => date('Y-m-d') ));// update last time and date.
+            update_option('softeria_alerts_background_task', array( 'last_updated_lBal_alert' => date('Y-m-d') ));// update last time and date.
         }
     }
 
-    /**
-     * Sends SMS Pro balance daily job.
-     *
-     * @return void
-     */
     public function dailyEmailAlert()
     {
-        $username        = smspro_get_option('smspro_name', 'smspro_gateway', '');
+        $username        = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway', '');
         $date            = date('Y-m-d');
-        $to_mail         = smspro_get_option('alert_email', 'smspro_general', '');
-        $update_datetime = smspro_get_option('last_updated_dBal_alert', 'smspro_background_dBal_task', '');
+        $to_mail         = softeria_alerts_get_option('alert_email', 'softeria_alerts_general', '');
+        $update_datetime = softeria_alerts_get_option('last_updated_dBal_alert', 'softeria_alerts_background_dBal_task', '');
 
         if ($update_datetime == $date ) {
             return;
@@ -1086,18 +827,12 @@ class smspro_WC_Order_SMS
                 'date'          => $date,
                 'admin_url'     => admin_url(),
             );
-            $dailyemailcontent = get_smspro_template('template/emails/daily-email-alert.php', $params, true);
-            update_option('smspro_background_dBal_task', array( 'last_updated_dBal_alert' => date('Y-m-d') ));// update last time and date.
-            wp_mail($to_mail, '✱ SMS Pro ✱ Daily  Balance Alert ', $dailyemailcontent, 'content-type:text/html');
+            $dailyemailcontent = get_softeria_alerts_template('template/emails/daily-email-alert.php', $params, true);
+            update_option('softeria_alerts_background_dBal_task', array( 'last_updated_dBal_alert' => date('Y-m-d') ));// update last time and date.
+            wp_mail($to_mail, '✱ Softeria Tech ✱ Daily  Balance Alert ', $dailyemailcontent, 'content-type:text/html');
         }
     }
-    /**
-     * Update Order buyer notify meta in checkout page
-     *
-     * @param integer $order_id Order id.
-     *
-     * @return void
-     */
+
     public function buyerNotificationUpdateOrderMeta( $order_id )
     {
         if (! empty($_POST['buyer_sms_notify']) ) {
@@ -1105,13 +840,7 @@ class smspro_WC_Order_SMS
         }
     }
 
-    /**
-     * Executes on order place event from woocommerce.
-     *
-     * @param integer $order_id Order id.
-     *
-     * @return void
-     */
+
     public function saWcOrderPlace( $order_id )
     {
         if (! $order_id ) {
@@ -1119,23 +848,13 @@ class smspro_WC_Order_SMS
         }
         WooCommerceCheckOutForm::trigger_after_order_place($order_id, 'pending', 'pending');
     }
-} // SMSPro_WC_Order_SMS
+} // SofteriaAlerts_WC_Order_SMS
 
-/**
- * Loaded after all plugin initialize
- *
-     * @return void
- */
+
 add_action('plugins_loaded', 'loadSaWcOrderSms');
-add_action('init', array('SMSPro_WC_Order_SMS','localization_setup'));
+add_action('init', array('SofteriaAlerts_WC_Order_SMS','localization_setup'));
 
-/**
- * Sets cron schedules.
- *
- * @param integer $intervals Interval at which cron to be executed.
- *
- * @return void
- */
+
 function additionalCronIntervals( $intervals )
 {
     $intervals['sendsms_interval'] = array(
@@ -1151,15 +870,10 @@ function additionalCronIntervals( $intervals )
 
 add_filter('cron_schedules', 'additionalCronIntervals');
 
-/**
- * Executed on plugin load.
- *
- * @return void
- */
 function loadSaWcOrderSms()
 {
-    $smspro = SMSPro_WC_Order_SMS::init();
+    $smspro = SofteriaAlerts_WC_Order_SMS::init();
 }
-register_activation_hook(__FILE__, array( 'smspro_WC_Order_SMS', 'runOnActivate' ));
-register_deactivation_hook(__FILE__, array( 'smspro_WC_Order_SMS', 'runOnDeactivate' ));
-register_uninstall_hook(__FILE__, array( 'smspro_WC_Order_SMS', 'runOnUninstall' ));
+register_activation_hook(__FILE__, array( 'softeria_alerts_WC_Order_SMS', 'runOnActivate' ));
+register_deactivation_hook(__FILE__, array( 'softeria_alerts_WC_Order_SMS', 'runOnDeactivate' ));
+register_uninstall_hook(__FILE__, array( 'softeria_alerts_WC_Order_SMS', 'runOnUninstall' ));

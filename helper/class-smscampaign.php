@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -19,8 +19,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SmsCampaign class
@@ -35,7 +35,7 @@ class SmsCampaign
      */
     public function __construct()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         if ($user_authorize->is_user_authorised()) {           
             add_filter("bulk_actions-users", array( $this, 'addUsersAction' ), 1);
             add_filter('handle_bulk_actions-users', array( $this, 'usersSendsms' ), 10, 3);
@@ -69,7 +69,7 @@ class SmsCampaign
         'type'=> 'order_status_data',
                 
         );
-        echo get_smspro_template('template/sms_campaign.php', $params, true);
+        echo get_softeria_alerts_template('template/sms_campaign.php', $params, true);
         exit();
     }
     
@@ -82,7 +82,7 @@ class SmsCampaign
      */
     public function addUsersAction($actions)
     {
-        $actions['sa_user_sendsms'] = __('Send SMS', 'sms-pro');
+        $actions['sa_user_sendsms'] = __('Send SMS', 'softeria-sms-alerts');
 
         return $actions;
     }
@@ -105,7 +105,7 @@ class SmsCampaign
             'type'=> 'users_data',
                 
             );
-            echo get_smspro_template('template/sms_campaign.php', $params, true);
+            echo get_softeria_alerts_template('template/sms_campaign.php', $params, true);
             exit();
         }
     }
@@ -119,7 +119,7 @@ class SmsCampaign
      */
     public function addOrdersAction($actions)
     {
-        $actions['sa_order_sendsms'] = __('Send SMS', 'sms-pro');
+        $actions['sa_order_sendsms'] = __('Send SMS', 'softeria-sms-alerts');
 
         return $actions;
     }
@@ -142,7 +142,7 @@ class SmsCampaign
             'type'=> 'orders_data',
                 
             );
-            echo get_smspro_template('template/sms_campaign.php', $params, true);
+            echo get_softeria_alerts_template('template/sms_campaign.php', $params, true);
             exit();
         }
     }

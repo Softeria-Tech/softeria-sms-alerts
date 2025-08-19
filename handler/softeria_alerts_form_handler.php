@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -66,8 +66,8 @@ if (! defined('ABSPATH') ) {
 	require_once 'forms/class-simplyappointments.php';
 	require_once 'forms/class-wptravelengine.php';
 	require_once 'forms/class-wsform.php';
-	add_action('wp_loaded', 'smspro_customer_validation_handle_form', 1);	
-    add_action('smspro_validate_otp', '_handle_validation_form_action', 1, 2);
+	add_action('wp_loaded', 'softeria_alerts_customer_validation_handle_form', 1);	
+    add_action('softeria_alerts_validate_otp', '_handle_validation_form_action', 1, 2);
 
     /**
      * Generate and show OTP form.
@@ -83,7 +83,7 @@ if (! defined('ABSPATH') ) {
      *
      * @return void
      */
-function smspro_site_challenge_otp( $user_login, $user_email, $errors, $phone_number, $otp_type, $password = '', $extra_data = null, $from_both = false )
+function softeria_alerts_site_challenge_otp( $user_login, $user_email, $errors, $phone_number, $otp_type, $password = '', $extra_data = null, $from_both = false )
 {
     SmsAlertUtility::checkSession();
     $_SESSION['current_url']     = SmsAlertUtility::currentPageUrl();
@@ -153,17 +153,17 @@ function _handle_validation_goBack_action()
      *
      * @return void
      */
-function _handle_validation_form_action( $requestVariable = 'smspro_customer_validation_otp_token', $from_both = false )
+function _handle_validation_form_action( $requestVariable = 'softeria_alerts_customer_validation_otp_token', $from_both = false )
 {
     SmsAlertUtility::checkSession();
-    $_REQUEST        = smspro_sanitize_array($_REQUEST);
+    $_REQUEST        = softeria_alerts_sanitize_array($_REQUEST);
     $user_login      = ! SmsAlertUtility::isBlank($_SESSION['user_login']) ? sanitize_text_field(wp_unslash($_SESSION['user_login'])) : null;
     $user_email      = ! SmsAlertUtility::isBlank($_SESSION['user_email']) ? sanitize_email(wp_unslash($_SESSION['user_email'])) : null;
     $phone_number    = ( array_key_exists('billing_phone', $_REQUEST) && ! empty($_REQUEST['billing_phone']) ) ? sanitize_text_field(wp_unslash($_REQUEST['billing_phone'])) : null;
     $phone_number    = array_key_exists('phone_number_mo', $_SESSION) && ! SmsAlertUtility::isBlank($_SESSION['phone_number_mo']) ? sanitize_text_field($_SESSION['phone_number_mo']) : $phone_number;
     $password        = ! SmsAlertUtility::isBlank($_SESSION['user_password']) ? sanitize_text_field($_SESSION['user_password']) : null;
-    $extra_data      = ! SmsAlertUtility::isBlank($_SESSION['extra_data']) ? smspro_sanitize_array($_SESSION['extra_data']) : null;
-    $requestVariable = ( array_key_exists('phone', $_REQUEST) && ! array_key_exists('smspro_customer_validation_otp_token', $_REQUEST) ) ? sanitize_text_field(wp_unslash($_REQUEST['phone'])) : 'smspro_customer_validation_otp_token';
+    $extra_data      = ! SmsAlertUtility::isBlank($_SESSION['extra_data']) ? softeria_alerts_sanitize_array($_SESSION['extra_data']) : null;
+    $requestVariable = ( array_key_exists('phone', $_REQUEST) && ! array_key_exists('softeria_alerts_customer_validation_otp_token', $_REQUEST) ) ? sanitize_text_field(wp_unslash($_REQUEST['phone'])) : 'softeria_alerts_customer_validation_otp_token';
 
     //$requestVariable = array_key_exists( 'order_verify', $_REQUEST ) ? 'order_verify' : $requestVariable;
 
@@ -221,7 +221,7 @@ function _handle_mo_ajax_phone_validate( $getdata )
 {
     SmsAlertUtility::checkSession();
     $_SESSION[ FormSessionVars::AJAX_FORM ] = trim($getdata['billing_phone']);
-    smspro_site_challenge_otp(
+    softeria_alerts_site_challenge_otp(
         sanitize_text_field($_SESSION['user_login']),
         null,
         null,
@@ -271,7 +271,7 @@ function _handle_mo_create_user_wc_action( $postdata )
      *
      * @return void
      */
-function smspro_customer_validation_handle_form()
+function softeria_alerts_customer_validation_handle_form()
 {
     $from_both = isset($_POST['from_both']) ? sanitize_text_field(wp_unslash($_POST['from_both'])) : '';
     $options   = isset($_REQUEST['option']) ? trim(sanitize_text_field(wp_unslash($_REQUEST['option']))) : '';
@@ -282,16 +282,16 @@ function smspro_customer_validation_handle_form()
         case 'validation_goBack':
             _handle_validation_goBack_action();
             break;
-        case 'smspro-ajax-otp-generate':
+        case 'softeria-alert-ajax-otp-generate':
             _handle_mo_ajax_phone_validate($_GET);
             break;
-        case 'smspro-ajax-otp-validate':
+        case 'softeria-alert-ajax-otp-validate':
             _handle_mo_ajax_form_validate_action($_GET);
             break;
-        case 'smspro_ajax_form_validate':
+        case 'softeria_alerts_ajax_form_validate':
             _handle_mo_create_user_wc_action($_POST);
             break;
-        case 'smspro-validate-otp-form':
+        case 'softeria-alert-validate-otp-form':
             $from_both = ( true === $from_both ) ? true : false;
             _handle_validation_form_action();
             break;

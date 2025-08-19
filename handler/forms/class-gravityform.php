@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -30,8 +30,8 @@ GFForms::include_feed_addon_framework();
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * GF_SMS_Alert class.
@@ -58,7 +58,7 @@ class GF_SMS_Alert extends GFFeedAddOn
      *
      * @var stirng
      */
-    protected $_slug = 'gravity-forms-sms-pro';
+    protected $_slug = 'gravity-forms-softeria-sms-alerts';
 
     /**
      * Add full path
@@ -72,14 +72,14 @@ class GF_SMS_Alert extends GFFeedAddOn
      *
      * @var stirng
      */
-    protected $_title = 'SMS Pro';
+    protected $_title = 'Softeria Tech';
 
     /**
      * Addon short title for addon.
      *
      * @var stirng
      */
-    protected $_short_title = 'SMS Pro';
+    protected $_short_title = 'Softeria Tech';
 
     /**
      * Check mutliple feed allowed or not.
@@ -123,7 +123,7 @@ class GF_SMS_Alert extends GFFeedAddOn
      */
     public function feed_settings_title()
     {
-        return __('SMS ALERT', 'smspro-gravity-forms');
+        return __('SMS ALERT', 'softeria-alert-gravity-forms');
     }
 
     /**
@@ -140,20 +140,20 @@ class GF_SMS_Alert extends GFFeedAddOn
         array(
                     'label'   => 'Enable Mobile Verification',
                     'type'    => 'checkbox',
-                    'name'    => 'smspro_gForm_otp',
+                    'name'    => 'softeria_alerts_gForm_otp',
                     'class'   => 'mt-position-right',
                     'tooltip' => 'Enable otp',
                     'choices' => array(
                         array(
                            'label' => '',
-                            'name'  => 'smspro_gForm_otp'
+                            'name'  => 'softeria_alerts_gForm_otp'
                         )
                      )
                 ),
         array(
         'label'             => 'Customer Numbers',
         'type'              => 'text',
-        'name'              => 'smspro_gForm_cstmer_nos',
+        'name'              => 'softeria_alerts_gForm_cstmer_nos',
         'tooltip'           => 'Enter Customer Numbers',
         'class'             => 'medium merge-tag-support mt-position-right',
         'feedback_callback' => array( $this, 'is_valid_setting'),
@@ -161,7 +161,7 @@ class GF_SMS_Alert extends GFFeedAddOn
             array(
         'label'   => 'Customer Templates',
         'type'    => 'textarea',
-        'name'    => 'smspro_gForm_cstmer_text',
+        'name'    => 'softeria_alerts_gForm_cstmer_text',
         'tooltip' => 'Enter your Customer SMS Content',
         'default_value' => SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'),
         'class'   => 'medium merge-tag-support mt-position-right',
@@ -174,7 +174,7 @@ class GF_SMS_Alert extends GFFeedAddOn
         array(
         'label'             => 'Admin Numbers',
         'type'              => 'text',
-        'name'              => 'smspro_gForm_admin_nos',
+        'name'              => 'softeria_alerts_gForm_admin_nos',
         'tooltip'           => 'Enter admin Numbers',
         'class'             => 'medium merge-tag-support mt-position-right',
         'feedback_callback' => array( $this, 'is_valid_setting' ),
@@ -182,7 +182,7 @@ class GF_SMS_Alert extends GFFeedAddOn
         array(
          'label'         => 'Admin Templates',
          'type'          => 'textarea',
-         'name'          => 'smspro_gForm_admin_text',
+         'name'          => 'softeria_alerts_gForm_admin_text',
          'tooltip'       => 'Enter your admin SMS Content',
         'default_value' => SmsAlertMessages::showMessage(
             'DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'
@@ -200,19 +200,19 @@ class GF_SMS_Alert extends GFFeedAddOn
                 $cst_fields[] =  array(
                 'label'   => $vs,
                 'type'    => 'checkbox',
-                'name'    => 'smspro_gform_cstmer_status_ '. strtolower($vs),
+                'name'    => 'softeria_alerts_gform_cstmer_status_ '. strtolower($vs),
                 'class'   => 'mt-position-right',
-                'tooltip' => 'smspro_gform_cstmer_status_'. strtolower($vs),
+                'tooltip' => 'softeria_alerts_gform_cstmer_status_'. strtolower($vs),
                 'choices' => array(
                 array(
                  'label' => '',
-                'name'  => 'smspro_gform_cstmer_status_'. strtolower($vs)
+                'name'  => 'softeria_alerts_gform_cstmer_status_'. strtolower($vs)
                 )
                 )
                 );        
                 $cst_fields[] =    array(            
                 'type'    => 'textarea',
-                'name'    => 'smspro_gform_cstmer_'. strtolower($vs) .'_text',
+                'name'    => 'softeria_alerts_gform_cstmer_'. strtolower($vs) .'_text',
                 'tooltip' => 'Enter your Customer SMS Content',
                 'default_value' => SmsAlertMessages::showMessage(
                     'DEFAULT_GRAVITY_NEW_USER'
@@ -222,19 +222,19 @@ class GF_SMS_Alert extends GFFeedAddOn
                 $admin_fields[] =  array(
                 'label'   => $vs,
                 'type'    => 'checkbox',
-                'name'    => 'smspro_gform_admin_status_'. strtolower($vs),
+                'name'    => 'softeria_alerts_gform_admin_status_'. strtolower($vs),
                 'class'   => 'mt-position-right',
-                'tooltip' => 'smspro_gform_admin_status_'. strtolower($vs),
+                'tooltip' => 'softeria_alerts_gform_admin_status_'. strtolower($vs),
                 'choices' => array(
                 array(
                 'label' => '',
-                'name'  => 'smspro_gform_admin_status_'. strtolower($vs)
+                'name'  => 'softeria_alerts_gform_admin_status_'. strtolower($vs)
                 )
                 )
                 );        
                 $admin_fields[] =    array(            
                 'type'    => 'textarea',
-                'name'    => 'smspro_gform_admin_'. strtolower($vs) .'_text',
+                'name'    => 'softeria_alerts_gform_admin_'. strtolower($vs) .'_text',
                 'tooltip' => 'Enter your Admin SMS Content',
                 'default_value' => SmsAlertMessages::showMessage(
                     'DEFAULT_GRAVITY_NEW_ADMIN'
@@ -262,19 +262,19 @@ class GF_SMS_Alert extends GFFeedAddOn
             $cst_payment_fields[] =  array(
                 'label'   => $vs,
                 'type'    => 'checkbox',
-                'name'    => 'smspro_gform_cstmer_status_ '. strtolower($vs),
+                'name'    => 'softeria_alerts_gform_cstmer_status_ '. strtolower($vs),
                 'class'   => 'mt-position-right',
-                'tooltip' => 'smspro_gform_cstmer_status_'. strtolower($vs),
+                'tooltip' => 'softeria_alerts_gform_cstmer_status_'. strtolower($vs),
                 'choices' => array(
                 array(
                  'label' => '',
-                'name'  => 'smspro_gform_cstmer_status_'. strtolower($vs)
+                'name'  => 'softeria_alerts_gform_cstmer_status_'. strtolower($vs)
                 )
                 )
                 );        
                 $cst_payment_fields[] =    array(            
                'type'    => 'textarea',
-                'name'    => 'smspro_gform_cstmer_'. strtolower($vs) .'_text',
+                'name'    => 'softeria_alerts_gform_cstmer_'. strtolower($vs) .'_text',
                 'tooltip' => 'Enter your Customer SMS Content',
                 'default_value' => SmsAlertMessages::showMessage('DEFAULT_GRAVITY_CST_SMS_STATUS_CHANGED')
                 ,
@@ -284,19 +284,19 @@ class GF_SMS_Alert extends GFFeedAddOn
                 $admin_payment_fields[] =  array(
                 'label'   => $vs,
                 'type'    => 'checkbox',
-                'name'    => 'smspro_gform_admin_status_'. strtolower($vs),
+                'name'    => 'softeria_alerts_gform_admin_status_'. strtolower($vs),
                 'class'   => 'mt-position-right',
-                'tooltip' => 'smspro_gform_status_'. strtolower($vs),
+                'tooltip' => 'softeria_alerts_gform_status_'. strtolower($vs),
                 'choices' => array(
                 array(
                 'label' => '',
-                'name'  => 'smspro_gform_admin_status_'. strtolower($vs)
+                'name'  => 'softeria_alerts_gform_admin_status_'. strtolower($vs)
                 )
                 )
                 );        
                 $admin_payment_fields[] =    array(            
                 'type'    => 'textarea',
-                'name'    => 'smspro_gform_admin_'. strtolower($vs) .'_text',
+                'name'    => 'softeria_alerts_gform_admin_'. strtolower($vs) .'_text',
                 'tooltip' => 'Enter your Admin SMS Content',
                 'default_value' => SmsAlertMessages::showMessage(
                     'DEFAULT_GRAVITY_ADMIN_SMS_STATUS_CHANGED'
@@ -322,19 +322,19 @@ class GF_SMS_Alert extends GFFeedAddOn
                 $cst_bookig_fields[] =  array(
                 'label'   => $kss,
                 'type'    => 'checkbox',
-                'name'    => 'smspro_gform_cstmer_booking_status_ '. strtolower($vss),
+                'name'    => 'softeria_alerts_gform_cstmer_booking_status_ '. strtolower($vss),
                 'class'   => 'mt-position-right',
-                'tooltip' => 'smspro_gform_cstmer_booking_status_'. strtolower($vss),
+                'tooltip' => 'softeria_alerts_gform_cstmer_booking_status_'. strtolower($vss),
                 'choices' => array(
                 array(
                  'label' => '',
-                'name'  => 'smspro_gform_cstmer_booking_status_'. strtolower($vss)
+                'name'  => 'softeria_alerts_gform_cstmer_booking_status_'. strtolower($vss)
                 )
                 )
                 );        
                 $cst_bookig_fields[] =    array(            
                 'type'    => 'textarea',
-                'name'    => 'smspro_gform_cstmer_booking_'. strtolower($vss) .'_text',
+                'name'    => 'softeria_alerts_gform_cstmer_booking_'. strtolower($vss) .'_text',
                 'tooltip' => 'Enter your Customer SMS Content',
                 'default_value' => SmsAlertMessages::showMessage('DEFAULT_GRAVITY_CUSTOMER_MESSAGE')
                 ,
@@ -344,19 +344,19 @@ class GF_SMS_Alert extends GFFeedAddOn
                 $admin_booking_fields[] =  array(
                 'label'   => $kss,
                 'type'    => 'checkbox',
-                'name'    => 'smspro_gform_admin_booking_status_'. strtolower($vss),
+                'name'    => 'softeria_alerts_gform_admin_booking_status_'. strtolower($vss),
                 'class'   => 'mt-position-right',
-                'tooltip' => 'smspro_gform_admin_booking_status_'. strtolower($vss),
+                'tooltip' => 'softeria_alerts_gform_admin_booking_status_'. strtolower($vss),
                 'choices' => array(
                 array(
                 'label' => '',
-                'name'  => 'smspro_gform_admin_booking_status_'. strtolower($vss)
+                'name'  => 'softeria_alerts_gform_admin_booking_status_'. strtolower($vss)
                 )
                 )
                 );        
                 $admin_booking_fields[] =    array(            
                 'type'    => 'textarea',
-                'name'    => 'smspro_gform_admin_booking_'. strtolower($vss) .'_text',
+                'name'    => 'softeria_alerts_gform_admin_booking_'. strtolower($vss) .'_text',
                 'tooltip' => 'Enter your Admin SMS Content',
                 'default_value' => SmsAlertMessages::showMessage(
                     'DEFAULT_GRAVITY_ADMIN_MESSAGE'
@@ -390,36 +390,36 @@ class GF_SMS_Alert extends GFFeedAddOn
      */
     public function save_feed_settings( $feed_id, $form_id, $settings ) 
     {
-        if (empty($settings['smspro_gForm_cstmer_nos']) 
-            && !empty($settings['smspro_gForm_cstmer_text'])
+        if (empty($settings['softeria_alerts_gForm_cstmer_nos']) 
+            && !empty($settings['softeria_alerts_gForm_cstmer_text'])
         ) {
             $this->_errorMsg = true;
             GFCommon::add_error_message(
                 __(
                     "Please enter
-			your customer number.", 'sms-pro'
+			your customer number.", 'softeria-sms-alerts'
                 )
             );
             $result = false;
-        } else if (!empty($settings['smspro_gForm_otp']) 
-            && empty($settings['smspro_gForm_cstmer_nos'])
+        } else if (!empty($settings['softeria_alerts_gForm_otp']) 
+            && empty($settings['softeria_alerts_gForm_cstmer_nos'])
         ) {
             $this->_errorMsg = true;
             GFCommon::add_error_message(
                 __(
                     "Please enter
-			your customer number.", 'sms-pro'
+			your customer number.", 'softeria-sms-alerts'
                 )
             );
             $result = false;
-        } else if (empty($settings['smspro_gForm_admin_nos']) 
-            && !empty($settings['smspro_gForm_admin_text'])
+        } else if (empty($settings['softeria_alerts_gForm_admin_nos']) 
+            && !empty($settings['softeria_alerts_gForm_admin_text'])
         ) {
             $this->_errorMsg = true;        
             GFCommon::add_error_message(
                 __(
                     "Please enter
-			your admin number.", 'sms-pro'
+			your admin number.", 'softeria-sms-alerts'
                 )
             );
             $result = false;
@@ -441,7 +441,7 @@ class GF_SMS_Alert extends GFFeedAddOn
     {
         return !empty($this->_errorMsg) ? '' : esc_html__(
             'There
-		was an error while saving your settings.', 'sms-pro'
+		was an error while saving your settings.', 'softeria-sms-alerts'
         );
     }
     
@@ -463,18 +463,18 @@ class GF_SMS_Alert extends GFFeedAddOn
         $meta       = RGFormsModel::get_form_meta($entry['form_id']);       
         $feeds      = GFAPI::get_feeds(
             null, $entry['form_id'],
-            'gravity-forms-sms-pro'
+            'gravity-forms-softeria-sms-alerts'
         );
         foreach ( $feeds as $feed ) {
             if (count($feed) > 0 && array_key_exists('meta', $feed) ) {
                 $admin_msg          = $feed['meta']
-                ['smspro_gForm_admin_text'];
+                ['softeria_alerts_gForm_admin_text'];
                 $admin_nos          = $feed['meta']
-                ['smspro_gForm_admin_nos'];
+                ['softeria_alerts_gForm_admin_nos'];
                 $cstmer_nos_pattern = $feed['meta']
-                ['smspro_gForm_cstmer_nos'];
+                ['softeria_alerts_gForm_cstmer_nos'];
                 $message            = $feed['meta']
-                ['smspro_gForm_cstmer_text'];
+                ['softeria_alerts_gForm_cstmer_text'];
             }
         }
         $cstmer_nos ='';
@@ -533,8 +533,8 @@ add_action(
   * PHP version 5
   *
   * @category Handler
-  * @package  SMSPro
-  * @author   SMS Pro <support@softeriatech.com>
+  * @package  SOFTSMSAlerts
+  * @author   Softeria Tech <billing@softeriatech.com>
   * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
   * @link     https://sms.softeriatech.com/
   * GF_Smsalert_Form class.
@@ -618,7 +618,7 @@ class GF_Smsalert_Form extends FormInterface
             'gform_submit_button', array( $this, 'add_otp_btn' ), 10, 2
         );        
         add_action(
-            'gform_preview_footer', array( $this, 'load_smspro_modal_html' ), 10, 1
+            'gform_preview_footer', array( $this, 'load_softeria_alerts_modal_html' ), 10, 1
         );    
         add_filter(
             'gform_payment_statuses', array( $this, 'add_new_status' ), 10, 1
@@ -680,25 +680,25 @@ class GF_Smsalert_Form extends FormInterface
         $meta       = RGFormsModel::get_form_meta($entry['form_id']);      
         $feeds      = GFAPI::get_feeds(
             null, $entry['form_id'],
-            'gravity-forms-sms-pro'
+            'gravity-forms-softeria-sms-alerts'
         );
                  
         foreach ( $feeds as $feed ) {        
             if (count($feed) > 0 && array_key_exists('meta', $feed) ) {
                 $status = strtolower($action['payment_status']);
                 $cst_message              = $feed['meta']
-                ['smspro_gform_cstmer_'. $status .'_text'];
+                ['softeria_alerts_gform_cstmer_'. $status .'_text'];
                 $cst_notification         = $feed['meta']
-                ['smspro_gform_cstmer_status_'. $status];
+                ['softeria_alerts_gform_cstmer_status_'. $status];
                 $admin_message          = $feed['meta']                
-                ['smspro_gform_admin_'. $status .'_text'];                
+                ['softeria_alerts_gform_admin_'. $status .'_text'];                
                 $admin_notification     = $feed['meta']
-                ['smspro_gform_admin_status_'.$status];                
+                ['softeria_alerts_gform_admin_status_'.$status];                
                 $cstmer_nos_pattern             = $feed['meta']
-                ['smspro_gForm_cstmer_nos'];
+                ['softeria_alerts_gForm_cstmer_nos'];
                 
                 $admin_nos                      = $feed['meta']
-                ['smspro_gForm_admin_nos'];                
+                ['softeria_alerts_gForm_admin_nos'];                
             }
         }        
         $cstmer_nos = "";
@@ -799,23 +799,23 @@ class GF_Smsalert_Form extends FormInterface
         $admin_nos           = '';             
         $admin_notification  = '';    
         $meta       = RGFormsModel::get_form_meta($entry['form_id']);
-        $feeds      = GFAPI::get_feeds(null, $entry['form_id'],    'gravity-forms-sms-pro');            
+        $feeds      = GFAPI::get_feeds(null, $entry['form_id'],    'gravity-forms-softeria-sms-alerts');            
         foreach ( $feeds as $feed ) {        
             if (count($feed) > 0 && array_key_exists('meta', $feed) ) {
                 $statuss = strtolower($post->post_status);
                 $status = str_replace(' ', '_', $statuss);
                 $cst_message              = $feed['meta']
-                ['smspro_gform_cstmer_booking_'. $status .'_text'];
+                ['softeria_alerts_gform_cstmer_booking_'. $status .'_text'];
                 $cst_notification         = $feed['meta']
-                ['smspro_gform_cstmer_booking_status_'. $status];
+                ['softeria_alerts_gform_cstmer_booking_status_'. $status];
                 $admin_message          = $feed['meta']                
-                ['smspro_gform_admin_booking_'. $status .'_text'];                
+                ['softeria_alerts_gform_admin_booking_'. $status .'_text'];                
                 $admin_notification     = $feed['meta']
-                ['smspro_gform_admin_booking_status_'.$status];                
+                ['softeria_alerts_gform_admin_booking_status_'.$status];                
                 $cstmer_nos_pattern             = $feed['meta']
-                ['smspro_gForm_cstmer_nos'];                    
+                ['softeria_alerts_gForm_cstmer_nos'];                    
                 $admin_nos                      = $feed['meta']
-                ['smspro_gForm_admin_nos'];                
+                ['softeria_alerts_gForm_admin_nos'];                
             }
         }        
         $cstmer_nos = "";
@@ -866,7 +866,7 @@ class GF_Smsalert_Form extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( $islogged &&
         (is_plugin_active('gravityforms-master/gravityforms.php') ||
@@ -880,7 +880,7 @@ class GF_Smsalert_Form extends FormInterface
      *
      * @return string
      */
-    function load_smspro_modal_html($form_id)
+    function load_softeria_alerts_modal_html($form_id)
     {
         SAVerify::add_shortcode_popup_html();
     }
@@ -905,25 +905,25 @@ class GF_Smsalert_Form extends FormInterface
         $meta       = RGFormsModel::get_form_meta($entry['form_id']);      
         $feeds      = GFAPI::get_feeds(
             null, $entry['form_id'],
-            'gravity-forms-sms-pro'
+            'gravity-forms-softeria-sms-alerts'
         );        
         foreach ( $feeds as $feed ) {        
             if (count($feed) > 0 && array_key_exists('meta', $feed) ) {
                 $status = $this->enum[$entry['is_approved']];
                 
                 $cst_message              = $feed['meta']
-                ['smspro_gform_cstmer_'. $status .'_text'];
+                ['softeria_alerts_gform_cstmer_'. $status .'_text'];
                 
                 $cst_notification         = $feed['meta']
-                ['smspro_gform_status_'. $status];
+                ['softeria_alerts_gform_status_'. $status];
                 $admin_message          = $feed['meta']                
-                ['smspro_gform_admin_'. $status .'_text'];                
+                ['softeria_alerts_gform_admin_'. $status .'_text'];                
                 $admin_notification     = $feed['meta']
-                ['smspro_gform_status_'.$status];                
+                ['softeria_alerts_gform_status_'.$status];                
                 $cstmer_nos_pattern             = $feed['meta']
-                ['smspro_gForm_cstmer_nos']; 
+                ['softeria_alerts_gForm_cstmer_nos']; 
                 $admin_nos                      = $feed['meta']
-                ['smspro_gForm_admin_nos'];                
+                ['softeria_alerts_gForm_admin_nos'];                
             }
         }         
         $cstmer_nos ='';
@@ -988,18 +988,18 @@ class GF_Smsalert_Form extends FormInterface
         $form_id          = $form["fields"][0]->formId;
         $feeds            = GFAPI::get_feeds(
             null, $form_id,
-            'gravity-forms-sms-pro'
+            'gravity-forms-softeria-sms-alerts'
         );
         if (!empty($feeds->errors)) {
             return $button;
         } 
         $phone_field     = !empty(
             $feeds[0]['meta']
-            ['smspro_gForm_cstmer_nos']
+            ['softeria_alerts_gForm_cstmer_nos']
         )? $feeds[0]
-        ['meta']['smspro_gForm_cstmer_nos']:'';
+        ['meta']['softeria_alerts_gForm_cstmer_nos']:'';
         if (empty($phone_field) 
-            || empty($feeds[0]['meta']['smspro_gForm_otp'])
+            || empty($feeds[0]['meta']['softeria_alerts_gForm_otp'])
         ) {
             return $button; 
         }
@@ -1090,7 +1090,7 @@ class GF_Smsalert_Form extends FormInterface
         if (! empty($_REQUEST['option'])
             && sanitize_text_field(
                 wp_unslash($_REQUEST['option'])
-            ) ===        'smspro-validate-otp-form' 
+            ) ===        'softeria-alert-validate-otp-form' 
         ) {
             wp_send_json(
                 SmsAlertUtility::_create_json_response(
@@ -1124,7 +1124,7 @@ class GF_Smsalert_Form extends FormInterface
             return;
         }
         if (! empty($_REQUEST['option'])  
-            && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' 
+            && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' 
         ) {
             wp_send_json(
                 SmsAlertUtility::_create_json_response(

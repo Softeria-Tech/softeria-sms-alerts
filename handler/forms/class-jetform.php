@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -28,8 +28,8 @@ use Jet_Form_Builder\Blocks\Block_Helper;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * JetForm class.
@@ -62,28 +62,28 @@ class JetForm extends FormInterface
     {
         global $form_id;          
         $form_id          = $form_data ->action_handler->form_id;
-        $form_enable      = smspro_get_option(
+        $form_enable      = softeria_alerts_get_option(
             'jetform_order_status_' . $form_id,
-            'smspro_jetform_general', 'on'
+            'softeria_alerts_jetform_general', 'on'
         );
         
-        $phone_field      = smspro_get_option(
+        $phone_field      = softeria_alerts_get_option(
             'jetform_sms_phone_' . $form_id, 
-            'smspro_jetform_general', ''
+            'softeria_alerts_jetform_general', ''
         );
         
-        $buyer_sms_notify = smspro_get_option(
+        $buyer_sms_notify = softeria_alerts_get_option(
             'jetform_message_' . $form_id, 
-            'smspro_jetform_general', 'on'
+            'softeria_alerts_jetform_general', 'on'
         );
-        $admin_sms_notify = smspro_get_option(
+        $admin_sms_notify = softeria_alerts_get_option(
             'jetform_admin_notification_' . $form_id,
-            'smspro_jetform_general', 'on'
+            'softeria_alerts_jetform_general', 'on'
         );        
         if ('on' === $form_enable && 'on' === $buyer_sms_notify ) {
-            $buyer_sms_content = smspro_get_option(
+            $buyer_sms_content = softeria_alerts_get_option(
                 'jetform_sms_body_' . $form_id, 
-                'smspro_jetform_message', ''
+                'softeria_alerts_jetform_message', ''
             );    
             
             $formiii = $form_data->request_handler->_fields;
@@ -100,16 +100,16 @@ class JetForm extends FormInterface
             do_action('sa_send_sms', $mobile, $msg);
         }
         if ('on' === $admin_sms_notify ) {
-            $admin_phone_number = smspro_get_option(
-                'sms_admin_phone', 'smspro_message', ''
+            $admin_phone_number = softeria_alerts_get_option(
+                'sms_admin_phone', 'softeria_alerts_message', ''
             );
             $admin_phone_number = str_replace(
                 'post_author', '', $admin_phone_number
             );
             if (! empty($admin_phone_number) ) {
-                $admin_sms_content = smspro_get_option(
+                $admin_sms_content = softeria_alerts_get_option(
                     'jetform_admin_sms_body_' . $form_id, 
-                    'smspro_jetform_message', ''
+                    'softeria_alerts_jetform_message', ''
                 );
                 do_action(
                     'sa_send_sms', $admin_phone_number,
@@ -126,7 +126,7 @@ class JetForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( is_plugin_active('jetformbuilder/jet-form-builder.php') 
         && $islogged ) ? true : false;
@@ -349,17 +349,17 @@ class JetForm extends FormInterface
     {
         $wpam_statuses = self::getJetformForms();
         foreach ( $wpam_statuses as $ks => $vs ) {
-            $defaults['smspro_jetform_general']
+            $defaults['softeria_alerts_jetform_general']
             [ 'jetform_admin_notification_' . $ks ] = 'off';
-            $defaults['smspro_jetform_general']
+            $defaults['softeria_alerts_jetform_general']
             [ 'jetform_order_status_' . $ks ]       = 'off';
-            $defaults['smspro_jetform_general']
+            $defaults['softeria_alerts_jetform_general']
             [ 'jetform_message_' . $ks ]            = 'off';
-            $defaults['smspro_jetform_message']
+            $defaults['softeria_alerts_jetform_message']
             [ 'jetform_admin_sms_body_' . $ks ]     = '';
-            $defaults['smspro_jetform_message']
+            $defaults['softeria_alerts_jetform_message']
             [ 'jetform_sms_body_' . $ks ]           = '';
-            $defaults['smspro_jetform_general']
+            $defaults['softeria_alerts_jetform_general']
             [ 'jetform_sms_phone_' . $ks ]          = '';            
         }
         return $defaults;

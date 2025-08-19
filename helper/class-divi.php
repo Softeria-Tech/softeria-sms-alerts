@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -17,14 +17,14 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
- * SMSProDivi Class.
+ * SofteriaAlertsDivi Class.
  */
 
-class SMSProDivi
+class SofteriaAlertsDivi
 {
 
     /**
@@ -80,7 +80,7 @@ class SMSProDivi
         add_action('wp_enqueue_scripts', [ $this, 'frontendStyles' ], 12);
 
         if (wp_doing_ajax() ) {
-            add_action('wp_ajax_smspro_divi_preview', [ $this, 'preview' ]);
+            add_action('wp_ajax_softeria_alerts_divi_preview', [ $this, 'preview' ]);
         }
 
         if ($this->_isDiviBuilder() ) {
@@ -157,16 +157,16 @@ class SMSProDivi
      */
     public function builderScripts()
     {
-        wp_enqueue_script('smspro-divi', SA_MOV_URL . 'js/divi.js', [ 'react', 'react-dom' ], SmsAlertConstants::SA_VERSION, true);
+        wp_enqueue_script('softeria-alert-divi', SA_MOV_URL . 'js/divi.js', [ 'react', 'react-dom' ], SmsAlertConstants::SA_VERSION, true);
 
         wp_localize_script(
-            'smspro-divi',
-            'smspro_divi_builder',
+            'softeria-alert-divi',
+            'softeria_alerts_divi_builder',
             [
             'ajax_url'          => admin_url('admin-ajax.php'),
-            'nonce'             => wp_create_nonce('smspro_divi_builder'),
+            'nonce'             => wp_create_nonce('softeria_alerts_divi_builder'),
             'placeholder'       => '',
-            'placeholder_title' => esc_html__('SMSPro', 'sms-pro'),
+            'placeholder_title' => esc_html__('SOFTSMSAlerts', 'softeria-sms-alerts'),
             ]
         );
     }
@@ -182,7 +182,7 @@ class SMSProDivi
             return;
         }
         include_once plugin_dir_path(__FILE__)."class-divimodule.php";
-        new SMSProSelector();
+        new SofteriaAlertsSelector();
 
     }
     
@@ -194,19 +194,19 @@ class SMSProDivi
     public function preview()
     {
 
-        check_ajax_referer('smspro_divi_builder', 'nonce');
+        check_ajax_referer('softeria_alerts_divi_builder', 'nonce');
 
         $form_id    = filter_input(INPUT_POST, 'form_id', FILTER_SANITIZE_STRING);
 
         add_action(
-            'smspro_frontend_output',
+            'softeria_alerts_frontend_output',
             function () {
                 echo '<fieldset disabled>';
             },
             3
         );
         add_action(
-            'smspro_frontend_output',
+            'softeria_alerts_frontend_output',
             function () {
 
                 echo '</fieldset>';
@@ -221,5 +221,5 @@ class SMSProDivi
         }
     }
 }
-new SMSProDivi();
+new SofteriaAlertsDivi();
 

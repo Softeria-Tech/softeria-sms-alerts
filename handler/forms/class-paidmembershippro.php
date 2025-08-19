@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ if (is_plugin_active('paid-memberships-pro/paid-memberships-pro.php') === false)
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Paidmembershipspro class 
@@ -59,7 +59,7 @@ class SA_Paidmembershipspro extends FormInterface
         add_action('pmpro_checkout_after_user_fields', array( $this, 'addPhoneField' ), 10);
         add_action('pmpro_checkout_before_submit_button', array( $this, 'pmproFormCheckoutOtp' ), 10);
         add_filter('login_form_top', array( $this,'pmproFormLoginOtp' ), 10);
-        add_action('smspro_followup_sms',  array($this, 'sendReminderSms'));
+        add_action('softeria_alerts_followup_sms',  array($this, 'sendReminderSms'));
     }
     
     /**
@@ -75,18 +75,18 @@ class SA_Paidmembershipspro extends FormInterface
         $memberStatuses['active'] = 'active';
         $memberStatuses['cancel'] = 'cancel';
         foreach ($memberStatuses as $ks => $vs) {
-            $defaults['smspro_pmp_general']['customer_pmp_notify_' . $vs]   = 'off';
-            $defaults['smspro_pmp_message']['customer_sms_pmp_body_' . $vs] = '';
-            $defaults['smspro_pmp_general']['admin_pmp_notify_' . $vs]      = 'off';
-            $defaults['smspro_pmp_message']['admin_sms_pmp_body_' . $vs]    = '';
+            $defaults['softeria_alerts_pmp_general']['customer_pmp_notify_' . $vs]   = 'off';
+            $defaults['softeria_alerts_pmp_message']['customer_sms_pmp_body_' . $vs] = '';
+            $defaults['softeria_alerts_pmp_general']['admin_pmp_notify_' . $vs]      = 'off';
+            $defaults['softeria_alerts_pmp_message']['admin_sms_pmp_body_' . $vs]    = '';
         }
-        $defaults['smspro_pmp_general']['otp_enable']                       = 'off';
-        $defaults['smspro_pmp_general']['customer_notify']                  = 'off';
-        $defaults['smspro_pmp_renewal']['customer_notify']                  = 'off';
-        $defaults['smspro_pmp_renewal_scheduler']['cron'][0]['frequency']   = '1';
-        $defaults['smspro_pmp_renewal_scheduler']['cron'][0]['message']     = '';
-        $defaults['smspro_pmp_renewal_scheduler']['cron'][1]['frequency']   = '2';
-        $defaults['smspro_pmp_renewal_scheduler']['cron'][1]['message']     = '';
+        $defaults['softeria_alerts_pmp_general']['otp_enable']                       = 'off';
+        $defaults['softeria_alerts_pmp_general']['customer_notify']                  = 'off';
+        $defaults['softeria_alerts_pmp_renewal']['customer_notify']                  = 'off';
+        $defaults['softeria_alerts_pmp_renewal_scheduler']['cron'][0]['frequency']   = '1';
+        $defaults['softeria_alerts_pmp_renewal_scheduler']['cron'][0]['message']     = '';
+        $defaults['softeria_alerts_pmp_renewal_scheduler']['cron'][1]['frequency']   = '2';
+        $defaults['softeria_alerts_pmp_renewal_scheduler']['cron'][1]['message']     = '';
         return $defaults;
     }
 
@@ -99,7 +99,7 @@ class SA_Paidmembershipspro extends FormInterface
     {  
         global $pmpro_requirebilling;
         if (!$pmpro_requirebilling) {
-              echo '<label for="billing_phone">'. esc_html__('Phone', 'sms-pro').'</label>
+              echo '<label for="billing_phone">'. esc_html__('Phone', 'softeria-sms-alerts').'</label>
 				<input id="bphone" name="billing_phone" type="text" class="billing_phone pmpro_required" size="30" value="" autocomplete="off"/>';
         }    
     }
@@ -128,7 +128,7 @@ class SA_Paidmembershipspro extends FormInterface
      * */
     public function pmproFormCheckoutOtp()
     {
-        if (smspro_get_option('otp_enable', 'smspro_pmp_general') === 'on') {
+        if (softeria_alerts_get_option('otp_enable', 'softeria_alerts_pmp_general') === 'on') {
             echo do_shortcode('[sa_verify phone_selector=" #bphone" submit_selector= " #pmpro_btn-submit"]');
         }
            
@@ -141,8 +141,8 @@ class SA_Paidmembershipspro extends FormInterface
      * */
     public function pmproFormLoginOtp()
     {
-        $default_login_otp   = smspro_get_option('buyer_login_otp', 'smspro_general');
-        $enabled_login_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
+        $default_login_otp   = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
+        $enabled_login_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
         if ('on' === $default_login_otp && 'on' === $enabled_login_popup ) {
             echo do_shortcode('[sa_verify user_selector="#user_login" pwd_selector="#user_pass" submit_selector="#wp-submit"]');
         }  
@@ -159,7 +159,7 @@ class SA_Paidmembershipspro extends FormInterface
     { 
         $user_id           = $order->user_id;
          
-        $customerNotify    = smspro_get_option('customer_notify', 'smspro_pmp_renewal', 'on'); 
+        $customerNotify    = softeria_alerts_get_option('customer_notify', 'softeria_alerts_pmp_renewal', 'on'); 
         $membership        = pmpro_getMembershipLevelForUser($user_id);
         
         $source            = 'paid-memberships-pro';
@@ -170,11 +170,11 @@ class SA_Paidmembershipspro extends FormInterface
         $expired           = !empty($membership->enddate) ? $membership->enddate : "";
         $expiry            = wp_date("Y-m-d H:i:s", $expired); 
         $buyerMob          = $order->billing->phone;
-        $table_name        = $wpdb->prefix .'smspro_renewal_reminders';
+        $table_name        = $wpdb->prefix .'softeria_alerts_renewal_reminders';
         
         $subscription_details = $wpdb->get_results("SELECT next_payment_date, notification_sent_date FROM $table_name WHERE subscription_id = $order_id and source = '$source'");
         if ('success' === $status && 'on' === $customerNotify && $expiry) {
-            $scheduler_data = get_option('smspro_pmp_renewal_scheduler');
+            $scheduler_data = get_option('softeria_alerts_pmp_renewal_scheduler');
             if (isset($scheduler_data['cron']) && ! empty($scheduler_data['cron']) ) {
                 foreach ( $scheduler_data['cron'] as $sdata ) {
                     $next_payment_date    = date('Y-m-d', strtotime($expiry));
@@ -221,10 +221,10 @@ class SA_Paidmembershipspro extends FormInterface
     function sendReminderSms()
     {    
         global $wpdb, $order;
-        $customerNotify       = smspro_get_option('customer_notify', 'smspro_pmp_renewal', 'on');
+        $customerNotify       = softeria_alerts_get_option('customer_notify', 'softeria_alerts_pmp_renewal', 'on');
         $source               = 'paid-memberships-pro';
-        $table_name           = $wpdb->prefix . 'smspro_renewal_reminders'; 
-        $schedulerData        = get_option('smspro_pmp_reminder_scheduler');
+        $table_name           = $wpdb->prefix . 'softeria_alerts_renewal_reminders'; 
+        $schedulerData        = get_option('softeria_alerts_pmp_reminder_scheduler');
         $today                = new DateTime();
         $today                = $today->format('Y-m-d');
         $subscription_details = $wpdb->get_results("SELECT * FROM $table_name WHERE notification_sent_date = '$today' and source = '$source'");
@@ -292,29 +292,29 @@ class SA_Paidmembershipspro extends FormInterface
      */
     public static function getReminderTemplates()
     {
-        $currentVal     = smspro_get_option('customer_notify', 'smspro_pmp_renewal', 'on');
+        $currentVal     = softeria_alerts_get_option('customer_notify', 'softeria_alerts_pmp_renewal', 'on');
     
-        $checkboxNameId = 'smspro_pmp_renewal[customer_notify]';
-        $schedulerData  = get_option('smspro_pmp_renewal_scheduler');
+        $checkboxNameId = 'softeria_alerts_pmp_renewal[customer_notify]';
+        $schedulerData  = get_option('softeria_alerts_pmp_renewal_scheduler');
         $templates      = array();
         $count          = 0;
         if (empty($schedulerData)) {
             $schedulerData = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your membership %2$s with %3$s is expired on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[userName]', '#[order_id]', '[store_name]', '[membership_expiration_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your membership %2$s with %3$s is expired on %4$s.%5$s', 'softeria-sms-alerts'), '[userName]', '#[order_id]', '[store_name]', '[membership_expiration_date]', PHP_EOL, PHP_EOL),
             );
             $schedulerData['cron'][] = array(
                 'frequency' => '2',
-                'message'   => sprintf(__('Hello %1$s, your membership %2$s with %3$s is expired on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[userName]', '#[order_id]', '[store_name]', '[membership_expiration_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your membership %2$s with %3$s is expired on %4$s.%5$s', 'softeria-sms-alerts'), '[userName]', '#[order_id]', '[store_name]', '[membership_expiration_date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
             if (empty($data['message'])) {
                 continue;
             }
-            $textAreaNameId  = 'smspro_pmp_renewal_scheduler[cron][' . $count . '][message]';
-            $selectNameId    = 'smspro_pmp_renewal_scheduler[cron][' . $count . '][frequency]';
+            $textAreaNameId  = 'softeria_alerts_pmp_renewal_scheduler[cron][' . $count . '][message]';
+            $selectNameId    = 'softeria_alerts_pmp_renewal_scheduler[cron][' . $count . '][frequency]';
             $textBody        = $data['message'];
             $templates[$key]['notify_id']      = 'paid-memberships-pro';
             $templates[$key]['frequency']      = $data['frequency'];
@@ -342,11 +342,11 @@ class SA_Paidmembershipspro extends FormInterface
         $templates      =[];
         $ws = 0;
         foreach ($memberStatuses as $wws => $ms) {
-            $currentVal      = smspro_get_option('customer_pmp_notify_' . strtolower($ms), 'smspro_pmp_general', 'on');
-            $checkboxNameId  = 'smspro_pmp_general[customer_pmp_notify_' . strtolower($ms) . ']';
-            $textareaNameId  = 'smspro_pmp_message[customer_sms_pmp_body_' . strtolower($ms) . ']';
-            $defaultTemplate = smspro_get_option('customer_sms_pmp_body_' . strtolower($ms), 'smspro_pmp_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[userName]', '[membership_id]', '[store_name]', $ms, PHP_EOL, PHP_EOL));
-            $textBody       = smspro_get_option('customer_sms_pmp_body_' . strtolower($ms), 'smspro_pmp_message', $defaultTemplate);
+            $currentVal      = softeria_alerts_get_option('customer_pmp_notify_' . strtolower($ms), 'softeria_alerts_pmp_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_pmp_general[customer_pmp_notify_' . strtolower($ms) . ']';
+            $textareaNameId  = 'softeria_alerts_pmp_message[customer_sms_pmp_body_' . strtolower($ms) . ']';
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[userName]', '[membership_id]', '[store_name]', $ms, PHP_EOL, PHP_EOL));
+            $textBody       = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', $defaultTemplate);
             $templates[$ws]['title']          = 'When membership status is ' . ucwords($ms);
             $templates[$ws]['enabled']        = $currentVal;
             $templates[$ws]['status']         = $ms;
@@ -358,11 +358,11 @@ class SA_Paidmembershipspro extends FormInterface
         }
         foreach ($orderStatuses as $ks => $vs) {
             if (!empty($vs)) {
-                $currentVal      = smspro_get_option('customer_pmp_notify_' . strtolower($vs), 'smspro_pmp_general', 'on');
-                $checkboxNameId  = 'smspro_pmp_general[customer_pmp_notify_' . strtolower($vs) . ']';
-                $textareaNameId  = 'smspro_pmp_message[customer_sms_pmp_body_' . strtolower($vs) . ']';
-                $defaultTemplate = smspro_get_option('customer_sms_pmp_body_' . strtolower($vs), 'smspro_pmp_message', sprintf(__('Hello %1$s, status of your order #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[first_name]', '[order_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
-                $textBody       = smspro_get_option('customer_sms_pmp_body_' . strtolower($vs), 'smspro_pmp_message', $defaultTemplate);
+                $currentVal      = softeria_alerts_get_option('customer_pmp_notify_' . strtolower($vs), 'softeria_alerts_pmp_general', 'on');
+                $checkboxNameId  = 'softeria_alerts_pmp_general[customer_pmp_notify_' . strtolower($vs) . ']';
+                $textareaNameId  = 'softeria_alerts_pmp_message[customer_sms_pmp_body_' . strtolower($vs) . ']';
+                $defaultTemplate = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', sprintf(__('Hello %1$s, status of your order #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[order_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+                $textBody       = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', $defaultTemplate);
                 $templates[$ws]['title']          = 'When order status is ' . ucwords($vs);
                 $templates[$ws]['enabled']        = $currentVal;
                 $templates[$ws]['status']         = $vs;
@@ -389,11 +389,11 @@ class SA_Paidmembershipspro extends FormInterface
         $templates      =[];
         $ws = 0;
         foreach ($memberStatuses as $wws => $ms) {
-                $currentVal      = smspro_get_option('admin_pmp_notify_' . strtolower($ms), 'smspro_pmp_general', 'on');
-                $checkboxNameId  = 'smspro_pmp_general[admin_pmp_notify_' . strtolower($ms) . ']';
-                $textareaNameId  = 'smspro_pmp_message[admin_sms_pmp_body_' . strtolower($ms) . ']';
-                $defaultTemplate = smspro_get_option('admin_sms_pmp_body_' . strtolower($ms), 'smspro_pmp_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $ms, PHP_EOL, PHP_EOL));
-                $textBody = smspro_get_option('admin_sms_pmp_body_' . strtolower($ms), 'smspro_pmp_message', $defaultTemplate);
+                $currentVal      = softeria_alerts_get_option('admin_pmp_notify_' . strtolower($ms), 'softeria_alerts_pmp_general', 'on');
+                $checkboxNameId  = 'softeria_alerts_pmp_general[admin_pmp_notify_' . strtolower($ms) . ']';
+                $textareaNameId  = 'softeria_alerts_pmp_message[admin_sms_pmp_body_' . strtolower($ms) . ']';
+                $defaultTemplate = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $ms, PHP_EOL, PHP_EOL));
+                $textBody = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', $defaultTemplate);
                 $templates[$ws]['title']          = 'When admin change membership status to ' . $ms;
                 $templates[$ws]['enabled']        = $currentVal;
                 $templates[$ws]['status']         = $ms;
@@ -406,11 +406,11 @@ class SA_Paidmembershipspro extends FormInterface
         foreach ($orderStatuses as $ks => $vs) {
            
             if (!empty($vs)) {
-                $currentVal      = smspro_get_option('admin_pmp_notify_' . strtolower($vs), 'smspro_pmp_general', 'on');
-                $checkboxNameId  = 'smspro_pmp_general[admin_pmp_notify_' . strtolower($vs) . ']';
-                $textareaNameId  = 'smspro_pmp_message[admin_sms_pmp_body_' . strtolower($vs) . ']';
-                $defaultTemplate = smspro_get_option('admin_sms_pmp_body_' . strtolower($vs), 'smspro_pmp_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
-                $textBody = smspro_get_option('admin_sms_pmp_body_' . strtolower($vs), 'smspro_pmp_message', $defaultTemplate);
+                $currentVal      = softeria_alerts_get_option('admin_pmp_notify_' . strtolower($vs), 'softeria_alerts_pmp_general', 'on');
+                $checkboxNameId  = 'softeria_alerts_pmp_general[admin_pmp_notify_' . strtolower($vs) . ']';
+                $textareaNameId  = 'softeria_alerts_pmp_message[admin_sms_pmp_body_' . strtolower($vs) . ']';
+                $defaultTemplate = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+                $textBody = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', $defaultTemplate);
                 $templates[$ws]['title']          = 'When admin change status to ' . $vs;
                 $templates[$ws]['enabled']        = $currentVal;
                 $templates[$ws]['status']         = $vs;
@@ -439,8 +439,8 @@ class SA_Paidmembershipspro extends FormInterface
             $data                 = (object) array('user_id'=>$user_id);
             $userName           = get_user_meta($user_id, 'nickname', true);
             $buyerNumber        = get_user_meta($user_id, 'billing_phone', true);
-            $customerMessage     = smspro_get_option('customer_sms_pmp_body_active', 'smspro_pmp_message', '');
-            $customerNotify    = smspro_get_option('customer_pmp_notify_active', 'smspro_pmp_general', 'on');
+            $customerMessage     = softeria_alerts_get_option('customer_sms_pmp_body_active', 'softeria_alerts_pmp_message', '');
+            $customerNotify    = softeria_alerts_get_option('customer_pmp_notify_active', 'softeria_alerts_pmp_general', 'on');
             if (($customerNotify === 'on' && $customerMessage !== '')) {
                   $buyerMessage = $this->parseSmsBody($data,  $customerMessage);
                 do_action('sa_send_sms', $buyerNumber, $buyerMessage);
@@ -465,8 +465,8 @@ class SA_Paidmembershipspro extends FormInterface
             $buyerNumber        = get_user_meta($user_id, 'pmpro_bphone', true);
             $userName           = get_user_meta($user_id, 'nickname', true);
             $userEmail          = get_user_meta($user_id, 'pmpro_bemail', true);
-            $customerMessage     = smspro_get_option('customer_sms_pmp_body_cancel', 'smspro_pmp_message', '');
-            $customerNotify    = smspro_get_option('customer_pmp_notify_cancel', 'smspro_pmp_general', 'on');
+            $customerMessage     = softeria_alerts_get_option('customer_sms_pmp_body_cancel', 'softeria_alerts_pmp_message', '');
+            $customerNotify    = softeria_alerts_get_option('customer_pmp_notify_cancel', 'softeria_alerts_pmp_general', 'on');
             if (($customerNotify === 'on' && $customerMessage !== '')) {
                   $buyerMessage = $this->parseSmsBody($data,  $customerMessage);
                 do_action('sa_send_sms', $buyerNumber, $buyerMessage);
@@ -577,8 +577,8 @@ class SA_Paidmembershipspro extends FormInterface
     {
         if (!empty($order->billing)) {
             $status          = $order->status;
-            $customerMessage        = smspro_get_option('customer_sms_pmp_body_' . $status, 'smspro_pmp_message', '');
-            $customerNotify         = smspro_get_option('customer_pmp_notify_' . $status, 'smspro_pmp_general', 'on');
+            $customerMessage        = softeria_alerts_get_option('customer_sms_pmp_body_' . $status, 'softeria_alerts_pmp_message', '');
+            $customerNotify         = softeria_alerts_get_option('customer_pmp_notify_' . $status, 'softeria_alerts_pmp_general', 'on');
             $user_id                = $order->user_id;
             $buyerNumber            = get_user_meta($user_id, 'pmpro_bphone', true);
             if (($customerNotify === 'on' && $customerMessage !== '')) {
@@ -586,10 +586,10 @@ class SA_Paidmembershipspro extends FormInterface
                 do_action('sa_send_sms', $buyerNumber, $buyerMessage);
             }
             // Send msg to admin.
-            $adminPhoneNumber   = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $adminPhoneNumber   = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             if (empty($adminPhoneNumber) === false) {
-                $adminNotify        = smspro_get_option('admin_pmp_notify_' . $status, 'smspro_pmp_general', 'on');
-                $adminMessage       = smspro_get_option('admin_sms_pmp_body_' . $status, 'smspro_pmp_message', '');
+                $adminNotify        = softeria_alerts_get_option('admin_pmp_notify_' . $status, 'softeria_alerts_pmp_general', 'on');
+                $adminMessage       = softeria_alerts_get_option('admin_sms_pmp_body_' . $status, 'softeria_alerts_pmp_message', '');
                 $nos = explode(',', $adminPhoneNumber);
                 $adminPhoneNumber   = array_diff($nos, array('postauthor', 'post_author'));
                 $adminPhoneNumber   = implode(',', $adminPhoneNumber);
@@ -754,7 +754,7 @@ class SA_Paidmembershipspro extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('paid-memberships-pro/paid-memberships-pro.php') === true) && ($islogged === true)) {
             return true;
@@ -778,7 +778,7 @@ class SA_Paidmembershipspro extends FormInterface
         if (isset($_SESSION[$this->form_session_var]) === false) {
             return;
         }
-        if ((empty($_REQUEST['option']) === false) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form') {
+        if ((empty($_REQUEST['option']) === false) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form') {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -804,7 +804,7 @@ class SA_Paidmembershipspro extends FormInterface
         if (isset($_SESSION[$this->form_session_var]) === false) {
             return;
         }
-        if ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form') {
+        if ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form') {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {

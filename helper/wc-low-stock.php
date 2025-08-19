@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! is_plugin_active('woocommerce/woocommerce.php') ) {
      * PHP version 5
      *
      * @category Helper
-     * @package  SMSPro
-     * @author   SMS Pro <support@softeriatech.com>
+     * @package  SOFTSMSAlerts
+     * @author   Softeria Tech <billing@softeriatech.com>
      * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
      * @link     https://sms.softeriatech.com/
      * WCLowStock class
@@ -54,7 +54,7 @@ class WCLowStock
         'templates'        => self::getWcStockTemplates(),
         );
 
-        $tabs['woocommerce']['inner_nav']['wc_stocknotification']['title']       = __('Stock Notifications', 'sms-pro');
+        $tabs['woocommerce']['inner_nav']['wc_stocknotification']['title']       = __('Stock', 'softeria-sms-alerts');
         $tabs['woocommerce']['inner_nav']['wc_stocknotification']['tab_section'] = 'backinstocktemplates';
         $tabs['woocommerce']['inner_nav']['wc_stocknotification']['tabContent']  = $backinstock_param;
         $tabs['woocommerce']['inner_nav']['wc_stocknotification']['filePath']    = 'views/message-template.php';
@@ -69,11 +69,11 @@ class WCLowStock
      */
     public static function getWcStockTemplates()
     {
-        $smspro_low_stock_admin_msg = smspro_get_option('admin_low_stock_msg', 'smspro_general', 'on');
-        $sms_body_admin_low_stock_msg = smspro_get_option('sms_body_admin_low_stock_msg', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_LOW_STOCK_MSG'));
+        $softeria_alerts_low_stock_admin_msg = softeria_alerts_get_option('admin_low_stock_msg', 'softeria_alerts_general', 'on');
+        $sms_body_admin_low_stock_msg = softeria_alerts_get_option('sms_body_admin_low_stock_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_LOW_STOCK_MSG'));
 
-        $smspro_out_of_stock_admin_msg = smspro_get_option('admin_out_of_stock_msg', 'smspro_general', 'on');
-        $sms_body_admin_out_of_stock_msg = smspro_get_option('sms_body_admin_out_of_stock_msg', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_OUT_OF_STOCK_MSG'));
+        $softeria_alerts_out_of_stock_admin_msg = softeria_alerts_get_option('admin_out_of_stock_msg', 'softeria_alerts_general', 'on');
+        $sms_body_admin_out_of_stock_msg = softeria_alerts_get_option('sms_body_admin_out_of_stock_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_OUT_OF_STOCK_MSG'));
 
         $templates = array();
 
@@ -84,11 +84,11 @@ class WCLowStock
         '[shop_url]'   => 'Shop Url',
         );
         $templates['low-stock']['title']          = 'When product is in low stock';
-        $templates['low-stock']['enabled']        = $smspro_low_stock_admin_msg;
+        $templates['low-stock']['enabled']        = $softeria_alerts_low_stock_admin_msg;
         $templates['low-stock']['status']         = 'low-stock';
         $templates['low-stock']['text-body']      = $sms_body_admin_low_stock_msg;
-        $templates['low-stock']['checkboxNameId'] = 'smspro_general[admin_low_stock_msg]';
-        $templates['low-stock']['textareaNameId'] = 'smspro_message[sms_body_admin_low_stock_msg]';
+        $templates['low-stock']['checkboxNameId'] = 'softeria_alerts_general[admin_low_stock_msg]';
+        $templates['low-stock']['textareaNameId'] = 'softeria_alerts_message[sms_body_admin_low_stock_msg]';
         $templates['low-stock']['token']          = $low_stock_variables;
 
         $out_of_stock_variables                      = array(
@@ -98,11 +98,11 @@ class WCLowStock
         '[shop_url]'   => 'Shop Url',
         );
         $templates['out-of-stock']['title']          = 'When product is out of stock';
-        $templates['out-of-stock']['enabled']        = $smspro_out_of_stock_admin_msg;
+        $templates['out-of-stock']['enabled']        = $softeria_alerts_out_of_stock_admin_msg;
         $templates['out-of-stock']['status']         = 'out-of-stock';
         $templates['out-of-stock']['text-body']      = $sms_body_admin_out_of_stock_msg;
-        $templates['out-of-stock']['checkboxNameId'] = 'smspro_general[admin_out_of_stock_msg]';
-        $templates['out-of-stock']['textareaNameId'] = 'smspro_message[sms_body_admin_out_of_stock_msg]';
+        $templates['out-of-stock']['checkboxNameId'] = 'softeria_alerts_general[admin_out_of_stock_msg]';
+        $templates['out-of-stock']['textareaNameId'] = 'softeria_alerts_message[sms_body_admin_out_of_stock_msg]';
         $templates['out-of-stock']['token']          = $out_of_stock_variables;
 
         return $templates;
@@ -117,14 +117,14 @@ class WCLowStock
      */
     public function smsproSendMsgLowStock( $product )
     {
-        $message = smspro_get_option('sms_body_admin_low_stock_msg', 'smspro_message', '');
+        $message = softeria_alerts_get_option('sms_body_admin_low_stock_msg', 'softeria_alerts_message', '');
         $message = $this->parseSmsBody($product, $message);
 
-        $sms_admin_phone = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $sms_admin_phone = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
-        $smspro_notification_low_stock_admin_msg = smspro_get_option('admin_low_stock_msg', 'smspro_general', 'on');
+        $softeria_alerts_notification_low_stock_admin_msg = softeria_alerts_get_option('admin_low_stock_msg', 'softeria_alerts_general', 'on');
 
-        if ('on' === $smspro_notification_low_stock_admin_msg && '' !== $message ) {
+        if ('on' === $softeria_alerts_notification_low_stock_admin_msg && '' !== $message ) {
             $admin_phone_number = str_replace('postauthor', 'post_author', $sms_admin_phone);
             $author_no          = apply_filters('sa_post_author_no', $product->get_id());
             if (( strpos($admin_phone_number, 'post_author') !== false ) && ! empty($author_no) ) {
@@ -144,13 +144,13 @@ class WCLowStock
      */
     public function smsproSendMsgOutOfStock( $product )
     {
-        $message = smspro_get_option('sms_body_admin_out_of_stock_msg', 'smspro_message', '');
+        $message = softeria_alerts_get_option('sms_body_admin_out_of_stock_msg', 'softeria_alerts_message', '');
         $message = $this->parseSmsBody($product, $message);
 
-        $sms_admin_phone = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $sms_admin_phone = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
-        $smspro_notification_out_of_stock_admin_msg = smspro_get_option('admin_out_of_stock_msg', 'smspro_general', 'on');
-        if ('on' === $smspro_notification_out_of_stock_admin_msg && '' !== $message ) {
+        $softeria_alerts_notification_out_of_stock_admin_msg = softeria_alerts_get_option('admin_out_of_stock_msg', 'softeria_alerts_general', 'on');
+        if ('on' === $softeria_alerts_notification_out_of_stock_admin_msg && '' !== $message ) {
             $admin_phone_number = str_replace('postauthor', 'post_author', $sms_admin_phone);
             $author_no          = apply_filters('sa_post_author_no', $product->get_id());
 

@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ if (! is_plugin_active('metform/metform.php')) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Metform class.
@@ -55,7 +55,7 @@ class SA_Metform extends FormInterface
     }
         
     /**
-     * Add SMS Pro setting tab 
+     * Add Softeria Tech setting tab 
      *
      * @return void
      */
@@ -64,12 +64,12 @@ class SA_Metform extends FormInterface
         echo'<li role="presentation">
 		        <a href="#mf-smspro" aria-controls="smspro"
 				role="tab" data-toggle="tab" 
-				class="top">SMS Pro</a>
+				class="top">Softeria Tech</a>
             </li>'; 
     }
     
     /**
-     * Add SMS Pro content tab
+     * Add Softeria Tech content tab
      *    
      * @return void
      */
@@ -84,7 +84,7 @@ class SA_Metform extends FormInterface
 								id="mf_sms_status" name="mf_sms_status"
 								class="mf-admin-control-input
 								mf-form-modalinput-sms mf_sms_status">
-								<span>SMSPro Notification:</span>
+								<span>SOFTSMSAlerts Notification:</span>
 							</label> 
                     </div>
                     <div class="mf-input-group mf-sms" style="">						
@@ -152,14 +152,14 @@ class SA_Metform extends FormInterface
      */
     public function metformSubmissionComplete($form_id,$form_data,$form_settings,$attributes)
     {
-        $smspro_notification   = isset($form_settings['mf_sms_status']);
-        if (! empty($smspro_notification)) {            
+        $softeria_alerts_notification   = isset($form_settings['mf_sms_status']);
+        if (! empty($softeria_alerts_notification)) {            
             $phone_field         = $form_data['billing_phone'] ;        
             $buyer_sms_content   = $form_settings['mf_sms_user_body'];
             $buyer_sms_notify    = isset($form_settings['mf_sms_user_status']);
-            $admin_phone_number  = smspro_get_option(
+            $admin_phone_number  = softeria_alerts_get_option(
                 'sms_admin_phone',
-                'smspro_message', ''
+                'softeria_alerts_message', ''
             );
             $admin_phone_number  = str_replace(
                 'post_author', '',
@@ -190,7 +190,7 @@ class SA_Metform extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return (is_plugin_active('metform/metform.php')
         && $islogged ) ? true : false;

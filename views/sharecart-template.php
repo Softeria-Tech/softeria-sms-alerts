@@ -8,7 +8,7 @@
             <table class="form-table">    
                 <tr style="position: relative;">
                     <td colspan="2">
-                        <div class="smspro_tokens">
+                        <div class="softeria_alerts_tokens">
             <?php
             foreach ( $template['token'] as $vk => $vv ) {
                 echo  "<a href='#' data-val='".esc_attr($vk)."'>".esc_attr($vv)."</a> | ";
@@ -24,13 +24,13 @@
                 </tr>                
                 <tr class="top-border">
                 <td class="td-heading">
-                    <label><?php esc_html_e('Share button position', 'sms-pro')?></label>
+                    <label><?php esc_html_e('Share button position', 'softeria-sms-alerts')?></label>
                 </td>
                 <td>
                     <?php 
-                        $share_btnpos = smspro_get_option('share_btnpos', 'smspro_share_cart_general', 'after_cart_table');
+                        $share_btnpos = softeria_alerts_get_option('share_btnpos', 'softeria_alerts_share_cart_general', 'after_cart_table');
                     ?>
-                    <select class="min_width_200" name="smspro_share_cart_general[share_btnpos]" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"  id="smspro_share_cart_general[share_btnpos]" tabindex="-1" aria-hidden="true">
+                    <select class="min_width_200" name="softeria_alerts_share_cart_general[share_btnpos]" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"  id="softeria_alerts_share_cart_general[share_btnpos]" tabindex="-1" aria-hidden="true">
                         <option value="before_cart_table" <?php if($share_btnpos == 'before_cart_table') { echo 'selected'; 
                                                           } ?>>Before Cart Table</option>
                         <option value="after_cart_table" <?php if($share_btnpos == 'after_cart_table') { echo 'selected'; 
@@ -44,24 +44,24 @@
             </tr>
             <tr valign="top">
                 <td class="td-heading">
-                    <label><?php esc_html_e('Share cart button text', 'sms-pro') ?></label>
+                    <label><?php esc_html_e('Share cart button text', 'softeria-sms-alerts') ?></label>
                 </td>
                 <td>
-                    <input class="min_width_200" name="smspro_share_cart_general[share_btntext]" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"  id="smspro_share_cart_general[share_btntext]" type="text" placeholder="Get Quote" value="<?php echo smspro_get_option('share_btntext', 'smspro_share_cart_general') ? smspro_get_option('share_btntext', 'smspro_share_cart_general') : 'Share cart'; ?>">
+                    <input class="min_width_200" name="softeria_alerts_share_cart_general[share_btntext]" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"  id="softeria_alerts_share_cart_general[share_btntext]" type="text" placeholder="Get Quote" value="<?php echo softeria_alerts_get_option('share_btntext', 'softeria_alerts_share_cart_general') ? softeria_alerts_get_option('share_btntext', 'softeria_alerts_share_cart_general') : 'Share cart'; ?>">
                 </td>
             </tr>
              <tr>
                 <td class="td-heading">
-                    <?php esc_html_e('Share Cart Style:', 'sms-pro'); ?>
+                    <?php esc_html_e('Share Cart Style:', 'softeria-sms-alerts'); ?>
                 </td>
                 <td>
                 <?php
                 $disabled = (! is_plugin_active('elementor/elementor.php')) ? "anchordisabled" : "";
-				$post = get_page_by_path( 'sharecart_style', OBJECT, 'sms-pro' ); 
+				$post = get_page_by_path( 'sharecart_style', OBJECT, 'softeria-sms-alerts' ); 
                 ?>              
-                <a href= <?php get_admin_url() ?>"edit.php?post_name=sharecart_style" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="button <?php echo $disabled; ?> sharecart action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'sms-pro'); ?></a>
+                <a href= <?php get_admin_url() ?>"edit.php?post_name=sharecart_style" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="button <?php echo $disabled; ?> sharecart action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'softeria-sms-alerts'); ?></a>
                 <?php if(!empty($post->post_type)){?>
-                <a href="#" onclick="return false;" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" id="btn_reset_style" temp-style="sharecart_style" class="btn_reset_style btn-outline" style="float:left;"><?php esc_html_e('Reset', 'sms-pro'); ?></a>
+                <a href="#" onclick="return false;" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" id="btn_reset_style" temp-style="sharecart_style" class="btn_reset_style btn-outline" style="float:left;"><?php esc_html_e('Reset', 'softeria-sms-alerts'); ?></a>
                 <?php
 				}
 				?>
@@ -70,7 +70,7 @@
 			if($disabled!='')
 			{
             ?>		
-            <span><?php esc_html_e('To edit, please install elementor plugin', 'sms-pro'); ?>	</span>
+            <span><?php esc_html_e('To edit, please install elementor plugin', 'softeria-sms-alerts'); ?>	</span>
 			<?php
 			}
 			?>

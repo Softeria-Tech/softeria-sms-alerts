@@ -4,13 +4,13 @@
  * PHP version 5
  *
  * @category Template
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
-    $username = smspro_get_option('smspro_name', 'smspro_gateway');
-    $password = smspro_get_option('smspro_password', 'smspro_gateway');
+    $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+    $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
     $result    = SmsAlertcURLOTP::getTemplates($username, $password);
     $templates =  $result ;
     $result = SmsAlertcURLOTP::getSenderids($username, $password);
@@ -166,7 +166,7 @@ if (! empty($post_ids) ) {
                     }
                     ?>
                     <p class="sarow">
-                        <div class="smspro_tokens">
+                        <div class="softeria_alerts_tokens">
                         <?php
                         foreach ( $tokens as $vk => $vv ) {
                             echo  "<a href='#' onclick='return false;' data-val='".esc_attr($vk)."'>".esc_attr($vv)."</a> | ";
@@ -264,7 +264,7 @@ if (! empty($post_ids) ) {
                 s.value = n + e + l
             } else alert("This version of Mozilla based browser does not support setSelectionRange")
         }        
-        $(document).on("click",".smspro_tokens a",function(){
+        $(document).on("click",".softeria_alerts_tokens a",function(){
             return insertAtCaret($(this).attr("data-val"),
             $("#sa_message").attr("id"));
         });

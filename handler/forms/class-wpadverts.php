@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -23,8 +23,8 @@ if (is_plugin_active('wpadverts/wpadverts.php') === false) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_WPadverts class 
@@ -52,7 +52,7 @@ class SA_WPadverts extends FormInterface
         add_action('pending_to_trash', array($this, 'sendSmsOnAdvertPendingToTrash'), 10, 1);    
         add_action('adverts_payment_completed', array( $this, 'advertsPostUpdated'), 100);
         add_action("adext_contact_form_send", array( $this, "sendSmsAuthor" ), 10, 2);        
-        add_action('smspro_followup_sms',  array($this, 'sendReminderSms'));
+        add_action('softeria_alerts_followup_sms',  array($this, 'sendReminderSms'));
     }
     
     /**
@@ -64,7 +64,7 @@ class SA_WPadverts extends FormInterface
      */
     public static function setSmsReminder($post)
     {  
-        $customerNotify  = smspro_get_option('customer_notify', 'smspro_adv_general', 'on'); 
+        $customerNotify  = softeria_alerts_get_option('customer_notify', 'softeria_alerts_adv_general', 'on'); 
         $source          = 'wpadverts';
         $status          = $post->post_status;
         $id              = $post->ID;
@@ -77,10 +77,10 @@ class SA_WPadverts extends FormInterface
         }
         $buyerMob        = get_post_meta($id, 'adverts_phone', true);
         global $wpdb;
-        $table_name       = $wpdb->prefix .'smspro_renewal_reminders';
+        $table_name       = $wpdb->prefix .'softeria_alerts_renewal_reminders';
         $subscription_details = $wpdb->get_results("SELECT next_payment_date, notification_sent_date FROM $table_name WHERE subscription_id = $id and source = '$source'");
         if ('publish' === $status && 'on' === $customerNotify && $expiry) {
-            $scheduler_data = get_option('smspro_adv_renewal_scheduler');
+            $scheduler_data = get_option('softeria_alerts_adv_renewal_scheduler');
             if (isset($scheduler_data['cron']) && ! empty($scheduler_data['cron']) ) {
                 foreach ( $scheduler_data['cron'] as $sdata ) {
                     $next_payment_date    = date('Y-m-d', strtotime($expiry));
@@ -125,10 +125,10 @@ class SA_WPadverts extends FormInterface
     function sendReminderSms()
     {    
         global $wpdb;
-        $customerNotify       = smspro_get_option('customer_notify', 'smspro_adv_general', 'on');
+        $customerNotify       = softeria_alerts_get_option('customer_notify', 'softeria_alerts_adv_general', 'on');
         $source               = 'wpadverts';
-        $table_name           = $wpdb->prefix . 'smspro_renewal_reminders'; 
-        $schedulerData        = get_option('smspro_adv_reminder_scheduler');
+        $table_name           = $wpdb->prefix . 'softeria_alerts_renewal_reminders'; 
+        $schedulerData        = get_option('softeria_alerts_adv_reminder_scheduler');
         $today                = new DateTime();
         $today                = $today->format('Y-m-d');
         $subscription_details = $wpdb->get_results("SELECT * FROM $table_name WHERE notification_sent_date = '$today' and source = '$source'");
@@ -158,18 +158,18 @@ class SA_WPadverts extends FormInterface
     {  
         $adverdStatuses =array('pending', 'publish', 'expired', 'trash');
         foreach ($adverdStatuses as $ks => $vs) {
-            $defaults['smspro_adv_general']['customer_adv_notify_' . $vs]   = 'off';
-            $defaults['smspro_adv_message']['customer_sms_adv_body_' . $vs] = '';
-            $defaults['smspro_adv_general']['admin_adv_notify_' . $vs]      = 'off';
-            $defaults['smspro_adv_message']['admin_sms_adv_body_' . $vs]    = '';
+            $defaults['softeria_alerts_adv_general']['customer_adv_notify_' . $vs]   = 'off';
+            $defaults['softeria_alerts_adv_message']['customer_sms_adv_body_' . $vs] = '';
+            $defaults['softeria_alerts_adv_general']['admin_adv_notify_' . $vs]      = 'off';
+            $defaults['softeria_alerts_adv_message']['admin_sms_adv_body_' . $vs]    = '';
         }
-        $defaults['smspro_adv_general']['author_adv_notify_message']   = 'off';
-        $defaults['smspro_adv_message']['author_sms_adv_body_message'] = '';
-        $defaults['smspro_adv_renewal']['customer_notify']                  = 'off';
-        $defaults['smspro_adv_renewal_scheduler']['cron'][0]['frequency']   = '1';
-        $defaults['smspro_adv_renewal_scheduler']['cron'][0]['message']     = '';
-        $defaults['smspro_adv_renewal_scheduler']['cron'][1]['frequency']   = '2';
-        $defaults['smspro_adv_renewal_scheduler']['cron'][1]['message']     = '';
+        $defaults['softeria_alerts_adv_general']['author_adv_notify_message']   = 'off';
+        $defaults['softeria_alerts_adv_message']['author_sms_adv_body_message'] = '';
+        $defaults['softeria_alerts_adv_renewal']['customer_notify']                  = 'off';
+        $defaults['softeria_alerts_adv_renewal_scheduler']['cron'][0]['frequency']   = '1';
+        $defaults['softeria_alerts_adv_renewal_scheduler']['cron'][0]['message']     = '';
+        $defaults['softeria_alerts_adv_renewal_scheduler']['cron'][1]['frequency']   = '2';
+        $defaults['softeria_alerts_adv_renewal_scheduler']['cron'][1]['message']     = '';
         return $defaults;
     }
 
@@ -237,28 +237,28 @@ class SA_WPadverts extends FormInterface
      */
     public static function getReminderTemplates()
     {
-        $currentVal     = smspro_get_option('customer_notify', 'smspro_adv_renewal', 'on');
-        $checkboxNameId = 'smspro_adv_renewal[customer_notify]';
-        $schedulerData  = get_option('smspro_adv_renewal_scheduler');
+        $currentVal     = softeria_alerts_get_option('customer_notify', 'softeria_alerts_adv_renewal', 'on');
+        $checkboxNameId = 'softeria_alerts_adv_renewal[customer_notify]';
+        $schedulerData  = get_option('softeria_alerts_adv_renewal_scheduler');
         $templates      = array();
         $count          = 0;
         if (empty($schedulerData)) {
             $schedulerData = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your advertisement %2$s with %3$s is expired on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[authorName]', '#[id]', '[store_name]', '[expiration_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your advertisement %2$s with %3$s is expired on %4$s.%5$s', 'softeria-sms-alerts'), '[authorName]', '#[id]', '[store_name]', '[expiration_date]', PHP_EOL, PHP_EOL),
             );
             $schedulerData['cron'][] = array(
                 'frequency' => '2',
-                'message'   => sprintf(__('Hello %1$s, your advertisement %2$s with %3$s is expired on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[authorName]', '#[id]', '[store_name]', '[expiration_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your advertisement %2$s with %3$s is expired on %4$s.%5$s', 'softeria-sms-alerts'), '[authorName]', '#[id]', '[store_name]', '[expiration_date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
             if (empty($data['message'])) {
                 continue;
             }
-            $textAreaNameId  = 'smspro_adv_renewal_scheduler[cron][' . $count . '][message]';
-            $selectNameId    = 'smspro_adv_renewal_scheduler[cron][' . $count . '][frequency]';
+            $textAreaNameId  = 'softeria_alerts_adv_renewal_scheduler[cron][' . $count . '][message]';
+            $selectNameId    = 'softeria_alerts_adv_renewal_scheduler[cron][' . $count . '][frequency]';
             $textBody        = $data['message'];
             $templates[$key]['notify_id']      = 'wpadverts';
             $templates[$key]['frequency']      = $data['frequency'];
@@ -284,11 +284,11 @@ class SA_WPadverts extends FormInterface
         $adverdStatuses     = array('pending', 'publish', 'expired', 'trash', );
         $templates          = array();
         foreach ($adverdStatuses as $ks => $vs) {
-            $currentVal      = smspro_get_option('customer_adv_notify_' . strtolower($vs), 'smspro_adv_general', 'on');
-            $checkboxNameId  = 'smspro_adv_general[customer_adv_notify_' . strtolower($vs) . ']';
-            $textareaNameId  = 'smspro_adv_message[customer_sms_adv_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('customer_sms_adv_body_' . strtolower($vs), 'smspro_adv_message', sprintf(__('Hello %1$s, status of your advertisement #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[authorName]', '[id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
-            $textBody       = smspro_get_option('customer_sms_adv_body_' . strtolower($vs), 'smspro_adv_message', $defaultTemplate);
+            $currentVal      = softeria_alerts_get_option('customer_adv_notify_' . strtolower($vs), 'softeria_alerts_adv_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_adv_general[customer_adv_notify_' . strtolower($vs) . ']';
+            $textareaNameId  = 'softeria_alerts_adv_message[customer_sms_adv_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', sprintf(__('Hello %1$s, status of your advertisement #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[authorName]', '[id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $textBody       = softeria_alerts_get_option('customer_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When advertisement status is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -308,11 +308,11 @@ class SA_WPadverts extends FormInterface
         $authorStatuses     = array('message');
         $templates           =array();
         foreach ($authorStatuses as $ks => $vs) {
-            $currentVal      = smspro_get_option('author_adv_notify_' . strtolower($vs), 'author_adv_general', 'on');
-            $checkboxNameId  = 'smspro_adv_general[author_adv_notify_' . strtolower($vs) . ']';
-            $textareaNameId  = 'smspro_adv_message[author_sms_adv_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('author_sms_adv_body_' . strtolower($vs), 'smspro_adv_message', SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'));
-            $textBody       = smspro_get_option('author_sms_adv_body_' . strtolower($vs), 'smspro_adv_message', $defaultTemplate);
+            $currentVal      = softeria_alerts_get_option('author_adv_notify_' . strtolower($vs), 'author_adv_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_adv_general[author_adv_notify_' . strtolower($vs) . ']';
+            $textareaNameId  = 'softeria_alerts_adv_message[author_sms_adv_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('author_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'));
+            $textBody       = softeria_alerts_get_option('author_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer send ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -334,11 +334,11 @@ class SA_WPadverts extends FormInterface
          $adverdStatuses     = array('pending', 'publish', 'expired', 'trash', );
           $templates           =array();
         foreach ($adverdStatuses as $ks => $vs) {
-            $currentVal      = smspro_get_option('admin_adv_notify_' . strtolower($vs), 'smspro_adv_general', 'on');
-            $checkboxNameId  = 'smspro_adv_general[admin_adv_notify_' . strtolower($vs) . ']';
-            $textareaNameId  = 'smspro_adv_message[admin_sms_adv_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('admin_sms_adv_body_' . strtolower($vs), 'smspro_adv_message', sprintf(__('%1$s status of advertisement has been changed to %2$s.', 'sms-pro'), '[store_name]:', $vs));
-            $textBody = smspro_get_option('admin_sms_adv_body_' . strtolower($vs), 'smspro_adv_message', $defaultTemplate);
+            $currentVal      = softeria_alerts_get_option('admin_adv_notify_' . strtolower($vs), 'softeria_alerts_adv_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_adv_general[admin_adv_notify_' . strtolower($vs) . ']';
+            $textareaNameId  = 'softeria_alerts_adv_message[admin_sms_adv_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', sprintf(__('%1$s status of advertisement has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', $vs));
+            $textBody = softeria_alerts_get_option('admin_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When advertisement status is ' . $vs;
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -404,8 +404,8 @@ class SA_WPadverts extends FormInterface
         $authorName        = get_post_meta($post_id, 'adverts_person', true);
         $authorNumber = get_post_meta($post_id, 'adverts_phone', true);
         if (!empty($authorNumber)) {
-            $authorMessage = smspro_get_option('author_sms_adv_body_message', 'smspro_adv_message', '');
-            $authorNotify  = smspro_get_option('author_adv_notify_message', 'smspro_adv_general', 'on');
+            $authorMessage = softeria_alerts_get_option('author_sms_adv_body_message', 'softeria_alerts_adv_message', '');
+            $authorNotify  = softeria_alerts_get_option('author_adv_notify_message', 'softeria_alerts_adv_general', 'on');
             if (($authorNotify === 'on' && $authorMessage !== '')) {
                 $buyerMessage = $this->parseSmsBody($post, $authorMessage);
                 do_action('sa_send_sms', $authorNumber, $buyerMessage);
@@ -509,7 +509,7 @@ class SA_WPadverts extends FormInterface
             $expires           = get_post_meta($object_id, "_expiration_date", true);
             $expiration_date   =  gmdate("Y-m-d H:i:s", $expires);
             global $wpdb;
-            $tableName       = $wpdb->prefix . 'smspro_renewal_reminders';
+            $tableName       = $wpdb->prefix . 'softeria_alerts_renewal_reminders';
             $source          = 'wpadverts';
             $wpdb->update(
                 $tableName,
@@ -537,18 +537,18 @@ class SA_WPadverts extends FormInterface
         $authorNumber = get_post_meta($id, 'adverts_phone', true);
         
         if (!empty($authorNumber)) {
-            $customerMessage = smspro_get_option('customer_sms_adv_body_' . $status, 'smspro_adv_message', '');
-            $customerNotify  = smspro_get_option('customer_adv_notify_' . $status, 'smspro_adv_general', 'on');
+            $customerMessage = softeria_alerts_get_option('customer_sms_adv_body_' . $status, 'softeria_alerts_adv_message', '');
+            $customerNotify  = softeria_alerts_get_option('customer_adv_notify_' . $status, 'softeria_alerts_adv_general', 'on');
             if (($customerNotify === 'on' && $customerMessage !== '')) {
                 $buyerMessage = $this->parseSmsBody($post, $customerMessage);
                 do_action('sa_send_sms', $authorNumber, $buyerMessage);
             }
         }
 
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         if (empty($adminPhoneNumber) === false) {
-            $adminNotify        = smspro_get_option('admin_adv_notify_' . $status, 'smspro_adv_general', 'on');
-            $adminMessage       = smspro_get_option('admin_sms_adv_body_' . $status, 'smspro_adv_message', '');
+            $adminNotify        = softeria_alerts_get_option('admin_adv_notify_' . $status, 'softeria_alerts_adv_general', 'on');
+            $adminMessage       = softeria_alerts_get_option('admin_sms_adv_body_' . $status, 'softeria_alerts_adv_message', '');
             $nos = explode(',', $adminPhoneNumber);
             $adminPhoneNumber   = array_diff($nos, array('postauthor', 'post_author'));
             $adminPhoneNumber   = implode(',', $adminPhoneNumber);
@@ -641,7 +641,7 @@ class SA_WPadverts extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('wpadverts/wpadverts.php') === true) && ($islogged === true)) {
             return true;

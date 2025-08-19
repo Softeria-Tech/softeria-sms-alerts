@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('ninja-forms/ninja-forms.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * NinjaForm class.
@@ -91,9 +91,9 @@ class NinjaForm extends FormInterface
         
         $this->form_ids[]         = $form_id;
         
-        $otp_enable               = smspro_get_option('ninja_otp_' . $form_id, 'smspro_ninja_general', 'on');
+        $otp_enable               = softeria_alerts_get_option('ninja_otp_' . $form_id, 'softeria_alerts_ninja_general', 'on');
         
-        $country_flag_enable    = smspro_get_option('checkout_show_country_code', 'smspro_general');
+        $country_flag_enable    = softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general');
         
         $ninja_js = '';
         
@@ -144,9 +144,9 @@ class NinjaForm extends FormInterface
     public function add_class_phone_field( $settings, $form )
     {
         $form_id            = $form->get_id();
-        $form_enable        = smspro_get_option('ninja_order_status_' . $form_id, 'smspro_ninja_general', 'on');
-        $otp_enable         = smspro_get_option('ninja_otp_' . $form_id, 'smspro_ninja_general', 'on');
-        $phone_field        = smspro_get_option('ninja_sms_phone_' . $form_id, 'smspro_ninja_general', '');
+        $form_enable        = softeria_alerts_get_option('ninja_order_status_' . $form_id, 'softeria_alerts_ninja_general', 'on');
+        $otp_enable         = softeria_alerts_get_option('ninja_otp_' . $form_id, 'softeria_alerts_ninja_general', 'on');
+        $phone_field        = softeria_alerts_get_option('ninja_sms_phone_' . $form_id, 'softeria_alerts_ninja_general', '');
         
         if ($settings['key'] === $phone_field ) {
             $settings['element_class'] = 'sa-phone-field phone-valid';
@@ -165,8 +165,8 @@ class NinjaForm extends FormInterface
     public function addCustomButton( $settings, $form )
     {
         $form_id            = $form->get_id();
-        $form_enable        = smspro_get_option('ninja_order_status_' . $form_id, 'smspro_ninja_general', 'on');
-        $otp_enable         = smspro_get_option('ninja_otp_' . $form_id, 'smspro_ninja_general', 'on');
+        $form_enable        = softeria_alerts_get_option('ninja_order_status_' . $form_id, 'softeria_alerts_ninja_general', 'on');
+        $otp_enable         = softeria_alerts_get_option('ninja_otp_' . $form_id, 'softeria_alerts_ninja_general', 'on');
         $uniqueNo            = rand();
         if ('on' === $form_enable && 'on' === $otp_enable ) {
             $settings['element_class'] = 'sa_ninja_submit_btn sa-default-btn-hide';    
@@ -179,7 +179,7 @@ class NinjaForm extends FormInterface
 						<div class="field-wrap submit-wrap">
 							<div class="nf-field-label"></div>
 							<div class="nf-field-element">
-								<input id="sa_verify_'.$uniqueNo.'" class="sa-otp-btn-init ninja-forms-field nf-element smspro_otp_btn_submit" value="' . __('Submit', 'sms-pro') . '" type="button">
+								<input id="sa_verify_'.$uniqueNo.'" class="sa-otp-btn-init ninja-forms-field nf-element softeria_alerts_otp_btn_submit" value="' . __('Submit', 'softeria-sms-alerts') . '" type="button">
 							</div>
 						</div>
 					</div>
@@ -215,7 +215,7 @@ class NinjaForm extends FormInterface
      */
     public function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( is_plugin_active('ninja-forms/ninja-forms.php') && $islogged ) ? true : false;
     }
@@ -235,7 +235,7 @@ class NinjaForm extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -261,7 +261,7 @@ class NinjaForm extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {
@@ -331,25 +331,7 @@ class NinjaForm extends FormInterface
 
         $tabs['ninja']['inner_nav']['ninja_admin']['icon'] = 'dashicons-list-view';
         $tabs['ninja']['inner_nav']['ninja_cust']['icon']  = 'dashicons-admin-users';
-        $tabs['ninja']['help_links']                        = array(
-        'youtube_link' => array(
-        'href'   => 'https://www.youtube.com/watch?v=VVbcqFAMFFo',
-        'target' => '_blank',
-        'alt'    => 'Watch steps on Youtube',
-        'class'  => 'btn-outline',
-        'label'  => 'Youtube',
-        'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-        ),
-        'kb_link'      => array(
-        'href'   => 'https://sms.softeriatech.com/knowledgebase/how-to-integrate-smspro-with-ninja-forms/#',
-        'target' => '_blank',
-        'alt'    => 'Read how to integrate with ninja form',
-        'class'  => 'btn-outline',
-        'label'  => 'Documentation',
-        'icon'   => '<span class="dashicons dashicons-format-aside"></span>',
-        ),
-        );
+        $tabs['ninja']['help_links']= array( );
         return $tabs;
     }
 
@@ -381,15 +363,15 @@ class NinjaForm extends FormInterface
     {
         $wpam_statuses = self::getNinjaForms();
         foreach ( $wpam_statuses as $ks => $vs ) {
-            $defaults['smspro_ninja_general'][ 'ninja_admin_notification_' . $ks ] = 'off';
-            $defaults['smspro_ninja_general'][ 'ninja_order_status_' . $ks ]       = 'off';
-            $defaults['smspro_ninja_general'][ 'ninja_message_' . $ks ]            = 'off';
-            $defaults['smspro_ninja_message'][ 'ninja_admin_sms_body_' . $ks ]     = '';
-            $defaults['smspro_ninja_message'][ 'ninja_sms_body_' . $ks ]           = '';
-            $defaults['smspro_ninja_general'][ 'ninja_sms_phone_' . $ks ]          = '';
-            $defaults['smspro_ninja_general'][ 'ninja_sms_otp_' . $ks ]            = '';
-            $defaults['smspro_ninja_general'][ 'ninja_otp_' . $ks ]                = '';
-            $defaults['smspro_ninja_message'][ 'ninja_otp_sms_' . $ks ]            = '';
+            $defaults['softeria_alerts_ninja_general'][ 'ninja_admin_notification_' . $ks ] = 'off';
+            $defaults['softeria_alerts_ninja_general'][ 'ninja_order_status_' . $ks ]       = 'off';
+            $defaults['softeria_alerts_ninja_general'][ 'ninja_message_' . $ks ]            = 'off';
+            $defaults['softeria_alerts_ninja_message'][ 'ninja_admin_sms_body_' . $ks ]     = '';
+            $defaults['softeria_alerts_ninja_message'][ 'ninja_sms_body_' . $ks ]           = '';
+            $defaults['softeria_alerts_ninja_general'][ 'ninja_sms_phone_' . $ks ]          = '';
+            $defaults['softeria_alerts_ninja_general'][ 'ninja_sms_otp_' . $ks ]            = '';
+            $defaults['softeria_alerts_ninja_general'][ 'ninja_otp_' . $ks ]                = '';
+            $defaults['softeria_alerts_ninja_message'][ 'ninja_otp_sms_' . $ks ]            = '';
         }
         return $defaults;
     }
@@ -438,31 +420,31 @@ class NinjaForm extends FormInterface
         $datas = array();
         if (! empty($form_data) ) {
             $billing_phone = '';
-            $phone_field   = smspro_get_option('ninja_sms_phone_' . $form_data['form_id'], 'smspro_ninja_general', '');
+            $phone_field   = softeria_alerts_get_option('ninja_sms_phone_' . $form_data['form_id'], 'softeria_alerts_ninja_general', '');
             foreach ( $form_data['fields'] as $field ) {
                 $datas[ '[' . $field['key'] . ']' ] = $field['value'];
                 if ($field['key'] === $phone_field ) {
                     $billing_phone = $field['value'];
                 }
             }
-            $form_enable      = smspro_get_option('ninja_message_' . $form_data['form_id'], 'smspro_ninja_general', 'on');
-            $buyer_sms_notify = smspro_get_option('ninja_order_status_' . $form_data['form_id'], 'smspro_ninja_general', 'on');
-            $admin_sms_notify = smspro_get_option('ninja_admin_notification_' . $form_data['form_id'], 'smspro_ninja_general', 'on');
+            $form_enable      = softeria_alerts_get_option('ninja_message_' . $form_data['form_id'], 'softeria_alerts_ninja_general', 'on');
+            $buyer_sms_notify = softeria_alerts_get_option('ninja_order_status_' . $form_data['form_id'], 'softeria_alerts_ninja_general', 'on');
+            $admin_sms_notify = softeria_alerts_get_option('ninja_admin_notification_' . $form_data['form_id'], 'softeria_alerts_ninja_general', 'on');
 
             if ('on' === $form_enable && 'on' === $buyer_sms_notify ) {
                 if (! empty($billing_phone) ) {
-                    $buyer_sms_content = smspro_get_option('ninja_sms_body_' . $form_data['form_id'], 'smspro_ninja_message', '');
+                    $buyer_sms_content = softeria_alerts_get_option('ninja_sms_body_' . $form_data['form_id'], 'softeria_alerts_ninja_message', '');
                     do_action('sa_send_sms', $billing_phone, self::parseSmsContent($buyer_sms_content, $datas));
                 }
             }
 
             if ('on' === $admin_sms_notify ) {
 
-                $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+                $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
                 $admin_phone_number = str_replace('post_author', '', $admin_phone_number);
 
                 if (! empty($admin_phone_number) ) {
-                    $admin_sms_content = smspro_get_option('ninja_admin_sms_body_' . $form_data['form_id'], 'smspro_ninja_message', '');
+                    $admin_sms_content = softeria_alerts_get_option('ninja_admin_sms_body_' . $form_data['form_id'], 'softeria_alerts_ninja_message', '');
                     do_action('sa_send_sms', $admin_phone_number, self::parseSmsContent($admin_sms_content, $datas));
                 }
             }

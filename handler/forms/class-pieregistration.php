@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('pie-register/pie-register.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * PieRegistrationForm class.
@@ -89,7 +89,7 @@ class PieRegistrationForm extends FormInterface
      */
     public function addLoginOtp( $data )
     {
-        $default_login_otp   = smspro_get_option('buyer_login_otp', 'smspro_general');       
+        $default_login_otp   = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');       
         if ('on' === $default_login_otp ) {
             $data .= do_shortcode('[sa_verify id="#piereg_login_form" user_selector="#user_login" pwd_selector="#user_pass" submit_selector="#wp-login-submit"]'); 
         }
@@ -105,10 +105,10 @@ class PieRegistrationForm extends FormInterface
      */
     public function addRegisterOtp( $data )
     {
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
         if ('on' === $buyer_signup_otp ) {
             $phone_field         = $this->getPhoneFieldKey();
-            $enabled_country    = smspro_get_option('checkout_show_country_code', 'smspro_general');
+            $enabled_country    = softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general');
             $data .= do_shortcode('[sa_verify phone_selector="#'.$phone_field.'" submit_selector= ".pie_submit"]');
             $inline_script = 'document.addEventListener("DOMContentLoaded", function() {jQuery(".pie_register_reg_form .pie_wrap_buttons").prepend(\'<input name="pie_submit" type="hidden" value="Submit">\');'; 
             if ('on' === $enabled_country ) {
@@ -153,20 +153,20 @@ class PieRegistrationForm extends FormInterface
         }
         $verify = check_ajax_referer('piereg_wp_registration_form_nonce', 'piereg_registration_form_nonce', false);
         if (!$verify) {
-            return $errors->add('registration-error-invalid-nonce', __('Sorry, nonce did not verify.', 'sms-pro'));
+            return $errors->add('registration-error-invalid-nonce', __('Sorry, nonce did not verify.', 'softeria-sms-alerts'));
         }
         if (sizeof($errors->errors) > 0) {
             return $errors;
         }
-        if (isset($_REQUEST['option']) && 'smspro_register_with_otp' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (isset($_REQUEST['option']) && 'softeria_alerts_register_with_otp' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             SmsAlertUtility::initialize_transaction($this->form_session_var2);
         }
 
-        if ('on' !== smspro_get_option('allow_multiple_user', 'smspro_general') && ! SmsAlertUtility::isBlank($user_phone) ) {
+        if ('on' !== softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') && ! SmsAlertUtility::isBlank($user_phone) ) {
 
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
             if (count($getusers) > 0 ) {
-                return $errors->add("registration-error-number-exists", __('An account is already registered with this mobile number. Please login.', 'sms-pro'));
+                return $errors->add("registration-error-number-exists", __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
             }
         }
 
@@ -216,7 +216,7 @@ class PieRegistrationForm extends FormInterface
         if (! isset($phone_num) || ! SmsAlertUtility::validatePhoneNumber($phone_num) ) {
             return $errors->add("billing_phone_error", str_replace('##phone##', $phone_num, $phoneLogic->_get_otp_invalid_format_message()));
         }
-        smspro_site_challenge_otp($username, $email, $errors, $phone_num, 'phone');
+        softeria_alerts_site_challenge_otp($username, $email, $errors, $phone_num, 'phone');
     }
 
     /**
@@ -226,9 +226,9 @@ class PieRegistrationForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ? true : false;
+        return ( $islogged && softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
 
     /**

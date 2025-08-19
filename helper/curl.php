@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -17,8 +17,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SmsAlertcURLOTP class 
@@ -36,8 +36,8 @@ class SmsAlertcURLOTP
      */
     public static function sendtemplatemismatchemail( $template )
     {
-        $username = smspro_get_option('smspro_name', 'smspro_gateway', '');
-        $to_mail  = smspro_get_option('alert_email', 'smspro_general', '');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway', '');
+        $to_mail  = softeria_alerts_get_option('alert_email', 'softeria_alerts_general', '');
 
         // Email template with content
         $params       = array(
@@ -46,8 +46,8 @@ class SmsAlertcURLOTP
         'server_name' => ( ( ! empty($_SERVER['SERVER_NAME']) ) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_NAME'])) : '' ),
         'admin_url'   => admin_url(),
         );
-        $emailcontent = get_smspro_template('template/emails/mismatch-template.php', $params, true);
-        wp_mail($to_mail, 'SMS Pro - Template Mismatch', $emailcontent, 'content-type:text/html');
+        $emailcontent = get_softeria_alerts_template('template/emails/mismatch-template.php', $params, true);
+        wp_mail($to_mail, 'Softeria Tech - Template Mismatch', $emailcontent, 'content-type:text/html');
     }
 
     /**
@@ -59,8 +59,8 @@ class SmsAlertcURLOTP
      */
     public static function sendemailForInvalidCred( $template )
     {
-        $username = smspro_get_option('smspro_name', 'smspro_gateway', '');
-        $to_mail  = smspro_get_option('alert_email', 'smspro_general', '');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway', '');
+        $to_mail  = softeria_alerts_get_option('alert_email', 'softeria_alerts_general', '');
 
         // Email template with content
         $params       = array(
@@ -69,8 +69,8 @@ class SmsAlertcURLOTP
         'server_name' => ( ( ! empty($_SERVER['SERVER_NAME']) ) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_NAME'])) : '' ),
         'admin_url'   => admin_url(),
         );
-        $emailcontent = get_smspro_template('template/emails/invalid-credentials.php', $params, true);
-        wp_mail($to_mail, 'SMS Pro - Wrong Credentials', $emailcontent, 'content-type:text/html');
+        $emailcontent = get_softeria_alerts_template('template/emails/invalid-credentials.php', $params, true);
+        wp_mail($to_mail, 'Softeria Tech - Wrong Credentials', $emailcontent, 'content-type:text/html');
     }
     
     /**
@@ -82,8 +82,8 @@ class SmsAlertcURLOTP
      */
     public static function sendemailForDormant( $template )
     {
-        $username = smspro_get_option('smspro_name', 'smspro_gateway', '');
-        $to_mail  = smspro_get_option('alert_email', 'smspro_general', '');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway', '');
+        $to_mail  = softeria_alerts_get_option('alert_email', 'softeria_alerts_general', '');
 
         // Email template with content
         $params       = array(
@@ -92,8 +92,8 @@ class SmsAlertcURLOTP
         'server_name' => ( ( ! empty($_SERVER['SERVER_NAME']) ) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_NAME'])) : '' ),
         'admin_url'   => admin_url(),
         );
-        $emailcontent = get_smspro_template('template/emails/dormant-account.php', $params, true);
-        wp_mail($to_mail, 'SMS Pro - Dormant Account', $emailcontent, 'content-type:text/html');
+        $emailcontent = get_softeria_alerts_template('template/emails/dormant-account.php', $params, true);
+        wp_mail($to_mail, 'Softeria Tech - Dormant Account', $emailcontent, 'content-type:text/html');
     }
 
     /**
@@ -106,8 +106,8 @@ class SmsAlertcURLOTP
      */
     public static function checkPhoneNos( $nos = null, $force_prefix = true )
     {
-        $country_code         = smspro_get_option('default_country_code', 'smspro_general');
-        $country_code_enabled = smspro_get_option('checkout_show_country_code', 'smspro_general');
+        $country_code         = softeria_alerts_get_option('default_country_code', 'softeria_alerts_general');
+        $country_code_enabled = softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general');
         $nos                  = !empty($nos)?explode(',', $nos):'';
         $valid_no             = array();
         if (is_array($nos) ) {
@@ -151,11 +151,11 @@ class SmsAlertcURLOTP
     public static function sendsms( $sms_data )
     {
         $response = false;
-        $username = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password = smspro_get_option('smspro_password', 'smspro_gateway');
-        $senderid = smspro_get_option('smspro_api', 'smspro_gateway');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
+        $senderid = softeria_alerts_get_option('softeria_alerts_api', 'softeria_alerts_gateway');
 
-        $enable_short_url = smspro_get_option('enable_short_url', 'smspro_general');
+        $enable_short_url = softeria_alerts_get_option('enable_short_url', 'softeria_alerts_general');
 
         $phone = self::checkPhoneNos($sms_data['number']);
         if ($phone === false ) {
@@ -211,8 +211,8 @@ class SmsAlertcURLOTP
     public static function validateCountryCode($phone)
     {        
         $phone                  = self::checkPhoneNos($phone);                
-        $allow_otp_country      = (array) smspro_get_option('allow_otp_country', 'smspro_general', null);
-        $allow_otp_verification = smspro_get_option('allow_otp_verification', 'smspro_general', 'off');
+        $allow_otp_country      = (array) softeria_alerts_get_option('allow_otp_country', 'softeria_alerts_general', null);
+        $allow_otp_verification = softeria_alerts_get_option('allow_otp_verification', 'softeria_alerts_general', 'off');
         $flag = false;
         if ('on' === $allow_otp_verification && '' !== $allow_otp_country) {
             foreach ($allow_otp_country as $country_code) {
@@ -242,34 +242,34 @@ class SmsAlertcURLOTP
 		 return  '{"status": "success","description": {"desc": "1 messages scheduled for delievery"}}';
 		} 
         $phone                  = self::checkPhoneNos($phone);        
-        $cookie_value           = get_smspro_cookie($phone);
-        $max_otp_resend_allowed = !empty(SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"))?SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"):smspro_get_option('max_otp_resend_allowed', 'smspro_general', '4');
+        $cookie_value           = get_softeria_alerts_cookie($phone);
+        $max_otp_resend_allowed = !empty(SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"))?SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"):softeria_alerts_get_option('max_otp_resend_allowed', 'softeria_alerts_general', '4');
 
         if ($cookie_value >= $max_otp_resend_allowed ) {
             $data                        = array();
             $data['status']              = 'error';
-            $data['data']['msg'] = __('Maximum OTP limit exceeded', 'sms-pro');
+            $data['data']['msg'] = __('Maximum OTP limit exceeded', 'softeria-sms-alerts');
             return json_encode($data);
         }
 
         $response = [];
-        $username = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password = smspro_get_option('smspro_password', 'smspro_gateway');
-        $senderid = smspro_get_option('smspro_api', 'smspro_gateway');
-        $template = smspro_get_option('sms_otp_send', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_OTP'));
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
+        $senderid = softeria_alerts_get_option('softeria_alerts_api', 'softeria_alerts_gateway');
+        $template = softeria_alerts_get_option('sms_otp_send', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_OTP'));
         $template = str_replace(array('[store_name]','[shop_url]'), array(get_bloginfo(),get_site_url()), $template);
 
         if ($phone === false ) {
             $data                        = array();
             $data['status']              = 'error';
-            $data['data']['msg'] = __('phone number not valid', 'sms-pro');
+            $data['data']['msg'] = __('phone number not valid', 'softeria-sms-alerts');
             return $data;
         }
 
         if (empty($password) || empty($senderid) ) {
             $data                        = array();
             $data['status']              = 'error';
-            $data['data']['msg'] = __('Wrong SMSPro credentials', 'sms-pro');
+            $data['data']['msg'] = __('Wrong SOFTSMSAlerts credentials', 'softeria-sms-alerts');
             return $data;
         }
         $url = self::$url.'/mverify';
@@ -290,7 +290,7 @@ class SmsAlertcURLOTP
                 $response = [];
             }
         } else {
-            create_smspro_cookie($phone, $cookie_value + 1);
+            create_softeria_alerts_cookie($phone, $cookie_value + 1);
         }
 
         return $response;
@@ -318,9 +318,9 @@ class SmsAlertcURLOTP
 			return $response;
 	    } 
         $response = [];
-        $username = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password = smspro_get_option('smspro_password', 'smspro_gateway');
-        $senderid = smspro_get_option('smspro_api', 'smspro_gateway');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
+        $senderid = softeria_alerts_get_option('softeria_alerts_api', 'softeria_alerts_gateway');
         $mobileno = self::checkPhoneNos($mobileno);
         if ($mobileno === false ) {
             $data                = array();
@@ -343,7 +343,7 @@ class SmsAlertcURLOTP
 
         $response = self::callAPI($url, $fields, null);
         if (array_key_exists('status', $response) && $response['status'] === 'error' ) {
-            clear_smspro_cookie($mobileno);
+            clear_softeria_alerts_cookie($mobileno);
         }
 
         return $response;
@@ -411,12 +411,12 @@ class SmsAlertcURLOTP
     public static function getCredits()
     {
 		if (SmsAlertUtility::isPlayground()) {	
-            error_log('SMS Pro: Playground mode, skipping getCredits call');		
+            error_log('Softeria Tech: Playground mode, skipping getCredits call');		
 			return	true;			
 		}
         $response = [];
-        $username = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password = smspro_get_option('smspro_password', 'smspro_gateway');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
 
         if (empty($password) ) {
             return $response;
@@ -439,8 +439,8 @@ class SmsAlertcURLOTP
      */
     public static function groupList()
     {
-        $username = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password = smspro_get_option('smspro_password', 'smspro_gateway');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
 
         if (empty($password) ) {
             return '';
@@ -479,8 +479,8 @@ class SmsAlertcURLOTP
      */
     public static function creategrp()
     {
-        $username = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password = smspro_get_option('smspro_password', 'smspro_gateway');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
 
         if (empty($password) ) {
             return '';
@@ -523,8 +523,8 @@ class SmsAlertcURLOTP
             ];
         }
 
-        $username = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password = smspro_get_option('smspro_password', 'smspro_gateway');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
 
         $fields=[
             'user' => $username,
@@ -574,9 +574,9 @@ class SmsAlertcURLOTP
             return false;
         }
 
-        $username = smspro_get_option('smspro_name', 'smspro_gateway');
-        $password = smspro_get_option('smspro_password', 'smspro_gateway');
-        $senderid = !empty($senderid)?$senderid:smspro_get_option('smspro_api', 'smspro_gateway');
+        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
+        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
+        $senderid = !empty($senderid)?$senderid:softeria_alerts_get_option('softeria_alerts_api', 'softeria_alerts_gateway');
         $xmlstr = <<<XML
         <?xml version='1.0' encoding='UTF-8'?>
         <message>
@@ -589,7 +589,7 @@ class SmsAlertcURLOTP
         if ($route!='') {
             $user->addAttribute('route', $route);
         }
-        $enable_short_url = smspro_get_option('enable_short_url', 'smspro_general');
+        $enable_short_url = softeria_alerts_get_option('enable_short_url', 'softeria_alerts_general');
         if ($enable_short_url === 'on' ) {
             $user->addAttribute('shortenurl', 1);
         }
@@ -673,9 +673,9 @@ class SmsAlertcURLOTP
 
             $code = wp_remote_retrieve_response_code( $request );
             if( $code== 401){
-                $template = 'you are using wrong credentials of SMS Pro. Please check once.';
+                $template = 'you are using wrong credentials of Softeria Tech. Please check once.';
                 self::sendemailForInvalidCred($template);
-                smspro_Setting_Options::logout();
+                softeria_alerts_Setting_Options::logout();
             }elseif( $code == 400 ) {
                 $template = $data['description'];
                 self::sendemailForDormant($template);

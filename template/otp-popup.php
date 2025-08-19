@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Template
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -13,17 +13,17 @@
    
 $uniqueNo                  = rand();        
 $alt_form_id             = 'saFormNo_'.$uniqueNo;
-$otp_template_style = smspro_get_option('otp_template_style', 'smspro_general', 'popup-4');
-$otp_in_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
+$otp_template_style = softeria_alerts_get_option('otp_template_style', 'softeria_alerts_general', 'popup-4');
+$otp_in_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
 $popup_class = 'popup';
 if ('on' !== $otp_in_popup) {
     $popup_class = '';
 }
-$modal_style = smspro_get_option('modal_style', 'smspro_general', '');
+$modal_style = softeria_alerts_get_option('modal_style', 'softeria_alerts_general', '');
 $otp_template_style = ('otp-popup-1.php'===$otp_template_style)?'popup-1':(('otp-popup-2.php'===$otp_template_style)?'popup-2':$otp_template_style);
 $sa_values              = !empty(SmsAlertUtility::get_elementor_data("form_list"))?SmsAlertUtility::get_elementor_data("form_list"):$otp_template_style;
 $form_id                = (isset($form_id) ? $form_id : $alt_form_id);
-$post = get_page_by_path('modal_style', OBJECT, 'sms-pro');
+$post = get_page_by_path('modal_style', OBJECT, 'softeria-sms-alerts');
 if (is_plugin_active('elementor/elementor.php') && !empty($post)) {  
     $post_id= $post->ID;    
     $frontent = new Frontend();

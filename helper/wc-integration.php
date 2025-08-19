@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -31,8 +31,8 @@ if (is_plugin_active('woocommerce-shipment-tracking/woocommerce-shipment-trackin
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAShipmentIntegration class
@@ -274,12 +274,12 @@ class SAShipmentIntegration
     {
        
         $order       = wc_get_order($order_id);
-        $order_status_settings = smspro_get_option('order_status', 'smspro_general', array());
+        $order_status_settings = softeria_alerts_get_option('order_status', 'softeria_alerts_general', array());
         $order_status = $order->get_status();
         if (in_array($order_status, $order_status_settings, true)  ) {
             $default_buyer_sms = defined('SmsAlertMessages::DEFAULT_BUYER_SMS_' . str_replace(' ', '_', strtoupper($order_status))) ? constant('SmsAlertMessages::DEFAULT_BUYER_SMS_' . str_replace(' ', '_', strtoupper($order_status))) : SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_STATUS_CHANGED');
 
-            $buyer_sms_body             = smspro_get_option('sms_body_' . $order_status, 'smspro_message', $default_buyer_sms);
+            $buyer_sms_body             = softeria_alerts_get_option('sms_body_' . $order_status, 'softeria_alerts_message', $default_buyer_sms);
 
 			if ( version_compare( WC_VERSION, '7.1', '<' ) ) {
 			  $buyer_no   = get_post_meta( $order_id , '_billing_phone', true );
@@ -304,8 +304,8 @@ if (is_plugin_active('woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-inv
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAWCInvoicePdf class
@@ -372,8 +372,8 @@ if (is_plugin_active('raffle-ticket-generator/raffle-ticket-generator.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAraffleTicket class
@@ -450,8 +450,8 @@ if (is_plugin_active('order-delivery-date-for-woocommerce/order_delivery_date.ph
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAWCOrderDeliveryDt class
@@ -518,8 +518,8 @@ if (is_plugin_active('wc-serial-numbers/wc-serial-numbers.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAWCSerialNos class
@@ -597,8 +597,8 @@ if (is_plugin_active('woocommerce-simple-auctions/woocommerce-simple-auctions.ph
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAWCAuctions class
@@ -630,12 +630,12 @@ class SAWCAuctions
      */
     public function add_default_setting( $defaults = array() )
     {
-        $defaults['smspro_wcauction_general']['wcauction_admin_notification_new']          = 'off';
-        $defaults['smspro_wcauction_general']['wcauction_bidder_notification_outbid']      = 'off';
-        $defaults['smspro_wcauction_general']['wcauction_bidder_notification_customerbid'] = 'off';
-        $defaults['smspro_wcauction_message']['wcauction_admin_sms_body_new']              = '';
-        $defaults['smspro_wcauction_message']['wcauction_sms_body_outbid']                 = '';
-        $defaults['smspro_wcauction_message']['wcauction_sms_body_customerbid']            = '';
+        $defaults['softeria_alerts_wcauction_general']['wcauction_admin_notification_new']          = 'off';
+        $defaults['softeria_alerts_wcauction_general']['wcauction_bidder_notification_outbid']      = 'off';
+        $defaults['softeria_alerts_wcauction_general']['wcauction_bidder_notification_customerbid'] = 'off';
+        $defaults['softeria_alerts_wcauction_message']['wcauction_admin_sms_body_new']              = '';
+        $defaults['softeria_alerts_wcauction_message']['wcauction_sms_body_outbid']                 = '';
+        $defaults['softeria_alerts_wcauction_message']['wcauction_sms_body_customerbid']            = '';
         return $defaults;
 
     }
@@ -703,20 +703,20 @@ class SAWCAuctions
     {
         $templates                             = array();
         $templates['outbid']['title']          = 'Send SMS to Outbidder';
-        $templates['outbid']['enabled']        = smspro_get_option('wcauction_bidder_notification_outbid', 'smspro_wcauction_general', 'on');
+        $templates['outbid']['enabled']        = softeria_alerts_get_option('wcauction_bidder_notification_outbid', 'softeria_alerts_wcauction_general', 'on');
         $templates['outbid']['status']         = 'outbid';
-        $templates['outbid']['text-body']      = smspro_get_option('wcauction_sms_body_outbid', 'smspro_wcauction_message', sprintf('Hello %1$s, a new bid for auction %2$s has just been submitted. The new bid is: %3$s. Please visit the auction %4$s', '[first_name]', '[auction_name]', '[auction_bid]', '[auction_link]'));
-        $templates['outbid']['checkboxNameId'] = 'smspro_wcauction_general[wcauction_bidder_notification_outbid]';
-        $templates['outbid']['textareaNameId'] = 'smspro_wcauction_message[wcauction_sms_body_outbid]';
+        $templates['outbid']['text-body']      = softeria_alerts_get_option('wcauction_sms_body_outbid', 'softeria_alerts_wcauction_message', sprintf('Hello %1$s, a new bid for auction %2$s has just been submitted. The new bid is: %3$s. Please visit the auction %4$s', '[first_name]', '[auction_name]', '[auction_bid]', '[auction_link]'));
+        $templates['outbid']['checkboxNameId'] = 'softeria_alerts_wcauction_general[wcauction_bidder_notification_outbid]';
+        $templates['outbid']['textareaNameId'] = 'softeria_alerts_wcauction_message[wcauction_sms_body_outbid]';
         $templates['outbid']['token']          = self::getvariables();
         /*Send SMS to Bidder*/
         $templates['customerbid']['title']   = 'Send SMS to Bidder';
-        $templates['customerbid']['enabled'] = smspro_get_option('wcauction_bidder_notification_customerbid', 'smspro_wcauction_general', 'on');
+        $templates['customerbid']['enabled'] = softeria_alerts_get_option('wcauction_bidder_notification_customerbid', 'softeria_alerts_wcauction_general', 'on');
         $templates['customerbid']['status']  = 'customerbid';
 
-        $templates['customerbid']['text-body']      = smspro_get_option('wcauction_sms_body_customerbid', 'smspro_wcauction_message', sprintf('Hello %1$s, Thank You for placing bid for %2$s. Your bid is %3$s. Please visit the auction %4$s', '[first_name]', '[auction_name]', '[auction_bid]', '[auction_link]'));
-        $templates['customerbid']['checkboxNameId'] = 'smspro_wcauction_general[wcauction_bidder_notification_customerbid]';
-        $templates['customerbid']['textareaNameId'] = 'smspro_wcauction_message[wcauction_sms_body_customerbid]';
+        $templates['customerbid']['text-body']      = softeria_alerts_get_option('wcauction_sms_body_customerbid', 'softeria_alerts_wcauction_message', sprintf('Hello %1$s, Thank You for placing bid for %2$s. Your bid is %3$s. Please visit the auction %4$s', '[first_name]', '[auction_name]', '[auction_bid]', '[auction_link]'));
+        $templates['customerbid']['checkboxNameId'] = 'softeria_alerts_wcauction_general[wcauction_bidder_notification_customerbid]';
+        $templates['customerbid']['textareaNameId'] = 'softeria_alerts_wcauction_message[wcauction_sms_body_customerbid]';
         $templates['customerbid']['token']          = self::getvariables();
 
         return $templates;
@@ -731,12 +731,12 @@ class SAWCAuctions
     {
         $templates   = array();
         $ks          = 'new';
-        $current_val = smspro_get_option('wcauction_admin_notification_new', 'smspro_wcauction_general', 'on');
+        $current_val = softeria_alerts_get_option('wcauction_admin_notification_new', 'softeria_alerts_wcauction_general', 'on');
 
-        $checkbox_name_id  = 'smspro_wcauction_general[wcauction_admin_notification_new]';
-        $text_area_name_id = 'smspro_wcauction_message[wcauction_admin_sms_body_new]';
+        $checkbox_name_id  = 'softeria_alerts_wcauction_general[wcauction_admin_notification_new]';
+        $text_area_name_id = 'softeria_alerts_wcauction_message[wcauction_admin_sms_body_new]';
 
-        $text_body = smspro_get_option('wcauction_admin_sms_body_new', 'smspro_wcauction_message', sprintf('%1$s a new bid for auction %2$s has been submitted by %3$s. The new bid is: %4$s. Please visit the auction %5$s', '[store_name]:', '[auction_name]', '[first_name]', '[auction_bid]', '[auction_link]'));
+        $text_body = softeria_alerts_get_option('wcauction_admin_sms_body_new', 'softeria_alerts_wcauction_message', sprintf('%1$s a new bid for auction %2$s has been submitted by %3$s. The new bid is: %4$s. Please visit the auction %5$s', '[store_name]:', '[auction_name]', '[first_name]', '[auction_bid]', '[auction_link]'));
 
         $templates[ $ks ]['title']          = 'When Auction is new';
         $templates[ $ks ]['enabled']        = $current_val;
@@ -757,8 +757,8 @@ class SAWCAuctions
      */
     public static function sendSmsOutbidder( $datas = array() )
     {
-        $outbid  = smspro_get_option('wcauction_bidder_notification_outbid', 'smspro_wcauction_general');
-        $message = smspro_get_option('wcauction_sms_body_outbid', 'smspro_wcauction_message');
+        $outbid  = softeria_alerts_get_option('wcauction_bidder_notification_outbid', 'softeria_alerts_wcauction_general');
+        $message = softeria_alerts_get_option('wcauction_sms_body_outbid', 'softeria_alerts_wcauction_message');
 
         if ('on' === $outbid && '' !== $message ) {
             $product_id        = $datas['product_id'];
@@ -784,8 +784,8 @@ class SAWCAuctions
      */
     public static function sendSmsBidder( $datas = array() )
     {
-        $customerbid = smspro_get_option('wcauction_bidder_notification_customerbid', 'smspro_wcauction_general');
-        $message     = smspro_get_option('wcauction_sms_body_customerbid', 'smspro_wcauction_message');
+        $customerbid = softeria_alerts_get_option('wcauction_bidder_notification_customerbid', 'softeria_alerts_wcauction_general');
+        $message     = softeria_alerts_get_option('wcauction_sms_body_customerbid', 'softeria_alerts_wcauction_message');
 
         if ('on' === $customerbid && '' !== $message ) {
             $product_id        = $datas['product_id'];
@@ -806,10 +806,10 @@ class SAWCAuctions
      */
     public static function sendAdminSmsOnPlacebid( $datas = array() )
     {
-        $admin_outbid      = smspro_get_option('wcauction_admin_notification_new', 'smspro_wcauction_general');
-        $admin_sms_content = smspro_get_option('wcauction_admin_sms_body_new', 'smspro_wcauction_message');
+        $admin_outbid      = softeria_alerts_get_option('wcauction_admin_notification_new', 'softeria_alerts_wcauction_general');
+        $admin_sms_content = softeria_alerts_get_option('wcauction_admin_sms_body_new', 'softeria_alerts_wcauction_message');
 
-        $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $admin_phone_number = str_replace('postauthor', 'post_author', $admin_phone_number);
 
         if ('on' === $admin_outbid && '' !== $admin_phone_number && '' !== $admin_sms_content ) {
@@ -860,8 +860,8 @@ if (is_plugin_active('dokan-lite/dokan.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAWCDokan class
@@ -913,9 +913,9 @@ class SAWCDokan
             $author_no     = ( ! empty($dokan_profile['phone']) ) ? $dokan_profile['phone'] : '';
         }
 
-        $enabled = smspro_get_option('multivendor_notification_approved', 'smspro_general');
+        $enabled = softeria_alerts_get_option('multivendor_notification_approved', 'softeria_alerts_general');
         if ('on' === $enabled && ! empty($author_no) ) {
-            $content = smspro_get_option('multivendor_sms_body_approved', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
+            $content = softeria_alerts_get_option('multivendor_sms_body_approved', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
             do_action('sa_send_sms', $author_no, $this->parseSmsBody($content, $user_id));
         }
     }
@@ -935,9 +935,9 @@ class SAWCDokan
             $author_no     = ( ! empty($dokan_profile['phone']) ) ? $dokan_profile['phone'] : '';
         }
 
-        $enabled = smspro_get_option('multivendor_notification_rejected', 'smspro_general');
+        $enabled = softeria_alerts_get_option('multivendor_notification_rejected', 'softeria_alerts_general');
         if ('on' === $enabled && ! empty($author_no) ) {
-            $content = smspro_get_option('multivendor_sms_body_rejected', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
+            $content = softeria_alerts_get_option('multivendor_sms_body_rejected', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
             do_action('sa_send_sms', $author_no, $this->parseSmsBody($content, $user_id));
         }
     }
@@ -970,8 +970,8 @@ if (is_plugin_active('dc-woocommerce-multi-vendor/dc_product_vendor.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAWCMP class
@@ -1015,9 +1015,9 @@ class SAWCMP
     {
         $user_id   = filter_input(INPUT_POST, 'user_id');
         $author_no = get_the_author_meta('billing_phone', $user_id);
-        $enabled   = smspro_get_option('multivendor_notification_approved', 'smspro_general');
+        $enabled   = softeria_alerts_get_option('multivendor_notification_approved', 'softeria_alerts_general');
         if ('on' === $enabled && ! empty($author_no) ) {
-            $content = smspro_get_option('multivendor_sms_body_approved', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
+            $content = softeria_alerts_get_option('multivendor_sms_body_approved', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
             do_action('sa_send_sms', $author_no, $this->parseSmsBody($content, $user_id));
         }
     }
@@ -1031,9 +1031,9 @@ class SAWCMP
     {
         $user_id   = filter_input(INPUT_POST, 'user_id');
         $author_no = get_the_author_meta('billing_phone', $user_id);
-        $enabled   = smspro_get_option('multivendor_notification_rejected', 'smspro_general');
+        $enabled   = softeria_alerts_get_option('multivendor_notification_rejected', 'softeria_alerts_general');
         if ('on' === $enabled && ! empty($author_no) ) {
-            $content = smspro_get_option('multivendor_sms_body_rejected', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
+            $content = softeria_alerts_get_option('multivendor_sms_body_rejected', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
             do_action('sa_send_sms', $author_no, $this->parseSmsBody($content, $user_id));
         }
     }
@@ -1047,9 +1047,9 @@ class SAWCMP
     {
         $user_id   = filter_input(INPUT_POST, 'user_id');
         $author_no = get_the_author_meta('billing_phone', $user_id);
-        $enabled   = smspro_get_option('multivendor_notification_rejected', 'smspro_general');
+        $enabled   = softeria_alerts_get_option('multivendor_notification_rejected', 'softeria_alerts_general');
         if ('on' === $enabled && ! empty($author_no) ) {
-            $content = smspro_get_option('multivendor_sms_body_rejected', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
+            $content = softeria_alerts_get_option('multivendor_sms_body_rejected', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
             do_action('sa_send_sms', $author_no, $this->parseSmsBody($content, $user_id));
         }
     }
@@ -1065,9 +1065,9 @@ class SAWCMP
         $author_no = get_the_author_meta('billing_phone', $user_id);
         $username  = get_the_author_meta('display_name', $user_id);
 
-        $enabled = smspro_get_option('multivendor_notification_approved', 'smspro_general');
+        $enabled = softeria_alerts_get_option('multivendor_notification_approved', 'softeria_alerts_general');
         if ('on' === $enabled && ! empty($author_no) ) {
-            $content = smspro_get_option('multivendor_sms_body_approved', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
+            $content = softeria_alerts_get_option('multivendor_sms_body_approved', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
             do_action('sa_send_sms', $author_no, $this->parseSmsBody($content, $user_id));
         }
     }
@@ -1103,8 +1103,8 @@ if (is_plugin_active('wc-frontend-manager/wc_frontend_manager.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAWCFM class
@@ -1153,9 +1153,9 @@ class SAWCFM
             $author_no    = ( ! empty($user_setting['phone']) ? $user_setting['phone'] : '' );
         }
 
-        $enabled = smspro_get_option('multivendor_notification_approved', 'smspro_general');
+        $enabled = softeria_alerts_get_option('multivendor_notification_approved', 'softeria_alerts_general');
         if ('on' === $enabled && ! empty($author_no) ) {
-            $content = smspro_get_option('multivendor_sms_body_approved', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
+            $content = softeria_alerts_get_option('multivendor_sms_body_approved', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
             do_action('sa_send_sms', $author_no, $this->parseSmsBody($content, $member_id));
         }
     }
@@ -1176,9 +1176,9 @@ class SAWCFM
             $author_no    = ( ! empty($user_setting['phone']) ? $user_setting['phone'] : '' );
         }
 
-        $enabled = smspro_get_option('multivendor_notification_rejected', 'smspro_general');
+        $enabled = softeria_alerts_get_option('multivendor_notification_rejected', 'softeria_alerts_general');
         if ('on' === $enabled && ! empty($author_no) ) {
-            $content = smspro_get_option('multivendor_sms_body_rejected', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
+            $content = softeria_alerts_get_option('multivendor_sms_body_rejected', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
             do_action('sa_send_sms', $author_no, $this->parseSmsBody($content, $member_id));
         }
     }
@@ -1214,8 +1214,8 @@ if (is_plugin_active('woocommerce-shipping-local-pickup-plus/woocommerce-shippin
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAWCLocalPickup class
@@ -1262,8 +1262,8 @@ if (is_plugin_active('digits/digit.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SADigit class
@@ -1306,8 +1306,8 @@ if (is_plugin_active('yith-woocommerce-request-a-quote-premium/init.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SARequestQuote class
@@ -1350,8 +1350,8 @@ if (is_plugin_active('booking/wpdev-booking.php') || is_plugin_active('woocommer
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SARequestQuote class
@@ -1367,7 +1367,7 @@ class SAReminderlist
     {
             global $wpdb;
         $source=isset($_REQUEST['source'])?$_REQUEST['source']:'';
-            $table_name  = $wpdb->prefix . 'smspro_booking_reminder';
+            $table_name  = $wpdb->prefix . 'softeria_alerts_booking_reminder';
             $total_items = $wpdb->get_var(
                 "SELECT COUNT(id) FROM $table_name where
 				source='".$source."'" 
@@ -1385,7 +1385,7 @@ class SAReminderlist
 			return;
 		}
             global $wpdb, $pagenow;
-            $table_name = $wpdb->prefix . 'smspro_booking_reminder';
+            $table_name = $wpdb->prefix . 'softeria_alerts_booking_reminder';
             $wp_list_table = new SA_Admin_Reminder_Table();
             $source=isset($_REQUEST['source'])?$_REQUEST['source']:'';
             $wp_list_table->prepareItems($source);
@@ -1415,7 +1415,7 @@ class SAReminderlist
                         
                     ?>
                                 <p>
-                            <?php esc_html_e('Looks like you do not have any booking reminder.', 'sms-pro'); ?>
+                            <?php esc_html_e('Looks like you do not have any booking reminder.', 'softeria-sms-alerts'); ?>
                                 </p>
                 <?php } else { ?>
                                 <form method="GET">
@@ -1437,8 +1437,8 @@ if (! class_exists('WP_List_Table') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Admin_Reminder_Table class_alias
@@ -1470,11 +1470,11 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     {
             return $columns = array(
                     'cb'            => '<input type="checkbox" />',
-                    'id'            => __('ID', 'sms-pro'),
-                    'booking_id'    => __('Booking Id', 'sms-pro'),
-                    'phone'         => __('Phone', 'sms-pro'),
-                    'start_date'    => __('Date', 'sms-pro'),
-                    'msg_sent'      => __('Status', 'sms-pro'),
+                    'id'            => __('ID', 'softeria-sms-alerts'),
+                    'booking_id'    => __('Booking Id', 'softeria-sms-alerts'),
+                    'phone'         => __('Phone', 'softeria-sms-alerts'),
+                    'start_date'    => __('Date', 'softeria-sms-alerts'),
+                    'msg_sent'      => __('Status', 'softeria-sms-alerts'),
             );
     }
         /**
@@ -1531,7 +1531,7 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     {
             $req_page = sanitize_text_field(wp_unslash($_REQUEST['page']));
             $actions  = array(
-                    'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $req_page, $item['id'], __('Delete', 'sms-pro')),
+                    'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $req_page, $item['id'], __('Delete', 'softeria-sms-alerts')),
             );
             return sprintf(
                 '%s %s',
@@ -1564,7 +1564,7 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     function column_status( $item )
     {
                                 
-        return sprintf('<div class="status-item-container"><span class="status msg-sent" >%s (%s)</span></div>', __('MSG Sent', 'sms-pro'), $item['msg_sent']);
+        return sprintf('<div class="status-item-container"><span class="status msg-sent" >%s (%s)</span></div>', __('MSG Sent', 'softeria-sms-alerts'), $item['msg_sent']);
     }
         /**
          * Column cb function.
@@ -1588,7 +1588,7 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     function get_bulk_actions()
     {
             $actions = array(
-                    'delete' => __('Delete', 'sms-pro'),
+                    'delete' => __('Delete', 'softeria-sms-alerts'),
             );
             return $actions;
     }
@@ -1600,10 +1600,10 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     function processBulkAction()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'smspro_booking_reminder'; // do not forget about tables prefix
+        $table_name = $wpdb->prefix . 'softeria_alerts_booking_reminder'; // do not forget about tables prefix
 		$verify = !empty($_REQUEST['_wpnonce'])?wp_verify_nonce( $_REQUEST['_wpnonce'], 'bulk-' . $this->_args['plural'] ):false;
         if ('delete' === $this->current_action() && $verify ) {
-            $ids = isset($_REQUEST['id']) ? smspro_sanitize_array($_REQUEST['id']) : array();
+            $ids = isset($_REQUEST['id']) ? softeria_alerts_sanitize_array($_REQUEST['id']) : array();
             if (! empty($ids) ) {
                 if (is_array($ids) ) { // Bulk booking reminder deletion
                     foreach ( $ids as $key => $id ) {
@@ -1638,7 +1638,7 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     function prepareItems($source='woocommerce-bookings')
     {
             global $wpdb;
-            $table_name = $wpdb->prefix .'smspro_booking_reminder';
+            $table_name = $wpdb->prefix .'softeria_alerts_booking_reminder';
             $screen = get_current_screen();
             $user   = get_current_user_id();
             $option = $screen->get_option('per_page', 'option');
@@ -1681,8 +1681,8 @@ if (is_plugin_active('FS-License-Manager/wp_wc_fs_license_manager.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SALicenseManager class

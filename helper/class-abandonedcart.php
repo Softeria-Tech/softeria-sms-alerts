@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -16,7 +16,7 @@ if (! defined('ABSPATH') ) {
 if (! is_plugin_active('woocommerce/woocommerce.php') ) {
     return;
 } else {
-    $user_authorize = new smspro_Setting_Options();
+    $user_authorize = new softeria_alerts_Setting_Options();
     $islogged       = $user_authorize->is_user_authorised();
     if ($islogged) {
         $sa_abcart = new SA_Abandoned_Cart();
@@ -27,8 +27,8 @@ if (! is_plugin_active('woocommerce/woocommerce.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Abandoned_Cart class
@@ -65,11 +65,11 @@ class SA_Abandoned_Cart
     public function __construct()
     {
 
-        $this->plugin_name = SMSPRO_PLUGIN_NAME_SLUG;
-        $this->version     = 'sms-pro';
+        $this->plugin_name = SOFTERIA_ALERTS_PLUGIN_NAME_SLUG;
+        $this->version     = 'softeria-sms-alerts';
 
         $this->loadDependencies();
-        if ('on' === smspro_get_option('customer_notify', 'smspro_abandoned_cart') ) {
+        if ('on' === softeria_alerts_get_option('customer_notify', 'softeria_alerts_abandoned_cart') ) {
             $this->defineAdminHooks();
             $this->definePublicHooks();
         }
@@ -96,7 +96,7 @@ class SA_Abandoned_Cart
      */
     public function addNonceField()
     { 
-        echo wp_nonce_field('smspro_wp_abcart_nonce', 'smspro_abcart_nonce', true, false);
+        echo wp_nonce_field('softeria_alerts_wp_abcart_nonce', 'softeria_alerts_abcart_nonce', true, false);
     }
 
     /**
@@ -196,16 +196,16 @@ class SA_Abandoned_Cart
      */
     public function addDefaultSetting( $defaults = array() )
     {
-        $defaults['smspro_abandoned_cart']['notification_frequency']         = '10';
-        $defaults['smspro_abandoned_cart']['cart_exit_intent_status']        = '';
-        $defaults['smspro_abandoned_cart']['enable_quiet_hours'] = '';
-        $defaults['smspro_abandoned_cart']['from_quiet_hours'] = '22:00';
-        $defaults['smspro_abandoned_cart']['to_quiet_hours'] = '08:00';
-        $defaults['smspro_abandoned_cart']['customer_notify']                = 'off';
-        $defaults['smspro_abandoned_cart_scheduler']['cron'][0]['frequency'] = '60';
-        $defaults['smspro_abandoned_cart_scheduler']['cron'][0]['message']   = '';
-        $defaults['smspro_abandoned_cart_scheduler']['cron'][1]['frequency'] = '120';
-        $defaults['smspro_abandoned_cart_scheduler']['cron'][1]['message']   = '';
+        $defaults['softeria_alerts_abandoned_cart']['notification_frequency']         = '10';
+        $defaults['softeria_alerts_abandoned_cart']['cart_exit_intent_status']        = '';
+        $defaults['softeria_alerts_abandoned_cart']['enable_quiet_hours'] = '';
+        $defaults['softeria_alerts_abandoned_cart']['from_quiet_hours'] = '22:00';
+        $defaults['softeria_alerts_abandoned_cart']['to_quiet_hours'] = '08:00';
+        $defaults['softeria_alerts_abandoned_cart']['customer_notify']                = 'off';
+        $defaults['softeria_alerts_abandoned_cart_scheduler']['cron'][0]['frequency'] = '60';
+        $defaults['softeria_alerts_abandoned_cart_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_abandoned_cart_scheduler']['cron'][1]['frequency'] = '120';
+        $defaults['softeria_alerts_abandoned_cart_scheduler']['cron'][1]['message']   = '';
 
         return $defaults;
     }
@@ -239,10 +239,10 @@ class SA_Abandoned_Cart
      */
     public function getSmsAlertCartTemplates()
     {
-        $current_val      = smspro_get_option('customer_notify', 'smspro_abandoned_cart', 'on');
-        $checkbox_name_id = 'smspro_abandoned_cart[customer_notify]';
+        $current_val      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_abandoned_cart', 'on');
+        $checkbox_name_id = 'softeria_alerts_abandoned_cart[customer_notify]';
 
-        $scheduler_data = get_option('smspro_abandoned_cart_scheduler');
+        $scheduler_data = get_option('softeria_alerts_abandoned_cart_scheduler');
         $templates      = array();
         $count          = 0;
 
@@ -259,8 +259,8 @@ class SA_Abandoned_Cart
         }
 
         foreach ( $scheduler_data['cron'] as $key => $data ) {
-            $textarea_name_id = 'smspro_abandoned_cart_scheduler[cron][' . $count . '][message]';
-            $selectNameId     = 'smspro_abandoned_cart_scheduler[cron][' . $count . '][frequency]';
+            $textarea_name_id = 'softeria_alerts_abandoned_cart_scheduler[cron][' . $count . '][message]';
+            $selectNameId     = 'softeria_alerts_abandoned_cart_scheduler[cron][' . $count . '][frequency]';
             $text_body        = $data['message'];
 
             $templates[ $key ]['frequency']      = $data['frequency'];
@@ -309,8 +309,8 @@ new SA_Abandoned_Cart();
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Loader class.
@@ -423,8 +423,8 @@ new SA_Loader();
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Cart_Admin class.
@@ -539,7 +539,7 @@ class SA_Cart_Admin
             if (0 === self::abandonedCartCount() ) { // If no abandoned carts, then output this note
                 ?>
                 <p>
-                <?php esc_html_e('Looks like you do not have any saved Abandoned carts yet.<br/>But do not worry, as soon as someone fills the <strong>Phone number</strong> fields of your WooCommerce Checkout form and abandons the cart, it will automatically appear here.', 'sms-pro'); ?>
+                <?php esc_html_e('Looks like you do not have any saved Abandoned carts yet.<br/>But do not worry, as soon as someone fills the <strong>Phone number</strong> fields of your WooCommerce Checkout form and abandons the cart, it will automatically appear here.', 'softeria-sms-alerts'); ?>
                 </p>
             <?php } else { ?>
                 <form method="GET">
@@ -561,13 +561,13 @@ class SA_Cart_Admin
     public static function initialiseStartEndDate()
     {
 
-     $smspro_date_range = isset( $_GET['smspro_date_range'] ) ? sanitize_text_field( wp_unslash( $_GET['smspro_date_range'] ) ) : 'this_month'; //phpcs:ignore
+     $softeria_alerts_date_range = isset( $_GET['softeria_alerts_date_range'] ) ? sanitize_text_field( wp_unslash( $_GET['softeria_alerts_date_range'] ) ) : 'this_month'; //phpcs:ignore
 
      $current_time  = current_time( 'timestamp' ); // phpcs:ignore
      $current_month = date( 'n' ); //phpcs:ignore
      $current_year  = date( 'Y' ); //phpcs:ignore
 
-        switch ( $smspro_date_range ) {
+        switch ( $softeria_alerts_date_range ) {
 
         case 'this_month':
             self::$start_timestamp = mktime(00, 01, 01, $current_month, 1);
@@ -700,7 +700,7 @@ class SA_Cart_Admin
      $current_month = date( 'm' ); // phpcs:ignore
      $current_year  = date( 'Y' ); // phpcs:ignore
 
-     $selected_data_range = isset( $_GET['smspro_date_range'] ) ? sanitize_text_field( wp_unslash( $_GET['smspro_date_range'] ) ) : 'this_month'; //phpcs:ignore
+     $selected_data_range = isset( $_GET['softeria_alerts_date_range'] ) ? sanitize_text_field( wp_unslash( $_GET['softeria_alerts_date_range'] ) ) : 'this_month'; //phpcs:ignore
         switch ( $selected_data_range ) {
         case 'this_month':
             $display_freq  = $current_date > 15 ? 'weekly' : 'daily';
@@ -831,19 +831,19 @@ class SA_Cart_Admin
             wp_register_script('reports_js', SA_MOV_URL . 'js/ab-cart-graph.js', '', SmsAlertConstants::SA_VERSION, false);
 
             $sa_duration_range_select = array(
-            'this_month'   => __('This Month', 'sms-pro'),
-            'last_month'   => __('Last Month', 'sms-pro'),
-            'this_quarter' => __('This Quarter', 'sms-pro'),
-            'last_quarter' => __('Last Quarter', 'sms-pro'),
-            'this_year'    => __('This Year', 'sms-pro'),
-            'last_year'    => __('Last Year', 'sms-pro'),
-            'custom'       => __('Custom', 'sms-pro'),
+            'this_month'   => __('This Month', 'softeria-sms-alerts'),
+            'last_month'   => __('Last Month', 'softeria-sms-alerts'),
+            'this_quarter' => __('This Quarter', 'softeria-sms-alerts'),
+            'last_quarter' => __('Last Quarter', 'softeria-sms-alerts'),
+            'this_year'    => __('This Year', 'softeria-sms-alerts'),
+            'last_year'    => __('Last Year', 'softeria-sms-alerts'),
+            'custom'       => __('Custom', 'softeria-sms-alerts'),
             );
-            $sa_duration_range        = isset($_GET['smspro_date_range']) ? sanitize_text_field(wp_unslash($_GET['smspro_date_range'])) : 'this_month';
+            $sa_duration_range        = isset($_GET['softeria_alerts_date_range']) ? sanitize_text_field(wp_unslash($_GET['softeria_alerts_date_range'])) : 'this_month';
 
             $start_date              = isset($_GET['sa_start_date']) ? sanitize_text_field(wp_unslash($_GET['sa_start_date'])) : '';
             $end_date                = isset($_GET['sa_end_date']) ? sanitize_text_field(wp_unslash($_GET['sa_end_date'])) : '';
-            $start_end_date_div_show = ( ! isset($_GET['smspro_date_range']) || 'custom' !== $_GET['smspro_date_range'] ) ? 'none' : 'block';
+            $start_end_date_div_show = ( ! isset($_GET['softeria_alerts_date_range']) || 'custom' !== $_GET['softeria_alerts_date_range'] ) ? 'none' : 'block';
             ?>
         <div class="wrap">
             <h1>Abandoned Cart Reports <a href="admin.php?page=ab-cart" class="button action">View List</a></h1>
@@ -854,18 +854,18 @@ class SA_Cart_Admin
                 <div class = "filter_date_drop_down" id = "filter_date_drop_down" >
                     <label class="date_time_filter_label" for="date_time_filter_label">
                         <strong>
-            <?php esc_html_e('Select date range:', 'sms-pro'); ?>
+            <?php esc_html_e('Select date range:', 'softeria-sms-alerts'); ?>
                         </strong>
                     </label>
 
-                    <select id=smspro_date_range name="smspro_date_range">
+                    <select id=softeria_alerts_date_range name="softeria_alerts_date_range">
             <?php
             foreach ( $sa_duration_range_select as $key => $value ) {
                 $sel = '';
                 if ($key == $sa_duration_range ) {
                     $sel = 'selected';
                 }
-             echo sprintf( "<option value='%s' %s>%s</option>", esc_attr( $key ), esc_attr( $sel ), esc_attr( __( $value, 'sms-pro' ) ) ); //phpcs:ignore
+             echo sprintf( "<option value='%s' %s>%s</option>", esc_attr( $key ), esc_attr( $sel ), esc_attr( __( $value, 'softeria-sms-alerts' ) ) ); //phpcs:ignore
             }
             ?>
                     </select>
@@ -874,7 +874,7 @@ class SA_Cart_Admin
                         <input type="date" id="sa_end_date" name="sa_end_date" value="<?php echo esc_attr($end_date); ?>" placeholder="yyyy-mm-dd"/>
                     </div>
                     <div id="sa_submit_button" class="sa_submit_button">
-                        <button type="submit" class="button-primary" id="sa_search" value="go"><?php esc_html_e('Go', 'sms-pro'); ?></button>
+                        <button type="submit" class="button-primary" id="sa_search" value="go"><?php esc_html_e('Go', 'softeria-sms-alerts'); ?></button>
                         <a href="admin.php?page=ab-cart-reports" class="button-secondary">Reset</a>
                     </div>
 
@@ -975,11 +975,11 @@ class SA_Cart_Admin
         global $pagenow;
 
         // Checking if we are on open plugin page
-        if ('admin.php' === $pagenow && 'sms-pro' === sanitize_text_field($_GET['page']) ) {
+        if ('admin.php' === $pagenow && 'softeria-sms-alerts' === sanitize_text_field($_GET['page']) ) {
 
             // Checking if WP Cron hooks are scheduled
             $missing_hooks = array();
-            // $user_settings_notification_frequency = smspro_get_option('customer_notify','smspro_abandoned_cart');
+            // $user_settings_notification_frequency = softeria_alerts_get_option('customer_notify','softeria_alerts_abandoned_cart');
 
             if (wp_next_scheduled('ab_cart_notification_sendsms_hook') === false ) { // If we havent scheduled msg notifications and notifications have not been disabled
                 $missing_hooks[] = 'ab_cart_notification_sendsms_hook';
@@ -1000,15 +1000,15 @@ class SA_Cart_Admin
                 <?php
                 echo sprintf(
                 /* translators: %s - Cron event name */
-                    _n('It seems that WP Cron event <strong>%s</strong> required for automation is not scheduled.', 'It seems that WP Cron events <strong>%s</strong> required for automation are not scheduled.', $total, 'sms-pro'),
+                    _n('It seems that WP Cron event <strong>%s</strong> required for automation is not scheduled.', 'It seems that WP Cron events <strong>%s</strong> required for automation are not scheduled.', $total, 'softeria-sms-alerts'),
                     $hooks
                 );
                 ?>
                 <?php
                 echo sprintf(
                 /* translators: %1$s - Plugin name, %2$s - Link */
-                    __('Please try disabling and enabling %1$s plugin. If this notice does not go away after that, please <a href="https://wordpress.org/support/plugin/sms-pro/" target="_blank">get in touch with us</a>.', 'sms-pro'),
-                    SMSPRO_PLUGIN_NAME
+                    __('Please try disabling and enabling %1$s plugin. If this notice does not go away after that, please <a href="https://wordpress.org/support/plugin/softeria-sms-alerts/" target="_blank">get in touch with us</a>.', 'softeria-sms-alerts'),
+                    SOFTERIA_ALERTS_PLUGIN_NAME
                 );
                 ?>
                     </p>
@@ -1021,7 +1021,7 @@ class SA_Cart_Admin
                 if (DISABLE_WP_CRON == true ) {
                     ?>
                     <div class="warning notice updated">
-                        <p class="left-part"><?php esc_html_e('WP Cron has been disabled. Several WordPress core features, such as checking for updates or sending notifications utilize this function. Please enable it or contact your system administrator to help you with this.', 'sms-pro'); ?></p>
+                        <p class="left-part"><?php esc_html_e('WP Cron has been disabled. Several WordPress core features, such as checking for updates or sending notifications utilize this function. Please enable it or contact your system administrator to help you with this.', 'softeria-sms-alerts'); ?></p>
                     </div>
                     <?php
                 }
@@ -1036,7 +1036,7 @@ class SA_Cart_Admin
      */
     function sendSms()
     {
-        $notification_enabled = smspro_get_option('customer_notify', 'smspro_abandoned_cart', 'off');
+        $notification_enabled = softeria_alerts_get_option('customer_notify', 'softeria_alerts_abandoned_cart', 'off');
         if ('off' === $notification_enabled ) {
             return;
         }
@@ -1045,10 +1045,10 @@ class SA_Cart_Admin
         $cron_frequency = CART_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
         $table_name     = $wpdb->prefix . SA_CART_TABLE_NAME;
 
-        $scheduler_data = get_option('smspro_abandoned_cart_scheduler');
-        $quiet_hours = smspro_get_option('enable_quiet_hours', 'smspro_abandoned_cart', '0');
-        $form_quiet_hours = smspro_get_option('from_quiet_hours', 'smspro_abandoned_cart', '22:00');
-        $to_quiet_hours = smspro_get_option('to_quiet_hours', 'smspro_abandoned_cart', '08:00');
+        $scheduler_data = get_option('softeria_alerts_abandoned_cart_scheduler');
+        $quiet_hours = softeria_alerts_get_option('enable_quiet_hours', 'softeria_alerts_abandoned_cart', '0');
+        $form_quiet_hours = softeria_alerts_get_option('from_quiet_hours', 'softeria_alerts_abandoned_cart', '22:00');
+        $to_quiet_hours = softeria_alerts_get_option('to_quiet_hours', 'softeria_alerts_abandoned_cart', '08:00');
         if ('1' === $quiet_hours) {
             $current_time = date('H:i:s', strtotime(current_time('mysql')));
             if ($current_time >= $form_quiet_hours && $current_time <= $to_quiet_hours) {
@@ -1206,7 +1206,7 @@ class SA_Cart_Admin
 
             $cart_session_id = WC()->session->get('cart_session_id');
             if (isset($cart_session_id) ) {
-                $public        = new SA_Cart_Public(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+                $public        = new SA_Cart_Public(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
                 $cart_data     = $public->read_cart();
                 $cart_currency = $cart_data['cart_currency'];
                 $current_time  = $cart_data['current_time'];
@@ -1294,7 +1294,7 @@ class SA_Cart_Admin
                         'notice',
                         sprintf(
                         /* translators: %d - Product ID */
-                            __('Unable to restore product in the shopping cart since the product no longer exists. ID: %d', 'sms-pro'),
+                            __('Unable to restore product in the shopping cart since the product no longer exists. ID: %d', 'softeria-sms-alerts'),
                             $product['product_id']
                         )
                     );
@@ -1314,7 +1314,7 @@ class SA_Cart_Admin
                 }
             }
 
-            $public = new SA_Cart_Public(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+            $public = new SA_Cart_Public(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
             WC()->session->set('cart_session_id', $row->session_id); // Putting previous customer ID back to WooCommerce session
         }
@@ -1351,8 +1351,8 @@ if (! class_exists('WP_List_Table') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Admin_Table class
@@ -1387,15 +1387,15 @@ class SA_Admin_Table extends WP_List_Table
     {
         return $columns = array(
         'cb'            => '<input type="checkbox" />',
-        'id'            => __('ID', 'sms-pro'),
-        'name'          => __('Name, Surname', 'sms-pro'),
-        'email'         => __('Email', 'sms-pro'),
-        'phone'         => __('Phone', 'sms-pro'),
-        'location'      => __('Location', 'sms-pro'),
-        'cart_contents' => __('Cart contents', 'sms-pro'),
-        'cart_total'    => __('Cart total', 'sms-pro'),
-        'time'          => __('Time', 'sms-pro'),
-        'status'        => __('Status', 'sms-pro'),
+        'id'            => __('ID', 'softeria-sms-alerts'),
+        'name'          => __('Name, Surname', 'softeria-sms-alerts'),
+        'email'         => __('Email', 'softeria-sms-alerts'),
+        'phone'         => __('Phone', 'softeria-sms-alerts'),
+        'location'      => __('Location', 'softeria-sms-alerts'),
+        'cart_contents' => __('Cart contents', 'softeria-sms-alerts'),
+        'cart_total'    => __('Cart total', 'softeria-sms-alerts'),
+        'time'          => __('Time', 'softeria-sms-alerts'),
+        'status'        => __('Status', 'softeria-sms-alerts'),
         );
     }
 
@@ -1440,7 +1440,7 @@ class SA_Admin_Table extends WP_List_Table
     {
         $req_page = sanitize_text_field(wp_unslash($_REQUEST['page']));
         $actions  = array(
-        'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $req_page, $item['id'], __('Delete', 'sms-pro')),
+        'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $req_page, $item['id'], __('Delete', 'softeria-sms-alerts')),
         );
 
         return sprintf(
@@ -1595,7 +1595,7 @@ class SA_Admin_Table extends WP_List_Table
         if ($utc_time > strtotime('-1 day', current_time('timestamp')) ) { // In case the abandoned cart is newly captued
             $friendly_time = sprintf(
             /* translators: %1$s - Time, e.g. 1 minute, 5 hours */
-                __('%1$s ago', 'sms-pro'),
+                __('%1$s ago', 'softeria-sms-alerts'),
                 human_time_diff(
                     $utc_time,
                     current_time('timestamp')
@@ -1623,17 +1623,17 @@ class SA_Admin_Table extends WP_List_Table
         $status       = '';
 
         if ($cart_time > $current_time - CART_STILL_SHOPPING * 60 && '0' === $item['msg_sent'] && '0' === $item['recovered'] ) { // Checking time if user is still shopping or might return - we add shopping label
-            $status .= sprintf('<span class="status shopping">%s</span>', __('Shopping', 'sms-pro'));
+            $status .= sprintf('<span class="status shopping">%s</span>', __('Shopping', 'softeria-sms-alerts'));
 
         } else {
             if ($cart_time > ( $current_time - CART_NEW_STATUS_NOTICE * 60 ) && '0' === $item['msg_sent'] && '0' === $item['recovered'] ) { // Checking time if user has not gone through with the checkout after the specified time we add new label
-                $status .= sprintf('<span class="status new" >%s</span>', __('New', 'sms-pro'));
+                $status .= sprintf('<span class="status new" >%s</span>', __('New', 'softeria-sms-alerts'));
             }
             if ('0' !== $item['msg_sent'] && '0' === $item['recovered'] ) {
-                $status .= sprintf('<div class="status-item-container"><span class="status msg-sent" >%s (%s)</span></div>', __('MSG Sent', 'sms-pro'), $item['msg_sent']);
+                $status .= sprintf('<div class="status-item-container"><span class="status msg-sent" >%s (%s)</span></div>', __('MSG Sent', 'softeria-sms-alerts'), $item['msg_sent']);
             }
             if ('1' === $item['recovered'] ) {
-                $status .= sprintf('<div class="status-item-container"><span class="status recovered" >%s</span></div>', __('Recovered', 'sms-pro'));
+                $status .= sprintf('<div class="status-item-container"><span class="status recovered" >%s</span></div>', __('Recovered', 'softeria-sms-alerts'));
             }
         }
         return $status;
@@ -1662,8 +1662,8 @@ class SA_Admin_Table extends WP_List_Table
     function get_bulk_actions()
     {
         $actions = array(
-        'delete' => __('Delete', 'sms-pro'),
-        'sa_abcart_sendsms' => __('Send SMS', 'sms-pro'),
+        'delete' => __('Delete', 'softeria-sms-alerts'),
+        'sa_abcart_sendsms' => __('Send SMS', 'softeria-sms-alerts'),
         );
         return $actions;
     }
@@ -1680,7 +1680,7 @@ class SA_Admin_Table extends WP_List_Table
         $verify = !empty($_REQUEST['_wpnonce'])?wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-' . $this->_args['plural']):false;
         if ($verify) {           
             if ('delete' === $this->current_action() ) {
-                $ids = isset($_REQUEST['id']) ? smspro_sanitize_array($_REQUEST['id']) : array();
+                $ids = isset($_REQUEST['id']) ? softeria_alerts_sanitize_array($_REQUEST['id']) : array();
                 if (! empty($ids) ) {
                     if (is_array($ids) ) { // Bulk abandoned cart deletion
                         foreach ( $ids as $key => $id ) {
@@ -1706,13 +1706,13 @@ class SA_Admin_Table extends WP_List_Table
             }
         
             if ('sa_abcart_sendsms' === $this->current_action() ) {
-                $id = isset($_REQUEST['id']) ? smspro_sanitize_array($_REQUEST['id']) : array();
+                $id = isset($_REQUEST['id']) ? softeria_alerts_sanitize_array($_REQUEST['id']) : array();
                 $params =array(
                 'post_ids'=> $id,
                 'type'=> 'abandoned_data',
                 
                 );
-                echo get_smspro_template('template/sms_campaign.php', $params, true);
+                echo get_softeria_alerts_template('template/sms_campaign.php', $params, true);
                 exit();
             }
         }
@@ -1770,8 +1770,8 @@ class SA_Admin_Table extends WP_List_Table
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Cart_Public class
@@ -1834,14 +1834,14 @@ class SA_Cart_Public
                 $user_logged_in = true;
             } else {
                 $user_logged_in = false;
-                $plugin_admin   = new SA_Cart_Admin(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+                $plugin_admin   = new SA_Cart_Admin(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
             }
             $cart_content_count = 0;
             if (WC()->cart ) {
                 $cart_content_count = WC()->cart->get_cart_contents_count();
             }
 
-            if (smspro_get_option('cart_exit_intent_status', 'smspro_abandoned_cart', '0') ) {
+            if (softeria_alerts_get_option('cart_exit_intent_status', 'softeria_alerts_abandoned_cart', '0') ) {
                 $data = array(
                 'hours'             => 1,
                 'product_count'     => $cart_content_count,
@@ -1862,12 +1862,12 @@ class SA_Cart_Public
     public function addAdditionalScriptsOnCheckout()
     {
 
-        $user_settings_notification_frequency = smspro_get_option('customer_notify', 'smspro_abandoned_cart', 'off');
+        $user_settings_notification_frequency = softeria_alerts_get_option('customer_notify', 'softeria_alerts_abandoned_cart', 'off');
         if ('off' === $user_settings_notification_frequency ) {
             return;
         }
 
-        $plugin_admin = new SA_Cart_Admin(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+        $plugin_admin = new SA_Cart_Admin(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
         if (is_user_logged_in() ) {
             $user_logged_in = true;
@@ -1890,9 +1890,9 @@ class SA_Cart_Public
     function saveUserData()
     {
         // First check if data is being sent and that it is the data we want
-        check_ajax_referer('smspro_wp_abcart_nonce', 'smspro_abcart_nonce');
+        check_ajax_referer('softeria_alerts_wp_abcart_nonce', 'softeria_alerts_abcart_nonce');
         if (isset($_POST['ab_cart_phone']) ) {
-            $plugin_admin = new SA_Cart_Admin(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+            $plugin_admin = new SA_Cart_Admin(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
             global $wpdb;
             $table_name = $wpdb->prefix . SA_CART_TABLE_NAME; // do not forget about tables prefix
@@ -2037,7 +2037,7 @@ class SA_Cart_Public
     function saveLoggedInUserData()
     {
         if (is_user_logged_in() ) { // If a user is logged in
-            $plugin_admin = new SA_Cart_Admin(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+            $plugin_admin = new SA_Cart_Admin(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
             global $wpdb;
             $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
@@ -2204,7 +2204,7 @@ class SA_Cart_Public
     function updateCartData()
     {
         if (! is_user_logged_in() ) { // If a user is not logged in
-            $plugin_admin = new SA_Cart_Admin(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+            $plugin_admin = new SA_Cart_Admin(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
             $cart_session_id = WC()->session->get('cart_session_id');
             if ($cart_session_id !== null ) {
@@ -2701,10 +2701,10 @@ class SA_Cart_Public
      */
     function exitIntentEnabled()
     {
-        $plugin_admin = new SA_Cart_Admin(SMSPRO_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
+        $plugin_admin = new SA_Cart_Admin(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
-        $exit_intent_on        = smspro_get_option('cart_exit_intent_status', 'smspro_abandoned_cart', '0');
-        $test_mode_on          = smspro_get_option('cart_exit_intent_test_mode', 'smspro_abandoned_cart', '0');
+        $exit_intent_on        = softeria_alerts_get_option('cart_exit_intent_status', 'softeria_alerts_abandoned_cart', '0');
+        $test_mode_on          = softeria_alerts_get_option('cart_exit_intent_test_mode', 'softeria_alerts_abandoned_cart', '0');
         $current_user_is_admin = current_user_can('manage_options');
 
         if ($test_mode_on && $current_user_is_admin ) {

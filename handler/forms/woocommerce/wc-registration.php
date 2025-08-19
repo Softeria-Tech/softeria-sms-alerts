@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -61,8 +61,8 @@ class WooCommerceRegistrationForm extends FormInterface
     public function handleForm()
     {
         
-        $this->popup_enabled = ( smspro_get_option('otp_in_popup', 'smspro_general', 'on') === 'on' ) ? true : false;
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $this->popup_enabled = ( softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on') === 'on' ) ? true : false;
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
         
         if ('on' === $buyer_signup_otp ) {
             if (isset($_REQUEST['register']) ) {
@@ -95,13 +95,13 @@ class WooCommerceRegistrationForm extends FormInterface
             add_action('register_form', array( $this, 'edumaSmsalertDisplayRegisterOTPBtn' ), 10);
         }
         
-        $enable_otp_user_update = get_option('smspro_otp_user_update', 'on');
+        $enable_otp_user_update = get_option('softeria_alerts_otp_user_update', 'on');
         if ('on' === $enable_otp_user_update ) {
             add_action('woocommerce_after_save_address_validation', array( $this, 'validateWoocommerceSaveAddress' ), 10, 3);        
             add_filter('woocommerce_address_to_edit', array( $this, 'getBillingFieldsProfilepage' ), 10, 2);
         }        
 
-        $signup_with_mobile = smspro_get_option('signup_with_mobile', 'smspro_general', 'off');
+        $signup_with_mobile = softeria_alerts_get_option('signup_with_mobile', 'softeria_alerts_general', 'off');
         if ('on' === $signup_with_mobile ) {
             if (is_plugin_active('easy-login-woocommerce/xoo-el-main.php') || is_plugin_active('easy-login-woocommerce-premium/xoo-el-main.php') ) {
                 add_action('xoo_el_form_end', array( $this, 'smsproDisplaySignupWithMobile' ), 10);
@@ -175,7 +175,7 @@ class WooCommerceRegistrationForm extends FormInterface
     public function smsproDisplaySignupWithMobile($form = null, $args=array())
     {
         if ($form == null || $form == 'register') {
-            echo wp_kses_post('<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_signup" value="' . __('Signup with Mobile', 'sms-pro') . '" style="width: 100%; display:block"><span class="button__text">' . __('Signup with Mobile', 'sms-pro') . '</span></button></div>');
+            echo wp_kses_post('<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_signup" value="' . __('Signup with Mobile', 'softeria-sms-alerts') . '" style="width: 100%; display:block"><span class="button__text">' . __('Signup with Mobile', 'softeria-sms-alerts') . '</span></button></div>');
             add_action('wp_footer', array( $this, 'addSignupwithmobileShortcode' ), 15); 
 			if (is_plugin_active('google-captcha/google-captcha.php')) {
                 gglcptch_add_scripts();
@@ -208,7 +208,7 @@ class WooCommerceRegistrationForm extends FormInterface
         $db_billing_phone = get_post_meta($user_id, '_billing_phone', true);
         $user_phone       = ( ! empty($_POST['billing_phone']) ) ? sanitize_text_field(wp_unslash($_POST['billing_phone'])) : '';
         if ($db_billing_phone !== $user_phone ) {
-            if (smspro_get_option('allow_multiple_user', 'smspro_general') !== 'on' && ! SmsAlertUtility::isBlank($user_phone) ) {
+            if (softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') !== 'on' && ! SmsAlertUtility::isBlank($user_phone) ) {
                 $_POST['billing_phone'] = SmsAlertcURLOTP::checkPhoneNos($user_phone);
 
                 $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone, array( 'exclude' => array( $user_id ) ));
@@ -226,9 +226,9 @@ class WooCommerceRegistrationForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && (smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' || smspro_get_option('signup_with_mobile', 'smspro_general') === 'on') ) ? true : false;
+        return ( $islogged && (softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' || softeria_alerts_get_option('signup_with_mobile', 'softeria_alerts_general') === 'on') ) ? true : false;
     }
 
     /**
@@ -242,10 +242,10 @@ class WooCommerceRegistrationForm extends FormInterface
             return;
         }
         switch ( trim(sanitize_text_field(wp_unslash($_REQUEST['option']))) ) {
-        case 'smspro_register_otp_validate_submit':
+        case 'softeria_alerts_register_otp_validate_submit':
             $this->handleAjaxRegisterValidateOtp($_REQUEST);
             break;
-        case 'smspro-registration-with-mobile':
+        case 'softeria-alert-registration-with-mobile':
             $this->handleSignWthOtp();
             break;
 
@@ -262,14 +262,14 @@ class WooCommerceRegistrationForm extends FormInterface
      */
     public function handleSignWthOtp()
     {
-        $verify = check_ajax_referer('smspro_wp_signupwithmobile_nonce', 'smspro_signupwithmobile_nonce', false);
+        $verify = check_ajax_referer('softeria_alerts_wp_signupwithmobile_nonce', 'softeria_alerts_signupwithmobile_nonce', false);
         if (!$verify) {
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Sorry, nonce did not verify.', 'sms-pro'), 'error'));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Sorry, nonce did not verify.', 'softeria-sms-alerts'), 'error'));
         }
         if (is_plugin_active('google-captcha/google-captcha.php')) {
             $check_result = apply_filters('gglcptch_verify_recaptcha', true, 'string', 'sa_swm_form');
             if (true !== $check_result ) { 
-                wp_send_json(SmsAlertUtility::_create_json_response(__('The reCaptcha verification failed. Please try again.', 'sms-pro'), 'error'));
+                wp_send_json(SmsAlertUtility::_create_json_response(__('The reCaptcha verification failed. Please try again.', 'softeria-sms-alerts'), 'error'));
             }
         }
         global $phoneLogic;
@@ -277,12 +277,12 @@ class WooCommerceRegistrationForm extends FormInterface
         if (isset($_SESSION['sa_mobile_verified']) ) {
             unset($_SESSION['sa_mobile_verified']);
         }
-        if (isset($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option']) === 'smspro-registration-with-mobile') ) {
+        if (isset($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option']) === 'softeria-alert-registration-with-mobile') ) {
             $phone_no = ! empty($_REQUEST['billing_phone']) ? sanitize_text_field(wp_unslash($_REQUEST['billing_phone'])) : '';
 
             $billing_phone = SmsAlertcURLOTP::checkPhoneNos($phone_no);
             if (SmsAlertUtility::isBlank($phone_no)) {
-                wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'sms-pro'), 'error'));
+                wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), 'error'));
             } else if (! $billing_phone ) {
 
                 $message = str_replace('##phone##', $phone_no, $phoneLogic->_get_otp_invalid_format_message());
@@ -302,7 +302,7 @@ class WooCommerceRegistrationForm extends FormInterface
             }  
             //-added for new user approve plugin
             SmsAlertUtility::initialize_transaction($this->form_session_var3);
-            smspro_site_challenge_otp(null, null, null, $billing_phone, 'phone', null, SmsAlertUtility::currentPageUrl(), true);
+            softeria_alerts_site_challenge_otp(null, null, null, $billing_phone, 'phone', null, SmsAlertUtility::currentPageUrl(), true);
         }
     }
 
@@ -323,7 +323,7 @@ class WooCommerceRegistrationForm extends FormInterface
         if (strcmp($_SESSION['phone_number_mo'], $data['billing_phone']) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('PHONE_MISMATCH'), 'error'));
         } else {
-            do_action('smspro_validate_otp', 'phone');
+            do_action('softeria_alerts_validate_otp', 'phone');
         }
     }
 
@@ -410,7 +410,7 @@ class WooCommerceRegistrationForm extends FormInterface
         $user_phone = ( ! empty($_POST['billing_phone']) ) ? sanitize_text_field(wp_unslash($_POST['billing_phone'])) : ''; 
 		
         if (SmsAlertUtility::isBlank($user_phone) ) {
-            return new WP_Error('registration-error-invalid-phone', __('Please enter phone number.', 'sms-pro'));
+            return new WP_Error('registration-error-invalid-phone', __('Please enter phone number.', 'softeria-sms-alerts'));
         }	
 		
         if (! SmsAlertcURLOTP::validateCountryCode($user_phone)) {        
@@ -425,7 +425,7 @@ class WooCommerceRegistrationForm extends FormInterface
         if (! SmsAlertUtility::isBlank(array_filter($errors->errors)) ) {
             return $errors;
         }
-        if (isset($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option']) === 'smspro_register_with_otp') ) {
+        if (isset($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option']) === 'softeria_alerts_register_with_otp') ) {
             SmsAlertUtility::initialize_transaction($this->form_session_var2);
         } else {
             SmsAlertUtility::initialize_transaction($this->form_session_var);
@@ -433,11 +433,11 @@ class WooCommerceRegistrationForm extends FormInterface
 
        
 
-        if (smspro_get_option('allow_multiple_user', 'smspro_general') !== 'on' && ! SmsAlertUtility::isBlank($user_phone) ) {
+        if (softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') !== 'on' && ! SmsAlertUtility::isBlank($user_phone) ) {
 
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
             if (count($getusers) > 0 ) {
-                return new WP_Error('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'sms-pro'));
+                return new WP_Error('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
             }
         }
 
@@ -469,7 +469,7 @@ class WooCommerceRegistrationForm extends FormInterface
         if (! isset($phone_num) || ! SmsAlertUtility::validatePhoneNumber($phone_num) ) {
             return new WP_Error('billing_phone_error', str_replace('##phone##', $phone_num, $phoneLogic->_get_otp_invalid_format_message()));
         }
-        smspro_site_challenge_otp($username, $email, $errors, $phone_num, 'phone', $password);
+        softeria_alerts_site_challenge_otp($username, $email, $errors, $phone_num, 'phone', $password);
     }
 
     /**
@@ -572,7 +572,7 @@ class WooCommerceRegistrationForm extends FormInterface
             return;
         }
         if (isset($_SESSION[ $this->form_session_var ]) ) {
-            smspro_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
+            softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
         }
         if (isset($_SESSION[ $this->form_session_var2 ]) || isset($_SESSION[ $this->form_session_var3 ]) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
@@ -668,7 +668,7 @@ class WooCommerceRegistrationForm extends FormInterface
         $tname = '';
         $phone = '';
         SmsAlertUtility::checkSession();
-        if (isset($_POST['smspro_name']) && $_POST['smspro_name']!='' && isset($_SESSION['sa_mobile_verified'])) {
+        if (isset($_POST['softeria_alerts_name']) && $_POST['softeria_alerts_name']!='' && isset($_SESSION['sa_mobile_verified'])) {
 
             $mail = isset($_POST['email']) ? sanitize_email(wp_unslash($_POST['email'])) : '';
 
@@ -732,12 +732,12 @@ class WooCommerceRegistrationForm extends FormInterface
                         $prefix++;
                     }
                 }
-				$smspro_defaultuserrole = get_option('smspro_defaultuserrole', 'customer');
+				$softeria_alerts_defaultuserrole = get_option('softeria_alerts_defaultuserrole', 'customer');
                 $userdata = array(
                     'user_login'    => $username,
 					'user_pass'     => $password,
 					'user_email'    => $mail,
-					'role'          => $smspro_defaultuserrole
+					'role'          => $softeria_alerts_defaultuserrole
                 );
                 $new_customer = wp_insert_user( $userdata );
             }
@@ -774,7 +774,7 @@ class WooCommerceRegistrationForm extends FormInterface
                 wp_redirect($redirect);
                 exit();
             } else {
-                //$validation_error->add('Error',__('Please try again','sms-pro'));
+                //$validation_error->add('Error',__('Please try again','softeria-sms-alerts'));
                 wp_send_json(
                     SmsAlertUtility::_create_json_response(
                         'Please try again',

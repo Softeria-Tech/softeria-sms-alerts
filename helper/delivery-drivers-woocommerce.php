@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! is_plugin_active('delivery-drivers-for-woocommerce/delivery-drivers-for-wo
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Smsalert_Delivery_Drivers_Woocommerce class
@@ -38,9 +38,9 @@ class Smsalert_Delivery_Drivers_Woocommerce
         add_filter('sAlertDefaultSettings', __CLASS__ . '::add_default_setting', 1);
         add_filter('sa_wc_variables', __CLASS__ . '::addTemplateVariable', 1, 2);
 
-        $smspro_driver_notify = smspro_get_option('driver_notify', 'smspro_driver_general', 'on');
+        $softeria_alerts_driver_notify = softeria_alerts_get_option('driver_notify', 'softeria_alerts_driver_general', 'on');
 
-        if ('on' === $smspro_driver_notify ) {
+        if ('on' === $softeria_alerts_driver_notify ) {
             add_action('woocommerce_order_status_changed', array( $this, 'triggerOnchangeOrderStatus' ), 10, 3);
         }
         add_action('sa_addTabs', array( $this, 'addTabs' ), 100);
@@ -87,7 +87,7 @@ class Smsalert_Delivery_Drivers_Woocommerce
 					var message = "' . esc_attr($code_message) . '";
 					jQuery(".sa-message").html(message);
 					jQuery(".sa_resend_btn, .sa_timer").hide();					jQuery("#sa_verify_otp").click(function(){
-						var code = jQuery("#smspro_customer_validation_otp_token").val();
+						var code = jQuery("#softeria_alerts_customer_validation_otp_token").val();
 						var order_id = "' . ( ! empty($_GET['orderid']) ? esc_attr(sanitize_text_field(wp_unslash($_GET['orderid']))) : '' ) . '";
 						var invalid_message = "' . esc_attr($invalid_message) . '";
 						if(code != " "){
@@ -181,13 +181,13 @@ class Smsalert_Delivery_Drivers_Woocommerce
      */
     public static function getDeliverDriversTemplates()
     {
-        $current_val      = smspro_get_option('driver_notify', 'smspro_driver_general', 'on');
-        $checkbox_name_id = 'smspro_driver_general[driver_notify]';
-        $textarea_name_id = 'smspro_driver_message[driver_notify]';
+        $current_val      = softeria_alerts_get_option('driver_notify', 'softeria_alerts_driver_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_driver_general[driver_notify]';
+        $textarea_name_id = 'softeria_alerts_driver_message[driver_notify]';
 
-        $text_body = smspro_get_option(
+        $text_body = softeria_alerts_get_option(
             'driver_notify',
-            'smspro_driver_message',
+            'softeria_alerts_driver_message',
             SmsAlertMessages::showMessage('DEFAULT_DELIVERY_DRIVER_MESSAGE')
         );
 
@@ -298,8 +298,8 @@ class Smsalert_Delivery_Drivers_Woocommerce
      */
     public static function add_default_setting( $defaults = array() )
     {
-        $defaults['smspro_driver_general']['driver_notify'] = 'off';
-        $defaults['smspro_driver_message']['driver_notify'] = '';
+        $defaults['softeria_alerts_driver_general']['driver_notify'] = 'off';
+        $defaults['softeria_alerts_driver_message']['driver_notify'] = '';
         return $defaults;
     }
 
@@ -318,8 +318,8 @@ class Smsalert_Delivery_Drivers_Woocommerce
             $delivery_code = wp_rand(1, 9999);
 
             $order          = wc_get_order($order_id);
-            $driver_message = smspro_get_option('driver_notify', 'smspro_driver_message', '');
-            $cust_message   = smspro_get_option('sms_body_driver-assigned', 'smspro_message', '');
+            $driver_message = softeria_alerts_get_option('driver_notify', 'softeria_alerts_driver_message', '');
+            $cust_message   = softeria_alerts_get_option('sms_body_driver-assigned', 'softeria_alerts_message', '');
 
             $order_items = $order->get_items();
             $first_item  = current($order_items);
