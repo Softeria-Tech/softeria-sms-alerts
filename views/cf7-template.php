@@ -12,7 +12,7 @@
 $wpcf7 = WPCF7_ContactForm::get_current();
 if (empty($wpcf7->id()) ) {
     echo '<h3>';
-    esc_html_e('Please save your contact form 7 once.', 'softeria-sms-alerts');
+    esc_html_e('Please save your contact form 7 once.', 'soft-sms-alerts');
     echo '</h3>';
 } else {
     $contact_form = WPCF7_ContactForm::get_instance($wpcf7->id());
@@ -61,10 +61,10 @@ if (empty($wpcf7->id()) ) {
                 <tbody>
                 <tr>
                     <th scope="row" style="width:155px;">
-                        <label for="wpcf7softeria-alert-settings[phoneno]"><?php esc_html_e('Admin Mobile Number:', 'softeria-sms-alerts'); ?></label>
+                        <label for="wpcf7softeria-alert-settings[phoneno]"><?php esc_html_e('Admin Mobile Number:', 'soft-sms-alerts'); ?></label>
                     </th>
                     <td data-parent_id="wpcf7softeria-alert-settings[admin_notification]">
-                        <input type="text" id="wpcf7softeria-alert-settings[phoneno]" name="wpcf7softeria-alert-settings[phoneno]" class="wide" size="70" value="<?php echo esc_attr($data['phoneno']); ?>"><span class="tooltip" data-title="<?php esc_html_e('Admin sms notifications will be sent to this number.', 'softeria-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
+                        <input type="text" id="wpcf7softeria-alert-settings[phoneno]" name="wpcf7softeria-alert-settings[phoneno]" class="wide" size="70" value="<?php echo esc_attr($data['phoneno']); ?>"><span class="tooltip" data-title="<?php esc_html_e('Admin sms notifications will be sent to this number.', 'soft-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
                     </td>
                 </tr>
                 <tr valign="top">
@@ -89,11 +89,11 @@ if (empty($wpcf7->id()) ) {
             <table class="form-table">
                 <tr>
                     <td scope="row" class="td-heading">
-                        <label for="wpcf7-mail-body"><?php esc_html_e('Visitor Mobile:', 'softeria-sms-alerts'); ?></label>
+                        <label for="wpcf7-mail-body"><?php esc_html_e('Visitor Mobile:', 'soft-sms-alerts'); ?></label>
                     </td>
                     <td>
                         <select name="wpcf7softeria-alert-settings[visitorNumber]" id="visitorNumber">
-                        <option value=""><?php esc_attr_e("--select phone field--", "softeria-sms-alerts");?></option>
+                        <option value=""><?php esc_attr_e("--select phone field--", "soft-sms-alerts");?></option>
                         <?php
                         if (! empty($form_fields) ) {
                             foreach ( $form_fields as $form_field ) {
@@ -109,7 +109,7 @@ if (empty($wpcf7->id()) ) {
                         }
                         ?>
                         </select>
-                        <span class="tooltip" data-title="<?php esc_html_e('Select phone field.', 'softeria-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
+                        <span class="tooltip" data-title="<?php esc_html_e('Select phone field.', 'soft-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
                     </td>
                 </tr>
                  <tr class="top-border">
@@ -118,7 +118,7 @@ if (empty($wpcf7->id()) ) {
                 ?>
                     <td scope="row" class="SofteriaAlerts_box td-heading">
                       <input type="checkbox" name="wpcf7softeria-alert-settings[auto_sync]" id="wpcf7softeria-alert-settings[auto_sync]" class="SofteriaAlerts_box sync_group" <?php echo ( ( 'on' === $auto_sync ) ? "checked='checked'" : '' ); ?> />
-                        <label for="wpcf7-mail-body"><?php esc_html_e('Sync Data To Group:', 'softeria-sms-alerts'); ?></label>
+                        <label for="wpcf7-mail-body"><?php esc_html_e('Sync Data To Group:', 'soft-sms-alerts'); ?></label>
                     </td>
                     <td>
                         <select name="wpcf7softeria-alert-settings[softeria_alerts_group]" id="softeria_alerts_group" data-parent_id="wpcf7softeria-alert-settings[auto_sync]">
@@ -126,7 +126,7 @@ if (empty($wpcf7->id()) ) {
                         $groups = SmsAlertcURLOTP::groupList();
                         if (! is_array($groups['data']) ) {
                             ?>
-                            <option value=""><?php esc_html_e('SELECT', 'softeria-sms-alerts'); ?></option>
+                            <option value=""><?php esc_html_e('SELECT', 'soft-sms-alerts'); ?></option>
                             <?php
                         } else {
                             foreach ( $groups['data'] as $group ) {
@@ -139,11 +139,11 @@ if (empty($wpcf7->id()) ) {
                         }
                         ?>
                         </select>
-                        <span class="tooltip" data-title="<?php esc_html_e('Select group in which data will be synced.', 'softeria-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
+                        <span class="tooltip" data-title="<?php esc_html_e('Select group in which data will be synced.', 'soft-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
                         <?php
                         if (! empty($groups) && ( ! is_array($groups['data'])) ) {
                             ?>
-                            <a href="#" onclick="create_group(this);" id="create_group" style="text-decoration: none;"><?php esc_html_e('Create Group', 'softeria-sms-alerts'); ?></a>
+                            <a href="#" onclick="create_group(this);" id="create_group" style="text-decoration: none;"><?php esc_html_e('Create Group', 'soft-sms-alerts'); ?></a>
                             <?php
                         }
                         ?>
@@ -151,7 +151,7 @@ if (empty($wpcf7->id()) ) {
                 </tr>
                 <tr>
                     <td scope="row" class="td-heading">
-                        <label for="wpcf7-mail-body"><?php esc_html_e('Name Field:', 'softeria-sms-alerts'); ?></label>
+                        <label for="wpcf7-mail-body"><?php esc_html_e('Name Field:', 'soft-sms-alerts'); ?></label>
                     </td>
                     <td>
                         <select name="wpcf7softeria-alert-settings[softeria_alerts_name]" id="softeria_alerts_name" data-parent_id="wpcf7softeria-alert-settings[auto_sync]">
@@ -178,7 +178,7 @@ if (empty($wpcf7->id()) ) {
                         <input type="hidden" name="softeria_alerts_gateway[softeria_alerts_name]" id="softeria_alerts_gateway[softeria_alerts_name]" value="<?php echo esc_attr($username); ?>" data-id="softeria_alerts_name" class="hidden">
                         <input type="hidden" name="softeria_alerts_gateway[softeria_alerts_password]" id="softeria_alerts_gateway[softeria_alerts_password]" value="<?php echo esc_attr($password); ?>" data-id="softeria_alerts_password" class="hidden">
                         </select>
-                        <span class="tooltip" data-title="<?php esc_html_e('Select name field.', 'softeria-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
+                        <span class="tooltip" data-title="<?php esc_html_e('Select name field.', 'soft-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
                     </td>
                 </tr>
                 

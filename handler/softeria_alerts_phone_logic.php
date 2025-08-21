@@ -189,7 +189,7 @@ class PhoneLogic extends LogicInterface
     public function _get_otp_sent_failed_message()
     {
         /* translators: %s: Plugin help URL */
-        return wp_kses_post(sprintf(__("There was an error in sending the OTP to the given Phone Number. Please Try Again or contact site Admin. If you are the website admin, please browse <a href='%s' target='_blank'> here</a> for steps to resolve this error.", 'softeria-sms-alerts'), 'https://sms.softeriatech.com/knowledgebase/unable-to-send-otp-from-wordpress-plugin/'));
+        return wp_kses_post(sprintf(__("There was an error in sending the OTP to the given Phone Number. Please Try Again or contact site Admin. If you are the website admin, please browse <a href='%s' target='_blank'> here</a> for steps to resolve this error.", 'soft-sms-alerts'), 'https://sms.softeriatech.com/knowledgebase/unable-to-send-otp-from-wordpress-plugin/'));
     }
 
     /**
@@ -200,6 +200,6 @@ class PhoneLogic extends LogicInterface
     public function _get_otp_invalid_format_message()
     {
         /* translators: %1$s: tag, %2$s: tag */
-        return sprintf(__('%1$sphone%2$s is not a valid phone number. Please enter a valid Phone Number', 'softeria-sms-alerts'), '##', '##');
+        return sprintf(__('%1$sphone%2$s is not a valid phone number. Please enter a valid Phone Number', 'soft-sms-alerts'), '##', '##');
     }
 }

@@ -10,7 +10,7 @@
  * @link     https://sms.softeriatech.com/
  */
     use Elementor\Frontend;
-    $post = get_page_by_path('notifyme_style', OBJECT, 'softeria-sms-alerts');
+    $post = get_page_by_path('notifyme_style', OBJECT, 'soft-sms-alerts');
 if (is_plugin_active('elementor/elementor.php') && !empty($post)) {  
     $post_id= $post->ID;    
     $frontent = new Frontend();

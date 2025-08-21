@@ -53,7 +53,7 @@ class SmsAlertLearnPress
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -269,7 +269,7 @@ class SmsAlertLearnPress
         // $ret_string = '';
         // foreach($variables as $vk => $vv)
         // {
-        // $ret_string .= sprintf( "<a href='#' val='%s'>%s</a> | " , $vk , __($vv,'softeria-sms-alerts'));
+        // $ret_string .= sprintf( "<a href='#' val='%s'>%s</a> | " , $vk , __($vv,'soft-sms-alerts'));
         // }
         return $variables;
     }
@@ -498,14 +498,14 @@ class SmsAlertLearnPress
             $user_id          = get_post_meta($order_id, '_user_id', true);
             $billing_phone     = get_post_meta($order_id, '_billing_phone', true);
             if ('on' === $buyer_sms_notify ) {
-                $buyer_sms_content = softeria_alerts_get_option('lpress_sms_body_' . $new_status, 'softeria_alerts_lpress_message', sprintf(__('Hello %1$s, status of your %2$s with %3$s has been changed to %4$s.', 'softeria-sms-alerts'), '[username]', '[order_id]', '[store_name]', '[order_status]'));
+                $buyer_sms_content = softeria_alerts_get_option('lpress_sms_body_' . $new_status, 'softeria_alerts_lpress_message', sprintf(__('Hello %1$s, status of your %2$s with %3$s has been changed to %4$s.', 'soft-sms-alerts'), '[username]', '[order_id]', '[store_name]', '[order_status]'));
                 do_action('sa_send_sms', $billing_phone, self::parseSmsContent($order_id, $buyer_sms_content, $new_status, $user_id));
             }
 
             if ('on' === $admin_sms_notify ) {
                 $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
                 if ('' !== $admin_phone_number ) {
-                    $admin_sms_content = softeria_alerts_get_option('lpress_admin_sms_body_' . $new_status, 'softeria_alerts_lpress_message', sprintf(__('%1$s status of order %2$s has been changed to %3$s.', 'softeria-sms-alerts'), '[store_name]:', '#[order_id]', '[order_status]'));
+                    $admin_sms_content = softeria_alerts_get_option('lpress_admin_sms_body_' . $new_status, 'softeria_alerts_lpress_message', sprintf(__('%1$s status of order %2$s has been changed to %3$s.', 'soft-sms-alerts'), '[store_name]:', '#[order_id]', '[order_status]'));
                     do_action('sa_send_sms', $admin_phone_number, self::parseSmsContent($order_id, $admin_sms_content, $new_status, $user_id));
                 }
             }

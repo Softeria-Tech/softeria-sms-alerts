@@ -16,7 +16,7 @@
             <table class="form-table cod_sche bottom-border" id="codscheduler_<?php echo esc_attr($count); ?>">
                 <tr valign="top">
                     <th>
-                        <label><?php esc_html_e('Send sms to  payment url', 'softeria-sms-alerts'); ?></label>
+                        <label><?php esc_html_e('Send sms to  payment url', 'soft-sms-alerts'); ?></label>
                     </th>
                     <td>
                 <?php
@@ -29,22 +29,22 @@
                 }
                 ?>
                         <select id="<?php echo esc_attr($template['selectNameId']); ?>" name="<?php echo esc_attr($template['selectNameId']); ?>" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="softeria_alerts_cod_to_prepaid_scheduler">
-                            <option value='10' <?php selected($hours, 10); ?>><?php esc_html_e('After 10 minutes', 'softeria-sms-alerts'); ?></option>
-                            <option value='20' <?php selected($hours, 20); ?>><?php esc_html_e('After 20 minutes', 'softeria-sms-alerts'); ?></option>
-                            <option value='30' <?php selected($hours, 30); ?>><?php esc_html_e('After 30 minutes', 'softeria-sms-alerts'); ?></option>
-                            <option value='60' <?php selected($hours, 60); ?>><?php esc_html_e('After 1 hour', 'softeria-sms-alerts'); ?></option>
-                            <option value='120' <?php selected($hours, 120); ?>><?php esc_html_e('After 2 hours', 'softeria-sms-alerts'); ?></option>
-                            <option value='180' <?php selected($hours, 180); ?>><?php esc_html_e('After 3 hours', 'softeria-sms-alerts'); ?></option>
-                            <option value='240' <?php selected($hours, 240); ?>><?php esc_html_e('After 4 hours', 'softeria-sms-alerts'); ?></option>
-                            <option value='300' <?php selected($hours, 300); ?>><?php esc_html_e('After 5 hours', 'softeria-sms-alerts'); ?></option>
-                            <option value='360' <?php selected($hours, 360); ?>><?php esc_html_e('After 6 hours', 'softeria-sms-alerts'); ?></option>
-                            <option value='720' <?php selected($hours, 720); ?>><?php esc_html_e('After 12 hours', 'softeria-sms-alerts'); ?></option>
-                            <option value='1440' <?php selected($hours, 1440); ?>><?php esc_html_e('After 24 hours', 'softeria-sms-alerts'); ?></option>
-                            <option value='2880' <?php selected($hours, 2880); ?>><?php esc_html_e('After 48 hours', 'softeria-sms-alerts'); ?></option>
-                            <option value='0' <?php selected($hours, 0); ?>><?php esc_html_e('Disable notifications', 'softeria-sms-alerts'); ?></option>
+                            <option value='10' <?php selected($hours, 10); ?>><?php esc_html_e('After 10 minutes', 'soft-sms-alerts'); ?></option>
+                            <option value='20' <?php selected($hours, 20); ?>><?php esc_html_e('After 20 minutes', 'soft-sms-alerts'); ?></option>
+                            <option value='30' <?php selected($hours, 30); ?>><?php esc_html_e('After 30 minutes', 'soft-sms-alerts'); ?></option>
+                            <option value='60' <?php selected($hours, 60); ?>><?php esc_html_e('After 1 hour', 'soft-sms-alerts'); ?></option>
+                            <option value='120' <?php selected($hours, 120); ?>><?php esc_html_e('After 2 hours', 'soft-sms-alerts'); ?></option>
+                            <option value='180' <?php selected($hours, 180); ?>><?php esc_html_e('After 3 hours', 'soft-sms-alerts'); ?></option>
+                            <option value='240' <?php selected($hours, 240); ?>><?php esc_html_e('After 4 hours', 'soft-sms-alerts'); ?></option>
+                            <option value='300' <?php selected($hours, 300); ?>><?php esc_html_e('After 5 hours', 'soft-sms-alerts'); ?></option>
+                            <option value='360' <?php selected($hours, 360); ?>><?php esc_html_e('After 6 hours', 'soft-sms-alerts'); ?></option>
+                            <option value='720' <?php selected($hours, 720); ?>><?php esc_html_e('After 12 hours', 'soft-sms-alerts'); ?></option>
+                            <option value='1440' <?php selected($hours, 1440); ?>><?php esc_html_e('After 24 hours', 'soft-sms-alerts'); ?></option>
+                            <option value='2880' <?php selected($hours, 2880); ?>><?php esc_html_e('After 48 hours', 'soft-sms-alerts'); ?></option>
+                            <option value='0' <?php selected($hours, 0); ?>><?php esc_html_e('Disable notifications', 'soft-sms-alerts'); ?></option>
                         </select> 
                         
-                        <a href="#" onclick="return false;" class="sa-delete-btn alignright"><span class="dashicons dashicons-dismiss"></span><?php esc_html_e('Remove', 'softeria-sms-alerts'); ?></a>
+                        <a href="#" onclick="return false;" class="sa-delete-btn alignright"><span class="dashicons dashicons-dismiss"></span><?php esc_html_e('Remove', 'soft-sms-alerts'); ?></a>
                     </td>
                 </tr>
                 <tr valign="top">
@@ -68,14 +68,14 @@
             } ?>
             <div style="padding: 10px 0px 0px 10px;">
                 <button class="button action" id="addNewpage" type="button" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>">
-                <span class="dashicons dashicons-plus-alt2"></span> <?php esc_html_e('Add New', 'softeria-sms-alerts'); ?></button>
+                <span class="dashicons dashicons-plus-alt2"></span> <?php esc_html_e('Add New', 'soft-sms-alerts'); ?></button>
             </div>
         </div>
         <div class="" style="padding: 5px 10px 10px 10px;">
             <table class="form-table">
                 <tbody>
                 <tr>
-            <th scope="row"><?php esc_html_e('When order is marked as', 'softeria-sms-alerts'); ?><span class="tooltip" data-title="Select Order Status"><span class="dashicons dashicons-info"></span></span>
+            <th scope="row"><?php esc_html_e('When order is marked as', 'soft-sms-alerts'); ?><span class="tooltip" data-title="Select Order Status"><span class="dashicons dashicons-info"></span></span>
                         </th>
                         <td>
                             <select name="softeria_alerts_cod_to_prepaid[order_status]" id="softeria_alerts_cod_to_prepaid[order_status]" data-parent_id="softeria_alerts_cod_to_prepaid[customer_notify]" style="width:80%">
@@ -107,7 +107,7 @@
                         
                     
                     
-            <th scope="row"><?php esc_html_e(' When payment method is', 'softeria-sms-alerts'); ?><span class="tooltip" data-title="Please select payment gateway"><span class="dashicons dashicons-info"></span></span>
+            <th scope="row"><?php esc_html_e(' When payment method is', 'soft-sms-alerts'); ?><span class="tooltip" data-title="Please select payment gateway"><span class="dashicons dashicons-info"></span></span>
                         </th>
                         <td>
                             <select name="softeria_alerts_cod_to_prepaid[checkout_payment_plans]" id="checkout_payment_plans" data-parent_id="softeria_alerts_cod_to_prepaid[customer_notify]" style="width:80%">

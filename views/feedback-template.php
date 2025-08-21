@@ -26,7 +26,7 @@ if (empty($pagenow) || 'plugins.php' != $pagenow ) {
                 </a>
             </div>
             <h3 class="smsf-on-boarding-heading"></h3>
-            <p class="smsf-on-boarding-desc"><?php esc_html_e('May we have a little info about why you are deactivating?', 'softeria-sms-alerts'); ?></p>
+            <p class="smsf-on-boarding-desc"><?php esc_html_e('May we have a little info about why you are deactivating?', 'soft-sms-alerts'); ?></p>
             <form action="#" method="post" class="smsf-on-boarding-form">
                 <?php foreach ( $form_fields as $key => $field_attr ) : ?>
                     <?php $this->renderFieldHtml($field_attr, 'deactivating'); ?>
@@ -36,7 +36,7 @@ if (empty($pagenow) || 'plugins.php' != $pagenow ) {
                     <button type="submit" class="smsf-on-boarding-submit smsf-on-boarding-verify button button-danger"><span class="button__text">SUBMIT AND DEACTIVATE</span></button>
                 </div>
                 <div class="smsf-on-boarding-form-no_thanks">
-                    <a href="#" onclick="return false;" class="smsf-deactivation-no_thanks"><?php esc_html_e('Skip and Deactivate Now', 'softeria-sms-alerts'); ?></a>
+                    <a href="#" onclick="return false;" class="smsf-deactivation-no_thanks"><?php esc_html_e('Skip and Deactivate Now', 'soft-sms-alerts'); ?></a>
                 </div>
                 </div>
             </form>

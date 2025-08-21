@@ -24,7 +24,7 @@ if (! empty($Jet_forms) ) {
             <table class="form-table">
                 <tr>
                     <td><input data-parent_id="softeria_alerts_jetform_general[jetform_order_status_<?php echo esc_attr($ks); ?>]" type="checkbox" name="softeria_alerts_jetform_general[jetform_message_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_jetform_general[jetform_message_<?php echo esc_attr($ks); ?>]" class="notify_box" <?php echo ( ( softeria_alerts_get_option('jetform_message_' . esc_attr($ks), 'softeria_alerts_jetform_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/><label for="softeria_alerts_jetform_general[jetform_message_<?php echo esc_attr($ks); ?>]">Enable Message</label>
-                    <a href="post.php?post=<?php echo $ks;?>&action=edit" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'softeria-sms-alerts')?></small></a>
+                    <a href="post.php?post=<?php echo $ks;?>&action=edit" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'soft-sms-alerts')?></small></a>
                     </td>                    
                     </tr>
                 <tr valign="top"  style="position:relative">

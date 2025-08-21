@@ -24,35 +24,35 @@ class softeria_alerts_Setting_Options
      */
     public static function init()
     {
-        include_once plugin_dir_path(__DIR__) . '/helper/class-uncannyautomator.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-shortcode.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-divi.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-wordpresswidget.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/uncannyautomator.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/cshortcode.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/divi.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/wordpresswidget.php';
         include_once plugin_dir_path(__DIR__) . '/helper/upgrade.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-backend.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/backend.php';
         include_once plugin_dir_path(__DIR__) . '/helper/edd.php';
         include_once plugin_dir_path(__DIR__) . '/helper/learnpress.php';
         include_once plugin_dir_path(__DIR__) . '/helper/woocommerce-booking.php';
         include_once plugin_dir_path(__DIR__) . '/helper/events-manager.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-cartbounty.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/cartbounty.php';
         include_once plugin_dir_path(__DIR__) . '/helper/delivery-drivers-woocommerce.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-sapopup.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-elementorwidget.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-backinstock.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/sapopup.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/elementorwidget.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/backinstock.php';
         include_once plugin_dir_path(__DIR__) . '/helper/wc-low-stock.php';
         include_once plugin_dir_path(__DIR__) . '/helper/review.php';
         include_once plugin_dir_path(__DIR__) . '/helper/share-cart.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-terawallet.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/terawallet.php';
         include_once plugin_dir_path(__DIR__) . '/helper/wc-subscriptions.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-abandonedcart.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/abandonedcart.php';
         include_once plugin_dir_path(__DIR__) . '/helper/wc-integration.php';
         include_once plugin_dir_path(__DIR__) . '/helper/new-user-approve.php';
         include_once plugin_dir_path(__DIR__) . '/helper/return-warranty.php';
-        include_once plugin_dir_path(__DIR__)    .'/helper/signup-with-otp.php';
-        include_once plugin_dir_path(__DIR__)    . '/helper/feedback.php';
-        include_once plugin_dir_path(__DIR__)    . '/helper/class-blocks.php';
-        include_once plugin_dir_path(__DIR__)    . '/helper/class-smscampaign.php';
-        include_once plugin_dir_path(__DIR__)    . '/helper/class-wpfusion.php';
+        include_once plugin_dir_path(__DIR__) .'/helper/signup-with-otp.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/feedback.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/blocks.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/smscampaign.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/wpfusion.php';
         
         add_action('admin_menu', __CLASS__ . '::smsAlertWcSubmenu', 50);
 
@@ -119,7 +119,7 @@ class softeria_alerts_Setting_Options
     }
 
     /**
-     * Add smspro phone button in ultimate form.
+     * Add softsmsalerts phone button in ultimate form.
      *
      * @param array $predefined_fields Default fields of the form.
      *
@@ -164,7 +164,7 @@ class softeria_alerts_Setting_Options
     {
         if (!empty($_GET['action']) && $_GET['action']=='reset_style') {            
             $post_name = trim(sanitize_text_field(wp_unslash($_GET['postname'])));            
-            $page = get_page_by_title($post_name, OBJECT, 'softeria-sms-alerts');
+            $page = get_page_by_title($post_name, OBJECT, 'soft-sms-alerts');
             
             if (!empty($page)) {
                 $post_ids       = $page->ID;
@@ -218,7 +218,7 @@ class softeria_alerts_Setting_Options
         <p>
         <?php
         /* translators: %s: plugin settings url */
-        echo wp_kses_post(sprintf(__('<a href="%s" target="_blank">Login to Softeria Tech</a> to configure SMS Notifications', 'softeria-sms-alerts'), 'admin.php?page=softeria-sms-alerts'));
+        echo wp_kses_post(sprintf(__('<a href="%s" target="_blank">Login to Softeria Tech</a> to configure SMS Notifications', 'soft-sms-alerts'), 'admin.php?page=soft-sms-alerts'));
         ?>
         </p>
     </div>		
@@ -233,13 +233,13 @@ class softeria_alerts_Setting_Options
     public static function showPlayGroundNotices()
     {
 		global $pagenow;
-		if ('admin.php' === $pagenow && 'softeria-sms-alerts' === sanitize_text_field($_GET['page']) && $_SERVER['HTTP_HOST'] == 'playground.wordpress.net' ) {
+		if ('admin.php' === $pagenow && 'soft-sms-alerts' === sanitize_text_field($_GET['page']) && $_SERVER['HTTP_HOST'] == 'playground.wordpress.net' ) {
 		$sandbox_mode = get_option('softeria_alerts_sandbox_mode', 0);	
         ?>
 		<div class="notice notice-warning">
 		<div class="e-notice__content">
 		<p><?php
-			echo wp_kses_post(sprintf(__('Our Softeria Tech service does not send messages through WordPress playground site.', 'softeria-sms-alerts')));
+			echo wp_kses_post(sprintf(__('Our Softeria Tech service does not send messages through WordPress playground site.', 'soft-sms-alerts')));
         ?></p>
 		 <?PHP
 		 if($sandbox_mode != 1)
@@ -281,40 +281,40 @@ class softeria_alerts_Setting_Options
     public static function smsAlertWcSubmenu()
     {
 
-        add_submenu_page('woocommerce', 'Softeria Tech', 'Softeria Tech', 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('woocommerce', 'Softeria Tech', 'Softeria Tech', 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
         
-        add_submenu_page('elementor', 'Softeria Tech', 'Softeria Tech', 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('elementor', 'Softeria Tech', 'Softeria Tech', 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
         
-        add_submenu_page('options-general.php', 'SOFT SMS', 'Softeria Tech', 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('options-general.php', 'SOFT SMS', 'Softeria Tech', 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('gf_edit_forms', __('SOFT SMS', 'gravityforms'), __('Softeria Tech', 'gravityforms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('gf_edit_forms', __('SOFT SMS', 'gravityforms'), __('Softeria Tech', 'gravityforms'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('ultimatemember', __('SOFT SMS', 'ultimatemember'), __('Softeria Tech', 'ultimatemember'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('ultimatemember', __('SOFT SMS', 'ultimatemember'), __('Softeria Tech', 'ultimatemember'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('wpcf7', __('SOFT SMS', 'wpcf7'), __('Softeria Tech', 'wpcf7'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('wpcf7', __('SOFT SMS', 'wpcf7'), __('Softeria Tech', 'wpcf7'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('pie-register', __('SOFT SMS', 'pie-register'), __('Softeria Tech', 'pie-register'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('pie-register', __('SOFT SMS', 'pie-register'), __('Softeria Tech', 'pie-register'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('wpam-affiliates', __('SOFT SMS', 'affiliates-manager'), __('Softeria Tech', 'affiliates-manager'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('wpam-affiliates', __('SOFT SMS', 'affiliates-manager'), __('Softeria Tech', 'affiliates-manager'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('learn_press', __('SOFT SMS', 'learnpress'), __('Softeria Tech', 'learnpress'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('learn_press', __('SOFT SMS', 'learnpress'), __('Softeria Tech', 'learnpress'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('ninja-forms', __('SOFT SMS', 'ninja-forms'), __('Softeria Tech', 'ninja-forms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('ninja-forms', __('SOFT SMS', 'ninja-forms'), __('Softeria Tech', 'ninja-forms'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
         
-        add_submenu_page('fluent_forms', __('SOFT SMS', 'fluent_forms'), __('Softeria Tech', 'fluent_forms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('soft-sms-alerts', __('SOFT SMS', 'soft-sms-alerts'), __('Softeria Tech', 'soft-sms-alerts'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
         
-        add_submenu_page('forminator', __('SOFT SMS', 'forminator'), __('Softeria Tech', 'forminator'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('forminator', __('SOFT SMS', 'forminator'), __('Softeria Tech', 'forminator'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('user-registration', __('SOFT SMS', 'user-registration'), __('Softeria Tech', 'user-registration'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('user-registration', __('SOFT SMS', 'user-registration'), __('Softeria Tech', 'user-registration'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('erforms-overview', __('SOFT SMS', 'erforms-overview'), __('Softeria Tech', 'erforms-overview'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
-         add_submenu_page('options.php', 'Booking Calendar', __('Booking Calendar', 'softeria-sms-alerts'), 'manage_options', 'booking-reminder', array( 'SAReminderlist', 'display_page' ));
-        add_submenu_page('wpforms-overview', __('SOFT SMS', 'wpforms-overview'), __('Softeria Tech', 'wpforms-overview'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('erforms-overview', __('SOFT SMS', 'erforms-overview'), __('Softeria Tech', 'erforms-overview'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
+         add_submenu_page('options.php', 'Booking Calendar', __('Booking Calendar', 'soft-sms-alerts'), 'manage_options', 'booking-reminder', array( 'SAReminderlist', 'display_page' ));
+        add_submenu_page('wpforms-overview', __('SOFT SMS', 'wpforms-overview'), __('Softeria Tech', 'wpforms-overview'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('options.php', 'Abandoned Carts', __('Abandoned Carts', 'softeria-sms-alerts'), 'manage_options', 'ab-cart', array( 'SA_Cart_Admin', 'display_page' ));
-        add_submenu_page('options.php', 'Abandoned Carts', __('Abandoned Carts', 'softeria-sms-alerts'), 'manage_options', 'ab-cart-reports', array( 'SA_Cart_Admin', 'display_reports_page' ));
+        add_submenu_page('options.php', 'Abandoned Carts', __('Abandoned Carts', 'soft-sms-alerts'), 'manage_options', 'ab-cart', array( 'SA_Cart_Admin', 'display_page' ));
+        add_submenu_page('options.php', 'Abandoned Carts', __('Abandoned Carts', 'soft-sms-alerts'), 'manage_options', 'ab-cart-reports', array( 'SA_Cart_Admin', 'display_reports_page' ));
         
-        add_submenu_page('wpbc', __('SOFT SMS', 'wpbc'), __('Softeria Tech', 'wpbc'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('wpbc', __('SOFT SMS', 'wpbc'), __('Softeria Tech', 'wpbc'), 'manage_options', 'soft-sms-alerts', __CLASS__ . '::settingsTab');
     }
 
     /**
@@ -347,7 +347,7 @@ class softeria_alerts_Setting_Options
     {
         if (self::is_user_authorised() ) {
             $credits = SmsAlertcURLOTP::getCredits();
-            $items[] = sprintf('<a href="%1$s" class="softeria-alert-credit"><strong>%2$s SMS</strong> : %3$s</a>', admin_url('admin.php?page=softeria-sms-alerts'), 'Rate @'.$credits['rate'].'/SMS', $credits['credit_balance']) . '<br />';
+            $items[] = sprintf('<a href="%1$s" class="softeria-alert-credit"><strong>%2$s SMS</strong> : %3$s</a>', admin_url('admin.php?page=soft-sms-alerts'), 'Rate @'.$credits['rate'].'/SMS', $credits['credit_balance']) . '<br />';
         }
         return $items;
     }
@@ -388,7 +388,7 @@ class softeria_alerts_Setting_Options
         // $verify = check_ajax_referer('wp_save_softeria_alerts_settings_nonce', 'save_softeria_alerts_settings_nonce', true);
         // if (!$verify) {
         //     error_log('admin-post.php: action: save_softeria_alerts_settings - nonce verification failed');
-        //     wp_safe_redirect(admin_url('admin.php?page=softeria-sms-alerts&m=1'));
+        //     wp_safe_redirect(admin_url('admin.php?page=soft-sms-alerts&m=1'));
         //     exit;
         // }
         $_POST = softeria_alerts_sanitize_array($_POST);
@@ -499,7 +499,7 @@ class softeria_alerts_Setting_Options
           wp_cache_clear_cache();
         }
         error_log('admin-post.php: action: save_softeria_alerts_settings - settings saved successfully');
-        wp_safe_redirect(admin_url('admin.php?page=softeria-sms-alerts&m=1'));
+        wp_safe_redirect(admin_url('admin.php?page=soft-sms-alerts&m=1'));
         exit;
     }
 
@@ -578,7 +578,7 @@ class softeria_alerts_Setting_Options
             $isError = ( is_array($credits) && array_key_exists('status', $credits) && 'error' === $credits['status'] ) ? true : false;
 
             if ($isError || $credits['credit_balance'] < 1) {
-                $softeria_alerts_helper = sprintf(__('Please contact <a href="mailto:%1$s">%2$s</a> to create or activate your Account.', 'softeria-sms-alerts'), 'billing@softeriatech.com', 'billing@softeriatech.com');
+                $softeria_alerts_helper = sprintf(__('Please contact <a href="mailto:%1$s">%2$s</a> to create or activate your Account.', 'soft-sms-alerts'), 'billing@softeriatech.com', 'billing@softeriatech.com');
             }else{
                 $islogged    = true;
                 $hidden      = 'hidden';
@@ -588,10 +588,10 @@ class softeria_alerts_Setting_Options
             
         } else {
             /* translators: %1$s: Softeria Tech website URL, %2$s: Current website URL */
-            $softeria_alerts_helper = ( ! $islogged ) ? sprintf(__('Please enter below your <a href="%1$s" target="_blank">sms.softeriatech.com</a> login details to link it with %2$s', 'softeria-sms-alerts'), 'https://sms.softeriatech.com', get_bloginfo()) : '';
+            $softeria_alerts_helper = ( ! $islogged ) ? sprintf(__('Please enter below your <a href="%1$s" target="_blank">sms.softeriatech.com</a> login details to link it with %2$s', 'soft-sms-alerts'), 'https://sms.softeriatech.com', get_bloginfo()) : '';
         }
         ?>
-        <form method="post" id="softeria_alerts_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+        <form method="post" id="soft-sms-alerts" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <div class="SofteriaAlerts_box SofteriaAlerts_settings_box">
                 <div class="SofteriaAlerts_nav_tabs">
         <?php
@@ -770,14 +770,14 @@ class softeria_alerts_Setting_Options
                         <div class="cvt-accordion">
                             <div class="accordion-section">
                                 <div class="cvt-accordion-body-title" data-href="#accordion_10"> 
-                                <input type="checkbox" name="softeria_alerts_general[checkout_show_country_code]" id="softeria_alerts_general[checkout_show_country_code]" class="notify_box" <?php echo ( ( 'on' === $checkout_show_country_code ) ? "checked='checked'" : '' ); ?>/><label for="softeria_alerts_general[checkout_show_country_code]"><?php esc_attr_e('Enable Country Code Selection', 'softeria-sms-alerts'); ?></label><span class="expand_btn"></span>
+                                <input type="checkbox" name="softeria_alerts_general[checkout_show_country_code]" id="softeria_alerts_general[checkout_show_country_code]" class="notify_box" <?php echo ( ( 'on' === $checkout_show_country_code ) ? "checked='checked'" : '' ); ?>/><label for="softeria_alerts_general[checkout_show_country_code]"><?php esc_attr_e('Enable Country Code Selection', 'soft-sms-alerts'); ?></label><span class="expand_btn"></span>
                                 </div>
 								
                                 <div id="accordion_10" class="cvt-accordion-body-content" style="height:150px">
                                     <table class="form-table <?php echo $disablePlayground; ?>">
                                         <tr valign="top">
                                             <td class="td-heading" style="width:30%">
-                                                <input data-parent_id="softeria_alerts_general[checkout_show_country_code]" type="checkbox" name="softeria_alerts_general[enable_selected_country]" id="softeria_alerts_general[enable_selected_country]" class="notify_box" <?php echo ( ( 'on' === $enable_selected_country ) ? "checked='checked'" : '' ); ?> parent_accordian="callbacks"/><label for="softeria_alerts_general[enable_selected_country]"><?php esc_attr_e('Show only selected countries', 'softeria-sms-alerts'); ?></label>
+                                                <input data-parent_id="softeria_alerts_general[checkout_show_country_code]" type="checkbox" name="softeria_alerts_general[enable_selected_country]" id="softeria_alerts_general[enable_selected_country]" class="notify_box" <?php echo ( ( 'on' === $enable_selected_country ) ? "checked='checked'" : '' ); ?> parent_accordian="callbacks"/><label for="softeria_alerts_general[enable_selected_country]"><?php esc_attr_e('Show only selected countries', 'soft-sms-alerts'); ?></label>
                                                 <span class="tooltip" data-title="Enable Selected Countries before phone field"><span class="dashicons dashicons-info"></span></span>
                                             </td>                                        
                                             <td>
@@ -796,7 +796,7 @@ class softeria_alerts_Setting_Options
                                         </tr>
           <tr valign="top">
             <td class="td-heading" style="width:30%">
-                <input data-parent_id="softeria_alerts_general[checkout_show_country_code]" type="checkbox" name="softeria_alerts_general[allow_otp_verification]" id="softeria_alerts_general[allow_otp_verification]" class="notify_box" <?php echo ( ( 'on' === $allow_otp_verification ) ? "checked='checked'" : '' ); ?> parent_accordian="callbacks"/><label for="softeria_alerts_general[allow_otp_verification]"><?php esc_attr_e('Allow OTP Verification', 'softeria-sms-alerts'); ?></label>
+                <input data-parent_id="softeria_alerts_general[checkout_show_country_code]" type="checkbox" name="softeria_alerts_general[allow_otp_verification]" id="softeria_alerts_general[allow_otp_verification]" class="notify_box" <?php echo ( ( 'on' === $allow_otp_verification ) ? "checked='checked'" : '' ); ?> parent_accordian="callbacks"/><label for="softeria_alerts_general[allow_otp_verification]"><?php esc_attr_e('Allow OTP Verification', 'soft-sms-alerts'); ?></label>
                 <span class="tooltip" data-title="Enable Selected Countries before phone field"><span class="dashicons dashicons-info"></span></span>
             </td>                                        
             <td>
@@ -815,7 +815,7 @@ class softeria_alerts_Setting_Options
          <tr valign="top" >
             <td class="td-heading">
                 <input type="checkbox" data-parent_id="softeria_alerts_general[checkout_show_country_code]" name="softeria_alerts_general[show_flag]" id="softeria_alerts_general[show_flag]" class="notify_box" <?php echo ( ( 'on' === $show_flag ) ? "checked='checked'" : '' ); ?> />
-                <label for="softeria_alerts_general[show_flag]"><?php esc_attr_e('Show Country Flag', 'softeria-sms-alerts'); ?></label>
+                <label for="softeria_alerts_general[show_flag]"><?php esc_attr_e('Show Country Flag', 'soft-sms-alerts'); ?></label>
                 <span class="tooltip" data-title="Show Country Flag"><span class="dashicons dashicons-info"></span></span>
             </td>
         </tr>                              
@@ -829,7 +829,7 @@ class softeria_alerts_Setting_Options
 						
                         <table class="form-table">
                             <tr valign="top">
-                                <td scope="row" class="td-heading"><?php esc_attr_e('Default Country', 'softeria-sms-alerts'); ?>
+                                <td scope="row" class="td-heading"><?php esc_attr_e('Default Country', 'soft-sms-alerts'); ?>
                                 </td>
                                 <td>
         <?php
@@ -847,7 +847,7 @@ class softeria_alerts_Setting_Options
                             .otp .tags-input-wrapper {float:left;}
                             </style>
                             <tr valign="top" class="top-border">
-                                <td scope="row" class="td-heading"><?php esc_attr_e('Alerts', 'softeria-sms-alerts'); ?>
+                                <td scope="row" class="td-heading"><?php esc_attr_e('Alerts', 'soft-sms-alerts'); ?>
                                 </td>
                                 <td>
                                     <input type="text" name="softeria_alerts_general[alert_email]" class="admin_email " id="softeria_alerts_general[alert_email]" value="<?php echo esc_attr($alert_email); ?>" style="width: 40%;" parent_accordian="callbacks">
@@ -859,7 +859,7 @@ class softeria_alerts_Setting_Options
                                 <td scope="row"> </td>
                                 <td class="td-heading">
                                     <input type="checkbox" name="softeria_alerts_general[low_bal_alert]" id="softeria_alerts_general[low_bal_alert]" class="SofteriaAlerts_box notify_box" <?php echo ( ( 'on' === $low_bal_alert ) ? "checked='checked'" : '' ); ?> />
-                                    <label for="softeria_alerts_general[low_bal_alert]"><?php esc_attr_e('Low Balance Alert', 'softeria-sms-alerts'); ?></label> <input type="number" min="100" name="softeria_alerts_general[low_bal_val]" id="softeria_alerts_general[low_bal_val]" data-parent_id="softeria_alerts_general[low_bal_alert]" value="<?php echo esc_attr($low_bal_val); ?>" parent_accordian="otp">
+                                    <label for="softeria_alerts_general[low_bal_alert]"><?php esc_attr_e('Low Balance Alert', 'soft-sms-alerts'); ?></label> <input type="number" min="100" name="softeria_alerts_general[low_bal_val]" id="softeria_alerts_general[low_bal_val]" data-parent_id="softeria_alerts_general[low_bal_alert]" value="<?php echo esc_attr($low_bal_val); ?>" parent_accordian="otp">
                                     <span class="tooltip" data-title="Set Low Balance Alert"><span class="dashicons dashicons-info"></span></span>
                                 </td>
                             </tr>
@@ -867,7 +867,7 @@ class softeria_alerts_Setting_Options
                                 <td scope="row"> </td>
                                 <td class="td-heading">
                                     <input type="checkbox" name="softeria_alerts_general[daily_bal_alert]" id="softeria_alerts_general[daily_bal_alert]" class="notify_box" <?php echo ( ( 'on' === $daily_bal_alert ) ? "checked='checked'" : '' ); ?> />
-                                    <label for="softeria_alerts_general[daily_bal_alert]"><?php esc_attr_e('Daily Balance Alert', 'softeria-sms-alerts'); ?></label>
+                                    <label for="softeria_alerts_general[daily_bal_alert]"><?php esc_attr_e('Daily Balance Alert', 'soft-sms-alerts'); ?></label>
                                     <span class="tooltip" data-title="Set Daily Balance Alert"><span class="dashicons dashicons-info"></span></span>
                                 </td>
                             </tr>
@@ -878,7 +878,7 @@ class softeria_alerts_Setting_Options
             ?>
                                     <tr valign="top" class="top-border">
                                 <th scope="row">
-                                        <label for="softeria_alerts_general[subscription_reminder_cron_time]"><?php esc_html_e('Cron run time for reminder notification:', 'softeria-sms-alerts'); ?></label>
+                                        <label for="softeria_alerts_general[subscription_reminder_cron_time]"><?php esc_html_e('Cron run time for reminder notification:', 'soft-sms-alerts'); ?></label>
                                     </th>
                                     <td>
                                     <input type="time" name="softeria_alerts_general[subscription_reminder_cron_time]" id="softeria_alerts_general[subscription_reminder_cron_time]" value="<?php echo esc_attr($subscription_reminder_cron_time); ?>" ><span class="tooltip" data-title="Time to send out the reminder notification"><span class="dashicons dashicons-info"></span></span>
@@ -893,7 +893,7 @@ class softeria_alerts_Setting_Options
                                 <td scope="row"> </td>
                                 <td class="td-heading">
                                     <input type="checkbox" name="softeria_alerts_general[enable_short_url]" id="softeria_alerts_general[enable_short_url]" class="notify_box" <?php echo ( ( 'on' === $enable_short_url ) ? "checked='checked'" : '' ); ?> />
-                                        <label for="softeria_alerts_general[enable_short_url]"><?php esc_attr_e('Enable Short Url', 'softeria-sms-alerts'); ?></label>
+                                        <label for="softeria_alerts_general[enable_short_url]"><?php esc_attr_e('Enable Short Url', 'soft-sms-alerts'); ?></label>
                                     <span class="tooltip" data-title="Enable Short Url"><span class="dashicons dashicons-info"></span></span>
                                 </td>
                             </tr>
@@ -903,14 +903,14 @@ class softeria_alerts_Setting_Options
                             <tr valign="top">
                                 <td scope="row"> </td>
                                 <td class="td-heading">
-                                    <input type="checkbox" name="softeria_alerts_general[auto_sync]" id="softeria_alerts_general[auto_sync]" class="SofteriaAlerts_box sync_group" <?php echo ( ( 'on' === $auto_sync ) ? "checked='checked'" : '' ); ?> /> <label for="softeria_alerts_general[auto_sync]"><?php esc_attr_e('Sync Customers To Group', 'softeria-sms-alerts'); ?></label>
+                                    <input type="checkbox" name="softeria_alerts_general[auto_sync]" id="softeria_alerts_general[auto_sync]" class="SofteriaAlerts_box sync_group" <?php echo ( ( 'on' === $auto_sync ) ? "checked='checked'" : '' ); ?> /> <label for="softeria_alerts_general[auto_sync]"><?php esc_attr_e('Sync Customers To Group', 'soft-sms-alerts'); ?></label>
                                     <?php $groups = SmsAlertcURLOTP::groupList();?>
     
                                     <select name="softeria_alerts_general[group_auto_sync]" data-parent_id="softeria_alerts_general[auto_sync]" id="group_auto_sync">
                                     <?php
                                     if (!empty($groups)) {
                                         if (! is_array($groups['data'])) {
-                                            ?> <option value=""><?php esc_attr_e('SELECT', 'softeria-sms-alerts'); ?></option>  <?php
+                                            ?> <option value=""><?php esc_attr_e('SELECT', 'soft-sms-alerts'); ?></option>  <?php
                                         } else {
                                             foreach ( $groups['data'] as $group ) {
                                                 ?>
@@ -924,7 +924,7 @@ class softeria_alerts_Setting_Options
             <?php
             if (! empty($groups) && ( ! is_array($groups['data'])) && $islogged ) {
                 ?>
-                                        <a href="#" onclick="create_group(this);" id="create_group" data-parent_id="softeria_alerts_general[auto_sync]" style="text-decoration: none;"><?php esc_attr_e('Create Group', 'softeria-sms-alerts'); ?></a>
+                                        <a href="#" onclick="create_group(this);" id="create_group" data-parent_id="softeria_alerts_general[auto_sync]" style="text-decoration: none;"><?php esc_attr_e('Create Group', 'soft-sms-alerts'); ?></a>
                 <?php
             } elseif ('on' === $auto_sync && '' !== $group_auto_sync && '0' !== $group_auto_sync ) {
                 ?>
@@ -932,11 +932,11 @@ class softeria_alerts_Setting_Options
                 <?php
             }
             ?>
-                                    <span class="tooltip" data-title="<?php _e('Sync users to a Group in sms.softeriatech.com', 'softeria-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
+                                    <span class="tooltip" data-title="<?php _e('Sync users to a Group in sms.softeriatech.com', 'soft-sms-alerts'); ?>"><span class="dashicons dashicons-info"></span></span>
                                     <span id="sync_status" style="opacity:0;margin-left: 20px;">
             <?php
             /* translators: %s: Number of contacts synced in group */
-            echo esc_html(sprintf(__('%s contacts synced', 'softeria-sms-alerts'), '0'));
+            echo esc_html(sprintf(__('%s contacts synced', 'soft-sms-alerts'), '0'));
             ?>
                                     </span>
                                     <div id="sa_progressbar"></div>
@@ -945,13 +945,13 @@ class softeria_alerts_Setting_Options
                             <!--reset all settings-->
                             
                             <tr valign="top" class="top-border">
-                                <td scope="row" class="td-heading" style="vertical-align: top;padding-top: 15px;"><?php esc_attr_e('Danger Zone', 'softeria-sms-alerts'); ?></td>
+                                <td scope="row" class="td-heading" style="vertical-align: top;padding-top: 15px;"><?php esc_attr_e('Danger Zone', 'soft-sms-alerts'); ?></td>
                                 <td class="td-heading">
                                 <input type="checkbox" name="softeria_alerts_general[clear_all_data]" id="softeria_alerts_general[clear_all_data]" class="notify_box" <?php echo ( ( 'on' === $clear_all_data ) ? "checked='checked'" : '' ); ?> />
-                                        <label for="softeria_alerts_general[clear_all_data]"><?php esc_attr_e('After uninstalled Softeria Tech, delete its related data from database.', 'softeria-sms-alerts'); ?></label>
+                                        <label for="softeria_alerts_general[clear_all_data]"><?php esc_attr_e('After uninstalled Softeria Tech, delete its related data from database.', 'soft-sms-alerts'); ?></label>
                                 <input type="checkbox" name="softeria_alerts_reset_settings" id="softeria_alerts_reset_btn" class="SofteriaAlerts_box notify_box hide softeria_alerts_reset" />
-                                    <p><?php esc_attr_e('Once you reset templates, there is no going back. Please be certain.', 'softeria-sms-alerts'); ?></p><br/>
-                                    <input type="button" name="softeria_alerts_reset_setting_btn" id="softeria_alerts_reset_settings" class="SofteriaAlerts_box notify_box button button-danger" value="<?php esc_attr_e('Reset all Templates & Settings', 'softeria-sms-alerts'); ?>"/>
+                                    <p><?php esc_attr_e('Once you reset templates, there is no going back. Please be certain.', 'soft-sms-alerts'); ?></p><br/>
+                                    <input type="button" name="softeria_alerts_reset_setting_btn" id="softeria_alerts_reset_settings" class="SofteriaAlerts_box notify_box button button-danger" value="<?php esc_attr_e('Reset all Templates & Settings', 'soft-sms-alerts'); ?>"/>
                                     <span class="tooltip" data-title="Reset All Settings"><span class="dashicons dashicons-info"></span></span>
                                 </td>
                             </tr>
@@ -967,11 +967,11 @@ class softeria_alerts_Setting_Options
                                     <td>
             <?php
             if ($islogged ) {
-                echo '<h2><strong>'.__('SMS Credits', 'softeria-sms-alerts').'</strong></h2>';
+                echo '<h2><strong>'.__('SMS Credits', 'soft-sms-alerts').'</strong></h2>';
                     ?>
                         <div class="col-lg-12 creditlist" >
                             <div class="col-lg-8 route">
-                                <h3><span class="dashicons dashicons-bank"></span> <?php echo esc_attr($credits['credit_balance']); ?> <?php esc_attr_e('Credits', 'softeria-sms-alerts'); ?></h3>                                
+                                <h3><span class="dashicons dashicons-bank"></span> <?php echo esc_attr($credits['credit_balance']); ?> <?php esc_attr_e('Credits', 'soft-sms-alerts'); ?></h3>                                
                             </div>
                             <div class="col-lg-4 credit">
                                 <h3><span class="dashicons dashicons-email"></span> <?php echo esc_attr(ucwords($credits['rate'])); ?>/SMS</h3>
@@ -984,10 +984,10 @@ class softeria_alerts_Setting_Options
                                 </tr>
                                 <tr valign="top">
                                     <td>
-                                        <p><b><?php esc_attr_e('Need More credits?', 'softeria-sms-alerts'); ?></b>
+                                        <p><b><?php esc_attr_e('Need More credits?', 'soft-sms-alerts'); ?></b>
              <?php
                 /* translators: %s: Softeria Tech Pricing URL */
-                echo wp_kses_post(sprintf(__('<a href="%s" target="_blank">Click Here</a> to purchase. ', 'softeria-sms-alerts'), 'https://sms.softeriatech.com/partner/auth/'.softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway')));
+                echo wp_kses_post(sprintf(__('<a href="%s" target="_blank">Click Here</a> to purchase. ', 'soft-sms-alerts'), 'https://sms.softeriatech.com/partner/auth/'.softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway')));
                 ?>
                                         </p>    
                                     </td>
@@ -1043,16 +1043,16 @@ class softeria_alerts_Setting_Options
         <?php
         $params = array(
         'modal_id'     => 'softeria_alerts_reset_style_modal',
-        'modal_title'  => __('Are you sure?', 'softeria-sms-alerts'),
-        'modal_body'   => __('This action can not be reversed. Default style will be set.', 'softeria-sms-alerts'),
+        'modal_title'  => __('Are you sure?', 'soft-sms-alerts'),
+        'modal_body'   => __('This action can not be reversed. Default style will be set.', 'soft-sms-alerts'),
         'modal_footer' => '<button type="button" data-dismiss="sa-modal" class="button button-danger" id="sconfirmed">Yes</button>
 				<button type="button" data-dismiss="sa-modal" class="button button-primary btn_cancel">No</button>',
         );
         get_softeria_alerts_template('views/alert-modal.php', $params);
         $params = array(
         'modal_id'     => 'softeria_alerts_reset_modal',
-        'modal_title'  => __('Are you sure?', 'softeria-sms-alerts'),
-        'modal_body'   => __('This action can not be reversed. You will be logged out of Softeria Tech plugin.', 'softeria-sms-alerts'),
+        'modal_title'  => __('Are you sure?', 'soft-sms-alerts'),
+        'modal_body'   => __('This action can not be reversed. You will be logged out of Softeria Tech plugin.', 'soft-sms-alerts'),
         'modal_footer' => '<button type="button" data-dismiss="sa-modal" class="button button-danger" id="confirmed">Yes</button>
 				<button type="button" data-dismiss="sa-modal" class="button button-primary btn_cancel">No</button>',
         );
@@ -1063,15 +1063,15 @@ class softeria_alerts_Setting_Options
             'alert_msg',
             array(
             'is_playground'             => SmsAlertUtility::isPlayground(),
-            'otp_error'             => __('Please add OTP tag in OTP Template.', 'softeria-sms-alerts'),
-            'payment_gateway_error' => __('Please choose any payment gateway.', 'softeria-sms-alerts'),
-            'invalid_email'         => __('You have entered an invalid email address in Advanced Settings option!', 'softeria-sms-alerts'),
-            'invalid_sender'        => __('Please choose your senderid.', 'softeria-sms-alerts'),
-            'low_alert'             => __('Value must be greater than or equal to 100.', 'softeria-sms-alerts'),
-            'wcountry_err'          => __('Please choose any country.', 'softeria-sms-alerts'),
-            'dcountry_err'          => __('Please choose default country from selected countries', 'softeria-sms-alerts'),
-            'last_item'             => __('last Item Cannot be deleted.', 'softeria-sms-alerts'),
-            'global_country_err'             => __('You will have to enable Country Code Selection because you have selected global country.', 'softeria-sms-alerts')
+            'otp_error'             => __('Please add OTP tag in OTP Template.', 'soft-sms-alerts'),
+            'payment_gateway_error' => __('Please choose any payment gateway.', 'soft-sms-alerts'),
+            'invalid_email'         => __('You have entered an invalid email address in Advanced Settings option!', 'soft-sms-alerts'),
+            'invalid_sender'        => __('Please choose your senderid.', 'soft-sms-alerts'),
+            'low_alert'             => __('Value must be greater than or equal to 100.', 'soft-sms-alerts'),
+            'wcountry_err'          => __('Please choose any country.', 'soft-sms-alerts'),
+            'dcountry_err'          => __('Please choose default country from selected countries', 'soft-sms-alerts'),
+            'last_item'             => __('last Item Cannot be deleted.', 'soft-sms-alerts'),
+            'global_country_err'             => __('You will have to enable Country Code Selection because you have selected global country.', 'soft-sms-alerts')
             )
         );
         ?>
@@ -1079,7 +1079,7 @@ class softeria_alerts_Setting_Options
         <?php
         $params = array(
         'modal_id'     => 'sa_backend_modal',
-        'modal_title'  => __('Alert', 'softeria-sms-alerts'),
+        'modal_title'  => __('Alert', 'soft-sms-alerts'),
         'modal_body'   => '',
         'modal_footer' => '<button type="button" data-dismiss="sa-modal" class="button button-primary btn_cancel">OK</button>',
         );
@@ -1106,8 +1106,8 @@ class softeria_alerts_Setting_Options
             'sa_admin_settings',
             array(
             'show_dlt_modal' => $show_dlt_modal,
-            'variable_err'   => __('*Please replace {#var#} with plugin variables.', 'softeria-sms-alerts'),                /* translators: %1%s: Reset template text, %2%s: line break, %3%s: DLT Help URL */
-            'show_dlt_text'  => sprintf(__('*Changing of SMS text is not allowed in Demo. This message may not get Delivered <a href="#" onclick="return false;" class="reset_text">%1$s</a>.%2$sIndian users need to register on DLT to use SMS Services. <a href="%3$s" target="_blank">Know more</a>', 'softeria-sms-alerts'), 'Reset this Template', '<br/>', 'https://sms.softeriatech.com/dlt'),
+            'variable_err'   => __('*Please replace {#var#} with plugin variables.', 'soft-sms-alerts'),                /* translators: %1%s: Reset template text, %2%s: line break, %3%s: DLT Help URL */
+            'show_dlt_text'  => sprintf(__('*Changing of SMS text is not allowed in Demo. This message may not get Delivered <a href="#" onclick="return false;" class="reset_text">%1$s</a>.%2$sIndian users need to register on DLT to use SMS Services. <a href="%3$s" target="_blank">Know more</a>', 'soft-sms-alerts'), 'Reset this Template', '<br/>', 'https://sms.softeriatech.com/dlt'),
             )
         );
         ?>
@@ -1130,10 +1130,10 @@ class softeria_alerts_Setting_Options
             jQuery('select').removeAttr('disabled',false);            
             isSubmitting = true; 
 			if (alert_msg.is_playground){
-				var url     = jQuery("#softeria_alerts_form").attr('action');
+				var url     = jQuery("#soft-sms-alerts").attr('action');
 				var hash     = window.location.hash;
-				jQuery('#softeria_alerts_form').attr('action', url+hash);
-				jQuery('#softeria_alerts_form').submit();
+				jQuery('#soft-sms-alerts').attr('action', url+hash);
+				jQuery('#soft-sms-alerts').submit();
 			}
 			else {				
             if (jQuery('[name="softeria_alerts_gateway[softeria_alerts_api]"]').val()=='SELECT' || jQuery('[name="softeria_alerts_gateway[softeria_alerts_api]"]').val()=='')
@@ -1211,11 +1211,11 @@ class softeria_alerts_Setting_Options
                 }
 				
 				
-            } else if (jQuery('#softeria_alerts_form')[0].checkValidity()) {
-                var url     = jQuery("#softeria_alerts_form").attr('action');
+            } else if (jQuery('#soft-sms-alerts')[0].checkValidity()) {
+                var url     = jQuery("#soft-sms-alerts").attr('action');
                 var hash     = window.location.hash;
-                jQuery('#softeria_alerts_form').attr('action', url+hash);
-                jQuery('#softeria_alerts_form').submit();
+                jQuery('#soft-sms-alerts').attr('action', url+hash);
+                jQuery('#soft-sms-alerts').submit();
             }
 			}
         });
@@ -1270,13 +1270,13 @@ class softeria_alerts_Setting_Options
                 <th>&nbsp;</th>
                 <td>
 				<?php  if (SmsAlertUtility::isPlayground()) { ?>
-                    <a href="#" class="button-primary woocommerce-save-button" onclick="verifyUser(this); return false;"><?php esc_attr_e('verify and continue', 'softeria-sms-alerts'); ?></a>
+                    <a href="#" class="button-primary woocommerce-save-button" onclick="verifyUser(this); return false;"><?php esc_attr_e('verify and continue', 'soft-sms-alerts'); ?></a>
 				<?php } else { ?>
-				<a href="#" class="button-primary woocommerce-save-button" onclick="verifyUser(this); return false; "><?php esc_attr_e('verify and continue', 'softeria-sms-alerts'); ?></a>
+				<a href="#" class="button-primary woocommerce-save-button" onclick="verifyUser(this); return false; "><?php esc_attr_e('verify and continue', 'soft-sms-alerts'); ?></a>
 		<?php }
         $link = 'https://sms.softeriatech.com/register?name=' . rawurlencode($current_user->user_firstname . ' ' . $current_user->user_lastname) . '&email=' . rawurlencode($current_user->user_email) . '&phone=&username=' . preg_replace('/\s+/', '_', strtolower(get_bloginfo())) . '#register';
         /* translators: %s: Softeria Tech Signup URL */
-        echo wp_kses_post(sprintf(__('Don\'t have an account on Softeria Tech? <a href="%s" target="_blank">Signup Here for FREE</a> ', 'softeria-sms-alerts'), $link));
+        echo wp_kses_post(sprintf(__('Don\'t have an account on Softeria Tech? <a href="%s" target="_blank">Signup Here for FREE</a> ', 'soft-sms-alerts'), $link));
         ?>
                 <div id="verify_status"></div>
                 </td>

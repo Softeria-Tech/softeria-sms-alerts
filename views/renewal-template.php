@@ -25,7 +25,7 @@ $notify_id = !empty($templates[0]['notify_id']) ? $templates[0]['notify_id'] : '
             <table class="form-table wc_renewal_sche bottom-border" id="scheduler_<?php echo esc_attr($count); ?>">
                 <tr valign="top">
                     <th>
-                        <label><?php esc_html_e('Send Renewal Reminder', 'softeria-sms-alerts'); ?></label>
+                        <label><?php esc_html_e('Send Renewal Reminder', 'soft-sms-alerts'); ?></label>
                     </th>
                     <td>
                 <?php
@@ -35,14 +35,14 @@ $notify_id = !empty($templates[0]['notify_id']) ? $templates[0]['notify_id'] : '
                 }
                 ?>
                         <select id="<?php echo esc_attr($template['selectNameId']); ?>" name="<?php echo esc_attr($template['selectNameId']); ?>" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>">
-                            <option value='1' <?php selected($days, 1); ?>><?php esc_html_e('Before 1 days', 'softeria-sms-alerts'); ?></option>
-                            <option value='2' <?php selected($days, 2); ?>><?php esc_html_e('Before 2 days', 'softeria-sms-alerts'); ?></option>
-                            <option value='3' <?php selected($days, 3); ?>><?php esc_html_e('Before 3 days', 'softeria-sms-alerts'); ?></option>
-                            <option value='4' <?php selected($days, 4); ?>><?php esc_html_e('Before 4 days', 'softeria-sms-alerts'); ?></option>
-                            <option value='5' <?php selected($days, 5); ?>><?php esc_html_e('Before 5 days', 'softeria-sms-alerts'); ?></option>
-                            <option value='0' <?php selected($days, 0); ?>><?php esc_html_e('Disable notifications', 'softeria-sms-alerts'); ?></option>
+                            <option value='1' <?php selected($days, 1); ?>><?php esc_html_e('Before 1 days', 'soft-sms-alerts'); ?></option>
+                            <option value='2' <?php selected($days, 2); ?>><?php esc_html_e('Before 2 days', 'soft-sms-alerts'); ?></option>
+                            <option value='3' <?php selected($days, 3); ?>><?php esc_html_e('Before 3 days', 'soft-sms-alerts'); ?></option>
+                            <option value='4' <?php selected($days, 4); ?>><?php esc_html_e('Before 4 days', 'soft-sms-alerts'); ?></option>
+                            <option value='5' <?php selected($days, 5); ?>><?php esc_html_e('Before 5 days', 'soft-sms-alerts'); ?></option>
+                            <option value='0' <?php selected($days, 0); ?>><?php esc_html_e('Disable notifications', 'soft-sms-alerts'); ?></option>
                         </select>
-                        <a href="#" onclick="return false;" class="sa-delete-btn alignright"><span class="dashicons dashicons-dismiss"></span><?php esc_html_e('Remove', 'softeria-sms-alerts'); ?></a>
+                        <a href="#" onclick="return false;" class="sa-delete-btn alignright"><span class="dashicons dashicons-dismiss"></span><?php esc_html_e('Remove', 'soft-sms-alerts'); ?></a>
                     </td>
                 </tr>
                 <tr valign="top">
@@ -65,7 +65,7 @@ $notify_id = !empty($templates[0]['notify_id']) ? $templates[0]['notify_id'] : '
                 <?php $count++; 
             } ?>
             <div style="padding: 10px 0px 0px 10px;">
-                <button class="button action addNew" type="button" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"> <span class="dashicons dashicons-plus-alt2"></span> <?php esc_html_e('Add New', 'softeria-sms-alerts'); ?></button>
+                <button class="button action addNew" type="button" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"> <span class="dashicons dashicons-plus-alt2"></span> <?php esc_html_e('Add New', 'soft-sms-alerts'); ?></button>
             </div>
             </div>
         

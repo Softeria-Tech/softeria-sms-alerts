@@ -1,8 +1,10 @@
-SOFT SMS Order Notifications for WooCommerce
-Contributors: Softeria Tech Ltd & FutureVH  
+SOFT SMS Alerts
+Contributors: softeria 
 Tags: order notification, SMS order alerts, WooCommerce SMS integration, SMS plugin, mobile verification, bulk SMS  
-Requires PHP: 5.6  
-License: GPLv2  
+Requires PHP: 5.6 
+Tested up to: 6.8
+Stable tag: 1.0.1
+License: GPLv2 or later 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 A plugin that enables SMS notifications for WooCommerce orders.

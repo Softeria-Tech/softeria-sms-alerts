@@ -25,7 +25,7 @@ if (! empty($forminator_forms) ) {
             <table class="form-table">
                 <tr>
                     <td><input data-parent_id="softeria_alerts_forminator_general[forminator_form_status_<?php echo esc_attr($ks); ?>]" type="checkbox" name="softeria_alerts_forminator_general[forminator_message_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_forminator_general[forminator_message_<?php echo esc_attr($ks); ?>]" class="notify_box" <?php echo ( ( softeria_alerts_get_option('forminator_message_' . esc_attr($ks), 'softeria_alerts_forminator_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/><label for="softeria_alerts_forminator_general[forminator_message_<?php echo esc_attr($ks); ?>]">Enable Message</label>
-                    <a href="admin.php?page=forminator-cform-wizard&id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'softeria-sms-alerts')?></small></a>
+                    <a href="admin.php?page=forminator-cform-wizard&id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'soft-sms-alerts')?></small></a>
                     </td>
                     </tr>
                 <tr valign="top"  style="position:relative">

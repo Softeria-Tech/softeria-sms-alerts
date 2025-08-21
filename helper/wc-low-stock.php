@@ -41,7 +41,7 @@ class WCLowStock
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -54,7 +54,7 @@ class WCLowStock
         'templates'        => self::getWcStockTemplates(),
         );
 
-        $tabs['woocommerce']['inner_nav']['wc_stocknotification']['title']       = __('Stock', 'softeria-sms-alerts');
+        $tabs['woocommerce']['inner_nav']['wc_stocknotification']['title']       = __('Stock', 'soft-sms-alerts');
         $tabs['woocommerce']['inner_nav']['wc_stocknotification']['tab_section'] = 'backinstocktemplates';
         $tabs['woocommerce']['inner_nav']['wc_stocknotification']['tabContent']  = $backinstock_param;
         $tabs['woocommerce']['inner_nav']['wc_stocknotification']['filePath']    = 'views/message-template.php';

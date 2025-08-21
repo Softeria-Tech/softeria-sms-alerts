@@ -144,7 +144,7 @@ class WCSignupWithOTp
 
         //if ( 'on' === $register_otp || 'on' === $enable_otp ) {
         $js_data = array(
-        'signupwithotp'     => esc_html__('SIGN UP WITH OTP', 'softeria-sms-alerts'),
+        'signupwithotp'     => esc_html__('SIGN UP WITH OTP', 'soft-sms-alerts'),
         'update_otp_enable' => $enable_otp,
         );
         wp_register_script($this->plugin_name . 'signup_with_otp', SA_MOV_URL . 'js/signup.js', array( 'jquery' ), SmsAlertConstants::SA_VERSION, false);
@@ -427,7 +427,7 @@ class WCSignupWithOTp
             } elseif (isset($_POST['password']) ) {
             $password = sanitize_text_field(wp_unslash($_POST['password']));
             if (empty($password) ) {
-            $validation_error->add('Password', __('Please enter a valid Password!', 'softeria-sms-alerts'));
+            $validation_error->add('Password', __('Please enter a valid Password!', 'soft-sms-alerts'));
             }
             } */
 
@@ -440,17 +440,17 @@ class WCSignupWithOTp
             /*
             if (2 === $emailaccep ) {
             if (empty($mail) || ! is_email($mail) ) {
-            $validation_error->add('Mail', __('Please enter a valid Email!', 'softeria-sms-alerts'));
+            $validation_error->add('Mail', __('Please enter a valid Email!', 'soft-sms-alerts'));
             }
             } elseif (1 === $emailaccep && ! empty($mail) ) {
             if (! is_email($mail) ) {
-            $validation_error->add('Mail', __('Please enter a valid Email!', 'softeria-sms-alerts'));
+            $validation_error->add('Mail', __('Please enter a valid Email!', 'soft-sms-alerts'));
             }
             } */
 
             /*
             if (! empty($mail) && email_exists($mail) ) {
-            $validation_error->add('MailinUse', __('Email already in use!', 'softeria-sms-alerts'));
+            $validation_error->add('MailinUse', __('Email already in use!', 'soft-sms-alerts'));
             } */
 
             $useMobAsUname = '';
@@ -458,7 +458,7 @@ class WCSignupWithOTp
             if (isset($_POST['username']) ) {
             $username = sanitize_text_field(wp_unslash($_POST['username']));
             if (empty($username) ) {
-            $validation_error->add('Mail', __('Please enter a valid Username!', 'softeria-sms-alerts'));
+            $validation_error->add('Mail', __('Please enter a valid Username!', 'soft-sms-alerts'));
             }
             } */
 
@@ -477,7 +477,7 @@ class WCSignupWithOTp
                  if (empty($ulogin) ) {
                  $check = username_exists($phone);
                  if (! empty($check) ) {
-                  $validation_error->add('MobinUse', __('Mobile number already in use!', 'softeria-sms-alerts'));
+                  $validation_error->add('MobinUse', __('Mobile number already in use!', 'soft-sms-alerts'));
                  } else {
                   $ulogin = $phone;
                  }
@@ -500,14 +500,14 @@ class WCSignupWithOTp
             /*
             else {
             if (empty($password) && $password === 2 ) {
-            $validation_error->add('invalidpassword', __('Invalid password', 'softeria-sms-alerts'));
+            $validation_error->add('invalidpassword', __('Invalid password', 'soft-sms-alerts'));
             } elseif (empty($password) ) {
             $password = wp_generate_password();
             }
             if (empty($ulogin) ) {
             $ulogin = strstr($mail, '@', true);
             if (username_exists($ulogin) ) {
-            $validation_error->add('MailinUse', __('Email is already in use!', 'softeria-sms-alerts'));
+            $validation_error->add('MailinUse', __('Email is already in use!', 'soft-sms-alerts'));
             }
             }
 
@@ -595,7 +595,7 @@ class WCSignupWithOTp
                 wp_send_json( $msg ); */
                 exit();
             } else {
-                // $validation_error->add('Error', __('Please try again', 'softeria-sms-alerts'));
+                // $validation_error->add('Error', __('Please try again', 'soft-sms-alerts'));
                 wp_send_json(SmsAlertUtility::_create_json_response('Please try again', 'success'));
                 exit();
             }

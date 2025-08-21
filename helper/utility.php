@@ -243,9 +243,9 @@ class SmsAlertUtility
                 'wccheckout_default',
                 'sa_intl_warning',
                 array(
-                'invalid_no'          => __('Invalid number', 'softeria-sms-alerts'),
-                'invalid_country'     => __('Invalid country code', 'softeria-sms-alerts'),
-                'ppvn'                => __('Please provide a valid Number', 'softeria-sms-alerts'),
+                'invalid_no'          => __('Invalid number', 'soft-sms-alerts'),
+                'invalid_country'     => __('Invalid country code', 'soft-sms-alerts'),
+                'ppvn'                => __('Please provide a valid Number', 'soft-sms-alerts'),
                 'allow_otp_countries' => softeria_alerts_get_option('allow_otp_country', 'softeria_alerts_general'),
                 'allow_otp_verification' => softeria_alerts_get_option('allow_otp_verification', 'softeria_alerts_general', 'off'),
                 'buyer_checkout_otp'        => softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general', 'off'),
@@ -266,7 +266,7 @@ class SmsAlertUtility
             wp_localize_script(
                 'sa_pv_intl-phones-lib',
                 'sa_notices',
-                array('enter_here'=> __('Enter Number Here', 'softeria-sms-alerts'))
+                array('enter_here'=> __('Enter Number Here', 'soft-sms-alerts'))
             );
             wp_enqueue_style('wpv_telinputcss_style', SA_MOV_URL . 'css/intlTelInput.min.css', array(), SmsAlertConstants::SA_VERSION, false);
         }
@@ -425,7 +425,7 @@ class SmsAlertUtility
      */
     public static function get_elementor_data($setting_key=null)
     {
-        $post = get_page_by_path('modal_style', OBJECT, 'softeria-sms-alerts'); 
+        $post = get_page_by_path('modal_style', OBJECT, 'soft-sms-alerts'); 
         $datas = '';        
         if (!empty($post)) {
             $postmetas          = get_post_meta($post->ID);$elementor_data     = !empty($postmetas['_elementor_data']) ? current($postmetas['_elementor_data']) : "";

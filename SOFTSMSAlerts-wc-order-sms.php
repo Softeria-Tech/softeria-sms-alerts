@@ -2,20 +2,21 @@
 /**
  * SMS Notifications, alerts and OTP for Activities, By https://softeriatech.com
  * PHP version 5
- *
  * @category Helper
  * @package  SOFTSMSAlerts
  * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
- * Plugin Name: SOFTSMSAlerts - WooCommerce
- * Plugin URI: https://sms.softeriatech.com/plugins
- * Description: SMS Notifications, alerts and OTP for Activities, By https://softeriatech.com
+ * Plugin Name: SOFT SMS Alerts
+ * Plugin URI: https://wordpress.org/plugins/soft-sms-alerts/
+ * Description: SMS Notifications, alerts and OTP for Activities, By https://sms.softeriatech.com
  * Version: 1.0.1
+ * Tested up to: 6.8
+ * Stable tag: 1.0.1
  * Author: Softeria Tech Ltd.
  * Author URI: https://sms.softeriatech.com
- * Text Domain: softeria-sms-alerts
- * License: GNU GPL
+ * Text Domain: soft-sms-alerts
+ * License: GPLv2 or later
  */
 
 
@@ -23,7 +24,7 @@ if (! defined('ABSPATH') ) {
     exit;
 }
 if (! defined('SOFTERIA_ALERTS_TEXT_DOMAIN') ) {
-    define('SOFTERIA_ALERTS_TEXT_DOMAIN', 'softeria-sms-alerts');
+    define('SOFTERIA_ALERTS_TEXT_DOMAIN', 'soft-sms-alerts');
 }
 if (! defined('SOFTERIA_ALERTS_PLUGIN_NAME') ) {
     define('SOFTERIA_ALERTS_PLUGIN_NAME', 'Softeria Tech Order Notifications – WooCommerce');
@@ -32,7 +33,7 @@ if (! defined('SOFTERIA_ALERTS_ABANDONED') ) {
     define('SOFTERIA_ALERTS_ABANDONED', 'softeria_alerts_abandoned');
 }
 if (! defined('SOFTERIA_ALERTS_PLUGIN_NAME_SLUG') ) {
-    define('SOFTERIA_ALERTS_PLUGIN_NAME_SLUG', 'softeria-sms-alerts');
+    define('SOFTERIA_ALERTS_PLUGIN_NAME_SLUG', 'soft-sms-alerts');
 }
 if (! defined('CHECKOUT_VIEW_NAME') ) {
     define('CHECKOUT_VIEW_NAME', 'captured_wc_input');
@@ -275,7 +276,7 @@ class softeriaAlerts_WC_Order_SMS
         $tabs['user_registration']['nav']  = 'New Users';
         $tabs['user_registration']['icon'] = 'dashicons-admin-users';
 
-        $tabs['user_registration']['inner_nav']['wc_register']['title']        = __('Notify On Sign Up', 'softeria-sms-alerts');
+        $tabs['user_registration']['inner_nav']['wc_register']['title']        = __('Notify On Sign Up', 'soft-sms-alerts');
         $tabs['user_registration']['inner_nav']['wc_register']['tab_section']  = 'signup_templates';
         $tabs['user_registration']['inner_nav']['wc_register']['first_active'] = true;
 
@@ -453,7 +454,7 @@ class softeriaAlerts_WC_Order_SMS
 
     public static function localization_setup()
     {
-        load_plugin_textdomain('softeria-sms-alerts', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        
     }
 
 
@@ -468,7 +469,7 @@ class softeriaAlerts_WC_Order_SMS
         $user_authorize = new softeria_alerts_Setting_Options();
         wp_localize_script(
             'admin-softeria-alert-scripts',
-            'smspro',
+            'softsmsalerts',
             array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'whitelist_countries' => softeria_alerts_get_option('whitelist_country', 'softeria_alerts_general'),
@@ -484,9 +485,9 @@ class softeriaAlerts_WC_Order_SMS
  
     public function pluginRowMetaLink( $plugin_meta, $plugin_file, $plugin_data, $status )
     {
-        if (isset($plugin_data['slug']) && ( 'softeria-sms-alerts' === $plugin_data['slug'] ) && ! defined('softeria_alerts_DIR') ) {
-            $plugin_meta[] = '<a href="https://sms.softeriatech.com/wordpress" target="_blank">' . __('Docs', 'softeria-sms-alerts') . '</a>';
-            $plugin_meta[] = '<a href="https://wordpress.org/support/plugin/softeria-sms-alerts/reviews/#postform" target="_blank" class="wc-rating-link">★★★★★</a>';
+        if (isset($plugin_data['slug']) && ( 'soft-sms-alerts' === $plugin_data['slug'] ) && ! defined('softeria_alerts_DIR') ) {
+            $plugin_meta[] = '<a href="https://sms.softeriatech.com/wordpress" target="_blank">' . __('Docs', 'soft-sms-alerts') . '</a>';
+            $plugin_meta[] = '<a href="https://wordpress.org/support/plugin/soft-sms-alerts/reviews/#postform" target="_blank" class="wc-rating-link">★★★★★</a>';
         }
         return $plugin_meta;
     }
@@ -494,7 +495,7 @@ class softeriaAlerts_WC_Order_SMS
 
     public function addActionLinks( $links )
     {
-        $links[] = sprintf('<a href="%s">Settings</a>', admin_url('admin.php?page=softeria-sms-alerts'));
+        $links[] = sprintf('<a href="%s">Settings</a>', admin_url('admin.php?page=soft-sms-alerts'));
         return $links;
     }
 
@@ -531,7 +532,7 @@ class softeriaAlerts_WC_Order_SMS
     {
         if (get_option('softeria_alerts_do_activation_redirect', false)) {
             delete_option('softeria_alerts_do_activation_redirect');
-            wp_redirect("admin.php?page=softeria-sms-alerts");
+            wp_redirect("admin.php?page=soft-sms-alerts");
         }
     }                                  
 
@@ -869,8 +870,8 @@ add_filter('cron_schedules', 'additionalCronIntervals');
 
 function loadSaWcOrderSms()
 {
-    $smspro = SofteriaAlerts_WC_Order_SMS::init();
+    $softsmsalerts = SofteriaAlerts_WC_Order_SMS::init();
 }
-register_activation_hook(__FILE__, array( 'softeria_alerts_WC_Order_SMS', 'runOnActivate' ));
-register_deactivation_hook(__FILE__, array( 'softeria_alerts_WC_Order_SMS', 'runOnDeactivate' ));
-register_uninstall_hook(__FILE__, array( 'softeria_alerts_WC_Order_SMS', 'runOnUninstall' ));
+register_activation_hook(__FILE__, array( 'softeriaAlerts_WC_Order_SMS', 'runOnActivate' ));
+register_deactivation_hook(__FILE__, array( 'softeriaAlerts_WC_Order_SMS', 'runOnDeactivate' ));
+register_uninstall_hook(__FILE__, array( 'softeriaAlerts_WC_Order_SMS', 'runOnUninstall' ));

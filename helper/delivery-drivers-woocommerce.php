@@ -154,7 +154,7 @@ class Smsalert_Delivery_Drivers_Woocommerce
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -214,7 +214,7 @@ class Smsalert_Delivery_Drivers_Woocommerce
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $params   params.
      * @param int   $order_id order_id.

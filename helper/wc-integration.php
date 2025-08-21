@@ -641,7 +641,7 @@ class SAWCAuctions
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -1415,7 +1415,7 @@ class SAReminderlist
                         
                     ?>
                                 <p>
-                            <?php esc_html_e('Looks like you do not have any booking reminder.', 'softeria-sms-alerts'); ?>
+                            <?php esc_html_e('Looks like you do not have any booking reminder.', 'soft-sms-alerts'); ?>
                                 </p>
                 <?php } else { ?>
                                 <form method="GET">
@@ -1470,11 +1470,11 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     {
             return $columns = array(
                     'cb'            => '<input type="checkbox" />',
-                    'id'            => __('ID', 'softeria-sms-alerts'),
-                    'booking_id'    => __('Booking Id', 'softeria-sms-alerts'),
-                    'phone'         => __('Phone', 'softeria-sms-alerts'),
-                    'start_date'    => __('Date', 'softeria-sms-alerts'),
-                    'msg_sent'      => __('Status', 'softeria-sms-alerts'),
+                    'id'            => __('ID', 'soft-sms-alerts'),
+                    'booking_id'    => __('Booking Id', 'soft-sms-alerts'),
+                    'phone'         => __('Phone', 'soft-sms-alerts'),
+                    'start_date'    => __('Date', 'soft-sms-alerts'),
+                    'msg_sent'      => __('Status', 'soft-sms-alerts'),
             );
     }
         /**
@@ -1531,7 +1531,7 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     {
             $req_page = sanitize_text_field(wp_unslash($_REQUEST['page']));
             $actions  = array(
-                    'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $req_page, $item['id'], __('Delete', 'softeria-sms-alerts')),
+                    'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $req_page, $item['id'], __('Delete', 'soft-sms-alerts')),
             );
             return sprintf(
                 '%s %s',
@@ -1564,7 +1564,7 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     function column_status( $item )
     {
                                 
-        return sprintf('<div class="status-item-container"><span class="status msg-sent" >%s (%s)</span></div>', __('MSG Sent', 'softeria-sms-alerts'), $item['msg_sent']);
+        return sprintf('<div class="status-item-container"><span class="status msg-sent" >%s (%s)</span></div>', __('MSG Sent', 'soft-sms-alerts'), $item['msg_sent']);
     }
         /**
          * Column cb function.
@@ -1588,7 +1588,7 @@ class SA_Admin_Reminder_Table extends WP_List_Table
     function get_bulk_actions()
     {
             $actions = array(
-                    'delete' => __('Delete', 'softeria-sms-alerts'),
+                    'delete' => __('Delete', 'soft-sms-alerts'),
             );
             return $actions;
     }

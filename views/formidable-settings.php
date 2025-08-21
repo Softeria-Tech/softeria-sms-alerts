@@ -22,13 +22,13 @@ $visitor_phone = isset($values['visitor_phone'])?$values['visitor_phone']:'';
 <p class="frm6 frm_form_field">
     <label for="enable_message" class="frm_inline_block">
         <input type="checkbox" name="options[softeria_alerts_enable_message]" id="enable_message" value="1" <?php checked($enable_message, 1); ?> />
-        <?php esc_html_e('Enable Message', 'softeria-sms-alerts'); ?>
+        <?php esc_html_e('Enable Message', 'soft-sms-alerts'); ?>
     </label>
     </p>
     <p class="frm6 frm_form_field">
     <label for="enable_otp" class="frm_inline_block">
         <input type="checkbox" name="options[softeria_alerts_enable_otp]" id="enable_otp" value="1" <?php checked($enable_otp, 1); ?> />
-        <?php esc_html_e('Enable Mobile Verification', 'softeria-sms-alerts'); ?>
+        <?php esc_html_e('Enable Mobile Verification', 'soft-sms-alerts'); ?>
     </label>
     </p>
     <p class="frm12 frm_form_field">

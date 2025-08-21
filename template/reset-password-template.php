@@ -25,8 +25,8 @@ if (! headers_sent() ) {
 							<div class="sa_customer_validation-modal-dialog sa_customer_validation-modal-md">
 								<div class="login sa_customer_validation-modal-content">
 									<div class="sa_customer_validation-modal-header">
-										<b>' . esc_html__('Change Password', 'softeria-sms-alerts') . '</b>
-										<a class="go_back" href="#" onclick="sa_validation_goback();" style="box-shadow: none;">&larr; ' . esc_html__('Go Back', 'softeria-sms-alerts') . '</a>
+										<b>' . esc_html__('Change Password', 'soft-sms-alerts') . '</b>
+										<a class="go_back" href="#" onclick="sa_validation_goback();" style="box-shadow: none;">&larr; ' . esc_html__('Go Back', 'soft-sms-alerts') . '</a>
 									</div>
 									<div class="sa_customer_validation-modal-body center">
 										<div>' . esc_attr($message) . '</div><br /> ';
@@ -40,7 +40,7 @@ if (! SmsAlertUtility::isBlank($user_email) || ! SmsAlertUtility::isBlank($phone
 													<label>Confirm password</label>
 													<input type="password" name="softeria_alerts_user_cnfpwd"  autofocus="true" placeholder="" id="softeria_alerts_user_cnfpwd" required="true" title="Confirm password" />
 													
-													<br /><input type="submit" name="softeria_alerts_reset_password_btn" id="softeria_alerts_reset_password_btn" class="softeria_alerts_otp_token_submit" value="' . esc_html__('Change Password', 'softeria-sms-alerts') . '" />
+													<br /><input type="submit" name="softeria_alerts_reset_password_btn" id="softeria_alerts_reset_password_btn" class="softeria_alerts_otp_token_submit" value="' . esc_html__('Change Password', 'soft-sms-alerts') . '" />
 													<input type="hidden" name="otp_type" value="' . esc_attr($otp_type) . '">';
 
 

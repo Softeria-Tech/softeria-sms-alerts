@@ -184,7 +184,7 @@ class WCReview
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -247,10 +247,10 @@ class WCReview
         $text_area_name_id              = 'softeria_alerts_or_message[customer_notify]';
         $text_body                      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_or_message', SmsAlertMessages::showMessage('DEFAULT_CUSTOMER_REVIEW_MESSAGE'));
         $review_added_user_msg          = softeria_alerts_get_option('review_added_user_msg', 'softeria_alerts_review', 'on');
-        $sms_body_review_added_user_msg = softeria_alerts_get_option('sms_body_review_added_user_msg', 'softeria_alerts_review', sprintf(__('Dear %1$s, Thank you for sharing your valuable feedback on %2$s.%3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[name]', '[store_name]', PHP_EOL, PHP_EOL));
+        $sms_body_review_added_user_msg = softeria_alerts_get_option('sms_body_review_added_user_msg', 'softeria_alerts_review', sprintf(__('Dear %1$s, Thank you for sharing your valuable feedback on %2$s.%3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[name]', '[store_name]', PHP_EOL, PHP_EOL));
 
         $review_added_admin_msg          = softeria_alerts_get_option('review_added_admin_msg', 'softeria_alerts_review', 'on');
-        $sms_body_review_added_admin_msg = softeria_alerts_get_option('sms_body_review_added_admin_msg', 'softeria_alerts_review', sprintf(__('Dear admin, %1$s has left a %2$s star review for %3$s on %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '[rating]', '[item_name]', '[store_name]', PHP_EOL, PHP_EOL));
+        $sms_body_review_added_admin_msg = softeria_alerts_get_option('sms_body_review_added_admin_msg', 'softeria_alerts_review', sprintf(__('Dear admin, %1$s has left a %2$s star review for %3$s on %4$s.%5$s', 'soft-sms-alerts'), '[name]', '[rating]', '[item_name]', '[store_name]', PHP_EOL, PHP_EOL));
 
         $datas[]   = array(
         'title'          => 'Customer notification, when review is added',

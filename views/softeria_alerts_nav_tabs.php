@@ -7,7 +7,7 @@
             <img src="<?php echo esc_url(SA_MOV_URL); ?>images/sms.softeriatech.com.png" width="150px;" />
         </li>
         <li tab_type="global" onclick="SofteriaAlerts_change_nav(this, 'SofteriaAlerts_nav_global_box')" class="SofteriaAlerts_active">
-            <a href="#general"><span class="dashicons-before dashicons-admin-generic"></span> <?php esc_html_e('API KEYS', 'softeria-sms-alerts'); ?> </a>
+            <a href="#general"><span class="dashicons-before dashicons-admin-generic"></span> <?php esc_html_e('API KEYS', 'soft-sms-alerts'); ?> </a>
         </li>
         <?php
         $tabs = apply_filters('sa_addTabs', array());
@@ -30,13 +30,13 @@
         }
         ?>
         <li tab_type="otpsection" onclick="SofteriaAlerts_change_nav(this, 'SofteriaAlerts_nav_otp_section_box')" >
-            <a href="#otpsection"><span class="dashicons dashicons-admin-tools"></span> <?php esc_html_e('OTP Codes', 'softeria-sms-alerts'); ?></a>
+            <a href="#otpsection"><span class="dashicons dashicons-admin-tools"></span> <?php esc_html_e('OTP Codes', 'soft-sms-alerts'); ?></a>
         </li>
         <li tab_type="credits" onclick="SofteriaAlerts_change_nav(this, 'SofteriaAlerts_nav_credits_box')" class="<?php echo esc_attr($credit_show); ?>">
-            <a href="#credits"><span class="dashicons-before dashicons-admin-comments"></span> <?php esc_html_e('SMS Balance', 'softeria-sms-alerts'); ?></a>
+            <a href="#credits"><span class="dashicons-before dashicons-admin-comments"></span> <?php esc_html_e('SMS Balance', 'soft-sms-alerts'); ?></a>
         </li>
         <li tab_type="support" onclick="SofteriaAlerts_change_nav(this, 'SofteriaAlerts_nav_support_box')" >
-            <a href="#support"><span class="dashicons-before dashicons-editor-help"></span> <?php esc_html_e('Contact us', 'softeria-sms-alerts'); ?></a>
+            <a href="#support"><span class="dashicons-before dashicons-editor-help"></span> <?php esc_html_e('Contact us', 'soft-sms-alerts'); ?></a>
         </li>
     </ul>
 </header>

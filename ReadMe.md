@@ -3,7 +3,7 @@
 **Contributors:** Softeria Tech Ltd & FutureVH  
 **Tags:** order notification, SMS order alerts, WooCommerce SMS integration, SMS plugin, mobile verification, bulk SMS  
 **Requires PHP:** 5.6  
-**License:** GPLv2  
+**License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 A plugin that enables SMS notifications for WooCommerce orders.

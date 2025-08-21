@@ -13,14 +13,14 @@
 $redirect = isset($_GET['redirect_to'])?$_GET['redirect_to']:$redirect_url;
 ?>
 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-    <label for="username"><?php esc_html_e($label_field, 'softeria-sms-alerts'); ?><span class="required">*</span></label>
-    <input type="tel" placeholder = "<?php esc_html_e($placeholder_field, 'softeria-sms-alerts'); ?>" class="woocommerce-Input woocommerce-Input--text input-text sa_mobileno phone-valid" name="username"  value="">
-    <input type="hidden" class="woocommerce-Input woocommerce-Input--text input-text" name="redirect" value="<?php esc_html_e($redirect, 'softeria-sms-alerts'); ?>">
+    <label for="username"><?php echo $label_field?><span class="required">*</span></label>
+    <input type="tel" placeholder = "<?php echo $placeholder_field; ?>" class="woocommerce-Input woocommerce-Input--text input-text sa_mobileno phone-valid" name="username"  value="">
+    <input type="hidden" class="woocommerce-Input woocommerce-Input--text input-text" name="redirect" value="<?php echo $redirect; ?>">
 </p>
 <?php 
 echo apply_filters('gglcptch_display_recaptcha', '', 'sa_lwo_form');
 ?>
 <p class="form-row">
-    <button type="submit" class="button softeria_alerts_login_with_otp_btn" name="softeria_alerts_login_with_otp_btn" value="<?php echo esc_html_e($button_field, 'softeria-sms-alerts'); ?>"><span class="button__text"><?php echo esc_html_e($button_field, 'softeria-sms-alerts'); ?></span></button>    
-    <a href="#" onclick="return false;" class="sa_default_login_form" data-parentForm="login"><?php esc_html_e('Back', 'softeria-sms-alerts'); ?></a>
+    <button type="submit" class="button softeria_alerts_login_with_otp_btn" name="softeria_alerts_login_with_otp_btn" value="<?php echo $button_field?>"><span class="button__text"><?php echo $button_field; ?></span></button>    
+    <a href="#" onclick="return false;" class="sa_default_login_form" data-parentForm="login">Back</a>
 </p>
