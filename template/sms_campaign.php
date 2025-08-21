@@ -51,7 +51,7 @@ if (! empty($post_ids) ) {
             $phone[] =$user_phone;
         } elseif ($type == 'abandoned_data') {
             $tokens = SA_Abandoned_Cart::getAbandonCartvariables();
-            $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+            $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
             $results=$wpdb->get_row("SELECT * FROM $table_name WHERE id = $post_id ", ARRAY_A);
             $phone[] =$results['phone'];
         } elseif ($type == 'subscribe_data') {  

@@ -1,6 +1,6 @@
 <?php
 /**
- * This is a WooCommerce add-on. By Using this plugin admin and cusomer can get notification after placing order via sms using Softeria Tech.
+ * SMS Notifications, alerts and OTP for Activities, By https://softeriatech.com
  * PHP version 5
  *
  * @category Helper
@@ -10,7 +10,7 @@
  * @link     https://sms.softeriatech.com/
  * Plugin Name: SOFTSMSAlerts - WooCommerce
  * Plugin URI: https://sms.softeriatech.com/plugins
- * Description: This is a WooCommerce add-on. By Using this plugin admin and buyer can get notification after placing order via sms using Softeria Tech.
+ * Description: SMS Notifications, alerts and OTP for Activities, By https://softeriatech.com
  * Version: 1.0.1
  * Author: Softeria Tech Ltd.
  * Author URI: https://sms.softeriatech.com
@@ -34,25 +34,25 @@ if (! defined('SOFTERIA_ALERTS_ABANDONED') ) {
 if (! defined('SOFTERIA_ALERTS_PLUGIN_NAME_SLUG') ) {
     define('SOFTERIA_ALERTS_PLUGIN_NAME_SLUG', 'softeria-sms-alerts');
 }
-if (! defined('SA_CART_TABLE_NAME') ) {
-    define('SA_CART_TABLE_NAME', 'sa_captured_wc_fields');
+if (! defined('CHECKOUT_VIEW_NAME') ) {
+    define('CHECKOUT_VIEW_NAME', 'captured_wc_input');
 }
-if (! defined('CART_CRON_INTERVAL') ) {
-    define('CART_CRON_INTERVAL', 10);
+if (! defined('CHECKOUT_JOB_SCHECDULE') ) {
+    define('CHECKOUT_JOB_SCHECDULE', 10);
 }
-if (! defined('BOOKING_REMINDER_CRON_INTERVAL') ) {
-    define('BOOKING_REMINDER_CRON_INTERVAL', 10);
-}
-
-if (! defined('CART_STILL_SHOPPING') ) {
-    define('CART_STILL_SHOPPING', 10);
-}
-if (! defined('CART_NEW_STATUS_NOTICE') ) {
-    define('CART_NEW_STATUS_NOTICE', 240);
+if (! defined('BOOKING_SCHECDULE_REMINDER') ) {
+    define('BOOKING_SCHECDULE_REMINDER', 10);
 }
 
-if (! defined('CART_ENCRYPTION_KEY') ) {
-    define('CART_ENCRYPTION_KEY', 'SgVkYp3s6v9y$B&M)H+MbQeThWmZq4t9');
+if (! defined('SHOPPING_INPROGRESS') ) {
+    define('SHOPPING_INPROGRESS', 10);
+}
+if (! defined('CART_STATUS_CHANGED') ) {
+    define('CART_STATUS_CHANGED', 240);
+}
+
+if (! defined('SHOPPING_KEY') ) {
+    define('SHOPPING_KEY', 'smsProSoft3@r!atEchLim1t3d');
 }
 
 add_action(
@@ -167,15 +167,12 @@ class softeriaAlerts_WC_Order_SMS
             add_filter('plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'addActionLinks' ));
         }
 
-        /*code to notify for daily balance begins */
         add_action('softeria_alerts_balance_notify', array( $this, 'backgroundTask' ));
         self::saSyncGrpAction();
         add_filter('sa_before_send_sms', array( $this, 'replaceCommonTokenName' ), 100, 1);
-        //commented later we use for redirect after install , plugin.
         add_action('admin_init', array($this, 'smsproPluginRedirect'));
         add_action('sa_addTabs', array( $this, 'addTabs' ), 10);
         add_filter('sAlertDefaultSettings', array( $this, 'addDefaultSetting' ), 1);
-        //add_action( 'activated_plugin', array($this, 'cyb_activation_redirect') ); //testing part
     }
     
     
@@ -278,7 +275,7 @@ class softeriaAlerts_WC_Order_SMS
         $tabs['user_registration']['nav']  = 'New Users';
         $tabs['user_registration']['icon'] = 'dashicons-admin-users';
 
-        $tabs['user_registration']['inner_nav']['wc_register']['title']        = __('Sign Up Notifications', 'softeria-sms-alerts');
+        $tabs['user_registration']['inner_nav']['wc_register']['title']        = __('Notify On Sign Up', 'softeria-sms-alerts');
         $tabs['user_registration']['inner_nav']['wc_register']['tab_section']  = 'signup_templates';
         $tabs['user_registration']['inner_nav']['wc_register']['first_active'] = true;
 
@@ -288,7 +285,7 @@ class softeriaAlerts_WC_Order_SMS
         $tabs['user_registration']['inner_nav']['wc_register']['icon']   = 'dashicons-admin-users';
         $tabs['user_registration']['inner_nav']['wc_register']['params'] = $signup_param;
 
-        $tabs['user_registration']['inner_nav']['new_user_reg']['title']       = 'Admin Notifications';
+        $tabs['user_registration']['inner_nav']['new_user_reg']['title']       = 'Notify Admin';
         $tabs['user_registration']['inner_nav']['new_user_reg']['tab_section'] = 'newuserregtemplates';
         $tabs['user_registration']['inner_nav']['new_user_reg']['tabContent']  = $new_user_reg_param;
         $tabs['user_registration']['inner_nav']['new_user_reg']['filePath']    = 'views/message-template.php';
@@ -543,7 +540,7 @@ class softeriaAlerts_WC_Order_SMS
     {
         global $wpdb, $table_name;
 
-        $table_name      = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name      = $wpdb->prefix . CHECKOUT_VIEW_NAME;
         $tabl_name = $wpdb->prefix . "softeria_alerts_renewal_reminders";                                                    
         $reminder_table_name = $wpdb->prefix . "softeria_alerts_booking_reminder";                                                    
         $charset_collate = $wpdb->get_charset_collate();
@@ -660,7 +657,7 @@ class softeriaAlerts_WC_Order_SMS
 		if ('on' === $clear_all_data ) {
 			global $wpdb;
 
-			$main_table = $wpdb->prefix . 'sa_captured_wc_fields';
+			$main_table = $wpdb->prefix . 'captured_wc_input';
 			$booking_table = $wpdb->prefix . 'softeria_alerts_booking_reminder';
 			$renewal_table = $wpdb->prefix . 'softeria_alerts_renewal_reminders';
 
@@ -858,11 +855,11 @@ add_action('init', array('SofteriaAlerts_WC_Order_SMS','localization_setup'));
 function additionalCronIntervals( $intervals )
 {
     $intervals['sendsms_interval'] = array(
-    'interval' => CART_CRON_INTERVAL * 60,
+    'interval' => CHECKOUT_JOB_SCHECDULE * 60,
     'display'  => 'Every 10 minutes',
     );
     $intervals['sendremindersms_interval'] = array(
-    'interval' => BOOKING_REMINDER_CRON_INTERVAL * 60,
+    'interval' => BOOKING_SCHECDULE_REMINDER * 60,
     'display'  => 'Every 60 minutes',
     );
     return $intervals;

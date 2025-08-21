@@ -20,7 +20,7 @@
             <td>
                 <div class="col-lg-12 creditlist" >
                     <div class="col-lg-8 route">
-                        <h3><span class="dashicons dashicons-phone"></span> <?php esc_html_e('Phone Support', 'softeria-sms-alerts'); ?>: (+254)-712509826</h3>
+                        <h3><span class="dashicons dashicons-phone"></span> <?php esc_html_e('Phone Support', 'softeria-sms-alerts'); ?>: +254712509826</h3>
                     </div>
                 </div>
             </td>

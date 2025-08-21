@@ -55,15 +55,14 @@ class Shortcode
      */
     public static function addTabs( $tabs = array() )
     {
-        $tabs['signupwithotp']['nav'] = 'SMS Tags';
-        $tabs['signupwithotp']['icon'] = 'dashicons-admin-users';
-        $tabs['signupwithotp']['inner_nav']['signup']['title']       = 'SMS Tags';
-        $tabs['signupwithotp']['inner_nav']['signup']['tab_section'] = 'signup_with_phone';
-        $tabs['signupwithotp']['inner_nav']['signup']['first_active'] = true;
-        $tabs['signupwithotp']['inner_nav']['signup']['tabContent']  = array();
-        $tabs['signupwithotp']['inner_nav']['signup']['filePath']    = 'views/signup-with-otp-template.php'; 
-        $tabs['signupwithotp']['help_links'] = array(
-        );
+        // $tabs['signupwithotp']['nav'] = 'SMS Tags';
+        // $tabs['signupwithotp']['icon'] = 'dashicons-admin-users';
+        // $tabs['signupwithotp']['inner_nav']['signup']['title']       = 'SMS Tags';
+        // $tabs['signupwithotp']['inner_nav']['signup']['tab_section'] = 'signup_with_phone';
+        // $tabs['signupwithotp']['inner_nav']['signup']['first_active'] = true;
+        // $tabs['signupwithotp']['inner_nav']['signup']['tabContent']  = array();
+        // $tabs['signupwithotp']['inner_nav']['signup']['filePath']    = 'views/signup-with-otp-template.php'; 
+        // $tabs['signupwithotp']['help_links'] = array();
         return $tabs;
     }
     

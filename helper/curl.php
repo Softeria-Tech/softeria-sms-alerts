@@ -187,7 +187,7 @@ class SmsAlertcURLOTP
         }
         $fields       = apply_filters('sa_before_send_sms', $fields);
         $response     = self::callAPI($url, $fields, null);
-        $response_arr = json_decode($response, true);
+        $response_arr = $response;
 
         $text = ! empty($fields['text']) ? $fields['text'] : $text;
         apply_filters('sa_after_send_sms', $response_arr);

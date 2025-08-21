@@ -39,7 +39,7 @@ class WCReview
     public function __construct()
     {
         add_filter('sAlertDefaultSettings', __CLASS__ . '::add_default_setting', 1);
-        add_action('sa_addTabs', array( $this, 'addTabs' ), 100);
+        //add_action('sa_addTabs', array( $this, 'addTabs' ), 100);
         add_action('woocommerce_order_status_changed', array( $this, 'scheduleSms' ), 100, 4);
         add_action('comment_post', array( $this, 'smsproSendReviewMsg' ), 11, 3);
         add_action('comment_form_after_fields', array( $this, 'addReviewPhoneFieldOnCommentForm' ));

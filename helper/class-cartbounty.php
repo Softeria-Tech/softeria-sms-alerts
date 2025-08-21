@@ -92,7 +92,7 @@ class WCAbandonedCart
 
         $templates = array();
 
-        $templates['cartbounty-cust']['title']          = 'Send message to customer when product is left in cart';
+        $templates['cartbounty-cust']['title']          = 'Notify Customer on incomplete purchase';
         $templates['cartbounty-cust']['enabled']        = $current_val;
         $templates['cartbounty-cust']['status']         = 'cartbounty-cust';
         $templates['cartbounty-cust']['text-body']      = $text_body;
@@ -106,7 +106,7 @@ class WCAbandonedCart
         $textarea_name_id = 'softeria_alerts_ac_message[admin_notify]';
         $text_body        = softeria_alerts_get_option('admin_notify', 'softeria_alerts_ac_message', SmsAlertMessages::showMessage('DEFAULT_AC_ADMIN_MESSAGE'));
 
-        $templates['cartbounty-admin']['title']          = 'Send message to admin when product is left in cart';
+        $templates['cartbounty-admin']['title']          = 'Notify Customer on incomplete purchase';
         $templates['cartbounty-admin']['enabled']        = $current_val;
         $templates['cartbounty-admin']['status']         = 'cartbounty-admin';
         $templates['cartbounty-admin']['text-body']      = $text_body;

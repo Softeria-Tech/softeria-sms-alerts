@@ -38,8 +38,8 @@ class Share_Cart
      */
     public function __construct()
     {
-        add_action('sa_addTabs', array( $this, 'addTabs' ), 10);
-        add_action('sa_tabContent', array( $this, 'tabContent' ), 1);
+        //add_action('sa_addTabs', array( $this, 'addTabs' ), 10);
+        //add_action('sa_tabContent', array( $this, 'tabContent' ), 1);
         add_filter('sAlertDefaultSettings', array( $this, 'add_default_setting' ), 1);
         $user_authorize = new softeria_alerts_Setting_Options();
         if ($user_authorize->is_user_authorised()) {
@@ -307,7 +307,7 @@ class Share_Cart
             $public = new SA_Cart_Public(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
             global $wpdb;
-            $table_name = $wpdb->prefix . SA_CART_TABLE_NAME; // do not forget about tables prefix
+            $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME; // do not forget about tables prefix
 
             // Retrieving cart array consisting of currency, cart total, time, msg status, session id and products and their quantities.
             $cart_data       = $public->read_cart();
@@ -385,7 +385,7 @@ class Share_Cart
             }
 
             // Send Msg to friend
-			$table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+			$table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
 			// $lastid               = $wpdb->insert_id;
 			$lastid = $wpdb->get_results('SELECT MAX(id) FROM ' . $table_name, ARRAY_A);
@@ -505,7 +505,7 @@ class Share_Cart
     public function create_cart_url( $session_id, $cart_id )
     {
         $cart_url            = wc_get_cart_url();
-        $hash                = hash_hmac('md5', $session_id, CART_ENCRYPTION_KEY) . '-' . $cart_id;
+        $hash                = hash_hmac('md5', $session_id, SHOPPING_KEY) . '-' . $cart_id;
         return $checkout_url = $cart_url . '?cart=' . $hash;
     }
 }

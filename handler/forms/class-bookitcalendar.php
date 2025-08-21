@@ -110,8 +110,8 @@ class BookitCalendar extends FormInterface
         }
 
         global $wpdb;
-        $cronFrequency = BOOKING_REMINDER_CRON_INTERVAL;
-        // pick data from previous CART_CRON_INTERVAL min
+        $cronFrequency = BOOKING_SCHECDULE_REMINDER;
+        // pick data from previous CHECKOUT_JOB_SCHECDULE min
         $tableName     = $wpdb->prefix.'softeria_alerts_booking_reminder';
         $source        = 'bookit-calendar';
         $schedulerData = get_option('softeria_alerts_bcc_reminder_scheduler');

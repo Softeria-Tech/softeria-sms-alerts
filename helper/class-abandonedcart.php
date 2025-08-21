@@ -224,7 +224,7 @@ class SA_Abandoned_Cart
         'templates'        => $this->getSmsAlertCartTemplates(),
         );
 
-        $tabs['woocommerce']['inner_nav']['abandoned_cart']['title'] = 'Abandoned Cart';
+        $tabs['woocommerce']['inner_nav']['abandoned_cart']['title'] = 'Cart';
         $tabs['woocommerce']['inner_nav']['abandoned_cart']['tab_section'] = 'smsprocarttemplates';
         $tabs['woocommerce']['inner_nav']['abandoned_cart']['tabContent']  = $smsprocart_param;
         $tabs['woocommerce']['inner_nav']['abandoned_cart']['filePath'] = 'views/ab-cart-setting-template.php';
@@ -265,7 +265,7 @@ class SA_Abandoned_Cart
 
             $templates[ $key ]['frequency']      = $data['frequency'];
             $templates[ $key ]['enabled']        = $current_val;
-            $templates[ $key ]['title']          = 'Send message to customer when product is left in cart';
+            $templates[ $key ]['title']          = 'Notify Customer on incomplete purchase';
             $templates[ $key ]['checkboxNameId'] = $checkbox_name_id;
             $templates[ $key ]['text-body']      = $text_body;
             $templates[ $key ]['textareaNameId'] = $textarea_name_id;
@@ -490,7 +490,7 @@ class SA_Cart_Admin
     {
         if ('abandoned_data' === $type) {
             global $wpdb;
-            $table_name     = $wpdb->prefix . SA_CART_TABLE_NAME;
+            $table_name     = $wpdb->prefix . CHECKOUT_VIEW_NAME;
             $data=$wpdb->get_row("SELECT * FROM $table_name WHERE id = $post_id ", ARRAY_A);
             $data['checkout_url'] = $this->create_cart_url($data['email'], $data['session_id'], $data['id']);
             $message = $this->parseSmsBody($data, $message);
@@ -509,7 +509,7 @@ class SA_Cart_Admin
             return;
         }
         global $wpdb, $pagenow;
-        $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
         $wp_list_table = new SA_Admin_Table();
         $wp_list_table->prepareItems();
@@ -526,7 +526,7 @@ class SA_Cart_Admin
         }
         ?>
         <div class="wrap">
-            <h1>Abandoned Cart <a href="admin.php?page=ab-cart-reports" class="button action">View Reports</a></h1>
+            <h1>Cart <a href="admin.php?page=ab-cart-reports" class="button action">View Reports</a></h1>
             <h2 id="heading-for-admin-notice-dislay"></h2>
 
         <?php
@@ -652,7 +652,7 @@ class SA_Cart_Admin
     public static function saGetRangeData( $selected_data_range, $start_date, $end_date )
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
         if ('' === $start_date && '' === $end_date ) {
             return array();
         }
@@ -846,7 +846,7 @@ class SA_Cart_Admin
             $start_end_date_div_show = ( ! isset($_GET['softeria_alerts_date_range']) || 'custom' !== $_GET['softeria_alerts_date_range'] ) ? 'none' : 'block';
             ?>
         <div class="wrap">
-            <h1>Abandoned Cart Reports <a href="admin.php?page=ab-cart" class="button action">View List</a></h1>
+            <h1>Cart Reports <a href="admin.php?page=ab-cart" class="button action">View List</a></h1>
             <h2 id="heading-for-admin-notice-dislay"></h2>
                 <form method="GET">
                     <input type="hidden" name="page" value="<?php echo esc_attr($_REQUEST['page']); ?>"/>
@@ -1042,8 +1042,8 @@ class SA_Cart_Admin
         }
 
         global $wpdb;
-        $cron_frequency = CART_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
-        $table_name     = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $cron_frequency = CHECKOUT_JOB_SCHECDULE; // pick data from previous CHECKOUT_JOB_SCHECDULE min
+        $table_name     = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
         $scheduler_data = get_option('softeria_alerts_abandoned_cart_scheduler');
         $quiet_hours = softeria_alerts_get_option('enable_quiet_hours', 'softeria_alerts_abandoned_cart', '0');
@@ -1169,7 +1169,7 @@ class SA_Cart_Admin
     public static function abandonedCartCount()
     {
         global $wpdb;
-        $table_name  = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name  = $wpdb->prefix . CHECKOUT_VIEW_NAME;
         $total_items = $wpdb->get_var("SELECT COUNT(id) FROM $table_name");
         return $total_items;
     }
@@ -1199,7 +1199,7 @@ class SA_Cart_Admin
     {
 
         global $wpdb;
-        $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
         // If a new Order is added from the WooCommerce admin panel, we must check if WooCommerce session is set. Otherwise we would get a Fatal error.
         if (isset(WC()->session) ) {
@@ -1259,7 +1259,7 @@ class SA_Cart_Admin
         $id      = $parts[1];
 
         // Retrieve row from the abandoned cart table in order to check if hashes match
-        $main_table = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $main_table = $wpdb->prefix . CHECKOUT_VIEW_NAME;
         $row        = $wpdb->get_row(
             $wpdb->prepare(
                 'SELECT id, email, cart_contents, session_id FROM ' . $main_table . '
@@ -1273,7 +1273,7 @@ class SA_Cart_Admin
         }
 
         // Checking if hashes match
-        $row_hash = hash_hmac('md5', $row->email . $row->session_id, CART_ENCRYPTION_KEY); // Building encrypted hash from the row
+        $row_hash = hash_hmac('md5', $row->email . $row->session_id, SHOPPING_KEY); // Building encrypted hash from the row
         if (! hash_equals($hash, $row_hash) ) { // If hashes do not match, exit function
             return;
         }
@@ -1337,7 +1337,7 @@ class SA_Cart_Admin
     public function create_cart_url( $email, $session_id, $cart_id )
     {
         $cart_url            = wc_get_cart_url();
-        $hash                = hash_hmac('md5', $email . $session_id, CART_ENCRYPTION_KEY) . '-' . $cart_id; // Creating encrypted hash with abandoned cart row ID in the end
+        $hash                = hash_hmac('md5', $email . $session_id, SHOPPING_KEY) . '-' . $cart_id; // Creating encrypted hash with abandoned cart row ID in the end
         return $checkout_url = $cart_url . '?cart=' . $hash;
     }
 }
@@ -1622,11 +1622,11 @@ class SA_Admin_Table extends WP_List_Table
         $current_time = strtotime(date_format($date, 'Y-m-d H:i:s'));
         $status       = '';
 
-        if ($cart_time > $current_time - CART_STILL_SHOPPING * 60 && '0' === $item['msg_sent'] && '0' === $item['recovered'] ) { // Checking time if user is still shopping or might return - we add shopping label
+        if ($cart_time > $current_time - SHOPPING_INPROGRESS * 60 && '0' === $item['msg_sent'] && '0' === $item['recovered'] ) { // Checking time if user is still shopping or might return - we add shopping label
             $status .= sprintf('<span class="status shopping">%s</span>', __('Shopping', 'softeria-sms-alerts'));
 
         } else {
-            if ($cart_time > ( $current_time - CART_NEW_STATUS_NOTICE * 60 ) && '0' === $item['msg_sent'] && '0' === $item['recovered'] ) { // Checking time if user has not gone through with the checkout after the specified time we add new label
+            if ($cart_time > ( $current_time - CART_STATUS_CHANGED * 60 ) && '0' === $item['msg_sent'] && '0' === $item['recovered'] ) { // Checking time if user has not gone through with the checkout after the specified time we add new label
                 $status .= sprintf('<span class="status new" >%s</span>', __('New', 'softeria-sms-alerts'));
             }
             if ('0' !== $item['msg_sent'] && '0' === $item['recovered'] ) {
@@ -1676,7 +1676,7 @@ class SA_Admin_Table extends WP_List_Table
     function processBulkAction()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . SA_CART_TABLE_NAME; // do not forget about tables prefix
+        $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME; // do not forget about tables prefix
         $verify = !empty($_REQUEST['_wpnonce'])?wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-' . $this->_args['plural']):false;
         if ($verify) {           
             if ('delete' === $this->current_action() ) {
@@ -1726,7 +1726,7 @@ class SA_Admin_Table extends WP_List_Table
     function prepareItems()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
         $screen = get_current_screen();
         $user   = get_current_user_id();
@@ -1895,7 +1895,7 @@ class SA_Cart_Public
             $plugin_admin = new SA_Cart_Admin(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
             global $wpdb;
-            $table_name = $wpdb->prefix . SA_CART_TABLE_NAME; // do not forget about tables prefix
+            $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME; // do not forget about tables prefix
 
             // Retrieving cart array consisting of currency, cart total, time, msg status, session id and products and their quantities
             $cart_data       = $this->read_cart();
@@ -2040,7 +2040,7 @@ class SA_Cart_Public
             $plugin_admin = new SA_Cart_Admin(SOFTERIA_ALERTS_PLUGIN_NAME_SLUG, SmsAlertConstants::SA_VERSION);
 
             global $wpdb;
-            $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+            $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
             // Retrieving cart array consisting of currency, cart total, time, msg status, session id and products and their quantities
             $cart_data       = $this->read_cart();
@@ -2062,7 +2062,7 @@ class SA_Cart_Public
 
             // If we haven't set cart_session_id, then need to check in the database if the current user has got an abandoned cart already
             if ($cart_session_id === null ) {
-                $main_table     = $wpdb->prefix . SA_CART_TABLE_NAME;
+                $main_table     = $wpdb->prefix . CHECKOUT_VIEW_NAME;
                 $abandoned_cart = $wpdb->get_row(
                     $wpdb->prepare(
                         'SELECT session_id FROM ' . $main_table . '
@@ -2210,7 +2210,7 @@ class SA_Cart_Public
             if ($cart_session_id !== null ) {
 
                 global $wpdb;
-                $table_name    = $wpdb->prefix . SA_CART_TABLE_NAME;
+                $table_name    = $wpdb->prefix . CHECKOUT_VIEW_NAME;
                 $cart_data     = $this->read_cart();
                 $product_array = $cart_data['product_array'];
                 $cart_total    = $cart_data['cart_total'];
@@ -2257,7 +2257,7 @@ class SA_Cart_Public
         // If we have saved the abandoned cart in session variable
         if ($cart_session_id !== null ) {
             global $wpdb;
-            $main_table = $wpdb->prefix . SA_CART_TABLE_NAME;
+            $main_table = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
             // Checking if we have this abandoned cart in our database already
             return $result = $wpdb->get_var(
@@ -2288,7 +2288,7 @@ class SA_Cart_Public
             if (WC()->session->get('cart_session_id') !== null && WC()->session->get('cart_session_id') !== $session_id ) { // If session is set and it is different from the one that currently is assigned to the customer
 
                 global $wpdb;
-                $main_table = $wpdb->prefix . SA_CART_TABLE_NAME;
+                $main_table = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
                 // Updating session ID to match the one of a logged in user
                 $wpdb->prepare(
@@ -2321,7 +2321,7 @@ class SA_Cart_Public
     private function delete_duplicate_carts( $cart_session_id, $duplicate_count )
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
         $duplicate_rows = $wpdb->query(
             $wpdb->prepare(
@@ -2346,7 +2346,7 @@ class SA_Cart_Public
         global $woocommerce;
 
         global $wpdb;
-        $table_name = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
 
         // Retrieving cart total value and currency
         $cart_total    = WC()->cart->total;
@@ -2498,7 +2498,7 @@ class SA_Cart_Public
 
         global $wpdb;
 
-        $table_name      = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name      = $wpdb->prefix . CHECKOUT_VIEW_NAME;
         $cart_session_id = $wc_session->get('cart_session_id'); // Retrieving current session ID from WooCommerce Session
 
         if (!$this->current_session_exist_in_db($cart_session_id)) {
@@ -2663,7 +2663,7 @@ class SA_Cart_Public
     function buildExitIntentOutput( $current_user_is_admin )
     {
         global $wpdb;
-        $table_name      = $wpdb->prefix . SA_CART_TABLE_NAME;
+        $table_name      = $wpdb->prefix . CHECKOUT_VIEW_NAME;
         $cart_session_id = WC()->session->get('cart_session_id'); 
         $row = $wpdb->get_row(
             $wpdb->prepare(

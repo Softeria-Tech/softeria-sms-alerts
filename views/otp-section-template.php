@@ -323,30 +323,7 @@
                     <span class="dashicons dashicons-search" onclick="previewtemplate();" style="margin-left: 25px; cursor:pointer"></span>
                 </td>
             </tr>
-                            <!--/-Modal style-->
-         <tr valign="top" class="<?php echo $disablePlayground; ?>">
-            <td scope="row" class="td-heading"><?php esc_html_e('OTP Template Style', 'softeria-sms-alerts'); ?> <span class="tooltip" data-title="Edit OTP Template Style"><span class="dashicons dashicons-info"></span></span>
-            </td>
-            <td colspan="3">
-                <?php
-                $disabled = (! is_plugin_active('elementor/elementor.php')) ? "anchordisabled" : "";
-                $post = get_page_by_path('modal_style', OBJECT, 'softeria-sms-alerts'); 
-                ?>              
-                <a href= <?php get_admin_url() ?>"edit.php?post_name=modal_style" class="button <?php echo $disabled; ?> otpeditmodel action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'softeria-sms-alerts'); ?></a>
-                <?php if (!empty($post->post_type)) {?>
-                <a href="#" onclick="return false;" temp-style="modal_style" class="btn-outline btn_reset_style" style="float:left;"><?php esc_html_e('Reset', 'softeria-sms-alerts'); ?></a>
-                <?php }?>
-                <span class="reset_style"></span>    
-           <?php
-            if ($disabled!='') {
-                ?>        
-            <span><?php esc_html_e('To edit, please install elementor plugin', 'softeria-sms-alerts'); ?>    </span>
-                <?php
-            }
-            ?>
-            </td>
-        </tr>
-	
+         
         <tr valign="top" otp-section-token" class="<?php echo $disablePlayground; ?>">
 			
             <td scope="row" class="td-heading" style="vertical-align: top;"><?php esc_html_e('OTP Template', 'softeria-sms-alerts'); ?></td>
@@ -362,14 +339,14 @@
             <span><?php esc_html_e('Template to be used for sending OTP', 'softeria-sms-alerts'); ?><hr />
                 <?php
                 /* translators: %s: OTP tag */
-                echo wp_kses_post(sprintf(__('It is mandatory to include %s tag in template content.', 'softeria-sms-alerts'), '[otp]')); ?>
-                <br /><br /><b><?php esc_html_e('Optional Attributes', 'softeria-sms-alerts'); ?></b><br />
-            <ul>
-                <li><b>length</b> &nbsp; - <?php esc_html_e('length of OTP, default is 4, accepted values between 3 and 8,', 'softeria-sms-alerts'); ?></li>
-                <li><b>retry</b> &nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set how many times otp message can be sent in specific time default is 5,', 'softeria-sms-alerts'); ?></li>
-                <li><b>validity</b> &nbsp;- <?php esc_html_e('set validity of the OTP default is 15 minutes', 'softeria-sms-alerts'); ?></li>
-            </ul>
-                <b>eg</b> : <code>[otp length="6" retry="2" validity="10"]</code></span>
+                echo wp_kses_post(
+                    sprintf(
+                        esc_html__('The %s tag must be included in the template content.', 'softeria-sms-alerts'),
+                        '<code>[otp]</code>'
+                    )
+                );
+                ?>
+                
            </td>
         </tr>
 		

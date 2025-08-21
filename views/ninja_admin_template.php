@@ -1,14 +1,5 @@
 <?php
-/**
- * Template.
- * PHP version 5
- *
- * @category View
- * @package  SOFTSMSAlerts
- * @author   Softeria Tech <billing@softeriatech.com>
- * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
- * @link     https://sms.softeriatech.com/
- */
+
 $ninja_forms = NinjaForm::getNinjaForms();
 if (! empty($ninja_forms) ) {
     ?>

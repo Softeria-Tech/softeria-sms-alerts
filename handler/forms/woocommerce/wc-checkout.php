@@ -1144,7 +1144,7 @@ class WooCommerceCheckOutForm extends FormInterface
         'templates'        => self::getMVAdminTemplates(),
         );
 
-        $tabs['woocommerce']['nav']                                     = 'Shop';
+        $tabs['woocommerce']['nav']                                     = 'Order Notifications';
         $tabs['woocommerce']['icon']                                    = 'dashicons-list-view';
         $tabs['woocommerce']['inner_nav']['wc_customer']['title']       = 'Customer';
         $tabs['woocommerce']['inner_nav']['wc_customer']['tab_section'] = 'customertemplates';
@@ -2265,8 +2265,8 @@ class SA_CodTOPrepaid
      */
     public function __construct()
     {
-        add_action('sa_addTabs', array( $this, 'addTabs' ), 10);
-        add_action('sa_tabContent', array( $this, 'tabContent' ), 1);
+        //add_action('sa_addTabs', array( $this, 'addTabs' ), 10);
+        //add_action('sa_tabContent', array( $this, 'tabContent' ), 1);
         add_filter('sAlertDefaultSettings', array( $this, 'addDefaultSetting' ), 1);
         $notification_enabled = softeria_alerts_get_option('customer_notify', 'softeria_alerts_cod_to_prepaid', 'off');
         if ('on' === $notification_enabled) {
@@ -2330,8 +2330,8 @@ class SA_CodTOPrepaid
     public function addTabs( $tabs = array() )
     { 
         $smsprocart_param = array(
-        'checkTemplateFor' => 'Code_to_prepaid',
-        'templates'        => $this->getSmsAlertCodTemplates(),
+            'checkTemplateFor' => 'Code_to_prepaid',
+            'templates'        => $this->getSmsAlertCodTemplates(),
         );
 
         $tabs['woocommerce']['inner_nav']['code_to_prepaid']['title']       = 'COD To Prepaid';
@@ -2412,7 +2412,7 @@ class SA_CodTOPrepaid
 
         global $wpdb;
      
-        $cron_frequency = CART_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
+        $cron_frequency = CHECKOUT_JOB_SCHECDULE; // pick data from previous CHECKOUT_JOB_SCHECDULE min
        
         $scheduler_data = get_option('softeria_alerts_cod_to_prepaid_scheduler');
         

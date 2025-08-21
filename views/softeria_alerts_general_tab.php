@@ -3,7 +3,7 @@
     <table class="form-table">
         
         <tr valign="top">
-            <th scope="row"><?php esc_html_e('SOFTERIA ALERTS API KEY', 'softeria-sms-alerts'); ?>
+            <th scope="row"><?php esc_html_e('API KEY', 'softeria-sms-alerts'); ?>
                 <span class="tooltip" data-title="Enter SOFTSMSAlerts APIKEY"><span class="dashicons dashicons-info"></span></span>
             </th>
             <td>
@@ -19,7 +19,7 @@
         <?php do_action('verify_senderid_button'); ?>
         <tr valign="top">
             <th scope="row">
-                <?php esc_html_e('SOFTERIA ALERTS Sender Id', 'softeria-sms-alerts'); ?>
+                <?php esc_html_e('Sender Id', 'softeria-sms-alerts'); ?>
                 <span class="tooltip" data-title="Only available for transactional route"><span class="dashicons dashicons-info"></span></span>
             </th>
             <td>
@@ -50,7 +50,7 @@
 <div class="cvt-accordion" style="padding: 0px 10px 10px 10px;">
     <table class="form-table">
         <tr valign="top">
-            <th scope="row"><?php esc_html_e('Send Admin SMS To', 'softeria-sms-alerts'); ?>
+            <th scope="row"><?php esc_html_e('Notify Admin Through', 'softeria-sms-alerts'); ?>
                 <span class="tooltip" data-title="Please make sure that the number must be without country code (e.g.: 8010551055)"><span class="dashicons dashicons-info"></span></span>
             </th>
             <td>
@@ -75,7 +75,6 @@
                 }
                 </script>
                 <input type="text" name="softeria_alerts_message[sms_admin_phone]" class="admin_no" id="softeria_alerts_message[sms_admin_phone]" <?php echo ( trim($sms_admin_phone) === 'post_author' ) ? 'readonly="readonly"' : ''; ?> value="<?php echo esc_attr($sms_admin_phone); ?>"><br /><br />
-                <span><?php esc_html_e('Admin order sms notifications will be sent to this number.', 'softeria-sms-alerts'); ?></span>
             </td>
         </tr>
     </table>

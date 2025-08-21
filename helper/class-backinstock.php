@@ -57,7 +57,7 @@ class Sa_Backinstock
         }
 
         if (is_plugin_active('woocommerce/woocommerce.php') ) {
-            add_action('sa_addTabs', array( $this, 'addTabs' ), 100);
+            //add_action('sa_addTabs', array( $this, 'addTabs' ), 100);
         }
         add_action('wp_enqueue_scripts', array( $this, 'enqueueScriptOnPage' ));
         add_action('manage_posts_custom_column', array( $this, 'smsproPopulateSubscriber' ), 10, 2);
@@ -253,7 +253,7 @@ class Sa_Backinstock
 
         $templates = array();
 
-        $templates['backinstock_msg']['title']          = 'Send message to customer when product is back in stock';
+        $templates['backinstock_msg']['title']          = 'Notify customer on re-stock';
         $templates['backinstock_msg']['enabled']        = $current_val;
         $templates['backinstock_msg']['status']         = 'backinstock_msg';
         $templates['backinstock_msg']['text-body']      = $text_body;
@@ -271,7 +271,7 @@ class Sa_Backinstock
             SmsAlertMessages::showMessage('DEFAULT_BACK_IN_STOCK_SUBSCRIBE_MSG')
         );
 
-        $templates['subscribed']['title']          = 'Send message to customer when product is subscribed';
+        $templates['subscribed']['title']          = 'Notify customer on product subscription';
         $templates['subscribed']['enabled']        = $current_val;
         $templates['subscribed']['status']         = 'subscribed';
         $templates['subscribed']['text-body']      = $text_body;

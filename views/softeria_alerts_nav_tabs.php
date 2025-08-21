@@ -32,9 +32,6 @@
         <li tab_type="otpsection" onclick="SofteriaAlerts_change_nav(this, 'SofteriaAlerts_nav_otp_section_box')" >
             <a href="#otpsection"><span class="dashicons dashicons-admin-tools"></span> <?php esc_html_e('OTP Codes', 'softeria-sms-alerts'); ?></a>
         </li>
-        <li tab_type="callbacks" onclick="SofteriaAlerts_change_nav(this, 'SofteriaAlerts_nav_callbacks_box')" >
-            <a href="#callbacks"><span class="dashicons-before dashicons-admin-settings"></span> <?php esc_html_e('Other Settings', 'softeria-sms-alerts'); ?></a>
-        </li>
         <li tab_type="credits" onclick="SofteriaAlerts_change_nav(this, 'SofteriaAlerts_nav_credits_box')" class="<?php echo esc_attr($credit_show); ?>">
             <a href="#credits"><span class="dashicons-before dashicons-admin-comments"></span> <?php esc_html_e('SMS Balance', 'softeria-sms-alerts'); ?></a>
         </li>

@@ -14,16 +14,7 @@ if (! defined('ABSPATH') ) {
     exit;
 } 
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
-/**
- * PHP version 5
- *
- * @category Handler
- * @package  SOFTSMSAlerts
- * @author   Softeria Tech <billing@softeriatech.com>
- * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
- * @link     https://sms.softeriatech.com/
- * Smsalert Setting Options class
- */
+
 class softeria_alerts_Setting_Options
 {
     /**
