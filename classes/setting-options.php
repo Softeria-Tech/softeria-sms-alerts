@@ -24,35 +24,35 @@ class softeria_alerts_Setting_Options
      */
     public static function init()
     {
-        include_once plugin_dir_path(__DIR__) . '/helper/class-uncannyautomator.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-shortcode.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-divi.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-wordpresswidget.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/uncannyautomator.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/cshortcode.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/divi.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/wordpresswidget.php';
         include_once plugin_dir_path(__DIR__) . '/helper/upgrade.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-backend.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/backend.php';
         include_once plugin_dir_path(__DIR__) . '/helper/edd.php';
         include_once plugin_dir_path(__DIR__) . '/helper/learnpress.php';
         include_once plugin_dir_path(__DIR__) . '/helper/woocommerce-booking.php';
         include_once plugin_dir_path(__DIR__) . '/helper/events-manager.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-cartbounty.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/cartbounty.php';
         include_once plugin_dir_path(__DIR__) . '/helper/delivery-drivers-woocommerce.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-sapopup.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-elementorwidget.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-backinstock.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/sapopup.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/elementorwidget.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/backinstock.php';
         include_once plugin_dir_path(__DIR__) . '/helper/wc-low-stock.php';
         include_once plugin_dir_path(__DIR__) . '/helper/review.php';
         include_once plugin_dir_path(__DIR__) . '/helper/share-cart.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-terawallet.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/terawallet.php';
         include_once plugin_dir_path(__DIR__) . '/helper/wc-subscriptions.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/class-abandonedcart.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/abandonedcart.php';
         include_once plugin_dir_path(__DIR__) . '/helper/wc-integration.php';
         include_once plugin_dir_path(__DIR__) . '/helper/new-user-approve.php';
         include_once plugin_dir_path(__DIR__) . '/helper/return-warranty.php';
-        include_once plugin_dir_path(__DIR__)    .'/helper/signup-with-otp.php';
-        include_once plugin_dir_path(__DIR__)    . '/helper/feedback.php';
-        include_once plugin_dir_path(__DIR__)    . '/helper/class-blocks.php';
-        include_once plugin_dir_path(__DIR__)    . '/helper/class-smscampaign.php';
-        include_once plugin_dir_path(__DIR__)    . '/helper/class-wpfusion.php';
+        include_once plugin_dir_path(__DIR__) .'/helper/signup-with-otp.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/feedback.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/blocks.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/smscampaign.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/wpfusion.php';
         
         add_action('admin_menu', __CLASS__ . '::smsAlertWcSubmenu', 50);
 
