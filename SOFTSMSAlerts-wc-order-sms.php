@@ -8,9 +8,9 @@
  * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
- * Plugin Name: SOFTSMSAlerts - WooCommerce
- * Plugin URI: https://sms.softeriatech.com/plugins
- * Description: SMS Notifications, alerts and OTP for Activities, By https://softeriatech.com
+ * Plugin Name: SOFT SMS Alerts
+ * Plugin URI: https://wordpress.org/plugins/soft-sms-alerts/
+ * Description: SMS Notifications, alerts and OTP for Activities, By https://sms.softeriatech.com
  * Version: 1.0.1
  * Author: Softeria Tech Ltd.
  * Author URI: https://sms.softeriatech.com
