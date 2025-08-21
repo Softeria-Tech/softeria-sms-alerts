@@ -476,16 +476,16 @@ class SaFluentForm extends FormInterface
      */
     public static function getFluentForms()
     {
-        $fluent_forms = array();
+        $soft-sms-alerts = array();
         $forms        = wpFluent()->table('fluentform_forms')
             ->select(array( 'id', 'title' ))
             ->orderBy('id', 'DESC')
             ->get();
         foreach ( $forms as $form ) {
             $form_id                  = $form->id;
-            $fluent_forms[ $form_id ] = $form->title;
+            $soft-sms-alerts[ $form_id ] = $form->title;
         }
-        return $fluent_forms;
+        return $soft-sms-alerts;
     }
 }
 new SaFluentForm();

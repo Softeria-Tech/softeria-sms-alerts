@@ -301,7 +301,7 @@ class softeria_alerts_Setting_Options
 
         add_submenu_page('ninja-forms', __('SOFT SMS', 'ninja-forms'), __('Softeria Tech', 'ninja-forms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
         
-        add_submenu_page('fluent_forms', __('SOFT SMS', 'fluent_forms'), __('Softeria Tech', 'fluent_forms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('soft-sms-alerts', __('SOFT SMS', 'soft-sms-alerts'), __('Softeria Tech', 'soft-sms-alerts'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
         
         add_submenu_page('forminator', __('SOFT SMS', 'forminator'), __('Softeria Tech', 'forminator'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
@@ -591,7 +591,7 @@ class softeria_alerts_Setting_Options
             $softeria_alerts_helper = ( ! $islogged ) ? sprintf(__('Please enter below your <a href="%1$s" target="_blank">sms.softeriatech.com</a> login details to link it with %2$s', 'softeria-sms-alerts'), 'https://sms.softeriatech.com', get_bloginfo()) : '';
         }
         ?>
-        <form method="post" id="softeria_alerts_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+        <form method="post" id="soft-sms-alerts" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <div class="SofteriaAlerts_box SofteriaAlerts_settings_box">
                 <div class="SofteriaAlerts_nav_tabs">
         <?php
@@ -1130,10 +1130,10 @@ class softeria_alerts_Setting_Options
             jQuery('select').removeAttr('disabled',false);            
             isSubmitting = true; 
 			if (alert_msg.is_playground){
-				var url     = jQuery("#softeria_alerts_form").attr('action');
+				var url     = jQuery("#soft-sms-alerts").attr('action');
 				var hash     = window.location.hash;
-				jQuery('#softeria_alerts_form').attr('action', url+hash);
-				jQuery('#softeria_alerts_form').submit();
+				jQuery('#soft-sms-alerts').attr('action', url+hash);
+				jQuery('#soft-sms-alerts').submit();
 			}
 			else {				
             if (jQuery('[name="softeria_alerts_gateway[softeria_alerts_api]"]').val()=='SELECT' || jQuery('[name="softeria_alerts_gateway[softeria_alerts_api]"]').val()=='')
@@ -1211,11 +1211,11 @@ class softeria_alerts_Setting_Options
                 }
 				
 				
-            } else if (jQuery('#softeria_alerts_form')[0].checkValidity()) {
-                var url     = jQuery("#softeria_alerts_form").attr('action');
+            } else if (jQuery('#soft-sms-alerts')[0].checkValidity()) {
+                var url     = jQuery("#soft-sms-alerts").attr('action');
                 var hash     = window.location.hash;
-                jQuery('#softeria_alerts_form').attr('action', url+hash);
-                jQuery('#softeria_alerts_form').submit();
+                jQuery('#soft-sms-alerts').attr('action', url+hash);
+                jQuery('#soft-sms-alerts').submit();
             }
 			}
         });

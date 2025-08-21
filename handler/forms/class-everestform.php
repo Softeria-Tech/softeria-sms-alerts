@@ -133,7 +133,7 @@ class EverestForm extends FormInterface
     public function saEverestformBuilderSettingsSections($tab, $form_data)
     {
         $tab['smspro']= esc_html__(
-            'Softeria Tech', 'softeria_alerts_form'
+            'Softeria Tech', 'soft-sms-alerts'
         );
         return $tab;
     }
@@ -150,7 +150,7 @@ class EverestForm extends FormInterface
         $form_data['settings'] : array();        
         echo '<div class="evf-content-section evf-content-softeria-alert-settings">';
         echo '<div class="evf-content-section-title">';
-        esc_html_e('Softeria Tech Message Configuration', 'softeria_alerts_form');
+        esc_html_e('Softeria Tech Message Configuration', 'soft-sms-alerts');
         echo '</div>';
         echo '<a href="https://sms.softeriatech.com/knowledgebase/everest-forms-sms-integration/" target="_blank" class="btn-outline"><span class="dashicons dashicons-format-aside"></span> Documentation</a><br>';        
         everest_forms_panel_field(

@@ -173,7 +173,7 @@ class Wpjobs extends FormInterface
     {
         if (! is_user_logged_in() ) {
             $fields['job']['job_phone'] = array(
-            'label'       => __('Phone', 'job_manager'),
+            'label'       => __('Phone', 'soft-sms-alerts'),
             'type'        => 'text',
             'required'    => true,
             'placeholder' => 'Enter Mobile Number',

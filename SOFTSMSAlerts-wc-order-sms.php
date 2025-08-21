@@ -2,7 +2,6 @@
 /**
  * SMS Notifications, alerts and OTP for Activities, By https://softeriatech.com
  * PHP version 5
- *
  * @category Helper
  * @package  SOFTSMSAlerts
  * @author   Softeria Tech <billing@softeriatech.com>
@@ -12,6 +11,8 @@
  * Plugin URI: https://wordpress.org/plugins/soft-sms-alerts/
  * Description: SMS Notifications, alerts and OTP for Activities, By https://sms.softeriatech.com
  * Version: 1.0.1
+ * Tested up to: 6.1.1
+ * Stable tag: 1.0.1
  * Author: Softeria Tech Ltd.
  * Author URI: https://sms.softeriatech.com
  * Text Domain: softeria-sms-alerts

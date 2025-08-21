@@ -1416,7 +1416,7 @@ $sa('.SofteriaAlerts_box input[type="checkbox"],.woocommerce .cvt-accordion inpu
 $sa('.SofteriaAlerts_box input[type="checkbox"],.woocommerce .cvt-accordion input[type="checkbox"]').each(function (e, t) {
   toggleDisabled(this);
 });
-$sa("#softeria_alerts_form").keydown(function (e) {
+$sa("#soft-sms-alerts").keydown(function (e) {
   if (e.keyCode == 13 && e.target.nodeName != "TEXTAREA") {
     e.preventDefault();
     return false;
@@ -1442,7 +1442,7 @@ $sa(".sa-close, .btn_cancel").on("click", function (e) {
 });
 $sa("#confirmed").on("click", function (e) {
   $sa("#softeria_alerts_reset_btn").prop("checked", true);
-  $sa("#softeria_alerts_form").submit();
+  $sa("#soft-sms-alerts").submit();
   $sa(".sa-modal").removeClass("sa-show");
   $sa(".sa-modal-backdrop").removeClass("sa-show");
 });
