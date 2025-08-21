@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ use AmeliaBooking\Domain\ValueObjects\String\BookingStatus;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -83,9 +83,9 @@ class SAameliabooking extends FormInterface
         }
         $booking_id         = $reservation['id'];
         $booking_start      = $reservation['bookingStart'];
-        $customerNotify     = smspro_get_option('customer_notify', 'smspro_alb_general', 'on');
+        $customerNotify     = softeria_alerts_get_option('customer_notify', 'softeria_alerts_alb_general', 'on');
         global $wpdb;
-        $tableName       = $wpdb->prefix.'smspro_booking_reminder';
+        $tableName       = $wpdb->prefix.'softeria_alerts_booking_reminder';
         $source          = 'amelia-booking';
         $booking_details = $wpdb->get_results("SELECT * FROM $tableName WHERE booking_id = $booking_id and source = '$source'");
         if ($bookingStatus === 'approved' && $customerNotify === 'on') {
@@ -122,17 +122,17 @@ class SAameliabooking extends FormInterface
      */
     function sendReminderSms()
     {
-        if (smspro_get_option('customer_notify', 'smspro_alb_general') !== 'on') {
+        if (softeria_alerts_get_option('customer_notify', 'softeria_alerts_alb_general') !== 'on') {
             return;
         }
 
         global $wpdb;
-        $cronFrequency = BOOKING_REMINDER_CRON_INTERVAL;
-        // pick data from previous CART_CRON_INTERVAL min
-        $tableName     = $wpdb->prefix.'smspro_booking_reminder';
+        $cronFrequency = BOOKING_SCHECDULE_REMINDER;
+        // pick data from previous CHECKOUT_JOB_SCHECDULE min
+        $tableName     = $wpdb->prefix.'softeria_alerts_booking_reminder';
         
         $source        = 'amelia-booking';
-        $schedulerData = get_option('smspro_alb_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_alb_reminder_scheduler');
 
         foreach ($schedulerData['cron'] as $sdata) {            
             $datetime = current_time('mysql');
@@ -196,13 +196,13 @@ class SAameliabooking extends FormInterface
             BookingStatus::REJECTED,
         ]; 
         foreach ($bookingStatuses as $ks => $vs) {        
-            $defaults['smspro_alb_general']['customer_alb_notify_'.$vs]   = 'off';
-            $defaults['smspro_alb_message']['customer_sms_alb_body_'.$vs] = '';
-            $defaults['smspro_alb_general']['admin_alb_notify_'.$vs]      = 'off';
-            $defaults['smspro_alb_message']['admin_sms_alb_body_'.$vs]    = '';
+            $defaults['softeria_alerts_alb_general']['customer_alb_notify_'.$vs]   = 'off';
+            $defaults['softeria_alerts_alb_message']['customer_sms_alb_body_'.$vs] = '';
+            $defaults['softeria_alerts_alb_general']['admin_alb_notify_'.$vs]      = 'off';
+            $defaults['softeria_alerts_alb_message']['admin_sms_alb_body_'.$vs]    = '';
         }
-        $defaults['smspro_alb_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_alb_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_alb_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_alb_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
 
     }//end add_default_setting()
@@ -275,23 +275,23 @@ class SAameliabooking extends FormInterface
      * */
     public static function getReminderTemplates()
     {
-        $currentVal     = smspro_get_option('customer_notify', 'smspro_alb_general', 'on');
-        $checkboxMameId = 'smspro_alb_general[customer_notify]';
+        $currentVal     = softeria_alerts_get_option('customer_notify', 'softeria_alerts_alb_general', 'on');
+        $checkboxMameId = 'softeria_alerts_alb_general[customer_notify]';
 
-        $schedulerData = get_option('smspro_alb_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_alb_reminder_scheduler');
         $templates     = [];
         $count         = 0;
         if (empty($schedulerData) === true) {
             $schedulerData = array();
             $schedulerData['cron'][] = [
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[firstName]', '#[appointmentId]', '[store_name]', '[bookingStart]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[firstName]', '#[appointmentId]', '[store_name]', '[bookingStart]', PHP_EOL, PHP_EOL),
             ];
         }
 
         foreach ($schedulerData['cron'] as $key => $data) {
-            $textAreaNameId = 'smspro_alb_reminder_scheduler[cron]['.$count.'][message]';
-            $selectNameId   = 'smspro_alb_reminder_scheduler[cron]['.$count.'][frequency]';
+            $textAreaNameId = 'softeria_alerts_alb_reminder_scheduler[cron]['.$count.'][message]';
+            $selectNameId   = 'softeria_alerts_alb_reminder_scheduler[cron]['.$count.'][frequency]';
             $textBody       = $data['message'];
 
             $templates[$key]['notify_id']      = 'amelia-booking';
@@ -327,13 +327,13 @@ class SAameliabooking extends FormInterface
          ]; 
          $templates = [];
          foreach ($bookingStatuses as $ks  => $vs) {
-             $currentVal = smspro_get_option('customer_alb_notify_'.strtolower($vs), 'smspro_alb_general', 'on');
-             $checkboxMameId = 'smspro_alb_general[customer_alb_notify_'.strtolower($vs).']';
-             $textareaNameId = 'smspro_alb_message[customer_sms_alb_body_'.strtolower($vs).']';
+             $currentVal = softeria_alerts_get_option('customer_alb_notify_'.strtolower($vs), 'softeria_alerts_alb_general', 'on');
+             $checkboxMameId = 'softeria_alerts_alb_general[customer_alb_notify_'.strtolower($vs).']';
+             $textareaNameId = 'softeria_alerts_alb_message[customer_sms_alb_body_'.strtolower($vs).']';
 
-             $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[firstName]', '[appointmentId]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL);
+             $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[firstName]', '[appointmentId]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL);
 
-             $textBody = smspro_get_option('customer_sms_alb_body_'.strtolower($vs), 'smspro_alb_message', $defaultTemplate);
+             $textBody = softeria_alerts_get_option('customer_sms_alb_body_'.strtolower($vs), 'softeria_alerts_alb_message', $defaultTemplate);
              $templates[$ks]['title']          = 'When customer booking is '.ucwords($vs);
              $templates[$ks]['enabled']        = $currentVal;
              $templates[$ks]['status']         = $vs;
@@ -364,13 +364,13 @@ class SAameliabooking extends FormInterface
 
         $templates = [];
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal      = smspro_get_option('admin_alb_notify_'.strtolower($vs), 'smspro_alb_general', 'on');
-            $checkboxMameId  = 'smspro_alb_general[admin_alb_notify_'.strtolower($vs).']';
-            $textareaNameId  = 'smspro_alb_message[admin_sms_alb_body_'.strtolower($vs).']';
+            $currentVal      = softeria_alerts_get_option('admin_alb_notify_'.strtolower($vs), 'softeria_alerts_alb_general', 'on');
+            $checkboxMameId  = 'softeria_alerts_alb_general[admin_alb_notify_'.strtolower($vs).']';
+            $textareaNameId  = 'softeria_alerts_alb_message[admin_sms_alb_body_'.strtolower($vs).']';
 
-            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
 
-            $textBody       = smspro_get_option('admin_sms_alb_body_'.strtolower($vs), 'smspro_alb_message', $defaultTemplate);
+            $textBody       = softeria_alerts_get_option('admin_sms_alb_body_'.strtolower($vs), 'softeria_alerts_alb_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin change status to '.ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -457,8 +457,8 @@ class SAameliabooking extends FormInterface
             $buyerNumber   = $info->phone;          
         }        
         $this->setBookingReminder($reservation);
-        $customerMessage   = smspro_get_option('customer_sms_alb_body_' . $bookingStatus, 'smspro_alb_message', '');
-        $customerNotify    = smspro_get_option('customer_alb_notify_' . $bookingStatus, 'smspro_alb_general', 'on');
+        $customerMessage   = softeria_alerts_get_option('customer_sms_alb_body_' . $bookingStatus, 'softeria_alerts_alb_message', '');
+        $customerNotify    = softeria_alerts_get_option('customer_alb_notify_' . $bookingStatus, 'softeria_alerts_alb_general', 'on');
 
         if ($customerNotify === 'on' && $customerMessage !== '') {
             $buyerMessage = $this->parseSmsBody($reservation, $customerMessage);
@@ -466,13 +466,13 @@ class SAameliabooking extends FormInterface
         }
 
         // send msg to admin.
-        $adminPhoneNumber       = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber       = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $nos                    = explode(',', $adminPhoneNumber);
         $adminPhoneNumber       = array_diff($nos, ['postauthor', 'post_author']);
         $adminPhoneNumber       = implode(',', $adminPhoneNumber);
         if (empty($adminPhoneNumber) === false) {
-            $adminNotify        = smspro_get_option('admin_alb_notify_' . $bookingStatus, 'smspro_alb_general', 'on');
-            $adminMessage       = smspro_get_option('admin_sms_alb_body_' . $bookingStatus, 'smspro_alb_message', '');
+            $adminNotify        = softeria_alerts_get_option('admin_alb_notify_' . $bookingStatus, 'softeria_alerts_alb_general', 'on');
+            $adminMessage       = softeria_alerts_get_option('admin_sms_alb_body_' . $bookingStatus, 'softeria_alerts_alb_message', '');
             if ($adminNotify === 'on' && $adminMessage !== '') {
                 $adminMessage = $this->parseSmsBody($reservation, $adminMessage);
                 do_action('sa_send_sms', $adminPhoneNumber, $adminMessage);
@@ -673,7 +673,7 @@ class SAameliabooking extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('ameliabooking/ameliabooking.php') === true) && ($islogged === true)) {
             return true;

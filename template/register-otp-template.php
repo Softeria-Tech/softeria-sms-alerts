@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Template
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -26,26 +26,26 @@ if (! headers_sent() ) {
 							<div class="sa_customer_validation-modal-dialog sa_customer_validation-modal-md">
 								<div class="login sa_customer_validation-modal-content">
 									<div class="sa_customer_validation-modal-header">
-										<b>' . esc_html__('Validate OTP (One Time Passcode)', 'sms-pro') . '</b>
-										<a class="go_back" href="#" onclick="sa_validation_goback();" style="box-shadow: none;">&larr; ' . esc_html__('Go Back', 'sms-pro') . '</a>
+										<b>' . esc_html__('Validate OTP (One Time Passcode)', 'softeria-sms-alerts') . '</b>
+										<a class="go_back" href="#" onclick="sa_validation_goback();" style="box-shadow: none;">&larr; ' . esc_html__('Go Back', 'softeria-sms-alerts') . '</a>
 									</div>
 									<div class="sa_customer_validation-modal-body center">
 										<div>' . esc_attr($message) . '</div><br /> ';
 if (! SmsAlertUtility::isBlank($user_email) || ! SmsAlertUtility::isBlank($phone_number) ) {
     echo '								<div class="sa_customer_validation-login-container">
 												<form name="f" id="sa-form" method="post" action="">
-													<input type="hidden" name="option" value="smspro-validate-otp-form" />
-													<input type="text" name="smspro_customer_validation_otp_token"  autofocus="true" placeholder="" id="smspro_customer_validation_otp_token" required="true" class="sa_customer_validation-textbox" autofocus="true" pattern="[0-9]{4,8}" title="' . esc_attr(SmsAlertMessages::showMessage('OTP_RANGE')) . '" />
-													<br /><input type="submit" name="smspro_otp_token_submit" id="smspro_otp_token_submit" class="smspro_otp_token_submit"  value="' . esc_html__('Validate OTP', 'sms-pro') . '" />
+													<input type="hidden" name="option" value="softeria-alert-validate-otp-form" />
+													<input type="text" name="softeria_alerts_customer_validation_otp_token"  autofocus="true" placeholder="" id="softeria_alerts_customer_validation_otp_token" required="true" class="sa_customer_validation-textbox" autofocus="true" pattern="[0-9]{4,8}" title="' . esc_attr(SmsAlertMessages::showMessage('OTP_RANGE')) . '" />
+													<br /><input type="submit" name="softeria_alerts_otp_token_submit" id="softeria_alerts_otp_token_submit" class="softeria_alerts_otp_token_submit"  value="' . esc_html__('Validate OTP', 'softeria-sms-alerts') . '" />
 													<input type="hidden" name="otp_type" value="' . esc_attr($otp_type) . '">';
     if (! $from_both ) {
         echo '											<input type="hidden" id="from_both" name="from_both" value="false" />
 														<a style="float:right" id="verify_otp" onclick="sa_otp_verification_resend();">' . esc_attr(SmsAlertMessages::showMessage('RESEND_OTP')) . '</a>
-														<span id="timer" style="min-width:80px; float:right;margin-right: 5px;"><span id="stimer">00:00</span> ' . esc_html__('sec', 'sms-pro') . '</span>';
+														<span id="timer" style="min-width:80px; float:right;margin-right: 5px;"><span id="stimer">00:00</span> ' . esc_html__('sec', 'softeria-sms-alerts') . '</span>';
     } else {
         echo '											<input type="hidden" id="from_both" name="from_both" value="true" />
 														<a style="float:right" id="verify_otp" onclick="sa_select_goback();">' . esc_attr(SmsAlertMessages::showMessage('RESEND_OTP')) . '</a>
-														<span id="timer" style="min-width:80px; float:right;margin-right: 5px;"><span id="stimer">00:00</span> ' . esc_html__('sec', 'sms-pro') . '</span>';
+														<span id="timer" style="min-width:80px; float:right;margin-right: 5px;"><span id="stimer">00:00</span> ' . esc_html__('sec', 'softeria-sms-alerts') . '</span>';
     }
 
                                                                     sa_extra_post_data();
@@ -91,7 +91,7 @@ if (! $from_both ) {
 					<script>
 					document.addEventListener("DOMContentLoaded", function() {
 					jQuery("#sa-form").on("submit", function () {
-						jQuery("#smspro_otp_token_submit").attr("disabled", "disabled");
+						jQuery("#softeria_alerts_otp_token_submit").attr("disabled", "disabled");
 					});
 						function sa_validation_goback(){
 							document.getElementById("validation_goBack_form").submit();

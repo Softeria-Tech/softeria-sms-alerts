@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -19,8 +19,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SABlocks class
@@ -37,7 +37,7 @@ class SABlocks
     }
 
     /**
-     * Register SMS Pro Blocks.
+     * Register Softeria Tech Blocks.
      *
      * @uses register_block_type_from_metadata()
      *
@@ -47,25 +47,25 @@ class SABlocks
     {
             
         $blocks = array(
-        'sms-pro/sa-loginwithotp'     => array(
+        'softeria-sms-alerts/sa-loginwithotp'     => array(
         'render_callback' => array( $this, 'sa_loginwithotp_render' ),
         ),
-        'sms-pro/sa-signupwithmobile'     => array(
+        'softeria-sms-alerts/sa-signupwithmobile'     => array(
         'render_callback' => array( $this, 'sa_signupwithmobile_render' ),
         ),
-        'sms-pro/sa-sharecart'     => array(
+        'softeria-sms-alerts/sa-sharecart'     => array(
         'render_callback' => array( $this, 'sa_sharecart_render' ),
         )
         );
 
         foreach ( $blocks as $k => $block_data ) {
-            $block_type = str_replace('sms-pro/', '', $k);
+            $block_type = str_replace('softeria-sms-alerts/', '', $k);
             register_block_type_from_metadata(SA_MOV_DIR . 'blocks/' . $block_type, $block_data);
         }
     }
 
     /**
-     * Renders SMS Pro Login With OTP form block.
+     * Renders Softeria Tech Login With OTP form block.
      *
      * @return string
      *
@@ -79,7 +79,7 @@ class SABlocks
     }
         
     /**
-     * Renders SMS Pro Share Cart block.
+     * Renders Softeria Tech Share Cart block.
      *
      * @return string
      *
@@ -93,7 +93,7 @@ class SABlocks
     }
         
     /**
-     * Renders SMS Pro Signup With Mobile form block.
+     * Renders Softeria Tech Signup With Mobile form block.
      *
      * @return string
      *

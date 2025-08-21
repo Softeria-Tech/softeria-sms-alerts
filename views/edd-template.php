@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category View
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -21,7 +21,7 @@ $url = add_query_arg(
 );
 ?>
 <!-- Admin-accordion -->
-<div class="SMSPro_box">
+<div class="SofteriaAlerts_box">
     <div class="cvt-accordion"><!-- cvt-accordion -->
         <div class="accordion-section">
             <?php foreach ( $templates as $template ) { ?>
@@ -33,7 +33,7 @@ $url = add_query_arg(
                 <table class="form-table">
                     <tr valign="top" style="position:relative">
                         <td>
-                            <div class="smspro_tokens">
+                            <div class="softeria_alerts_tokens">
                 <?php
                 foreach ( $template['token'] as $vk => $vv ) {
                     echo  "<a href='#' data-val='".esc_attr($vk)."'>".esc_attr($vv)."</a> | ";

@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlertsSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ if (is_plugin_active('fat-services-booking/fat-services-booking.php') === false)
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * FatServiceBooking class 
@@ -75,9 +75,9 @@ class FatServiceBooking extends FormInterface
         $bookingTime          = date("H:i", mktime(0, $booking->b_time));        
         $bookingStart    = $bookingDate . ' ' . $bookingTime;         
         $buyerMob      = $booking->c_phone;
-        $customerNotify = smspro_get_option('customer_notify', 'smspro_fsb_general', 'on');
+        $customerNotify = softeria_alerts_get_option('customer_notify', 'softeria_alerts_fsb_general', 'on');
         global $wpdb;
-        $tableName           = $wpdb->prefix . 'smspro_booking_reminder';
+        $tableName           = $wpdb->prefix . 'softeria_alerts_booking_reminder';
         $source = 'fat_services_booking';
         $booking_details = $wpdb->get_results("SELECT * FROM $tableName WHERE booking_id = $bookingId and source = '$source'");
         if ($bookingStatus === 'approved' && $customerNotify === 'on') {
@@ -113,15 +113,15 @@ class FatServiceBooking extends FormInterface
      */
     function sendReminderSms()
     {
-        if (smspro_get_option('customer_notify', 'smspro_fsb_general') !== 'on') {
+        if (softeria_alerts_get_option('customer_notify', 'softeria_alerts_fsb_general') !== 'on') {
             return;
         }
         global $wpdb;
-        $cronFrequency = BOOKING_REMINDER_CRON_INTERVAL; // pick data from previous CART_CRON_INTERVAL min
-        $tableName     = $wpdb->prefix . 'smspro_booking_reminder';
+        $cronFrequency = BOOKING_SCHECDULE_REMINDER; // pick data from previous CHECKOUT_JOB_SCHECDULE min
+        $tableName     = $wpdb->prefix . 'softeria_alerts_booking_reminder';
         
         $source        = 'fat_services_booking';
-        $schedulerData = get_option('smspro_fsb_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_fsb_reminder_scheduler');
 
         foreach ($schedulerData['cron'] as $sdata) {
             $datetime = current_time('mysql');
@@ -175,13 +175,13 @@ class FatServiceBooking extends FormInterface
         $bookingStatuses = array('Pending', 'Canceled','Approved','Rejected');
 
         foreach ($bookingStatuses as $ks => $vs) {
-            $defaults['smspro_fsb_general']['customer_fsb_notify_' . $vs]   = 'off';
-            $defaults['smspro_fsb_message']['customer_sms_fsb_body_' . $vs] = '';
-            $defaults['smspro_fsb_general']['admin_fsb_notify_' . $vs]      = 'off';
-            $defaults['smspro_fsb_message']['admin_sms_fsb_body_' . $vs]    = '';
+            $defaults['softeria_alerts_fsb_general']['customer_fsb_notify_' . $vs]   = 'off';
+            $defaults['softeria_alerts_fsb_message']['customer_sms_fsb_body_' . $vs] = '';
+            $defaults['softeria_alerts_fsb_general']['admin_fsb_notify_' . $vs]      = 'off';
+            $defaults['softeria_alerts_fsb_message']['admin_sms_fsb_body_' . $vs]    = '';
         }
-        $defaults['smspro_fsb_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_fsb_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_fsb_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_fsb_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
 
     }//end add_default_setting()
@@ -249,21 +249,21 @@ class FatServiceBooking extends FormInterface
      * */
     public static function getReminderTemplates()
     {
-        $currentVal      = smspro_get_option('customer_notify', 'smspro_fsb_general', 'on');
-        $checkboxNameId  = 'smspro_fsb_general[customer_notify]';
-        $schedulerData  = get_option('smspro_fsb_reminder_scheduler');
+        $currentVal      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_fsb_general', 'on');
+        $checkboxNameId  = 'softeria_alerts_fsb_general[customer_notify]';
+        $schedulerData  = get_option('softeria_alerts_fsb_reminder_scheduler');
         $templates      = array();
         $count          = 0;
         if (empty($schedulerData) === true) {
             $schedulerData  = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[c_first_name]', '#[b_id]', '[store_name]', '[b_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[c_first_name]', '#[b_id]', '[store_name]', '[b_date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
-            $textAreaNameId = 'smspro_fsb_reminder_scheduler[cron][' . $count . '][message]';
-            $selectNameId    = 'smspro_fsb_reminder_scheduler[cron][' . $count . '][frequency]';
+            $textAreaNameId = 'softeria_alerts_fsb_reminder_scheduler[cron][' . $count . '][message]';
+            $selectNameId    = 'softeria_alerts_fsb_reminder_scheduler[cron][' . $count . '][frequency]';
             $textBody         = $data['message'];
             $templates[$key]['notify_id']      = 'restaurant-reservation';
             $templates[$key]['frequency']      = $data['frequency'];
@@ -295,11 +295,11 @@ class FatServiceBooking extends FormInterface
 
         $templates = array();
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal = smspro_get_option('customer_fsb_notify_' . strtolower($vs), 'smspro_fsb_general', 'on');
-            $checkboxNameId = 'smspro_fsb_general[customer_fsb_notify_' . strtolower($vs) . ']';
-            $textareaNameId = 'smspro_fsb_message[customer_sms_fsb_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('admin_sms_fsb_body_' . strtolower($vs), 'smspro_fsb_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[c_first_name]', '[b_id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
-            $textBody = smspro_get_option('customer_sms_fsb_body_' . strtolower($vs), 'smspro_fsb_message', $defaultTemplate);
+            $currentVal = softeria_alerts_get_option('customer_fsb_notify_' . strtolower($vs), 'softeria_alerts_fsb_general', 'on');
+            $checkboxNameId = 'softeria_alerts_fsb_general[customer_fsb_notify_' . strtolower($vs) . ']';
+            $textareaNameId = 'softeria_alerts_fsb_message[customer_sms_fsb_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[c_first_name]', '[b_id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
+            $textBody = softeria_alerts_get_option('customer_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -326,11 +326,11 @@ class FatServiceBooking extends FormInterface
         );
         $templates = array();
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal     = smspro_get_option('admin_fsb_notify_' . strtolower($vs), 'smspro_fsb_general', 'on');
-            $checkboxNameId = 'smspro_fsb_general[admin_fsb_notify_' . strtolower($vs) . ']';
-            $textareaNameId = 'smspro_fsb_message[admin_sms_fsb_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('admin_sms_fsb_body_' . strtolower($vs), 'smspro_fsb_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
-            $textBody = smspro_get_option('admin_sms_fsb_body_' . strtolower($vs), 'smspro_fsb_message', $defaultTemplate);
+            $currentVal     = softeria_alerts_get_option('admin_fsb_notify_' . strtolower($vs), 'softeria_alerts_fsb_general', 'on');
+            $checkboxNameId = 'softeria_alerts_fsb_general[admin_fsb_notify_' . strtolower($vs) . ']';
+            $textareaNameId = 'softeria_alerts_fsb_message[admin_sms_fsb_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
+            $textBody = softeria_alerts_get_option('admin_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When admin change status to ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -403,20 +403,20 @@ class FatServiceBooking extends FormInterface
         $buyerNumber   = $booking->c_phone;    
         
         $bookingStatus   = self::$b_status[$booking->b_process_status];      
-        $customerMessage = smspro_get_option('customer_sms_fsb_body_' . $bookingStatus, 'smspro_fsb_message', '');        
-        $customerNotify = smspro_get_option('customer_fsb_notify_' . $bookingStatus, 'smspro_fsb_general', 'on');
+        $customerMessage = softeria_alerts_get_option('customer_sms_fsb_body_' . $bookingStatus, 'softeria_alerts_fsb_message', '');        
+        $customerNotify = softeria_alerts_get_option('customer_fsb_notify_' . $bookingStatus, 'softeria_alerts_fsb_general', 'on');
         if (($customerNotify === 'on' && $customerMessage !== '')) {
             $buyerMessage = $this->parseSmsBody($booking, $customerMessage);
             do_action('sa_send_sms', $buyerNumber, $buyerMessage);
         }
         // Send msg to admin.
-         $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+         $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         if (empty($adminPhoneNumber) === false) {
 
-            $adminNotify  = smspro_get_option('admin_fsb_notify_' . $bookingStatus, 'smspro_fsb_general', 'on');
+            $adminNotify  = softeria_alerts_get_option('admin_fsb_notify_' . $bookingStatus, 'softeria_alerts_fsb_general', 'on');
 
-            $adminMessage = smspro_get_option('admin_sms_fsb_body_' . $bookingStatus, 'smspro_fsb_message', '');
+            $adminMessage = softeria_alerts_get_option('admin_sms_fsb_body_' . $bookingStatus, 'softeria_alerts_fsb_message', '');
 
             $nos = explode(',', $adminPhoneNumber);
             $adminPhoneNumber = array_diff($nos, array('postauthor', 'post_author'));
@@ -609,7 +609,7 @@ class FatServiceBooking extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('fat-services-booking/fat-services-booking.php') === true) && ($islogged === true)) {
             return true;

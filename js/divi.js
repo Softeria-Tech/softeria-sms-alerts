@@ -1512,9 +1512,9 @@
                 key: "componentDidMount",
                 value: function() {
                     var t = this, e = new FormData();
-                    e.append("nonce", smspro_divi_builder.nonce), e.append("action", "smspro_divi_preview"), 
+                    e.append("nonce", softeria_alerts_divi_builder.nonce), e.append("action", "softeria_alerts_divi_preview"), 
                     e.append("form_id", this.props.form_id), e.append("show_title", this.props.show_title), 
-                    e.append("show_desc", this.props.show_desc), fetch(smspro_divi_builder.ajax_url, {
+                    e.append("show_desc", this.props.show_desc), fetch(softeria_alerts_divi_builder.ajax_url, {
                         method: "POST",
                         cache: "no-cache",
                         credentials: "same-origin",
@@ -1540,13 +1540,13 @@
             }, {
                 key: "render",
                 value: function() {
-                    var e = this.state, t = e.error, r = e.isLoaded, e = e.form, r = r ? "smspro-divi-form-preview loading" : "smspro-divi-form-preview";
+                    var e = this.state, t = e.error, r = e.isLoaded, e = e.form, r = r ? "softeria-alert-divi-form-preview loading" : "softeria-alert-divi-form-preview";
 
                     return t || !e ? i.default.createElement("div", {
-                        className: "smspro-divi-form-placeholder"
+                        className: "softeria-alert-divi-form-placeholder"
                     }, i.default.createElement("img", {
-                        src: smspro_divi_builder.placeholder
-                    }), i.default.createElement("h3", null, smspro_divi_builder.placeholder_title)) : i.default.createElement("div", {
+                        src: softeria_alerts_divi_builder.placeholder
+                    }), i.default.createElement("h3", null, softeria_alerts_divi_builder.placeholder_title)) : i.default.createElement("div", {
                         className: r
                     }, i.default.createElement("div", {
                         dangerouslySetInnerHTML: {
@@ -1556,7 +1556,7 @@
                 }
             } ]) && s(e.prototype, t), r && s(e, r), o;
         }();
-        d = "smspro_selector", (y = "slug") in (p = m) ? Object.defineProperty(p, y, {
+        d = "softeria_alerts_selector", (y = "slug") in (p = m) ? Object.defineProperty(p, y, {
             value: d,
             enumerable: !0,
             configurable: !0,

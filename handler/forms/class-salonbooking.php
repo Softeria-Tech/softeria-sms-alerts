@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -21,8 +21,8 @@ if (! is_plugin_active('salon-booking-system/salon.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -62,9 +62,9 @@ class Salonbooking extends FormInterface
         $bookingDate    = current($meta['_sln_booking_date']);
         $bookingTime    = current($meta['_sln_booking_time']); 
         $booking_start  = $bookingDate . ' ' . $bookingTime;
-        $customerNotify = smspro_get_option('customer_notify', 'smspro_sln_general', 'on');
+        $customerNotify = softeria_alerts_get_option('customer_notify', 'softeria_alerts_sln_general', 'on');
         global $wpdb;
-        $tableName       = $wpdb->prefix.'smspro_booking_reminder';
+        $tableName       = $wpdb->prefix.'softeria_alerts_booking_reminder';
         $source          = 'salon-booking';
         $booking_details = $wpdb->get_results("SELECT * FROM $tableName WHERE booking_id = $booking_id and source = '$source'");
         if ($bookingStatus === 'sln-b-confirmed' && $customerNotify === 'on') {
@@ -101,16 +101,16 @@ class Salonbooking extends FormInterface
      */
     function sendReminderSms()
     {
-        if (smspro_get_option('customer_notify', 'smspro_sln_general') !== 'on') {
+        if (softeria_alerts_get_option('customer_notify', 'softeria_alerts_sln_general') !== 'on') {
             return;
         }
 
         global $wpdb, $post;
-        $cronFrequency = BOOKING_REMINDER_CRON_INTERVAL;
-        // pick data from previous CART_CRON_INTERVAL min
-        $tableName     = $wpdb->prefix.'smspro_booking_reminder';
+        $cronFrequency = BOOKING_SCHECDULE_REMINDER;
+        // pick data from previous CHECKOUT_JOB_SCHECDULE min
+        $tableName     = $wpdb->prefix.'softeria_alerts_booking_reminder';
         $source        = 'salon-booking';
-        $schedulerData = get_option('smspro_sln_reminder_scheduler');        
+        $schedulerData = get_option('softeria_alerts_sln_reminder_scheduler');        
         foreach ($schedulerData['cron'] as $sdata) {
             $datetime = current_time('mysql');
             $fromdate = date('Y-m-d H:i:s', strtotime('+'.($sdata['frequency'] * 60 - $cronFrequency).' minutes', strtotime($datetime)));
@@ -167,15 +167,15 @@ class Salonbooking extends FormInterface
     {
         $bookingStatuses = SLN_Enum_BookingStatus::getLabels();
         foreach ($bookingStatuses as $ks => $vs) {
-            $defaults['smspro_sln_general']['customer_sln_notify_'.$ks]   = 'off';
-            $defaults['smspro_sln_message']['customer_sms_sln_body_'.$ks] = '';
-            $defaults['smspro_sln_general']['admin_sln_notify_'.$ks]      = 'off';
-            $defaults['smspro_sln_message']['admin_sms_sln_body_'.$ks]    = '';
+            $defaults['softeria_alerts_sln_general']['customer_sln_notify_'.$ks]   = 'off';
+            $defaults['softeria_alerts_sln_message']['customer_sms_sln_body_'.$ks] = '';
+            $defaults['softeria_alerts_sln_general']['admin_sln_notify_'.$ks]      = 'off';
+            $defaults['softeria_alerts_sln_message']['admin_sms_sln_body_'.$ks]    = '';
         }
-        $defaults['smspro_sln_general']['otp_enable']      = 'off';
-        $defaults['smspro_sln_general']['customer_notify'] = 'off';
-        $defaults['smspro_sln_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_sln_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_sln_general']['otp_enable']      = 'off';
+        $defaults['softeria_alerts_sln_general']['customer_notify'] = 'off';
+        $defaults['softeria_alerts_sln_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_sln_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
 
     }//end add_default_setting()
@@ -243,23 +243,23 @@ class Salonbooking extends FormInterface
      * */
     public static function getReminderTemplates()
     {
-        $currentVal     = smspro_get_option('customer_notify', 'smspro_sln_general', 'on');
-        $checkboxMameId = 'smspro_sln_general[customer_notify]';
+        $currentVal     = softeria_alerts_get_option('customer_notify', 'softeria_alerts_sln_general', 'on');
+        $checkboxMameId = 'softeria_alerts_sln_general[customer_notify]';
 
-        $schedulerData = get_option('smspro_sln_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_sln_reminder_scheduler');
         $templates     = [];
         $count         = 0;
         if (empty($schedulerData) === true) {
             $schedulerData  = array();
             $schedulerData['cron'][] = [
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[_sln_booking_firstname]', '#[ID]', '[store_name]', '[booking_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[_sln_booking_firstname]', '#[ID]', '[store_name]', '[booking_date]', PHP_EOL, PHP_EOL),
             ];
         }
 
         foreach ($schedulerData['cron'] as $key => $data) {
-            $textAreaNameId = 'smspro_sln_reminder_scheduler[cron]['.$count.'][message]';
-            $selectNameId   = 'smspro_sln_reminder_scheduler[cron]['.$count.'][frequency]';
+            $textAreaNameId = 'softeria_alerts_sln_reminder_scheduler[cron]['.$count.'][message]';
+            $selectNameId   = 'softeria_alerts_sln_reminder_scheduler[cron]['.$count.'][frequency]';
             $textBody       = $data['message'];
 
             $templates[$key]['notify_id']      = 'salon-booking';
@@ -290,11 +290,11 @@ class Salonbooking extends FormInterface
         $bookingStatuses = SLN_Enum_BookingStatus::getLabels();       
         $templates = [];
         foreach ($bookingStatuses as $ks  => $vs) {            
-            $currentVal = smspro_get_option('customer_sln_notify_'.strtolower($ks), 'smspro_sln_general', 'on');
-            $checkboxMameId = 'smspro_sln_general[customer_sln_notify_'.strtolower($ks).']';
-            $textareaNameId = 'smspro_sln_message[customer_sms_sln_body_'.strtolower($ks).']';
-            $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[firstname]', '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
-            $textBody = smspro_get_option('customer_sms_sln_body_'.strtolower($ks), 'smspro_sln_message', $defaultTemplate);
+            $currentVal = softeria_alerts_get_option('customer_sln_notify_'.strtolower($ks), 'softeria_alerts_sln_general', 'on');
+            $checkboxMameId = 'softeria_alerts_sln_general[customer_sln_notify_'.strtolower($ks).']';
+            $textareaNameId = 'softeria_alerts_sln_message[customer_sms_sln_body_'.strtolower($ks).']';
+            $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[firstname]', '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $textBody = softeria_alerts_get_option('customer_sms_sln_body_'.strtolower($ks), 'softeria_alerts_sln_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer booking is '.ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $ks;
@@ -318,13 +318,13 @@ class Salonbooking extends FormInterface
         $bookingStatuses = SLN_Enum_BookingStatus::getLabels();
         $templates = [];
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal     = smspro_get_option('admin_sln_notify_'.strtolower($ks), 'smspro_sln_general', 'on');
-            $checkboxMameId = 'smspro_sln_general[admin_sln_notify_'.strtolower($ks).']';
-            $textareaNameId = 'smspro_sln_message[admin_sms_sln_body_'.strtolower($ks).']';
+            $currentVal     = softeria_alerts_get_option('admin_sln_notify_'.strtolower($ks), 'softeria_alerts_sln_general', 'on');
+            $checkboxMameId = 'softeria_alerts_sln_general[admin_sln_notify_'.strtolower($ks).']';
+            $textareaNameId = 'softeria_alerts_sln_message[admin_sms_sln_body_'.strtolower($ks).']';
 
-            $defaultTemplate = sprintf(__('Hello admin, status of your booking #%1$s with %2$s has been changed to %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello admin, status of your booking #%1$s with %2$s has been changed to %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
 
-            $textBody = smspro_get_option('admin_sms_sln_body_'.strtolower($ks), 'smspro_sln_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('admin_sms_sln_body_'.strtolower($ks), 'softeria_alerts_sln_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin change status to '.ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -358,20 +358,20 @@ class Salonbooking extends FormInterface
             $id                 = $post->ID;
             $meta               = get_post_meta($post->ID);
             $buyerNumber        = current($meta['_sln_booking_phone']);
-            $customerMessage    = smspro_get_option('customer_sms_sln_body_'.$bookingStatus, 'smspro_sln_message', ''); 
-            $customerNotify        = smspro_get_option('customer_sln_notify_'.$bookingStatus, 'smspro_sln_general', 'on'); 
+            $customerMessage    = softeria_alerts_get_option('customer_sms_sln_body_'.$bookingStatus, 'softeria_alerts_sln_message', ''); 
+            $customerNotify        = softeria_alerts_get_option('customer_sln_notify_'.$bookingStatus, 'softeria_alerts_sln_general', 'on'); 
             if (($customerNotify === 'on' && $customerMessage !== '')) {
                 $buyerMessage = $this->parseSmsBody($post, $customerMessage, $id);
                 do_action('sa_send_sms', $buyerNumber, $buyerMessage);
             }
 
             // Send msg to admin.
-            $adminPhoneNumber     = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $adminPhoneNumber     = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
             if (empty($adminPhoneNumber) === false) {
-                $adminNotify      = smspro_get_option('admin_sln_notify_'.$bookingStatus, 'smspro_sln_general', 'on');
+                $adminNotify      = softeria_alerts_get_option('admin_sln_notify_'.$bookingStatus, 'softeria_alerts_sln_general', 'on');
 
-                $adminMessage     = smspro_get_option('admin_sms_sln_body_'.$bookingStatus, 'smspro_sln_message', '');
+                $adminMessage     = softeria_alerts_get_option('admin_sms_sln_body_'.$bookingStatus, 'softeria_alerts_sln_message', '');
 
                 $nos              = explode(',', $adminPhoneNumber);
                 $adminPhoneNumber = array_diff($nos, ['postauthor', 'post_author']);
@@ -482,7 +482,7 @@ class Salonbooking extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('salon-booking-system/salon.php') === true) && ($islogged === true)) {
             return true;

@@ -3,22 +3,22 @@
     $(document).ready(
         function () {
             var timer;
-            var timePeriod = cart_exit_intent_data.hours; //Time period in hours
+            var timePeriod = cart_exit_intent_data.hours;
 
             function showExitIntentForm(event)
             {
                 var currentTime             = new Date().getTime();
                 var last_time_displayed     = localStorage.getItem('cart_ei_last_time');
                 var last_time_moved_back     = localStorage.getItem('cart_last_time_moved_back');
-                var productCount             = cart_exit_intent_data.product_count; //Products in the shopping cart
+                var productCount             = cart_exit_intent_data.product_count;
 
-                if(event == 'cart_scrolling_up' || event == 'cart_going_back' ) { //In case if user is scrolling up or using back button
+                if(event == 'cart_scrolling_up' || event == 'cart_going_back' ) {
                     if(productCount == 0) {
                         return;
                     }
-                    else if(last_time_displayed == null || timePeriod == 0) { //If time period has passed or Exit Intent test mode is enabled
-                        $('#cart-exit-intent-form').addClass('cart-visible'); //Display form
-                        $('#cart-exit-intent-form-backdrop').css('opacity', '').addClass('cart-visible'); //Show backdrop
+                    else if(last_time_displayed == null || timePeriod == 0) {
+                        $('#cart-exit-intent-form').addClass('cart-visible'); 
+                        $('#cart-exit-intent-form-backdrop').css('opacity', '').addClass('cart-visible');
                         if(timePeriod != 0) {
                             localStorage.setItem('cart_ei_last_time', currentTime);
                         }
@@ -33,14 +33,14 @@
                     if(productCount == 0) {
                         return;
                     }
-                    else if(last_time_displayed == null || timePeriod == 0) { 
-                        $('#cart-exit-intent-form').addClass('cart-visible'); //Display form
-                        $('#cart-exit-intent-form-backdrop').css('opacity', '').addClass('cart-visible'); //Show backdrop
+                    else if(last_time_displayed == null || timePeriod == 0) {
+                        $('#cart-exit-intent-form').addClass('cart-visible');
+                        $('#cart-exit-intent-form-backdrop').css('opacity', '').addClass('cart-visible');
                         if(timePeriod != 0) {
                             localStorage.setItem('cart_ei_last_time', currentTime);
                         }
                     }else{
-                        if(currentTime - last_time_displayed > timePeriod * 60 * 60 * 1000) { // If the time has expired, clear the cookie
+                        if(currentTime - last_time_displayed > timePeriod * 60 * 60 * 1000) {
                                       localStorage.removeItem('cart_ei_last_time');
                         }
                     }
@@ -50,7 +50,7 @@
             function getExitIntentMobile()
             {
                 var cart_mobile = $('#cart-exit-intent-mobile').val();
-                var smspro_abcart_nonce = $('#smspro_abcart_nonce').val();
+                var softeria_alerts_abcart_nonce = $('#softeria_alerts_abcart_nonce').val();
             
                 clearTimeout(timer);
             
@@ -58,7 +58,7 @@
                        var data = {
                             action            :    'save_data',
                             ab_cart_phone    :    cart_mobile,
-                            smspro_abcart_nonce    :    smspro_abcart_nonce
+                            softeria_alerts_abcart_nonce    :    softeria_alerts_abcart_nonce
                     }
 
                     timer = setTimeout(

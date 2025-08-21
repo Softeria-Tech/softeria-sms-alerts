@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -31,8 +31,8 @@ if (!defined('ABSPATH')) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SANotifyMeWidget class
@@ -47,7 +47,7 @@ class SANotifyMeWidget extends Widget_Base
      */
     public function get_name()
     {
-        return 'smspro-notifyme-widget';
+        return 'softeria-alert-notifyme-widget';
     }
 
     /**
@@ -57,7 +57,7 @@ class SANotifyMeWidget extends Widget_Base
      */
     public function get_title()
     {
-        return __('SMS Pro Notify Me', 'sms-pro');
+        return __('Softeria Tech Notify Me', 'softeria-sms-alerts');
     }
 
     /**
@@ -106,8 +106,8 @@ class SANotifyMeWidget extends Widget_Base
     public function get_style_depends()
     {
         return [
-            'smspro-notifyme-styles',
-            'smspro-public-default',
+            'softeria-alert-notifyme-styles',
+            'softeria-alert-public-default',
         ];
     }
      
@@ -145,14 +145,14 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_section(
             'section_smspronotifyme_form',
             [
-                'label' => __('SMS Pro Notify Me', 'sms-pro'),
+                'label' => __('Softeria Tech Notify Me', 'softeria-sms-alerts'),
             ]
         );     
  
         $this->add_control(
             'sa_ele_f_notifyme_title',
             [
-                'label'        => __('Modal Title', 'sms-pro'),
+                'label'        => __('Modal Title', 'softeria-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Enter Title', 
                                 
@@ -162,7 +162,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_notifyme_placehoder',
             [
-                'label'        => __('Placeholder', 'sms-pro'),
+                'label'        => __('Placeholder', 'softeria-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Your Phone',
                                
@@ -171,7 +171,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'sa_notifyme_button',
             [
-                'label'        => __('Button Text', 'sms-pro'),
+                'label'        => __('Button Text', 'softeria-sms-alerts'),
                 'type'         => "text",
                 'placeholder'  => 'Enter Button Text',
                                
@@ -190,7 +190,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_container_style',
             [
-                'label' => __('Form Container', 'sms-pro'),
+                'label' => __('Form Container', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -198,9 +198,9 @@ class SANotifyMeWidget extends Widget_Base
             Group_Control_Background::get_type(),
             [
                 'name'     => 'form_container_background',
-                'label'    => __('Background', 'sms-pro'),
+                'label'    => __('Background', 'softeria-sms-alerts'),
                 'types'    => ['classic'],
-                'selector' => '{{WRAPPER}} .smspronotifyme-widget-wrapper .smspro_instock_field',
+                'selector' => '{{WRAPPER}} .smspronotifyme-widget-wrapper .softeria_alerts_instock_field',
                 'exclude' => ['image'],        
             ]
         );   
@@ -209,18 +209,18 @@ class SANotifyMeWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'     => 'form_container_border',
-                'selector' => '{{WRAPPER}} .smspronotifyme-widget-wrapper .smspro_instock_field',           
+                'selector' => '{{WRAPPER}} .smspronotifyme-widget-wrapper .softeria_alerts_instock_field',           
             ]
         );
         $this->add_control(
             'form_container_border_radius',
             [
-                'label'      => esc_html__('Border Radius', 'sms-pro'),
+                'label'      => esc_html__('Border Radius', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'separator'  => 'before',
                 'size_units' => ['px'],
                 'selectors'  => [
-                    '{{WRAPPER}} .smspronotifyme-widget-wrapper .smspro_instock_field' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .smspronotifyme-widget-wrapper .softeria_alerts_instock_field' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );      
@@ -237,7 +237,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_description_style',
             [
-                'label'     => __('Modal Title', 'sms-pro'),
+                'label'     => __('Modal Title', 'softeria-sms-alerts'),
                 'tab'       => Controls_Manager::TAB_STYLE,
                 
             ]
@@ -246,19 +246,19 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'heading_alignment',
             [
-                'label'   => __('Alignment', 'sms-pro'),
+                'label'   => __('Alignment', 'softeria-sms-alerts'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
-                        'title' => __('Left', 'sms-pro'),
+                        'title' => __('Left', 'softeria-sms-alerts'),
                         'icon'  => 'fa fa-align-left',
                     ],
                     'center' => [
-                        'title' => __('Center', 'sms-pro'),
+                        'title' => __('Center', 'softeria-sms-alerts'),
                         'icon'  => 'fa fa-align-center',
                     ],
                     'right' => [
-                        'title' => __('Right', 'sms-pro'),
+                        'title' => __('Right', 'softeria-sms-alerts'),
                         'icon'  => 'fa fa-align-right',
                     ],
                 ],
@@ -273,7 +273,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_title_text_color',
             [
-                'label'     => __('Color', 'sms-pro'),
+                'label'     => __('Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -285,7 +285,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_title_bg_color',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -298,7 +298,7 @@ class SANotifyMeWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'      => 'form_title_typography',
-                'label'     => __('Typography', 'sms-pro'),
+                'label'     => __('Typography', 'softeria-sms-alerts'),
                 'selector'  => '{{WRAPPER}} .smspronotifyme-widget-wrapper .notify_title',
                 
             ]
@@ -307,7 +307,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_title_margin',
             [
-                'label'              => __('Margin', 'sms-pro'),
+                'label'              => __('Margin', 'softeria-sms-alerts'),
                 'type'               => Controls_Manager::DIMENSIONS,
                 'size_units'         => ['px', 'em', '%'],
                 'allowed_dimensions' => 'vertical',
@@ -328,7 +328,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_title_padding',
             [
-                'label'      => esc_html__('Padding', 'sms-pro'),
+                'label'      => esc_html__('Padding', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -349,7 +349,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_fields_style',
             [
-                'label' => __('Input Field', 'sms-pro'),
+                'label' => __('Input Field', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -357,7 +357,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'input_alignment',
             [
-                'label'   => __('Alignment', 'sms-pro'),
+                'label'   => __('Alignment', 'softeria-sms-alerts'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
@@ -365,11 +365,11 @@ class SANotifyMeWidget extends Widget_Base
                         'icon'  => 'fa fa-align-left',
                     ],
                     'center' => [
-                        'title' => __('Center', 'sms-pro'),
+                        'title' => __('Center', 'softeria-sms-alerts'),
                         'icon'  => 'fa fa-align-center',
                     ],
                     'right' => [
-                        'title' => __('Right', 'sms-pro'),
+                        'title' => __('Right', 'softeria-sms-alerts'),
                         'icon'  => 'fa fa-align-right',
                     ],
                 ],
@@ -385,14 +385,14 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_form_fields_normal',
             [
-                'label' => __('Normal', 'sms-pro'),
+                'label' => __('Normal', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_field_bg_color',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -404,7 +404,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_field_text_color',
             [
-                'label'     => __('Text Color', 'sms-pro'),
+                'label'     => __('Text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -417,7 +417,7 @@ class SANotifyMeWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_field_border',
-                'label'       => __('Border', 'sms-pro'),
+                'label'       => __('Border', 'softeria-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
                 'selector'    => '{{WRAPPER}} .smspronotifyme-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]):not(.select2-search__field), {{WRAPPER}}.smspronotifyme-widget-wrapper #sc_fmobile textarea {{WRAPPER}} .smspronotifyme-widget-wrapper #sa_bis_phone select  {{WRAPPER}} .smspronotifyme-widget-wrapper #sa_bis_phone .select2-container--default .select2-selection--multiple',
@@ -428,7 +428,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_field_radius',
             [
-                'label'      => __('Border Radius', 'sms-pro'),
+                'label'      => __('Border Radius', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -440,7 +440,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_text_indent',
             [
-                'label' => __('Text Indent', 'sms-pro'),
+                'label' => __('Text Indent', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -465,7 +465,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_input_width',
             [
-                'label' => __('Input Width', 'sms-pro'),
+                'label' => __('Input Width', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -484,7 +484,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_input_height',
             [
-                'label' => __('Input Height', 'sms-pro'),
+                'label' => __('Input Height', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -503,7 +503,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_padding',
             [
-                'label'      => __('Padding', 'sms-pro'),
+                'label'      => __('Padding', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -515,7 +515,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_spacing',
             [
-                'label' => __('Spacing', 'sms-pro'),
+                'label' => __('Spacing', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -535,7 +535,7 @@ class SANotifyMeWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'      => 'form_field_typography',
-                'label'     => __('Typography', 'sms-pro'),
+                'label'     => __('Typography', 'softeria-sms-alerts'),
                 'selector'  => '{{WRAPPER}} .smspronotifyme-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]), {{WRAPPER}} .smspronotifyme-widget-wrapper #sa_bis_phone textarea {{WRAPPER}} .smspronotifyme-widget-wrapper #sa_bis_phone select',
                 'separator' => 'before',
             ]
@@ -555,14 +555,14 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_form_fields_focus',
             [
-                'label' => __('Focus', 'sms-pro'),
+                'label' => __('Focus', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_field_bg_color_focus',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -575,7 +575,7 @@ class SANotifyMeWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_input_focus_border',
-                'label'       => __('Border', 'sms-pro'),
+                'label'       => __('Border', 'softeria-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
                 'selector'    => '{{WRAPPER}} .smspronotifyme-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]):focus, {{WRAPPER}} .smspronotifyme-widget-wrapper #sa_bis_phone textarea:focus',
@@ -609,7 +609,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_submit_button_style',
             [
-                'label' => __('Notify Me Button', 'sms-pro'),
+                'label' => __('Notify Me Button', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -617,19 +617,19 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_align',
             [
-                'label'   => __('Alignment', 'sms-pro'),
+                'label'   => __('Alignment', 'softeria-sms-alerts'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
-                        'title' => __('Left', 'sms-pro'),
+                        'title' => __('Left', 'softeria-sms-alerts'),
                         'icon'  => 'eicon-h-align-left',
                     ],
                     'center' => [
-                        'title' => __('Center', 'sms-pro'),
+                        'title' => __('Center', 'softeria-sms-alerts'),
                         'icon'  => 'eicon-h-align-center',
                     ],
                     'right' => [
-                        'title' => __('Right', 'sms-pro'),
+                        'title' => __('Right', 'softeria-sms-alerts'),
                         'icon'  => 'eicon-h-align-right',
                     ],
                 ],
@@ -642,12 +642,12 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_width_type',
             [
-                'label'   => __('Width', 'sms-pro'),
+                'label'   => __('Width', 'softeria-sms-alerts'),
                 'type'    => Controls_Manager::SELECT,
                 'default' => 'custom',
                 'options' => [
-                    'full-width' => __('Full Width', 'sms-pro'),
-                    'custom'     => __('Custom', 'sms-pro'),
+                    'full-width' => __('Full Width', 'softeria-sms-alerts'),
+                    'custom'     => __('Custom', 'softeria-sms-alerts'),
                 ],
                 'prefix_class' => 'smspronotifyme-widget-submit-button- .sa_bis_submit',
             ]
@@ -656,7 +656,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_width',
             [
-                'label' => __('Width', 'sms-pro'),
+                'label' => __('Width', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -677,14 +677,14 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_submit_button_normal',
             [
-                'label' => __('Normal', 'sms-pro'),
+                'label' => __('Normal', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_submit_button_bg_color_normal',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#409EFF',
                 'selectors' => [
@@ -696,7 +696,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_text_color_normal',
             [
-                'label'     => __('Text Color', 'sms-pro'),
+                'label'     => __('Text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#ffffff',
                 'selectors' => [
@@ -709,7 +709,7 @@ class SANotifyMeWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_submit_button_border_normal',
-                'label'       => __('Border', 'sms-pro'),
+                'label'       => __('Border', 'softeria-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
                 'selector'    => '{{WRAPPER}} .smspronotifyme-widget-wrapper .sa_bis_submit',
@@ -719,7 +719,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_border_radius',
             [
-                'label'      => __('Border Radius', 'sms-pro'),
+                'label'      => __('Border Radius', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -731,7 +731,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_padding',
             [
-                'label'      => __('Padding', 'sms-pro'),
+                'label'      => __('Padding', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -743,7 +743,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_margin',
             [
-                'label' => __('Margin Top', 'sms-pro'),
+                'label' => __('Margin Top', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -763,7 +763,7 @@ class SANotifyMeWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'      => 'form_submit_button_typography',
-                'label'     => __('Typography', 'sms-pro'),
+                'label'     => __('Typography', 'softeria-sms-alerts'),
                 'selector'  => '{{WRAPPER}} .smspronotifyme-widget-wrapper .sa_bis_submit',
                 'separator' => 'before',
             ]
@@ -783,14 +783,14 @@ class SANotifyMeWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_submit_button_hover',
             [
-                'label' => __('Hover', 'sms-pro'),
+                'label' => __('Hover', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_submit_button_bg_color_hover',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -802,7 +802,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_text_color_hover',
             [
-                'label'     => __('Text Color', 'sms-pro'),
+                'label'     => __('Text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -814,7 +814,7 @@ class SANotifyMeWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_border_color_hover',
             [
-                'label'     => __('Border Color', 'sms-pro'),
+                'label'     => __('Border Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [

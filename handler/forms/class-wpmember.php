@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('wp-members/wp-members.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Wpmember class.
@@ -82,7 +82,7 @@ class Wpmember extends FormInterface
      */
     public function wpmemAddSmsalertTab( $tabs )
     {
-        return array_merge($tabs, array( 'smspro' => __('SMSPro', 'sms-pro') ));
+        return array_merge($tabs, array( 'smspro' => __('SOFTSMSAlerts', 'softeria-sms-alerts') ));
     }
 
     /**
@@ -92,7 +92,7 @@ class Wpmember extends FormInterface
      */
     public function wpmemSmsalertPanel()
     {
-        echo '<div id="smspro-wpmem-panel" >
+        echo '<div id="softeria-alert-wpmem-panel" >
 			<h3>OTP FOR WPMember FORM</h3>
 	<fieldset>
 		<legend>Please follow the below steps to enable OTP for WP Member Registration Form:</legend>
@@ -102,7 +102,7 @@ class Wpmember extends FormInterface
 							Enable phone field with meta key <strong>phone1</strong> for your form and keep it required.
 						</li>
 						<li>
-							Create a new text field for Verification Code with meta key <strong>smspro_customer_validation_otp_token</strong>.
+							Create a new text field for Verification Code with meta key <strong>softeria_alerts_customer_validation_otp_token</strong>.
 						</li>
 					</ol>
 					
@@ -124,7 +124,7 @@ class Wpmember extends FormInterface
             return;
         }
         switch ( trim(sanitize_text_field(wp_unslash($_REQUEST['option']))) ) {
-        case 'smspro-wpmember-form':
+        case 'softeria-alert-wpmember-form':
             $this->handleWpMemberForm($_POST);
             break;
         }
@@ -137,9 +137,9 @@ class Wpmember extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ? true : false;
+        return ( $islogged && softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
 
     /**
@@ -172,7 +172,7 @@ class Wpmember extends FormInterface
         }
 
         $_SESSION[ $this->form_phone_ver ] = $data['user_phone'];
-        smspro_site_challenge_otp(null, '', null, $data['user_phone'], 'phone', null, null, false);
+        softeria_alerts_site_challenge_otp(null, '', null, $data['user_phone'], 'phone', null, null, false);
     }
 
 
@@ -221,7 +221,7 @@ class Wpmember extends FormInterface
             return;
         }
 
-        do_action('smspro_validate_otp', null, $fields['smspro_customer_validation_otp_token']);
+        do_action('softeria_alerts_validate_otp', null, $fields['softeria_alerts_customer_validation_otp_token']);
     }
 
     /**
@@ -254,14 +254,14 @@ class Wpmember extends FormInterface
     public function addShortcodeToWpmember( $sa_type, $field )
     {
         $field_content  = "<div style='margin-top: 2%;'><button type='button' class='button alt' style='width:100%;";
-        $field_content .= "font-family: Roboto;font-size: 12px !important;' id='smspro_otp_token_submit' ";
+        $field_content .= "font-family: Roboto;font-size: 12px !important;' id='softeria_alerts_otp_token_submit' ";
         $field_content .= "title='Please Enter an '" . $sa_type . "'to enable this.'>Click Here to Verify " . $sa_type . '</button></div>';
         $field_content .= "<div style='margin-top:2%'><div id='salert_message' hidden='' style='background-color: #f7f6f7;padding: ";
         $field_content .= "1em 2em 1em 3.5em;'></div></div>";
         
-        $inline_script = 'document.addEventListener("DOMContentLoaded", function() {jQuery("input[name=' . $field . ']").addClass("phone-valid");jQuery(document).ready(function(){jQuery("#smspro_otp_token_submit").click(function(o){ 
+        $inline_script = 'document.addEventListener("DOMContentLoaded", function() {jQuery("input[name=' . $field . ']").addClass("phone-valid");jQuery(document).ready(function(){jQuery("#softeria_alerts_otp_token_submit").click(function(o){ 
 		var e=(typeof sa_otp_settings  != "undefined" && sa_otp_settings["show_countrycode"]=="on") ? jQuery("input[name=' . $field . ']:hidden").val() : jQuery("input[name=' . $field . ']").val(); jQuery("#salert_message").empty(),jQuery("#salert_message").append("Sending OTP...");
-		jQuery("#salert_message").show(),jQuery.ajax({url:"' . site_url() . '/?option=smspro-wpmember-form",type:"POST",
+		jQuery("#salert_message").show(),jQuery.ajax({url:"' . site_url() . '/?option=softeria-alert-wpmember-form",type:"POST",
         data:{user_' . $sa_type . ':e},crossDomain:!0,dataType:"json",success:function(o){ if(o.result=="success"){
 			jQuery("#salert_message").empty();
 		    jQuery("#salert_message").append(o.message);

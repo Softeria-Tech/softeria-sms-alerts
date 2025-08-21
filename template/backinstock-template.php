@@ -4,13 +4,13 @@
  * PHP version 5
  *
  * @category Template
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
     use Elementor\Frontend;
-    $post = get_page_by_path('notifyme_style', OBJECT, 'sms-pro');
+    $post = get_page_by_path('notifyme_style', OBJECT, 'softeria-sms-alerts');
 if (is_plugin_active('elementor/elementor.php') && !empty($post)) {  
     $post_id= $post->ID;    
     $frontent = new Frontend();

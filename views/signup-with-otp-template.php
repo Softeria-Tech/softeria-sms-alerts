@@ -2,23 +2,23 @@
     <?php
         $shortcodes = array(
             array(
-                'label' => __('Signup With Mobile', 'sms-pro'),
+                'label' => __('Signup With Mobile', 'softeria-sms-alerts'),
                 'value' => 'sa_signupwithmobile',
             ),
             array(
-                'label' => __('Login With Otp', 'sms-pro'),
+                'label' => __('Login With Otp', 'softeria-sms-alerts'),
                 'value' => 'sa_loginwithotp',
             ), 
             array(
-                'label' => __('Share Cart', 'sms-pro'),
+                'label' => __('Cart', 'softeria-sms-alerts'),
                 'value' => 'sa_sharecart',
             ),
             array(
-                'label' => __('Verify OTP', 'sms-pro'),
+                'label' => __('Verify OTP', 'softeria-sms-alerts'),
                 'value' => 'sa_verify phone_selector="#phone" submit_selector= ".btn"',
             ),
             array(
-                'label' => __('Subscription Form', 'sms-pro'),
+                'label' => __('Subscription Form', 'softeria-sms-alerts'),
                 'value' => 'sa_subscribe group_name=""',
             )
         );
@@ -26,7 +26,7 @@
         foreach ( $shortcodes as $key => $shortcode ) {
 
             echo '<table class="form-table">';
-            $id = 'smspro_' . esc_attr($shortcode['value']) . '_short';
+            $id = 'softeria_alerts_' . esc_attr($shortcode['value']) . '_short';
             ?>
             <tr class="top-border">
                 <th scope="row">
@@ -38,12 +38,12 @@
             if ('sa_subscribe group_name=""'===$shortcode['value']) {
                 $groups = SmsAlertcURLOTP::groupList();
                 ?>
-                                <select name="smspro_general[subscribe_group]" id="user_group">
+                                <select name="softeria_alerts_general[subscribe_group]" id="user_group">
                 <?php
                 if (!empty($groups)) {
                     if (! is_array($groups['data'])) {
                         ?>
-                                            <option value=""><?php esc_attr_e('SELECT', 'sms-pro'); ?></option>
+                                            <option value=""><?php esc_attr_e('SELECT', 'softeria-sms-alerts'); ?></option>
                           <?php
                     } else {
                         foreach ( $groups['data'] as $group ) {
@@ -60,16 +60,16 @@
             ?>
                         <input type="text" class="sa-shortcode-input" value="[<?php echo esc_attr($shortcode['value']); ?>]" readonly/>    <span class="dashicons dashicons-admin-page copy_shortcode" onclick="copyToClipboard('[<?php echo esc_attr($shortcode['value']); ?>]',this)" style="
                             margin-left: -25px;  cursor: pointer;"></span>
-                        <span class="clip-msg" style="color:#45108a; margin-left: 1.5pc;"></span>
+                        <span class="clip-msg" style="color:#2271b1; margin-left: 1.5pc;"></span>
                         <?php 
                         if ('sa_verify phone_selector="#phone" submit_selector= ".btn"'===$shortcode['value']) {
                             ?>
                         <!--optional attribute-->
                         <br/><br/>
-                        <b><?php esc_html_e('Attributes', 'sms-pro'); ?></b><br />
+                        <b><?php esc_html_e('Attributes', 'softeria-sms-alerts'); ?></b><br />
                         <ul>
-                        <li><b>phone_selector</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set phone field selector', 'sms-pro'); ?></li>
-                        <li><b>submit_selector</b> &nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set submit button selector.', 'sms-pro'); ?></li>
+                        <li><b>phone_selector</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set phone field selector', 'softeria-sms-alerts'); ?></li>
+                        <li><b>submit_selector</b> &nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set submit button selector.', 'softeria-sms-alerts'); ?></li>
                         </ul>
                         <b>eg</b> : <code>[sa_verify phone_selector="#phone" submit_selector= ".btn"]</code></span>
                     <!--/-optional attribute-->
@@ -78,9 +78,9 @@
                             ?>
                 <!--optional attribute-->
                         <br/><br/>
-                        <b><?php esc_html_e('Attributes', 'sms-pro'); ?></b><br />
+                        <b><?php esc_html_e('Attributes', 'softeria-sms-alerts'); ?></b><br />
                         <ul>
-                        <li><b>redirect_url</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('Set the redirect url', 'sms-pro'); ?></li> 
+                        <li><b>redirect_url</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('Set the redirect url', 'softeria-sms-alerts'); ?></li> 
                         </ul>
                         <b>eg</b> : <code>[sa_signupwithmobile redirect_url="<?php echo get_site_url();?>"]</code></span>                        
                     <!--/-optional attribute-->                
@@ -89,9 +89,9 @@
                         if ('sa_loginwithotp' === $shortcode['value']) {
                             ?>
                         <br/><br/>
-                        <b><?php esc_html_e('Attributes', 'sms-pro'); ?></b><br />
+                        <b><?php esc_html_e('Attributes', 'softeria-sms-alerts'); ?></b><br />
                         <ul>
-                        <li><b>redirect_url</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('Set the redirect url', 'sms-pro'); ?></li> 
+                        <li><b>redirect_url</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('Set the redirect url', 'softeria-sms-alerts'); ?></li> 
                         </ul>
                         <b>eg</b> : <code>[sa_loginwithotp redirect_url="<?php echo get_site_url();?>"]</code></span>            
                             <?php	            

@@ -57,8 +57,8 @@ $sa(".single_variation_wrap").on(
         $sa(".phone-valid").after("<span class='error sa_phone_error' style='display:none'></span>");
         // Fired when the user selects all the required dropdowns / attributes
         // and a final variation is selected / shown
-        $sa(".smspro_instock-subscribe-form").hide(); //remove existing form
-        $sa(".smspro_instock-subscribe-form").fadeIn(
+        $sa(".softeria_alerts_instock-subscribe-form").hide(); //remove existing form
+        $sa(".softeria_alerts_instock-subscribe-form").fadeIn(
             1000,'linear',function () {
     
                 if(sa_otp_settings['show_countrycode']=='on') {
@@ -101,7 +101,7 @@ $sa(".single_variation_wrap").on(
                                 var iti = $sa(this).intlTelInput("setNumber",fullnumber);
                                 var errorCode = iti.intlTelInput('getValidationError');
                                 iti.parents(".iti--separate-dial-code").next(".sa_phone_error").text(errorMap[errorCode]);
-                                $sa("#smspro_otp_token_submit,#sc_btn").attr("disabled",true);
+                                $sa("#softeria_alerts_otp_token_submit,#sc_btn").attr("disabled",true);
                                 iti.parents(".iti--separate-dial-code").next(".sa_phone_error").removeAttr("style");
                                 iti.parents("form").find(".sa-otp-btn-init").attr("disabled",true);
                                 iti.parents("form").find("#sign_with_mob_btn").attr("disabled",true);

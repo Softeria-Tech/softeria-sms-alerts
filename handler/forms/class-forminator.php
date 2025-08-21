@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('forminator/forminator.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SA_Forminator class.
@@ -64,10 +64,10 @@ class SA_Forminator extends FormInterface
     {
         $unique_id = mt_rand(1, 100);
         $unique_class    = 'sa-class-'.$unique_id;
-        $form_enable = smspro_get_option('forminator_form_status_' . $id, 'smspro_forminator_general', 'on');
-        $otp_enable  = smspro_get_option('forminator_otp_' . $id, 'smspro_forminator_general', 'on');
+        $form_enable = softeria_alerts_get_option('forminator_form_status_' . $id, 'softeria_alerts_forminator_general', 'on');
+        $otp_enable  = softeria_alerts_get_option('forminator_otp_' . $id, 'softeria_alerts_forminator_general', 'on');
         $uniqueNo = rand();
-        $phone_field = smspro_get_option('forminator_sms_phone_' . $id, 'smspro_forminator_general', '');  
+        $phone_field = softeria_alerts_get_option('forminator_sms_phone_' . $id, 'softeria_alerts_forminator_general', '');  
         if ('on' === $form_enable && 'on' === $otp_enable && '' !== $phone_field ) {
               $inline_script = 'document.addEventListener("DOMContentLoaded", function() {jQuery(document).ready(function(){
 				jQuery("form#forminator-module-' . esc_attr($id) . '").each(function () 
@@ -91,7 +91,7 @@ class SA_Forminator extends FormInterface
 				   {
 					   if(jQuery(".forminator-button").hasClass("forminator-button-submit") && jQuery(".'.$unique_class.'.sa-wp-form").find(".sa-otp-btn-init").length == 0)
 					  {						 
-				       add_smspro_button(".'.$unique_class.' .forminator-button-submit","input[name=' . esc_attr($phone_field) . ']","'.$uniqueNo.'");
+				       add_softeria_alerts_button(".'.$unique_class.' .forminator-button-submit","input[name=' . esc_attr($phone_field) . ']","'.$uniqueNo.'");
 						jQuery("#sa_verify_'.$uniqueNo.'").on("click", function(event){
 						event.preventDefault();
 						event.stopImmediatePropagation();
@@ -110,7 +110,7 @@ class SA_Forminator extends FormInterface
         setTimeout(function() {
             if (jQuery(".modal.smsproModal").length==0)    
             {            
-            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_smspro_template("template/otp-popup.php", array(), true))).'\';
+            var popup = \''.str_replace(array("\n","\r","\r\n"), "", (get_softeria_alerts_template("template/otp-popup.php", array(), true))).'\';
             jQuery("body").append(popup);
             }
         }, 200);
@@ -134,12 +134,12 @@ class SA_Forminator extends FormInterface
      */
     public function forminatorFormResponseMessage($datas,$form_id)
     {
-        $form_enable      = smspro_get_option('forminator_form_status_' . $form_id, 'smspro_forminator_general', 'on');
-        $phone_field      = smspro_get_option('forminator_sms_phone_'. $form_id, 'smspro_forminator_general', '');
-        $buyer_sms_notify = smspro_get_option('forminator_message_' . $form_id, 'smspro_forminator_general', 'on');
-        $admin_sms_notify = smspro_get_option('forminator_admin_notification_' . $form_id, 'smspro_forminator_general', 'on');        
+        $form_enable      = softeria_alerts_get_option('forminator_form_status_' . $form_id, 'softeria_alerts_forminator_general', 'on');
+        $phone_field      = softeria_alerts_get_option('forminator_sms_phone_'. $form_id, 'softeria_alerts_forminator_general', '');
+        $buyer_sms_notify = softeria_alerts_get_option('forminator_message_' . $form_id, 'softeria_alerts_forminator_general', 'on');
+        $admin_sms_notify = softeria_alerts_get_option('forminator_admin_notification_' . $form_id, 'softeria_alerts_forminator_general', 'on');        
         if ('on' === $form_enable && 'on' === $buyer_sms_notify) {
-            $buyer_sms_content = smspro_get_option('forminator_sms_body_'. $form_id, 'smspro_forminator_message', '');
+            $buyer_sms_content = softeria_alerts_get_option('forminator_sms_body_'. $form_id, 'softeria_alerts_forminator_message', '');
             $mobile ='';
             foreach ($datas as $kd=>$vd) {
                 $phone = $vd['name'];
@@ -150,10 +150,10 @@ class SA_Forminator extends FormInterface
             do_action('sa_send_sms', $mobile, self::parseSmsContent($buyer_sms_content, $datas));
         }
         if ('on' === $admin_sms_notify ) {
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             $admin_phone_number = str_replace('post_author', '', $admin_phone_number);
             if (! empty($admin_phone_number) ) {
-                $admin_sms_content = smspro_get_option('forminator_admin_sms_body_' . $form_id, 'smspro_forminator_message', '');
+                $admin_sms_content = softeria_alerts_get_option('forminator_admin_sms_body_' . $form_id, 'softeria_alerts_forminator_message', '');
                 do_action('sa_send_sms', $admin_phone_number, self::parseSmsContent($admin_sms_content, $datas));
             }
         }
@@ -167,7 +167,7 @@ class SA_Forminator extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( is_plugin_active('forminator/forminator.php') && $islogged ) ? true : false;
     }
@@ -187,7 +187,7 @@ class SA_Forminator extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && 'smspro-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (! empty($_REQUEST['option']) && 'softeria-alert-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -213,7 +213,7 @@ class SA_Forminator extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && 'smspro-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (! empty($_REQUEST['option']) && 'softeria-alert-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {
@@ -342,15 +342,15 @@ class SA_Forminator extends FormInterface
     {
         $wpam_statuses = self::getForminatorForms();
         foreach ( $wpam_statuses as $ks => $vs ) {
-            $defaults['smspro_forminator_general'][ 'forminator_admin_notification_' . $ks ] = 'off';
-            $defaults['smspro_forminator_general'][ 'forminator_form_status_' . $ks ]        = 'off';
-            $defaults['smspro_forminator_general'][ 'forminator_message_' . $ks ]            = 'off';
-            $defaults['smspro_forminator_message'][ 'forminator_admin_sms_body_' . $ks ]     = '';
-            $defaults['smspro_forminator_message'][ 'forminator_sms_body_' . $ks ]           = '';
-            $defaults['smspro_forminator_general'][ 'forminator_sms_phone_' . $ks ]          = '';
-            $defaults['smspro_forminator_general'][ 'forminator_sms_otp_' . $ks ]            = '';
-            $defaults['smspro_forminator_general'][ 'forminator_otp_' . $ks ]                = '';
-            $defaults['smspro_forminator_message'][ 'forminator_otp_sms_' . $ks ]            = '';
+            $defaults['softeria_alerts_forminator_general'][ 'forminator_admin_notification_' . $ks ] = 'off';
+            $defaults['softeria_alerts_forminator_general'][ 'forminator_form_status_' . $ks ]        = 'off';
+            $defaults['softeria_alerts_forminator_general'][ 'forminator_message_' . $ks ]            = 'off';
+            $defaults['softeria_alerts_forminator_message'][ 'forminator_admin_sms_body_' . $ks ]     = '';
+            $defaults['softeria_alerts_forminator_message'][ 'forminator_sms_body_' . $ks ]           = '';
+            $defaults['softeria_alerts_forminator_general'][ 'forminator_sms_phone_' . $ks ]          = '';
+            $defaults['softeria_alerts_forminator_general'][ 'forminator_sms_otp_' . $ks ]            = '';
+            $defaults['softeria_alerts_forminator_general'][ 'forminator_otp_' . $ks ]                = '';
+            $defaults['softeria_alerts_forminator_message'][ 'forminator_otp_sms_' . $ks ]            = '';
         }
         return $defaults;
     }

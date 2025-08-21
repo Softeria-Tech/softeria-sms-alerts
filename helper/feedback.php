@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -17,8 +17,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Plugin_Feedback class
@@ -46,7 +46,7 @@ class Plugin_Feedback
         add_action('admin_enqueue_scripts', array( $this, 'enqueueScripts' ));
         add_action('admin_footer', array( $this, 'addDeactivationPopupScreen' ));
 
-        add_filter('smspro_deactivation_form_fields', array( $this, 'addDeactivationFormFields' ));
+        add_filter('softeria_alerts_deactivation_form_fields', array( $this, 'addDeactivationFormFields' ));
 
         // Ajax to send data.
         add_action('wp_ajax_send_onboarding_data', array( $this, 'sendOnboardingData' ));
@@ -372,7 +372,7 @@ class Plugin_Feedback
         
         $param['shop_id'] = (!empty($param['website']) ) ? $param['website'] : get_site_url();
         
-        $param['name'] =  smspro_get_option('smspro_name', 'smspro_gateway', '');
+        $param['name'] =  softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway', '');
 
         $url = 'https://apps.sms.softeriatech.com/apps/wordpress/webhook.php?topic=app/uninstalled';
         $result = SmsAlertcURLOTP::callAPI($url, $param);
@@ -443,7 +443,7 @@ class Plugin_Feedback
         if (is_array($valid_screens) ) {
 
             // Push your screen here.
-            array_push($valid_screens, 'sms-pro');
+            array_push($valid_screens, 'softeria-sms-alerts');
         }
 
         return $valid_screens;

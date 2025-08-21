@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category HELPER
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! is_plugin_active('wp-fusion-lite/wp-fusion-lite.php') ) {
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SaFusion class
@@ -62,8 +62,8 @@ class SaFusion
   * PHP version 5
   *
   * @category Helper
-  * @package  SMSPro
-  * @author   SMS Pro <support@softeriatech.com>
+  * @package  SOFTSMSAlerts
+  * @author   Softeria Tech <billing@softeriatech.com>
   * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
   * @link     https://sms.softeriatech.com/
   * WPFSMSALert 
@@ -79,7 +79,7 @@ class WPFSMSALert
     public function __construct()
     {    
         $this->slug = 'smspro';
-        $this->name = 'SMSPro';
+        $this->name = 'SOFTSMSAlerts';
         $this->crm  = 'smspro';
         add_filter('wpf_crm_post_data', array( $this, 'format_post_data' ));    
         if (is_admin() ) {
@@ -133,7 +133,7 @@ class WPFSMSALert
      */
     public function sync()
     { 
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();        
         if ($islogged ) {            
             $this->sync_crm_fields();
@@ -151,17 +151,17 @@ class WPFSMSALert
     public function sync_crm_fields()
     {
         
-        $smspro_fields = array();        
-        $smspro_fields['name'] = array(
+        $softeria_alerts_fields = array();        
+        $softeria_alerts_fields['name'] = array(
         'crm_label' => 'Name',
         'crm_field' => 'NAME'
         );
-        $smspro_fields['number'] = array(
+        $softeria_alerts_fields['number'] = array(
         'crm_label' => 'Phone',
         'crm_field' => 'billing_phone'
         );
         $crm_fields = array();
-        foreach ( $smspro_fields as $index => $data ) {
+        foreach ( $softeria_alerts_fields as $index => $data ) {
             $crm_fields[ $data['crm_field'] ] = $data['crm_label'];
         }
         asort($crm_fields);
@@ -206,8 +206,8 @@ new SaFusion();
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * WPF_SmsAlert_Admin class
@@ -230,10 +230,10 @@ class WPF_SmsAlert_Admin
     public function __construct( $slug, $name, $crm )
     {
         $this->slug = 'smspro';
-        $this->name = 'SMSPro';
+        $this->name = 'SOFTSMSAlerts';
         $this->crm  = 'smspro';
         add_filter('wpf_configure_settings', array( $this, 'register_connection_settings' ), 10, 2);
-        add_action('show_field_smspro_header_begin', array( $this, 'show_field_smspro_header_begin' ), 10, 2);
+        add_action('show_field_softeria_alerts_header_begin', array( $this, 'show_field_softeria_alerts_header_begin' ), 10, 2);
         add_action('wp_ajax_wpf_test_connection_smspro', array( $this, 'test_connection' ));
         if (wpf_get_option('crm') == 'smspro' ) {
             $this->init();
@@ -276,23 +276,23 @@ class WPF_SmsAlert_Admin
     public function register_connection_settings( $settings, $options )
     {        
         $new_settings = array();
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-             $new_settings['smspro_header'] = array(
-            'title'   => __('SMSPro Configuration', 'sms-pro'),
+             $new_settings['softeria_alerts_header'] = array(
+            'title'   => __('SOFTSMSAlerts Configuration', 'softeria-sms-alerts'),
             'type'    => 'heading',
             'section' => 'setup',
              ); 
              if (!$islogged) {
-                 $new_settings['smspro_default_list'] = array(
+                 $new_settings['softeria_alerts_default_list'] = array(
                  'type'        => 'text',        
                  'section'     => 'setup',
                  'class'       => 'api_key hide',
-                 'desc'        => __('<a href="'. get_admin_url() .'admin.php?page=sms-pro" target="_blank">Login to SMS Pro</a>  to configure SMS Notifications', 'sms-pro'),
+                 'desc'        => __('<a href="'. get_admin_url() .'admin.php?page=softeria-sms-alerts" target="_blank">Login to Softeria Tech</a>  to configure SMS Notifications', 'softeria-sms-alerts'),
                  );            
              } else {
                  $new_settings['group_auto_sync'] = array(
-                 'title'        => __('Select SMSPro Group', 'sms-pro'),                
+                 'title'        => __('Select SOFTSMSAlerts Group', 'softeria-sms-alerts'),                
                  'type'         => 'select',
                  'placeholder' => 'Select Group',
                  'section'     => 'setup',
@@ -301,12 +301,12 @@ class WPF_SmsAlert_Admin
                  'choices' => (!empty($this->getGroupList())) ? $this->getGroupList() : array(""=>"Select Group"), 
                  );
                 
-                 $new_settings['smspro_key'] = array(
-                 'title'       => __('Connect to SMSPro', 'sms-pro'),            
+                 $new_settings['softeria_alerts_key'] = array(
+                 'title'       => __('Connect to SOFTSMSAlerts', 'softeria-sms-alerts'),            
                  'type'        => 'api_validate',
                  'section'     => 'setup',
                  'class'       => 'api_key hide',
-                 'post_fields' => array( 'smspro_key', 'group_auto_sync' ),
+                 'post_fields' => array( 'softeria_alerts_key', 'group_auto_sync' ),
                  );                
              }                    
              $settings = wp_fusion()->settings->insert_setting_after('crm', $settings, $new_settings);
@@ -356,7 +356,7 @@ class WPF_SmsAlert_Admin
      *
      * @return void
      */
-    public function show_field_smspro_header_begin( $id, $field )
+    public function show_field_softeria_alerts_header_begin( $id, $field )
     {    
         echo '</table>';
         $crm = wpf_get_option('crm');
@@ -373,18 +373,18 @@ class WPF_SmsAlert_Admin
     public function add_default_fields( $options )
     {
         if ($options['connection_configured'] == true ) {
-            $smspro_fields = array();        
-            $smspro_fields['name'] = array(
+            $softeria_alerts_fields = array();        
+            $softeria_alerts_fields['name'] = array(
             'crm_label' => 'Name',
             'crm_field' => 'NAME'
             );
-            $smspro_fields['number'] = array(
+            $softeria_alerts_fields['number'] = array(
             'crm_label' => 'Phone',
             'crm_field' => 'billing_phone'
             );    
             foreach ( $options['contact_fields'] as $field => $data ) {
-                if (isset($smspro_fields[ $field ]) && empty($options['contact_fields'][ $field ]['crm_field']) ) {
-                    $options['contact_fields'][ $field ] = array_merge($options['contact_fields'][ $field ], $smspro_fields[ $field ]);
+                if (isset($softeria_alerts_fields[ $field ]) && empty($options['contact_fields'][ $field ]['crm_field']) ) {
+                    $options['contact_fields'][ $field ] = array_merge($options['contact_fields'][ $field ], $softeria_alerts_fields[ $field ]);
                 }
             }
         }
@@ -398,7 +398,7 @@ class WPF_SmsAlert_Admin
      */
     function test_connection()
     { 
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();    
         $options                          = array();
         

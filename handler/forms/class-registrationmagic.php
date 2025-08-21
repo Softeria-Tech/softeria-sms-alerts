@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('custom-registration-form-builder-with-submission-manager
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -62,8 +62,8 @@ class SARegistrationMagicForm extends FormInterface
     public function bpSiteRegistrationOtp($form)
     { 
         $form_id = $form->form_slug;
-        $enabled_register_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');        
+        $enabled_register_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');        
         if ('on' === $buyer_signup_otp && 'on' === $enabled_register_popup ) {
             echo do_shortcode('[sa_verify phone_selector=".billing_phone" submit_selector="#'. $form_id .' .rm_next_btn"]');    
         }      
@@ -114,13 +114,13 @@ class SARegistrationMagicForm extends FormInterface
         $userdata = $user->data;        
         $role                = ( ! empty($user->roles[0]) ) ? $user->roles[0] : '';
         $role_display_name   = ( ! empty($role) ) ? self::get_user_roles($role) : '';
-        $smspro_reg_notify = smspro_get_option('wc_user_roles_' . $role, 'smspro_signup_general', 'off');
-        $sms_body_new_user   = smspro_get_option('signup_sms_body_' . $role, 'smspro_signup_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
-        $smspro_reg_admin_notify = smspro_get_option('admin_registration_msg', 'smspro_general', 'off');
-        $sms_admin_body_new_user   = smspro_get_option('sms_body_registration_admin_msg', 'smspro_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
-        $admin_phone_number        = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $softeria_alerts_reg_notify = softeria_alerts_get_option('wc_user_roles_' . $role, 'softeria_alerts_signup_general', 'off');
+        $sms_body_new_user   = softeria_alerts_get_option('signup_sms_body_' . $role, 'softeria_alerts_signup_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
+        $softeria_alerts_reg_admin_notify = softeria_alerts_get_option('admin_registration_msg', 'softeria_alerts_general', 'off');
+        $sms_admin_body_new_user   = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
+        $admin_phone_number        = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $store_name = trim(get_bloginfo());
-        if ('on' === $smspro_reg_notify && ! empty($billing_phone) ) {
+        if ('on' === $softeria_alerts_reg_notify && ! empty($billing_phone) ) {
             $search = array(
             '[username]',
             '[email]',
@@ -136,7 +136,7 @@ class SARegistrationMagicForm extends FormInterface
             do_action('sa_send_sms', $billing_phone, $sms_body_new_user);
         }
 
-        if ('on' === $smspro_reg_admin_notify && ! empty($admin_phone_number) ) {
+        if ('on' === $softeria_alerts_reg_admin_notify && ! empty($admin_phone_number) ) {
             $search = array(
             '[username]',
             '[store_name]',
@@ -168,9 +168,9 @@ class SARegistrationMagicForm extends FormInterface
      */
     public static function isFormEnabled()
     {    
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ? true : false;
+        return ( $islogged && softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
 
     /**
@@ -189,7 +189,7 @@ class SARegistrationMagicForm extends FormInterface
             return;
         }
         if (isset($_SESSION[ $this->form_session_var ]) ) {
-            smspro_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
+            softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
         } 
     }
 
@@ -208,7 +208,7 @@ class SARegistrationMagicForm extends FormInterface
     public function handle_post_verification( $redirect_to, $user_login, $user_email, $password, $phone_number, $extra_data )
     {    
         SmsAlertUtility::checkSession();    
-        if (isset($_SESSION[ $this->form_session_var ]) || ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form')) {
+        if (isset($_SESSION[ $this->form_session_var ]) || ((empty($_REQUEST['option']) === false ) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form')) {
             
             $_SESSION['bp_mobile_verified'] = true;
         }

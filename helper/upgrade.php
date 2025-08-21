@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -17,8 +17,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAUpgrade class
@@ -43,7 +43,7 @@ class SAUpgrade
      */
     public static function smsproUpgrade()
     {
-        $db_version     = smspro_get_option('version', 'smspro_upgrade_settings');
+        $db_version     = softeria_alerts_get_option('version', 'softeria_alerts_upgrade_settings');
         $plugin_version = SmsAlertConstants::SA_VERSION;
 
         if ($db_version === $plugin_version ) {
@@ -51,17 +51,17 @@ class SAUpgrade
         }
 
         if ($db_version <= '3.4.0' ) {
-            smspro_WC_Order_SMS::saCartActivate();
-            if (! get_option('smspro_activation_date') ) {
-                add_option('smspro_activation_date', date('Y-m-d'));
+            softeriaAlerts_WC_Order_SMS::saCartActivate();
+            if (! get_option('softeria_alerts_activation_date') ) {
+                add_option('softeria_alerts_activation_date', date('Y-m-d'));
             }
         }
         if ($db_version <= '3.3.7.2' ) {
-            $otp_template = smspro_get_option('sms_otp_send', 'smspro_message');
+            $otp_template = softeria_alerts_get_option('sms_otp_send', 'softeria_alerts_message');
             if ('Your verification code is [otp]' === $otp_template ) {
-                $output                 = get_option('smspro_message');
+                $output                 = get_option('softeria_alerts_message');
                 $output['sms_otp_send'] = 'Your verification code for mobile verification is [otp]';
-                update_option('smspro_message', $output);
+                update_option('softeria_alerts_message', $output);
             }
         }
         
@@ -77,13 +77,13 @@ class SAUpgrade
                 foreach ( $edd_order_statuses as $ks  => $vs ) {
                 
                     //get sms enable or disable of customer and admin
-                    $check_customer = smspro_get_option('edd_order_status_' . $vs, 'smspro_edd_general', '');
+                    $check_customer = softeria_alerts_get_option('edd_order_status_' . $vs, 'softeria_alerts_edd_general', '');
                     
-                    $check_admin    = smspro_get_option('edd_admin_notification_' . $vs, 'smspro_edd_general', '');
+                    $check_admin    = softeria_alerts_get_option('edd_admin_notification_' . $vs, 'softeria_alerts_edd_general', '');
                     
                     //get sms body of customer and admin
-                    $customer_msg   = smspro_get_option('edd_sms_body_'.$vs, 'smspro_edd_message');
-                    $admin_msg      = smspro_get_option('edd_admin_sms_body_'.$vs, 'smspro_edd_message');
+                    $customer_msg   = softeria_alerts_get_option('edd_sms_body_'.$vs, 'softeria_alerts_edd_message');
+                    $admin_msg      = softeria_alerts_get_option('edd_admin_sms_body_'.$vs, 'softeria_alerts_edd_message');
                     
                     
                     // update sms enable or disable
@@ -100,21 +100,21 @@ class SAUpgrade
         }
         if ($db_version <= '3.5.3' && !SmsAlertUtility::isPlayground()) {
             global $wpdb;
-            $reminder_table_name = $wpdb->prefix . "smspro_booking_reminder";
+            $reminder_table_name = $wpdb->prefix . "softeria_alerts_booking_reminder";
             $wpdb->query("ALTER TABLE $reminder_table_name ADD source varchar(50) NOT NULL DEFAULT 'woocommerce-bookings',ADD msg_sent TINYINT NOT NULL DEFAULT 0");
         }
-		$senderid = smspro_get_option('smspro_api', 'smspro_gateway');
+		$senderid = softeria_alerts_get_option('softeria_alerts_api', 'softeria_alerts_gateway');
 		if ($db_version <= '3.7.5' && !SmsAlertUtility::isPlayground() && $senderid == 'ESTORE') {
-            $sms_otp_send  = smspro_get_option('sms_otp_send', 'smspro_message');
+            $sms_otp_send  = softeria_alerts_get_option('sms_otp_send', 'softeria_alerts_message');
 			if($sms_otp_send != '')
 			{
-				$output   = get_option('smspro_message');
+				$output   = get_option('softeria_alerts_message');
                 $output['sms_otp_send'] = SmsAlertMessages::showMessage('DEFAULT_BUYER_OTP');
-                update_option('smspro_message', $output);
+                update_option('softeria_alerts_message', $output);
 			}
         }
 
-        update_option('smspro_upgrade_settings', array( 'version' => $plugin_version ));
+        update_option('softeria_alerts_upgrade_settings', array( 'version' => $plugin_version ));
     }
 }
 new SAUpgrade();

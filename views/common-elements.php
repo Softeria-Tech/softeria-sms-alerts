@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category view
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -85,7 +85,7 @@ function get_nestedkey_single_val( array $inputs, $field_key = '', &$output = ar
  */
 function show_hidden_fields( $data )
 {
-    $sa_fields = array( 'option', 'smspro_customer_validation_otp_token', 'smspro_otp_token_submit', 'user_login', 'user_email', 'register_nonce', 'option', 'register_tml_nonce', 'register_nonce', 'option', 'submit', 'smspro_reset_password_btn', 'smspro_user_newpwd', 'smspro_user_cnfpwd' );
+    $sa_fields = array( 'option', 'softeria_alerts_customer_validation_otp_token', 'softeria_alerts_otp_token_submit', 'user_login', 'user_email', 'register_nonce', 'option', 'register_tml_nonce', 'register_nonce', 'option', 'submit', 'softeria_alerts_reset_password_btn', 'softeria_alerts_user_newpwd', 'softeria_alerts_user_cnfpwd' );
     $results   = array();
     get_nestedkey_single_val($data, '', $results);
     foreach ( $results as $fieldname => $result_val ) {
@@ -109,11 +109,11 @@ function show_hidden_fields( $data )
  *
  * @return stirng
  */
-function smspro_site_otp_validation_form( $user_login, $user_email, $phone_number, $message, $otp_type, $from_both )
+function softeria_alerts_site_otp_validation_form( $user_login, $user_email, $phone_number, $message, $otp_type, $from_both )
 {
    
-    $otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):smspro_get_option('otp_resend_timer', 'smspro_general', '15'); 
-    $max_otp_resend_allowed = !empty(SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"))?SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"):smspro_get_option('max_otp_resend_allowed', 'smspro_general', '4'); 
+    $otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):softeria_alerts_get_option('otp_resend_timer', 'softeria_alerts_general', '15'); 
+    $max_otp_resend_allowed = !empty(SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"))?SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"):softeria_alerts_get_option('max_otp_resend_allowed', 'softeria_alerts_general', '4'); 
     
     $params                 = array(
     'message'                => $message,
@@ -124,7 +124,7 @@ function smspro_site_otp_validation_form( $user_login, $user_email, $phone_numbe
     'otp_resend_timer'       => $otp_resend_timer,
     'max_otp_resend_allowed' => $max_otp_resend_allowed,
     );
-    get_smspro_template('template/register-otp-template.php', $params);
+    get_softeria_alerts_template('template/register-otp-template.php', $params);
     exit();
 }
 
@@ -139,7 +139,7 @@ function smspro_site_otp_validation_form( $user_login, $user_email, $phone_numbe
  *
  * @return stirng
  */
-function smspro_external_phone_validation_form( $go_back_url, $user_email, $message, $form, $usermeta )
+function softeria_alerts_external_phone_validation_form( $go_back_url, $user_email, $message, $form, $usermeta )
 {
     $img    = "<div style='display:table;text-align:center;'><img src='" . SA_MOV_LOADER_URL . "'></div>";
     $params = array(
@@ -151,7 +151,7 @@ function smspro_external_phone_validation_form( $go_back_url, $user_email, $mess
     'img'             => $img,
     'ajax_lib_jquery' => SA_MOV_URL . 'js/jquery.min.js',
     );
-    get_smspro_template('template/otp-popup-hasnophoneno.php', $params);
+    get_softeria_alerts_template('template/otp-popup-hasnophoneno.php', $params);
     SmsAlertUtility::enqueue_script_for_intellinput();
     exit();
 }
@@ -168,7 +168,7 @@ function smspro_external_phone_validation_form( $go_back_url, $user_email, $mess
  *
  * @return stirng
  */
-function smsproAskForResetPassword( $username, $phone_number, $message, $otp_type, $from_both, $action = 'smspro-change-password-form' )
+function smsproAskForResetPassword( $username, $phone_number, $message, $otp_type, $from_both, $action = 'softeria-alert-change-password-form' )
 {
     $params = array(
     'message'      => $message,
@@ -179,6 +179,6 @@ function smsproAskForResetPassword( $username, $phone_number, $message, $otp_typ
     'user_email'   => '',
     'action'       => $action,
     );
-    get_smspro_template('template/reset-password-template.php', $params);
+    get_softeria_alerts_template('template/reset-password-template.php', $params);
     exit();
 }

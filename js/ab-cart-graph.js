@@ -2,10 +2,10 @@ $sa  =jQuery;
 $sa(document).ready(
     function () {
     
-        $sa('#smspro_date_range').change(
+        $sa('#softeria_alerts_date_range').change(
             function () {
       
-                var group_name  = $sa('#smspro_date_range').val();
+                var group_name  = $sa('#softeria_alerts_date_range').val();
                 if ($sa(this).val() == "custom") {
                       document.getElementById("sa_start_end_date_div").style.display = "block";
                 }

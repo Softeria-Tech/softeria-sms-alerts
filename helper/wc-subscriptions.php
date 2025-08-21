@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -21,8 +21,8 @@ if (! is_plugin_active('woocommerce-subscriptions/woocommerce-subscriptions.php'
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * WCSubscription class
@@ -51,7 +51,7 @@ class WCSubscription
 
         add_action('woocommerce_subscription_renewal_payment_complete', array( $this, 'smsproSendMsgSubsRenewal' ), 10, 2);
         add_action('woocommerce_checkout_subscription_created', array( $this, 'smsproSendMsgSubsCreated' ), 10, 3);
-        add_action('smspro_followup_sms', array( $this, 'smsproSendSms' ));
+        add_action('softeria_alerts_followup_sms', array( $this, 'smsproSendSms' ));
     }
 
     /**
@@ -117,18 +117,18 @@ class WCSubscription
             if (substr($vs, 0, strlen($prefix)) === $prefix ) {
                 $vs = substr($vs, strlen($prefix));
             }
-            $defaults['smspro_wcs_general'][ 'admin_subs_' . $vs . '_msg' ]          = 'off';
-            $defaults['smspro_wcs_general'][ 'cust_subs_' . $vs . '_msg' ]           = 'off';
-            $defaults['smspro_wcs_message'][ 'sms_body_admin_subs_' . $vs . '_msg' ] = '';
-            $defaults['smspro_wcs_message'][ 'sms_body_cust_subs_' . $vs . '_msg' ]  = '';
+            $defaults['softeria_alerts_wcs_general'][ 'admin_subs_' . $vs . '_msg' ]          = 'off';
+            $defaults['softeria_alerts_wcs_general'][ 'cust_subs_' . $vs . '_msg' ]           = 'off';
+            $defaults['softeria_alerts_wcs_message'][ 'sms_body_admin_subs_' . $vs . '_msg' ] = '';
+            $defaults['softeria_alerts_wcs_message'][ 'sms_body_cust_subs_' . $vs . '_msg' ]  = '';
 
         }
-        $defaults['smspro_wc_renewal']['customer_notify']                = 'off';
-        $defaults['smspro_wc_renewal']['followup_sms_time']              = '10:00';
-        $defaults['smspro_wc_renewal_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_wc_renewal_scheduler']['cron'][0]['message']   = '';
-        $defaults['smspro_wc_renewal_scheduler']['cron'][1]['frequency'] = '2';
-        $defaults['smspro_wc_renewal_scheduler']['cron'][1]['message']   = '';
+        $defaults['softeria_alerts_wc_renewal']['customer_notify']                = 'off';
+        $defaults['softeria_alerts_wc_renewal']['followup_sms_time']              = '10:00';
+        $defaults['softeria_alerts_wc_renewal_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_wc_renewal_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_wc_renewal_scheduler']['cron'][1]['frequency'] = '2';
+        $defaults['softeria_alerts_wc_renewal_scheduler']['cron'][1]['message']   = '';
         return $defaults;
     }
 
@@ -151,13 +151,13 @@ class WCSubscription
                 $vs = substr($vs, strlen($prefix));
             }
 
-            $current_val = smspro_get_option('cust_subs_' . $vs . '_msg', 'smspro_wcs_general', 'on');
+            $current_val = softeria_alerts_get_option('cust_subs_' . $vs . '_msg', 'softeria_alerts_wcs_general', 'on');
 
-            $check_box_name_id = 'smspro_wcs_general[cust_subs_' . $vs . '_msg]';
-            $text_area_name_id = 'smspro_wcs_message[sms_body_cust_subs_' . $vs . '_msg]';
+            $check_box_name_id = 'softeria_alerts_wcs_general[cust_subs_' . $vs . '_msg]';
+            $text_area_name_id = 'softeria_alerts_wcs_message[sms_body_cust_subs_' . $vs . '_msg]';
 
             $default_template = ( 'Created' === $order_status ) ? SmsAlertMessages::showMessage('DEFAULT_CUST_SUBS_CREATE_MSG') : SmsAlertMessages::showMessage('DEFAULT_CUST_SUBS_STATUS_MSG');
-            $text_body        = smspro_get_option('sms_body_cust_subs_' . $vs . '_msg', 'smspro_wcs_message', ( ( '' !== $default_template ) ? $default_template : '' ));
+            $text_body        = softeria_alerts_get_option('sms_body_cust_subs_' . $vs . '_msg', 'softeria_alerts_wcs_message', ( ( '' !== $default_template ) ? $default_template : '' ));
 
             $templates[ 'cust_subs_' . $ks ]['title']          = 'When Subscription is ' . ucwords($order_status);
             $templates[ 'cust_subs_' . $ks ]['enabled']        = $current_val;
@@ -195,13 +195,13 @@ class WCSubscription
             if (substr($vs, 0, strlen($prefix)) === $prefix ) {
                 $vs = substr($vs, strlen($prefix));
             }
-            $current_val = smspro_get_option('admin_subs_' . $vs . '_msg', 'smspro_wcs_general', 'on');
+            $current_val = softeria_alerts_get_option('admin_subs_' . $vs . '_msg', 'softeria_alerts_wcs_general', 'on');
 
-            $check_box_name_id = 'smspro_wcs_general[admin_subs_' . $vs . '_msg]';
-            $text_area_name_id = 'smspro_wcs_message[sms_body_admin_subs_' . $vs . '_msg]';
+            $check_box_name_id = 'softeria_alerts_wcs_general[admin_subs_' . $vs . '_msg]';
+            $text_area_name_id = 'softeria_alerts_wcs_message[sms_body_admin_subs_' . $vs . '_msg]';
 
             $default_template = ( 'Created' === $order_status ) ? SmsAlertMessages::showMessage('DEFAULT_ADMIN_SUBS_CREATE_MSG') : SmsAlertMessages::showMessage('DEFAULT_ADMIN_SUBS_STATUS_MSG');
-            $text_body        = smspro_get_option('sms_body_admin_subs_' . $vs . '_msg', 'smspro_wcs_message', ( ( '' !== $default_template ) ? $default_template : '' ));
+            $text_body        = softeria_alerts_get_option('sms_body_admin_subs_' . $vs . '_msg', 'softeria_alerts_wcs_message', ( ( '' !== $default_template ) ? $default_template : '' ));
 
             $templates[ 'admin_subs_' . $ks ]['title']          = 'When Subscription is ' . ucwords($order_status);
             $templates[ 'admin_subs_' . $ks ]['enabled']        = $current_val;
@@ -228,10 +228,10 @@ class WCSubscription
      */
     public static function getRenewalTemplates()
     {
-        $current_val      = smspro_get_option('customer_notify', 'smspro_wc_renewal', 'on');
-        $checkbox_name_id = 'smspro_wc_renewal[customer_notify]';
+        $current_val      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wc_renewal', 'on');
+        $checkbox_name_id = 'softeria_alerts_wc_renewal[customer_notify]';
 
-        $scheduler_data = get_option('smspro_wc_renewal_scheduler');
+        $scheduler_data = get_option('softeria_alerts_wc_renewal_scheduler');
         $templates      = array();
         $count          = 0;
         if (empty($scheduler_data) ) {
@@ -247,8 +247,8 @@ class WCSubscription
         }
         foreach ( $scheduler_data['cron'] as $key => $data ) {
 
-            $text_area_name_id = 'smspro_wc_renewal_scheduler[cron][' . $count . '][message]';
-            $select_name_id    = 'smspro_wc_renewal_scheduler[cron][' . $count . '][frequency]';
+            $text_area_name_id = 'softeria_alerts_wc_renewal_scheduler[cron][' . $count . '][message]';
+            $select_name_id    = 'softeria_alerts_wc_renewal_scheduler[cron][' . $count . '][frequency]';
             $text_body         = $data['message'];
             $templates[ $key ]['notify_id']      = 'wc_subscription';
             $templates[ $key ]['frequency']      = $data['frequency'];
@@ -285,7 +285,7 @@ class WCSubscription
         if ($order_id > 0) {
             global $wpdb;
             
-            $sms_admin_phone = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $sms_admin_phone = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             if (version_compare(WC_VERSION, '7.1', '<') ) {
                 $cust_no         = get_post_meta($order_id, '_billing_phone', true);
             } else {
@@ -295,28 +295,28 @@ class WCSubscription
             
             $subs_status     = $subscription->get_status();
 
-            $admin_msg                  = smspro_get_option('sms_body_admin_subs_' . $subs_status . '_msg', 'smspro_wcs_message', '');
+            $admin_msg                  = softeria_alerts_get_option('sms_body_admin_subs_' . $subs_status . '_msg', 'softeria_alerts_wcs_message', '');
             $admin_msg                  = $this->parseSmsBody($subscription, $admin_msg);
             $admin_sms_data['number']   = $sms_admin_phone;
             $admin_sms_data['sms_body'] = $admin_msg;
             $admin_sms_data             = WooCommerceCheckOutForm::pharseSmsBody($admin_sms_data, $order_id);
             $admin_message              = ( ! empty($admin_sms_data['sms_body']) ) ? $admin_sms_data['sms_body'] : '';
 
-            $smspro_notification_subs_status_change_admin_msg = smspro_get_option('admin_subs_' . $subs_status . '_msg', 'smspro_wcs_general', 'on');
+            $softeria_alerts_notification_subs_status_change_admin_msg = softeria_alerts_get_option('admin_subs_' . $subs_status . '_msg', 'softeria_alerts_wcs_general', 'on');
 
-            if ('on' === $smspro_notification_subs_status_change_admin_msg && '' !== $admin_message ) {
+            if ('on' === $softeria_alerts_notification_subs_status_change_admin_msg && '' !== $admin_message ) {
                 do_action('sa_send_sms', $sms_admin_phone, $admin_message);
             }
 
-            $customer_msg              = smspro_get_option('sms_body_cust_subs_' . $subs_status . '_msg', 'smspro_wcs_message', '');
+            $customer_msg              = softeria_alerts_get_option('sms_body_cust_subs_' . $subs_status . '_msg', 'softeria_alerts_wcs_message', '');
             $customer_msg              = $this->parseSmsBody($subscription, $customer_msg);
             $cust_sms_data['number']   = $cust_no;
             $cust_sms_data['sms_body'] = $customer_msg;
             $cust_sms_data             = WooCommerceCheckOutForm::pharseSmsBody($cust_sms_data, $order_id);
             $customer_msg              = ( ! empty($cust_sms_data['sms_body']) ) ? $cust_sms_data['sms_body'] : '';
 
-            $smspro_notification_subs_status_change_cust_msg = smspro_get_option('cust_subs_' . $subs_status . '_msg', 'smspro_wcs_general', 'on');
-            if ('on' === $smspro_notification_subs_status_change_cust_msg && '' !== $customer_msg ) {
+            $softeria_alerts_notification_subs_status_change_cust_msg = softeria_alerts_get_option('cust_subs_' . $subs_status . '_msg', 'softeria_alerts_wcs_general', 'on');
+            if ('on' === $softeria_alerts_notification_subs_status_change_cust_msg && '' !== $customer_msg ) {
                 do_action('sa_send_sms', $cust_no, $customer_msg);
             }
         }
@@ -334,34 +334,34 @@ class WCSubscription
     {
         $this->setRenewalReminder($subscription);
         $order_id                   = $subscription->get_parent_id();
-        $sms_admin_phone            = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $sms_admin_phone            = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         if (version_compare(WC_VERSION, '7.1', '<') ) {
             $cust_no         = get_post_meta($order_id, '_billing_phone', true);
         } else {
             $cust_no = !empty($order->get_billing_phone())?$order->get_billing_phone():$order->get_shipping_phone();
         }
-        $admin_msg                  = smspro_get_option('sms_body_admin_subs_renewal_msg', 'smspro_wcs_message', '');
+        $admin_msg                  = softeria_alerts_get_option('sms_body_admin_subs_renewal_msg', 'softeria_alerts_wcs_message', '');
         $admin_msg                  = $this->parseSmsBody($subscription, $admin_msg);
         $admin_sms_data['number']   = $sms_admin_phone;
         $admin_sms_data['sms_body'] = $admin_msg;
         $admin_sms_data             = WooCommerceCheckOutForm::pharseSmsBody($admin_sms_data, $order_id);
         $admin_message              = ( ! empty($admin_sms_data['sms_body']) ) ? $admin_sms_data['sms_body'] : '';
 
-        $smspro_notification_subs_renewal_admin_msg = smspro_get_option('admin_subs_renewal_msg', 'smspro_wcs_general', 'on');
+        $softeria_alerts_notification_subs_renewal_admin_msg = softeria_alerts_get_option('admin_subs_renewal_msg', 'softeria_alerts_wcs_general', 'on');
 
-        if ('on' === $smspro_notification_subs_renewal_admin_msg && '' !== $admin_message ) {
+        if ('on' === $softeria_alerts_notification_subs_renewal_admin_msg && '' !== $admin_message ) {
             do_action('sa_send_sms', $sms_admin_phone, $admin_message);
         }
 
-        $customer_msg              = smspro_get_option('sms_body_cust_subs_renewal_msg', 'smspro_wcs_message', '');
+        $customer_msg              = softeria_alerts_get_option('sms_body_cust_subs_renewal_msg', 'softeria_alerts_wcs_message', '');
         $customer_msg              = $this->parseSmsBody($subscription, $customer_msg);
         $cust_sms_data['number']   = $cust_no;
         $cust_sms_data['sms_body'] = $customer_msg;
         $cust_sms_data             = WooCommerceCheckOutForm::pharseSmsBody($cust_sms_data, $order_id);
         $customer_msg              = ( ! empty($cust_sms_data['sms_body']) ) ? $cust_sms_data['sms_body'] : '';
 
-        $smspro_notification_subs_renewal_cust_msg = smspro_get_option('cust_subs_renewal_msg', 'smspro_wcs_general', 'on');
-        if ('on' === $smspro_notification_subs_renewal_cust_msg && '' !== $customer_msg ) {
+        $softeria_alerts_notification_subs_renewal_cust_msg = softeria_alerts_get_option('cust_subs_renewal_msg', 'softeria_alerts_wcs_general', 'on');
+        if ('on' === $softeria_alerts_notification_subs_renewal_cust_msg && '' !== $customer_msg ) {
             do_action('sa_send_sms', $cust_no, $customer_msg);
         }
     }
@@ -379,34 +379,34 @@ class WCSubscription
     {
         $this->setRenewalReminder($subscription);
         $order_id                   = $subscription->get_parent_id();
-        $sms_admin_phone            = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $sms_admin_phone            = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         if (version_compare(WC_VERSION, '7.1', '<') ) {
             $cust_no         = get_post_meta($order_id, '_billing_phone', true);
         } else {
             $cust_no = !empty($order->get_billing_phone())?$order->get_billing_phone():$order->get_shipping_phone();
         }
-        $admin_msg                  = smspro_get_option('sms_body_admin_subs_create_msg', 'smspro_wcs_message', '');
+        $admin_msg                  = softeria_alerts_get_option('sms_body_admin_subs_create_msg', 'softeria_alerts_wcs_message', '');
         $admin_msg                  = $this->parseSmsBody($subscription, $admin_msg);
         $admin_sms_data['number']   = $sms_admin_phone;
         $admin_sms_data['sms_body'] = $admin_msg;
         $admin_sms_data             = WooCommerceCheckOutForm::pharseSmsBody($admin_sms_data, $order_id);
         $admin_message              = ( ! empty($admin_sms_data['sms_body']) ) ? $admin_sms_data['sms_body'] : '';
 
-        $smspro_notification_subs_create_admin_msg = smspro_get_option('admin_subs_create_msg', 'smspro_wcs_general', 'on');
+        $softeria_alerts_notification_subs_create_admin_msg = softeria_alerts_get_option('admin_subs_create_msg', 'softeria_alerts_wcs_general', 'on');
 
-        if ('on' === $smspro_notification_subs_create_admin_msg && '' !== $admin_message ) {
+        if ('on' === $softeria_alerts_notification_subs_create_admin_msg && '' !== $admin_message ) {
             do_action('sa_send_sms', $sms_admin_phone, $admin_message);
         }
 
-        $customer_msg              = smspro_get_option('sms_body_cust_subs_create_msg', 'smspro_wcs_message', '');
+        $customer_msg              = softeria_alerts_get_option('sms_body_cust_subs_create_msg', 'softeria_alerts_wcs_message', '');
         $customer_msg              = $this->parseSmsBody($subscription, $customer_msg);
         $cust_sms_data['number']   = $cust_no;
         $cust_sms_data['sms_body'] = $customer_msg;
         $cust_sms_data             = WooCommerceCheckOutForm::pharseSmsBody($cust_sms_data, $order_id);
         $customer_msg              = ( ! empty($cust_sms_data['sms_body']) ) ? $cust_sms_data['sms_body'] : '';
 
-        $smspro_notification_subs_create_cust_msg = smspro_get_option('cust_subs_create_msg', 'smspro_wcs_general', 'on');
-        if ('on' === $smspro_notification_subs_create_cust_msg && '' !== $customer_msg ) {
+        $softeria_alerts_notification_subs_create_cust_msg = softeria_alerts_get_option('cust_subs_create_msg', 'softeria_alerts_wcs_general', 'on');
+        if ('on' === $softeria_alerts_notification_subs_create_cust_msg && '' !== $customer_msg ) {
             do_action('sa_send_sms', $cust_no, $customer_msg);
         }
     }
@@ -451,14 +451,14 @@ class WCSubscription
      */
     public function setRenewalReminder( $subscription )
     {
-        $customer_notify = smspro_get_option('customer_notify', 'smspro_wc_renewal', 'on');
+        $customer_notify = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wc_renewal', 'on');
         $subscription_id = $subscription->get_ID();
         $next_payment_date_dt = $subscription->get_date('next_payment');
         global $wpdb;
-        $table_name           = $wpdb->prefix . 'smspro_renewal_reminders';
+        $table_name           = $wpdb->prefix . 'softeria_alerts_renewal_reminders';
         $subscription_details = $wpdb->get_results("SELECT next_payment_date, notification_sent_date FROM $table_name WHERE subscription_id = $subscription_id ");
         if ('active' === $subscription->get_status() && 'on' === $customer_notify && $next_payment_date_dt ) {
-            $scheduler_data = get_option('smspro_wc_renewal_scheduler');
+            $scheduler_data = get_option('softeria_alerts_wc_renewal_scheduler');
             if (isset($scheduler_data['cron']) && ! empty($scheduler_data['cron']) ) {
                 foreach ( $scheduler_data['cron'] as $sdata ) {
                     $next_payment_date    = date('Y-m-d', strtotime($next_payment_date_dt));
@@ -501,8 +501,8 @@ class WCSubscription
     public function smsproSendSms()
     {
         global $wpdb;
-        $customer_notify      = smspro_get_option('customer_notify', 'smspro_wc_renewal', 'on');
-        $table_name           = $wpdb->prefix . 'smspro_renewal_reminders';
+        $customer_notify      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_wc_renewal', 'on');
+        $table_name           = $wpdb->prefix . 'softeria_alerts_renewal_reminders';
         $today                = new DateTime();
         $today                = $today->format('Y-m-d');
         $subscription_details = $wpdb->get_results("SELECT * FROM $table_name WHERE notification_sent_date = '$today'");

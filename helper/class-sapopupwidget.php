@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -31,8 +31,8 @@ if (!defined('ABSPATH')) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAPopupWidget class
@@ -47,7 +47,7 @@ class SAPopupWidget extends Widget_Base
      */
     public function get_name()
     {
-        return 'smspro-modal-widget';
+        return 'softeria-alert-modal-widget';
     }
 
     /**
@@ -57,7 +57,7 @@ class SAPopupWidget extends Widget_Base
      */
     public function get_title()
     {
-        return __('SMS Pro Modal', 'sms-pro');
+        return __('Softeria Tech Modal', 'softeria-sms-alerts');
     }
 
     /**
@@ -148,14 +148,14 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_section(
             'section_smspros_form',
             [
-                'label' => __('SMS Pro Modal', 'sms-pro'),
+                'label' => __('Softeria Tech Modal', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_list',
             [
-                'label'       => esc_html__('SMS Pro Modal', 'sms-pro'),
+                'label'       => esc_html__('Softeria Tech Modal', 'softeria-sms-alerts'),
                 'type'        => Controls_Manager::SELECT,
                 'label_block' => true,
                 'options'     => array('popup-1'=>'Style1', 'popup-2'=>'Style2', 'popup-3'=>'Style3', 'popup-4'=>'Style4'),
@@ -166,21 +166,21 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_mobile_lbl',
             [    
-                'label'        => __('Modal Text', 'sms-pro'),
+                'label'        => __('Modal Text', 'softeria-sms-alerts'),
                                 
                 'type'         => "textarea",
                 'placeholder'      => 'Enter text',                              
                 'condition' => [
                     'form_list' => ['popup-1','popup-2','popup-3','popup-4'],
                 ],
-                'description' => esc_html__('Use ##phone## for mobile number', 'sms-pro'),                
+                'description' => esc_html__('Use ##phone## for mobile number', 'softeria-sms-alerts'),                
             ]
         );
 
         $this->add_control(
             'sa_ele_f_mobile_placeholder',
             [
-                'label'        => __('Placeholder', 'sms-pro'),                
+                'label'        => __('Placeholder', 'softeria-sms-alerts'),                
                 'type'         => "text",
                 'placeholder'      => 'Enter Placeholder', 
                 'condition' => [
@@ -192,7 +192,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_mobile_botton',
             [
-                'label'        => __('Button Text', 'sms-pro'),
+                'label'        => __('Button Text', 'softeria-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Enter Button Text',
                 'condition' => [
@@ -203,7 +203,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_otp_resend',
             [
-                'label'        => __('Resend Text', 'sms-pro'),
+                'label'        => __('Resend Text', 'softeria-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Enter Resend Text',
                 'condition' => [
@@ -214,7 +214,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_resend_btn',
             [
-                'label'        => __('Resend Button Text', 'sms-pro'),
+                'label'        => __('Resend Button Text', 'softeria-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Enter Resend Button Text',
                 'condition' => [
@@ -225,7 +225,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'sa_otp_re_send_timer',
             [
-                'label'        => __('OTP Re-send Timer', 'sms-pro'),
+                'label'        => __('OTP Re-send Timer', 'softeria-sms-alerts'),
                 'type'         => "number",
                 'min'          => "15",
                 'max'          => "300",                
@@ -238,7 +238,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'max_otp_resend_allowed',
             [
-                'label'        => __('Max OTP Re-send Allowed', 'sms-pro'),
+                'label'        => __('Max OTP Re-send Allowed', 'softeria-sms-alerts'),
                 'type'         => "number",
                   'min'          => "1",
                   'max'          => "5",
@@ -252,7 +252,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'sa_edit_mobile_number',
             [
-                'label'        => __('Edit Mobile Label', 'sms-pro'),                
+                'label'        => __('Edit Mobile Label', 'softeria-sms-alerts'),                
                 'type'         => "text",
                 'placeholder'      => 'Edit Number', 
                 'condition' => [
@@ -264,11 +264,11 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'auto_validate',
             [
-                'label'        => __('Auto Validate Otp', 'sms-pro'),
+                'label'        => __('Auto Validate Otp', 'softeria-sms-alerts'),
                 'type'         =>  Controls_Manager::SWITCHER,
                 'default'      => 'off',
-                'label_on'     => __('on', 'sms-pro'),
-                'label_off'    => __('off', 'sms-pro'),
+                'label_on'     => __('on', 'softeria-sms-alerts'),
+                'label_off'    => __('off', 'softeria-sms-alerts'),
                                 'return_value' => 'on',
                 'condition' => [
                     'form_list' => ['popup-1','popup-2','popup-3','popup-4'],
@@ -279,7 +279,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'sa_edit_mobile_meaasege',
             [
-                'label'        => __('Edit Message', 'sms-pro'),                
+                'label'        => __('Edit Message', 'softeria-sms-alerts'),                
                 'type'         => "textarea",
                 'placeholder'      => 'Please Enter Text', 
                 'condition' => [
@@ -302,7 +302,7 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_container_style',
             [
-                'label' => __('Form Container', 'sms-pro'),
+                'label' => __('Form Container', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -310,7 +310,7 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Background::get_type(),
             [
                 'name'     => 'form_container_background',
-                'label'    => __('Background', 'sms-pro'),
+                'label'    => __('Background', 'softeria-sms-alerts'),
                 'types'    => ['classic'],
                 'selector' => '{{WRAPPER}} .smspromodal-widget-wrapper .modal-content',
                 'exclude' => ['image'],        
@@ -328,7 +328,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'form_container_border_radius',
             [
-                'label'      => esc_html__('Border Radius', 'sms-pro'),
+                'label'      => esc_html__('Border Radius', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'separator'  => 'before',
                 'size_units' => ['px'],
@@ -350,7 +350,7 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_address_style',
             [
-                'label' => __('Edit Mobile Number', 'sms-pro'),
+                'label' => __('Edit Mobile Number', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -358,7 +358,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'address_text_color',
             [
-                'label'     => __('text Color', 'sms-pro'),
+                'label'     => __('text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -378,14 +378,14 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_label_style',
             [
-                'label' => __('Modal Text', 'sms-pro'),
+                'label' => __('Modal Text', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
         $this->add_control(
             'form_label_text_color',
             [
-                'label'     => __('Text Color', 'sms-pro'),
+                'label'     => __('Text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .smspromodal-widget-wrapper .sa-message,.smspromodal-widget-wrapper .saeditmessage, .smspromodal-widget-wrapper .sa-lwo-form label' => 'color: {{VALUE}}',
@@ -395,7 +395,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'form_label_bg_color',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -407,7 +407,7 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'     => 'form_label_typography',
-                'label'    => __('Typography', 'sms-pro'),
+                'label'    => __('Typography', 'softeria-sms-alerts'),
                 'selector' => '{{WRAPPER}} .smspromodal-widget-wrapper .sa-message,.smspromodal-widget-wrapper .saeditmessage,.smspromodal-widget-wrapper .sa-lwo-form label',
             ]
         );
@@ -424,7 +424,7 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_fields_style',
             [
-                'label' => __('OTP Field', 'sms-pro'),
+                'label' => __('OTP Field', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -432,19 +432,19 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'input_alignment',
             [
-                'label'   => __('Alignment', 'sms-pro'),
+                'label'   => __('Alignment', 'softeria-sms-alerts'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
-                        'title' => __('Left', 'sms-pro'),
+                        'title' => __('Left', 'softeria-sms-alerts'),
                         'icon'  => 'fa fa-align-left',
                     ],
                     'center' => [
-                        'title' => __('Center', 'sms-pro'),
+                        'title' => __('Center', 'softeria-sms-alerts'),
                         'icon'  => 'fa fa-align-center',
                     ],
                     'right' => [
-                        'title' => __('Right', 'sms-pro'),
+                        'title' => __('Right', 'softeria-sms-alerts'),
                         'icon'  => 'fa fa-align-right',
                     ],
                 ],
@@ -460,14 +460,14 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_form_fields_normal',
             [
-                'label' => __('Normal', 'sms-pro'),
+                'label' => __('Normal', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_field_bg_color',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -479,7 +479,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'form_field_text_color',
             [
-                'label'     => __('Text Color', 'sms-pro'),
+                'label'     => __('Text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -492,7 +492,7 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_field_border',
-                'label'       => __('Border', 'sms-pro'),
+                'label'       => __('Border', 'softeria-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
                 'selector'    => '{{WRAPPER}} .smspromodal-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]):not(.select2-search__field), {{WRAPPER}} .smspromodal-widget-wrapper .sa-el-group textarea, {{WRAPPER}} .smspromodal-widget-wrapper .sa-el-group select,  {{WRAPPER}} .smspromodal-widget-wrapper .sa-el-group .select2-container--default .select2-selection--multiple',
@@ -503,7 +503,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'form_field_radius',
             [
-                'label'      => __('Border Radius', 'sms-pro'),
+                'label'      => __('Border Radius', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -515,7 +515,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_text_indent',
             [
-                'label' => __('Text Indent', 'sms-pro'),
+                'label' => __('Text Indent', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -540,7 +540,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_input_width',
             [
-                'label' => __('Input Width', 'sms-pro'),
+                'label' => __('Input Width', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -559,7 +559,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_input_height',
             [
-                'label' => __('Input Height', 'sms-pro'),
+                'label' => __('Input Height', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -578,7 +578,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_padding',
             [
-                'label'      => __('Padding', 'sms-pro'),
+                'label'      => __('Padding', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -590,7 +590,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_spacing',
             [
-                'label' => __('Spacing', 'sms-pro'),
+                'label' => __('Spacing', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -610,7 +610,7 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'      => 'form_field_typography',
-                'label'     => __('Typography', 'sms-pro'),
+                'label'     => __('Typography', 'softeria-sms-alerts'),
                 'selector'  => '{{WRAPPER}} .smspromodal-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]), {{WRAPPER}} .smspromodal-widget-wrapper .sa-el-group textarea, {{WRAPPER}} .smspromodal-widget-wrapper .sa-el-group select',
                 'separator' => 'before',
             ]
@@ -630,14 +630,14 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_form_fields_focus',
             [
-                'label' => __('Focus', 'sms-pro'),
+                'label' => __('Focus', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_field_bg_color_focus',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -650,7 +650,7 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_input_focus_border',
-                'label'       => __('Border', 'sms-pro'),
+                'label'       => __('Border', 'softeria-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
                 'selector'    => '{{WRAPPER}} .smspromodal-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]):focus, {{WRAPPER}} .smspromodal-widget-wrapper .sa-el-group textarea:focus',
@@ -682,7 +682,7 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_address_line_style',
             [
-                'label' => __('Resend Otp', 'sms-pro'),
+                'label' => __('Resend Otp', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -690,7 +690,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'address_line_text_color',
             [
-                'label'     => __('text Color', 'sms-pro'),
+                'label'     => __('text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -703,7 +703,7 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'     => 'address_line_label_typography',
-                'label'    => __('Typography', 'sms-pro'),
+                'label'    => __('Typography', 'softeria-sms-alerts'),
                 'selector' => '{{WRAPPER}} .smspromodal-widget-wrapper .sa_resend_btn, .smspromodal-widget-wrapper .sa_forgot,.smspromodal-widget-wrapper .sa_timer',
             ]
         );
@@ -720,7 +720,7 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_submit_button_style',
             [
-                'label' => __('Submit Button', 'sms-pro'),
+                'label' => __('Submit Button', 'softeria-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -728,19 +728,19 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_align',
             [
-                'label'   => __('Alignment', 'sms-pro'),
+                'label'   => __('Alignment', 'softeria-sms-alerts'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
-                        'title' => __('Left', 'sms-pro'),
+                        'title' => __('Left', 'softeria-sms-alerts'),
                         'icon'  => 'eicon-h-align-left',
                     ],
                     'center' => [
-                        'title' => __('Center', 'sms-pro'),
+                        'title' => __('Center', 'softeria-sms-alerts'),
                         'icon'  => 'eicon-h-align-center',
                     ],
                     'right' => [
-                        'title' => __('Right', 'sms-pro'),
+                        'title' => __('Right', 'softeria-sms-alerts'),
                         'icon'  => 'eicon-h-align-right',
                     ],
                 ],
@@ -755,12 +755,12 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_width_type',
             [
-                'label'   => __('Width', 'sms-pro'),
+                'label'   => __('Width', 'softeria-sms-alerts'),
                 'type'    => Controls_Manager::SELECT,
                 'default' => 'custom',
                 'options' => [
-                    'full-width' => __('Full Width', 'sms-pro'),
-                    'custom'     => __('Custom', 'sms-pro'),
+                    'full-width' => __('Full Width', 'softeria-sms-alerts'),
+                    'custom'     => __('Custom', 'softeria-sms-alerts'),
                 ],
                 'prefix_class' => 'smspromodal-widget-submit-button-',
             ]
@@ -769,7 +769,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_width',
             [
-                'label' => __('Width', 'sms-pro'),
+                'label' => __('Width', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -780,7 +780,7 @@ class SAPopupWidget extends Widget_Base
                 ],
                 'size_units' => ['px', '%'],
                 'selectors'  => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'width: {{SIZE}}{{UNIT}}', ],
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'width: {{SIZE}}{{UNIT}}', ],
                 'condition' => [
                     'form_submit_button_width_type' => 'custom',
                 ],
@@ -792,18 +792,18 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_submit_button_normal',
             [
-                'label' => __('Normal', 'sms-pro'),
+                'label' => __('Normal', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_submit_button_bg_color_normal',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#409EFF',
                 'selectors' => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'background-color: {{VALUE}} !important;',
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'background-color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -811,11 +811,11 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_text_color_normal',
             [
-                'label'     => __('Text Color', 'sms-pro'),
+                'label'     => __('Text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'color: {{VALUE}} !important;',
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -824,21 +824,21 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_submit_button_border_normal',
-                'label'       => __('Border', 'sms-pro'),
+                'label'       => __('Border', 'softeria-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
-                'selector'    => '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit',
+                'selector'    => '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit',
             ]
         );
 
         $this->add_control(
             'form_submit_button_border_radius',
             [
-                'label'      => __('Border Radius', 'sms-pro'),
+                'label'      => __('Border Radius', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -846,11 +846,11 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_padding',
             [
-                'label'      => __('Padding', 'sms-pro'),
+                'label'      => __('Padding', 'softeria-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -858,7 +858,7 @@ class SAPopupWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_margin',
             [
-                'label' => __('Margin Top', 'sms-pro'),
+                'label' => __('Margin Top', 'softeria-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -869,7 +869,7 @@ class SAPopupWidget extends Widget_Base
                 ],
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'margin-top: {{SIZE}}{{UNIT}}',
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit' => 'margin-top: {{SIZE}}{{UNIT}}',
                 ],
             ]
         );
@@ -878,8 +878,8 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'      => 'form_submit_button_typography',
-                'label'     => __('Typography', 'sms-pro'),
-                'selector'  => '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit',
+                'label'     => __('Typography', 'softeria-sms-alerts'),
+                'selector'  => '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit',
                 'separator' => 'before',
             ]
         );
@@ -888,7 +888,7 @@ class SAPopupWidget extends Widget_Base
             Group_Control_Box_Shadow::get_type(),
             [
                 'name'      => 'form_submit_button_box_shadow',
-                'selector'  => '{{WRAPPER}} .smspromodal-widget-wrapper.smspro_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit',
+                'selector'  => '{{WRAPPER}} .smspromodal-widget-wrapper.softeria_alerts_otp_validate_submit,.smspromodal-widget-wrapper .saresubmit',
                 'separator' => 'before',
             ]
         );
@@ -898,18 +898,18 @@ class SAPopupWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_submit_button_hover',
             [
-                'label' => __('Hover', 'sms-pro'),
+                'label' => __('Hover', 'softeria-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_submit_button_bg_color_hover',
             [
-                'label'     => __('Background Color', 'sms-pro'),
+                'label'     => __('Background Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit:hover,.smspromodal-widget-wrapper .saresubmit:hover' => 'background-color: {{VALUE}} !important;',
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit:hover,.smspromodal-widget-wrapper .saresubmit:hover' => 'background-color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -917,11 +917,11 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_text_color_hover',
             [
-                'label'     => __('Text Color', 'sms-pro'),
+                'label'     => __('Text Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit:hover,.smspromodal-widget-wrapper .saresubmit:hover' => 'color: {{VALUE}} !important;',
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit:hover,.smspromodal-widget-wrapper .saresubmit:hover' => 'color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -929,11 +929,11 @@ class SAPopupWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_border_color_hover',
             [
-                'label'     => __('Border Color', 'sms-pro'),
+                'label'     => __('Border Color', 'softeria-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
-                    '{{WRAPPER}} .smspromodal-widget-wrapper .smspro_otp_validate_submit:hover,.smspromodal-widget-wrapper .saresubmit:hover' => 'border-color: {{VALUE}}',
+                    '{{WRAPPER}} .smspromodal-widget-wrapper .softeria_alerts_otp_validate_submit:hover,.smspromodal-widget-wrapper .saresubmit:hover' => 'border-color: {{VALUE}}',
                 ],
             ]
         );

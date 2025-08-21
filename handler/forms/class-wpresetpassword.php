@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('woocommerce/woocommerce.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * WPResetPassword class.
@@ -65,7 +65,7 @@ class WPResetPassword extends FormInterface
      */
     public function routeData()
     {
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-change-password-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-change-password-form' ) {
             $this->handleSmsalertChangedPwd($_POST);
         }
     }
@@ -77,9 +77,9 @@ class WPResetPassword extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && smspro_get_option('reset_password', 'smspro_general') === 'on' ) ? true : false;
+        return ( $islogged && softeria_alerts_get_option('reset_password', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
 
     /**
@@ -93,8 +93,8 @@ class WPResetPassword extends FormInterface
     {
         SmsAlertUtility::checkSession();
         $error            = '';
-        $new_password     = ! empty($post_data['smspro_user_newpwd']) ? $post_data['smspro_user_newpwd'] : '';
-        $confirm_password = ! empty($post_data['smspro_user_cnfpwd']) ? $post_data['smspro_user_cnfpwd'] : '';
+        $new_password     = ! empty($post_data['softeria_alerts_user_newpwd']) ? $post_data['softeria_alerts_user_newpwd'] : '';
+        $confirm_password = ! empty($post_data['softeria_alerts_user_cnfpwd']) ? $post_data['softeria_alerts_user_cnfpwd'] : '';
 
         if (empty($new_password) ) {
             $error = SmsAlertMessages::showMessage('ENTER_PWD');
@@ -120,7 +120,7 @@ class WPResetPassword extends FormInterface
     }
 
     /**
-     * Start SMSPro Reset Password Process
+     * Start SOFTSMSAlerts Reset Password Process
      *
      * @param array  $errors    Errors array.
      * @param object $user_data users object.
@@ -167,7 +167,7 @@ class WPResetPassword extends FormInterface
         if (( array_key_exists($this->form_session_var, $_SESSION) && strcasecmp($_SESSION[ $this->form_session_var ], 'validated') === 0 ) ) {
             return;
         }
-        smspro_site_challenge_otp($user, $username, null, $phone_number, 'phone', $password, SmsAlertUtility::currentPageUrl(), false);
+        softeria_alerts_site_challenge_otp($user, $username, null, $phone_number, 'phone', $password, SmsAlertUtility::currentPageUrl(), false);
     }
 
     /**
@@ -188,7 +188,7 @@ class WPResetPassword extends FormInterface
 
         if (isset($_SESSION[ $this->form_session_var ]) ) {
             $_SESSION[ $this->form_session_var ] = 'verification_failed';
-            smspro_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertMessages::showMessage('INVALID_OTP'), 'phone', false);
+            softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertMessages::showMessage('INVALID_OTP'), 'phone', false);
         }
     }
 

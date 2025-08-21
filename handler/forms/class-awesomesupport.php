@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('awesome-support/awesome-support.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -69,7 +69,7 @@ class SaAwesomeSupport extends FormInterface
 		jQuery( "#wpas_billling_phone" ).addClass("phone-valid");
 		});		
 		</script>';
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
         if ('on' === $buyer_signup_otp ) {
             echo do_shortcode('[sa_verify phone_selector="wpas_billling_phone" submit_selector="#wpas_form_registration .wpas-btn"]');    
         }
@@ -82,7 +82,7 @@ class SaAwesomeSupport extends FormInterface
      */
     public function saSiteLoginOtp()
     {
-        $default_login_otp   = smspro_get_option('buyer_login_otp', 'smspro_general');       
+        $default_login_otp   = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');       
         if ('on' === $default_login_otp ) {
             echo do_shortcode('[sa_verify id="#wpas_form_login" user_selector="#wpas_log" pwd_selector="#wpas_pwd" submit_selector="#wpas_form_login .wpas-btn"]');
         }
@@ -104,8 +104,8 @@ class SaAwesomeSupport extends FormInterface
             'args' => array(
             'required'    => true,
             'field_type'  => 'text',
-            'label'       => __('Phone', 'sms-pro'),
-            'placeholder' => __('Phone', 'sms-pro'),
+            'label'       => __('Phone', 'softeria-sms-alerts'),
+            'placeholder' => __('Phone', 'softeria-sms-alerts'),
             'sanitize'    => 'sanitize_text_field',
             'desc'          => $billling_phone_desc,
             'default'      => ( isset($_SESSION["wpas_registration_form"]["billling_phone"]) && $_SESSION["wpas_registration_form"]["billling_phone"] ) ? $_SESSION["wpas_registration_form"]["billling_phone"] : ""
@@ -155,13 +155,13 @@ class SaAwesomeSupport extends FormInterface
         if (!$update ) {
             $password = ( ! empty($_REQUEST['wpas_password']) ) ?sanitize_text_field(wp_unslash($_REQUEST['wpas_password'])) : '';           
             $userEmail = ( ! empty($_REQUEST['wpas_email']) ) ?sanitize_text_field(wp_unslash($_REQUEST['wpas_email'])) : '';
-            if (isset($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option']) === 'smspro_wpas_form_otp')) {
+            if (isset($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option']) === 'softeria_alerts_wpas_form_otp')) {
                 SmsAlertUtility::initialize_transaction($this->form_session_var);
             } else {
                 return $data;
             }        
             
-            if (smspro_get_option('allow_multiple_user', 'smspro_general') !== 'on' && ! SmsAlertUtility::isBlank($phone) ) {            
+            if (softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') !== 'on' && ! SmsAlertUtility::isBlank($phone) ) {            
                 $getusers = SmsAlertUtility::getUsersByPhone('billling_phone', $phone);  
                 if (count($getusers) > 0 ) {
                     wp_send_json(SmsAlertUtility::_create_json_response('An account is already registered with this mobile number!', 'error'));                    
@@ -189,7 +189,7 @@ class SaAwesomeSupport extends FormInterface
         if (! isset($phone) || ! SmsAlertUtility::validatePhoneNumber($phone)) {
             return new WP_Error('billing_phone_error', str_replace('##phone##', SmsAlertcURLOTP::checkPhoneNos($phone), $phoneLogic->_get_otp_invalid_format_message()));
         }       
-        smspro_site_challenge_otp('test', $userEmail, $password, $phone, 'phone', $extra_data); 
+        softeria_alerts_site_challenge_otp('test', $userEmail, $password, $phone, 'phone', $extra_data); 
     
     } 
     
@@ -206,13 +206,13 @@ class SaAwesomeSupport extends FormInterface
         $ticketStatuses['open'] = 'open';    
         $ticketStatuses['closed'] = 'closed';            
         foreach ($ticketStatuses as $ks => $vs) {
-            $defaults['smspro_ast_general']['customer_ast_notify_'.$ks]   = 'off';
-            $defaults['smspro_ast_message']['customer_sms_ast_body_'.$ks] = '';
-            $defaults['smspro_ast_general']['admin_ast_notify_'.$ks]      = 'off';
-            $defaults['smspro_ast_message']['admin_sms_ast_body_'.$ks]    = '';
+            $defaults['softeria_alerts_ast_general']['customer_ast_notify_'.$ks]   = 'off';
+            $defaults['softeria_alerts_ast_message']['customer_sms_ast_body_'.$ks] = '';
+            $defaults['softeria_alerts_ast_general']['admin_ast_notify_'.$ks]      = 'off';
+            $defaults['softeria_alerts_ast_message']['admin_sms_ast_body_'.$ks]    = '';
         }
-        $defaults['smspro_ast_general']['otp_enable']      = 'off';
-        $defaults['smspro_ast_general']['customer_notify'] = 'off';       
+        $defaults['softeria_alerts_ast_general']['otp_enable']      = 'off';
+        $defaults['softeria_alerts_ast_general']['customer_notify'] = 'off';       
         return $defaults;
 
     }//end add_default_setting()
@@ -275,15 +275,15 @@ class SaAwesomeSupport extends FormInterface
         $ticketStatuses['closed'] = 'closed';        
         $templates = [];
         foreach ($ticketStatuses as $ks  => $vs) {            
-            $currentVal = smspro_get_option('customer_ast_notify_'.strtolower($ks), 'smspro_ast_general', 'on');
+            $currentVal = softeria_alerts_get_option('customer_ast_notify_'.strtolower($ks), 'softeria_alerts_ast_general', 'on');
             
-            $checkboxMameId = 'smspro_ast_general[customer_ast_notify_'.strtolower($ks).']';
+            $checkboxMameId = 'softeria_alerts_ast_general[customer_ast_notify_'.strtolower($ks).']';
             
-            $textareaNameId = 'smspro_ast_message[customer_sms_ast_body_'.strtolower($ks).']';
+            $textareaNameId = 'softeria_alerts_ast_message[customer_sms_ast_body_'.strtolower($ks).']';
             
-            $defaultTemplate = sprintf(__('Hello %1$s, status of your ticket #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[client_first_name]', '[ticket_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello %1$s, status of your ticket #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[client_first_name]', '[ticket_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
             
-            $textBody = smspro_get_option('customer_sms_ast_body_'.strtolower($ks), 'smspro_ast_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('customer_sms_ast_body_'.strtolower($ks), 'softeria_alerts_ast_message', $defaultTemplate);
             
             $templates[$ks]['title']          = 'When customer ticket is '.ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -310,13 +310,13 @@ class SaAwesomeSupport extends FormInterface
         $ticketStatuses['closed'] = 'closed';
         $templates = [];
         foreach ($ticketStatuses as $ks  => $vs) {
-            $currentVal     = smspro_get_option('admin_ast_notify_'.strtolower($ks), 'smspro_ast_general', 'on');
-            $checkboxMameId = 'smspro_ast_general[admin_ast_notify_'.strtolower($ks).']';
-            $textareaNameId = 'smspro_ast_message[admin_sms_ast_body_'.strtolower($ks).']';
+            $currentVal     = softeria_alerts_get_option('admin_ast_notify_'.strtolower($ks), 'softeria_alerts_ast_general', 'on');
+            $checkboxMameId = 'softeria_alerts_ast_general[admin_ast_notify_'.strtolower($ks).']';
+            $textareaNameId = 'softeria_alerts_ast_message[admin_sms_ast_body_'.strtolower($ks).']';
 
-            $defaultTemplate = sprintf(__('%1$s: Your ticket #%2$s is %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[store_name]', '[ticket_id]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('%1$s: Your ticket #%2$s is %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', '[ticket_id]', $vs, PHP_EOL, PHP_EOL);
 
-            $textBody = smspro_get_option('admin_sms_ast_body_'.strtolower($ks), 'smspro_ast_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('admin_sms_ast_body_'.strtolower($ks), 'softeria_alerts_ast_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin ticket status to '.ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -416,19 +416,19 @@ class SaAwesomeSupport extends FormInterface
         if ($data['post_type'] == 'ticket') {
             $user_id    = $data['post_author'];     
             $buyerNumber        = get_user_meta($user_id, 'billing_phone', true);        
-            $customerMessage    = smspro_get_option('customer_sms_ast_body_'.$ticketStatus, 'smspro_ast_message', '');
-            $customerNotify        = smspro_get_option('customer_ast_notify_'.$ticketStatus, 'smspro_ast_general', 'on');
+            $customerMessage    = softeria_alerts_get_option('customer_sms_ast_body_'.$ticketStatus, 'softeria_alerts_ast_message', '');
+            $customerNotify        = softeria_alerts_get_option('customer_ast_notify_'.$ticketStatus, 'softeria_alerts_ast_general', 'on');
             if (($customerNotify === 'on' && $customerMessage !== '')) {
                 $buyerMessage = $this->parseSmsBody($data, $customerMessage, $ticket_id);
                 do_action('sa_send_sms', $buyerNumber, $buyerMessage);
             }
             // Send msg to admin.
-            $adminPhoneNumber     = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $adminPhoneNumber     = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
             if (empty($adminPhoneNumber) === false) {
-                $adminNotify      = smspro_get_option('admin_ast_notify_'.$ticketStatus, 'smspro_ast_general', 'on');
+                $adminNotify      = softeria_alerts_get_option('admin_ast_notify_'.$ticketStatus, 'softeria_alerts_ast_general', 'on');
 
-                $adminMessage     = smspro_get_option('admin_sms_ast_body_'.$ticketStatus, 'smspro_ast_message', '');
+                $adminMessage     = softeria_alerts_get_option('admin_sms_ast_body_'.$ticketStatus, 'softeria_alerts_ast_message', '');
 
                 $nos              = explode(',', $adminPhoneNumber);
                 $adminPhoneNumber = array_diff($nos, ['postauthor', 'post_author']);
@@ -524,7 +524,7 @@ class SaAwesomeSupport extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('awesome-support/awesome-support.php') === true) && ($islogged === true)) {
             return true;

@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category View
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -32,7 +32,7 @@ $url = add_query_arg(
             <table class="form-table">
                 <tr valign="top" style="position:relative">
                     <td>
-                        <div class="smspro_tokens">
+                        <div class="softeria_alerts_tokens">
             <?php
             foreach ( $template['token'] as $vk => $vv ) {
                 echo  "<a href='#' data-val='".esc_attr($vk)."'>".esc_attr($vv)."</a> | ";
@@ -68,14 +68,14 @@ foreach ( $templates as $template ) {
 <!-- Delivery driver -->
 <?php if ('delivery_drivers' === $checkTemplateFor ) { ?>
     <div class="submit">
-    <a href="users.php?role=driver" class="button action alignright"><?php esc_html_e('View Drivers', 'sms-pro'); ?></a>
+    <a href="users.php?role=driver" class="button action alignright"><?php esc_html_e('View Drivers', 'softeria-sms-alerts'); ?></a>
     </div>
 <?php } ?>
 <!-- /- Delivery driver -->
 <!-- Backinstock -->
 <?php if ('backinstock' === $checkTemplateFor ) { ?>
     <div class="submit" style="clear:both">
-        <a href="admin.php?page=all-subscriber" class="button action alignright"><?php esc_html_e('View Subscriber', 'sms-pro'); ?></a>
+        <a href="admin.php?page=all-subscriber" class="button action alignright"><?php esc_html_e('View Subscriber', 'softeria-sms-alerts'); ?></a>
     </div>
 <?php } ?>
 <!-- /- Backinstock -->
@@ -91,7 +91,7 @@ if ('cartbounty' === $checkTemplateFor ) {
         <tbody>
         <tr valign="top">
             <td>
-                <p><span class="dashicons dashicons-info"></span> <b><?php esc_html_e('Please enable Email Notification at Cart Bounty Setting page.', 'sms-pro'); ?></b> <a href="<?php echo esc_url($admin_url()) . 'admin.php?page=cartbounty&tab=settings'; ?>"><?php esc_html_e('Click Here', 'sms-pro'); ?></a></p>
+                <p><span class="dashicons dashicons-info"></span> <b><?php esc_html_e('Please enable Email Notification at Cart Bounty Setting page.', 'softeria-sms-alerts'); ?></b> <a href="<?php echo esc_url($admin_url()) . 'admin.php?page=cartbounty&tab=settings'; ?>"><?php esc_html_e('Click Here', 'softeria-sms-alerts'); ?></a></p>
             </td>
         </tr>
     </tbody></table>
@@ -104,43 +104,43 @@ if ('cartbounty' === $checkTemplateFor ) {
 <!-- Backinstock -->
 <?php if ('bc_customer' === $checkTemplateFor ) { ?>
     <div class="cvt-accordion" style="padding: 10px 10px 10px 10px">
-    <input type="checkbox" name="smspro_bc_general[otp_enable]" id="smspro_bc_general[otp_enable]" <?php echo ( ( smspro_get_option('otp_enable', 'smspro_bc_general', 'off') === 'on' ) ? "checked='checked'" : '' ); ?>/>
-    <label for="smspro_bc_general[otp_enable]"> Enable Mobile Verification </label>
+    <input type="checkbox" name="softeria_alerts_bc_general[otp_enable]" id="softeria_alerts_bc_general[otp_enable]" <?php echo ( ( softeria_alerts_get_option('otp_enable', 'softeria_alerts_bc_general', 'off') === 'on' ) ? "checked='checked'" : '' ); ?>/>
+    <label for="softeria_alerts_bc_general[otp_enable]"> Enable Mobile Verification </label>
     </div>
 <?php } ?>
 <?php if ('rr_customer' === $checkTemplateFor ) { ?>
     <div class="cvt-accordion" style="padding: 10px 10px 10px 10px">
-    <input type="checkbox" name="smspro_rr_general[otp_enable]" id="smspro_rr_general[otp_enable]" <?php echo ( ( smspro_get_option('otp_enable', 'smspro_rr_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
-    <label for="smspro_rr_general[otp_enable]"> Enable Mobile Verification </label>
+    <input type="checkbox" name="softeria_alerts_rr_general[otp_enable]" id="softeria_alerts_rr_general[otp_enable]" <?php echo ( ( softeria_alerts_get_option('otp_enable', 'softeria_alerts_rr_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
+    <label for="softeria_alerts_rr_general[otp_enable]"> Enable Mobile Verification </label>
     </div>
 <?php } ?>
 <?php if ('qr_customer' === $checkTemplateFor ) { ?>
     <div class="cvt-accordion" style="padding: 10px 10px 10px 10px">
-    <input type="checkbox" name="smspro_qr_general[otp_enable]" id="smspro_qr_general[otp_enable]" <?php echo ( ( smspro_get_option('otp_enable', 'smspro_qr_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
-    <label for="smspro_qr_general[otp_enable]"> Enable Mobile Verification </label>
+    <input type="checkbox" name="softeria_alerts_qr_general[otp_enable]" id="softeria_alerts_qr_general[otp_enable]" <?php echo ( ( softeria_alerts_get_option('otp_enable', 'softeria_alerts_qr_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
+    <label for="softeria_alerts_qr_general[otp_enable]"> Enable Mobile Verification </label>
     </div>
 <?php } ?>
 <?php if ('eap_customer' === $checkTemplateFor ) { ?>
     <div class="cvt-accordion" style="padding: 10px 10px 10px 10px">
-    <input type="checkbox" name="smspro_eap_general[otp_enable]" id="smspro_eap_general[otp_enable]" <?php echo ( ( smspro_get_option('otp_enable', 'smspro_eap_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
-    <label for="smspro_eap_general[otp_enable]"> Enable Mobile Verification </label>
+    <input type="checkbox" name="softeria_alerts_eap_general[otp_enable]" id="softeria_alerts_eap_general[otp_enable]" <?php echo ( ( softeria_alerts_get_option('otp_enable', 'softeria_alerts_eap_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
+    <label for="softeria_alerts_eap_general[otp_enable]"> Enable Mobile Verification </label>
     </div>
 <?php } ?>
 <?php if ('pmp_customer' === $checkTemplateFor ) { ?>
     <div class="cvt-accordion" style="padding: 10px 10px 10px 10px">
-    <input type="checkbox" name="smspro_pmp_general[otp_enable]" id="smspro_pmp_general[otp_enable]" <?php echo ( ( smspro_get_option('otp_enable', 'smspro_pmp_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
-    <label for="smspro_pmp_general[otp_enable]"> Enable Mobile Verification </label>
+    <input type="checkbox" name="softeria_alerts_pmp_general[otp_enable]" id="softeria_alerts_pmp_general[otp_enable]" <?php echo ( ( softeria_alerts_get_option('otp_enable', 'softeria_alerts_pmp_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
+    <label for="softeria_alerts_pmp_general[otp_enable]"> Enable Mobile Verification </label>
     </div>
 <?php } ?>
 <?php if ('wcf_customer' === $checkTemplateFor ) { ?>
     <div class="cvt-accordion" style="padding: 10px 10px 10px 10px">
-    <input type="checkbox" name="smspro_wcf_general[otp_enable]" id="smspro_wcf_general[otp_enable]" <?php echo ( ( smspro_get_option('otp_enable', 'smspro_wcf_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
-    <label for="smspro_wcf_general[otp_enable]"> Enable Mobile Verification </label>
+    <input type="checkbox" name="softeria_alerts_wcf_general[otp_enable]" id="softeria_alerts_wcf_general[otp_enable]" <?php echo ( ( softeria_alerts_get_option('otp_enable', 'softeria_alerts_wcf_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
+    <label for="softeria_alerts_wcf_general[otp_enable]"> Enable Mobile Verification </label>
     </div>
 <?php } ?>
 <?php if ('te_customer' === $checkTemplateFor ) { ?>
     <div class="cvt-accordion" style="padding: 10px 10px 10px 10px">
-    <input type="checkbox" name="smspro_te_general[otp_enable]" id="smspro_te_general[otp_enable]" <?php echo ( ( smspro_get_option('otp_enable', 'smspro_te_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
-    <label for="smspro_te_general[otp_enable]"> Enable Mobile Verification </label>
+    <input type="checkbox" name="softeria_alerts_te_general[otp_enable]" id="softeria_alerts_te_general[otp_enable]" <?php echo ( ( softeria_alerts_get_option('otp_enable', 'softeria_alerts_te_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/>
+    <label for="softeria_alerts_te_general[otp_enable]"> Enable Mobile Verification </label>
     </div>
 <?php } ?>

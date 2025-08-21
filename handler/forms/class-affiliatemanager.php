@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -26,8 +26,8 @@ if (! class_exists('WPAM_Pages_AffiliatesRegister') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -190,10 +190,10 @@ class AffiliateManager extends FormInterface
         $wpam_transaction = self::getAffiliateTransaction();
         $wpam_statuses    = array_merge($wpam_statuses, $wpam_transaction);
         foreach ( $wpam_statuses as $ks => $vs ) {
-            $defaults['smspro_wpam_general'][ 'wpam_admin_notification_' . $vs ] = 'off';
-            $defaults['smspro_wpam_general'][ 'wpam_order_status_' . $vs ]       = 'off';
-            $defaults['smspro_wpam_message'][ 'wpam_admin_sms_body_' . $vs ]     = '';
-            $defaults['smspro_wpam_message'][ 'wpam_sms_body_' . $vs ]           = '';
+            $defaults['softeria_alerts_wpam_general'][ 'wpam_admin_notification_' . $vs ] = 'off';
+            $defaults['softeria_alerts_wpam_general'][ 'wpam_order_status_' . $vs ]       = 'off';
+            $defaults['softeria_alerts_wpam_message'][ 'wpam_admin_sms_body_' . $vs ]     = '';
+            $defaults['softeria_alerts_wpam_message'][ 'wpam_sms_body_' . $vs ]           = '';
         }
         return $defaults;
     }
@@ -324,24 +324,24 @@ class AffiliateManager extends FormInterface
         $amount = ($data['amount']>0)?$data['amount']:-$data['amount'];
         $order_id     = isset($data['referenceId']) ? $data['referenceId'] : '';
 
-        $buyer_sms_notify = smspro_get_option(
+        $buyer_sms_notify = softeria_alerts_get_option(
             'wpam_order_status_' . $status, 
-            'smspro_wpam_general', 'on'
+            'softeria_alerts_wpam_general', 'on'
         );
-        $admin_sms_notify = smspro_get_option(
+        $admin_sms_notify = softeria_alerts_get_option(
             'wpam_admin_notification_' . $status, 
-            'smspro_wpam_general', 'on'
+            'softeria_alerts_wpam_general', 'on'
         );
 
-        $buyer_sms_content = smspro_get_option(
+        $buyer_sms_content = softeria_alerts_get_option(
             'wpam_sms_body_' . $status, 
-            'smspro_wpam_message',
+            'softeria_alerts_wpam_message',
             SmsAlertMessages::showMessage('DEFAULT_WPAM_BUYER_SMS_TRANS_STATUS_CHANGED')
         );
 
-        $admin_sms_content = smspro_get_option(
+        $admin_sms_content = softeria_alerts_get_option(
             'wpam_admin_sms_body_' . $status, 
-            'smspro_wpam_message',
+            'softeria_alerts_wpam_message',
             SmsAlertMessages::showMessage('DEFAULT_WPAM_ADMIN_SMS_TRANS_STATUS_CHANGED')
         );
         if (count($am_user) > 0 ) {
@@ -363,7 +363,7 @@ class AffiliateManager extends FormInterface
                 $wpam_user['sms_body'] = self::pharseSmsBody($token_val, $buyer_sms_content);
                 $response              = SmsAlertcURLOTP::sendsms($wpam_user);
             }
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             $admin_phone_number = str_replace('postauthor', 'post_author', $admin_phone_number);
             if ('on' === $admin_sms_notify && ! empty($admin_phone_number) && ! empty($admin_sms_content) ) {
                 $admin_phone_number     = str_replace('post_author', '', $admin_phone_number);
@@ -386,24 +386,24 @@ class AffiliateManager extends FormInterface
     {
         $am_user          = self::getAffiliateById($affiliate_id);
         $status           = $_REQUEST['handler'];
-        $buyer_sms_notify = smspro_get_option(
+        $buyer_sms_notify = softeria_alerts_get_option(
             'wpam_order_status_' . $status, 
-            'smspro_wpam_general', 'on'
+            'softeria_alerts_wpam_general', 'on'
         );
-        $admin_sms_notify = smspro_get_option(
+        $admin_sms_notify = softeria_alerts_get_option(
             'wpam_admin_notification_' . $status, 
-            'smspro_wpam_general', 'on'
+            'softeria_alerts_wpam_general', 'on'
         );
 
-        $buyer_sms_content = smspro_get_option(
+        $buyer_sms_content = softeria_alerts_get_option(
             'wpam_sms_body_' . $status, 
-            'smspro_wpam_message',
+            'softeria_alerts_wpam_message',
             SmsAlertMessages::showMessage('DEFAULT_WPAM_BUYER_SMS_STATUS_CHANGED')
         );
 
-        $admin_sms_content = smspro_get_option(
+        $admin_sms_content = softeria_alerts_get_option(
             'wpam_admin_sms_body_' . $status, 
-            'smspro_wpam_message',
+            'softeria_alerts_wpam_message',
             SmsAlertMessages::showMessage('DEFAULT_WPAM_ADMIN_SMS_STATUS_CHANGED')
         );
 
@@ -425,9 +425,9 @@ class AffiliateManager extends FormInterface
                 $response              = SmsAlertcURLOTP::sendsms($wpam_user);
             }
 
-            $admin_phone_number = smspro_get_option(
+            $admin_phone_number = softeria_alerts_get_option(
                 'sms_admin_phone',
-                'smspro_message', ''
+                'softeria_alerts_message', ''
             );
             if ('on' === $admin_sms_notify && ! empty($admin_phone_number) && ! empty($admin_sms_content) ) {
                 $wpam_admin             = array();
@@ -448,7 +448,7 @@ class AffiliateManager extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( $islogged && is_plugin_active('affiliates-manager/boot-strap.php') ) ? true : false;
     }
@@ -508,7 +508,7 @@ class AffiliateManager extends FormInterface
         $_SESSION[ $this->form_phone_ver ] = $data['_phoneNumber'];
         $username = isset($data['_email']) ? $data['_email'] : '';
         $email  = isset($data['_email']) ? $data['_email'] : '';
-        smspro_site_challenge_otp($username, $email, $errors, $data['_phoneNumber'], 'phone', null, $data, false);
+        softeria_alerts_site_challenge_otp($username, $email, $errors, $data['_phoneNumber'], 'phone', null, $data, false);
     }
 
     /**
@@ -536,7 +536,7 @@ class AffiliateManager extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        smspro_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertMessages::showMessage('INVALID_OTP'), 'phone', false);
+        softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertMessages::showMessage('INVALID_OTP'), 'phone', false);
     }
 
     /**
@@ -652,12 +652,12 @@ class AffiliateManager extends FormInterface
 
         foreach ( $wpam_statuses as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('wpam_order_status_' . $vs, 'smspro_wpam_general', 'on');
+            $current_val = softeria_alerts_get_option('wpam_order_status_' . $vs, 'softeria_alerts_wpam_general', 'on');
 
-            $checkbox_name_id = 'smspro_wpam_general[wpam_order_status_' . $vs . ']';
-            $textarea_name_id = 'smspro_wpam_message[wpam_sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_wpam_general[wpam_order_status_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_wpam_message[wpam_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option('wpam_sms_body_' . $vs, 'smspro_wpam_message', SmsAlertMessages::showMessage('DEFAULT_WPAM_BUYER_SMS_STATUS_CHANGED'));
+            $text_body = softeria_alerts_get_option('wpam_sms_body_' . $vs, 'softeria_alerts_wpam_message', SmsAlertMessages::showMessage('DEFAULT_WPAM_BUYER_SMS_STATUS_CHANGED'));
 
             $templates[ $ks ]['title']          = 'when Affiliate is ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -670,12 +670,12 @@ class AffiliateManager extends FormInterface
 
         foreach ( $wpam_transaction as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('wpam_order_status_' . $vs, 'smspro_wpam_general', 'on');
+            $current_val = softeria_alerts_get_option('wpam_order_status_' . $vs, 'softeria_alerts_wpam_general', 'on');
 
-            $checkbox_name_id = 'smspro_wpam_general[wpam_order_status_' . $vs . ']';
-            $textarea_name_id = 'smspro_wpam_message[wpam_sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_wpam_general[wpam_order_status_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_wpam_message[wpam_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option('wpam_sms_body_' . $vs, 'smspro_wpam_message', SmsAlertMessages::showMessage('DEFAULT_WPAM_BUYER_SMS_TRANS_STATUS_CHANGED'));
+            $text_body = softeria_alerts_get_option('wpam_sms_body_' . $vs, 'softeria_alerts_wpam_message', SmsAlertMessages::showMessage('DEFAULT_WPAM_BUYER_SMS_TRANS_STATUS_CHANGED'));
 
             $templates[ $ks ]['title']          = 'when Transaction is ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -702,12 +702,12 @@ class AffiliateManager extends FormInterface
 
         foreach ( $wpam_statuses as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('wpam_admin_notification_' . $vs, 'smspro_wpam_general', 'on');
+            $current_val = softeria_alerts_get_option('wpam_admin_notification_' . $vs, 'softeria_alerts_wpam_general', 'on');
 
-            $checkbox_name_id = 'smspro_wpam_general[wpam_admin_notification_' . $vs . ']';
-            $textarea_name_id = 'smspro_wpam_message[wpam_admin_sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_wpam_general[wpam_admin_notification_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_wpam_message[wpam_admin_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option('wpam_admin_sms_body_' . $vs, 'smspro_wpam_message', SmsAlertMessages::showMessage('DEFAULT_WPAM_ADMIN_SMS_STATUS_CHANGED'));
+            $text_body = softeria_alerts_get_option('wpam_admin_sms_body_' . $vs, 'softeria_alerts_wpam_message', SmsAlertMessages::showMessage('DEFAULT_WPAM_ADMIN_SMS_STATUS_CHANGED'));
 
             $templates[ $ks ]['title']          = 'when Affiliate is ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -720,13 +720,13 @@ class AffiliateManager extends FormInterface
 
         foreach ( $wpam_transaction as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('wpam_admin_notification_' . $vs, 'smspro_wpam_general', 'on');
+            $current_val = softeria_alerts_get_option('wpam_admin_notification_' . $vs, 'softeria_alerts_wpam_general', 'on');
 
-            $checkbox_name_id = 'smspro_wpam_general[wpam_admin_notification_' . $vs . ']';
-            $textarea_name_id = 'smspro_wpam_message[wpam_admin_sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_wpam_general[wpam_admin_notification_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_wpam_message[wpam_admin_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option(
-                'wpam_admin_sms_body_' . $vs, 'smspro_wpam_message', 
+            $text_body = softeria_alerts_get_option(
+                'wpam_admin_sms_body_' . $vs, 'softeria_alerts_wpam_message', 
                 SmsAlertMessages::showMessage('DEFAULT_WPAM_ADMIN_SMS_TRANS_STATUS_CHANGED')
             );
 

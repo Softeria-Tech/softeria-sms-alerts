@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('buddypress/bp-loader.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -56,12 +56,12 @@ class BuddyPressRegistrationForm extends FormInterface
         add_action('bp_before_registration_submit_buttons', array( $this, 'bpSiteRegistrationOtp' ), 10);
         
         add_filter('login_form_bottom', array( $this, 'bpSiteLoginOtp' ), 10, 2);
-        $enabled_login_with_otp = smspro_get_option('login_with_otp', 'smspro_general');        
+        $enabled_login_with_otp = softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general');        
         if ('on' === $enabled_login_with_otp ) {        
               add_action('bp_login_widget_form', array( $this, 'bpSiteLoginMobile' ), 10);
         }
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general'); 
-        $desable_register_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general'); 
+        $desable_register_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
         
         if ('on' === $buyer_signup_otp && 'off' === $desable_register_popup ) {
                 add_action('bp_signup_validate', array( $this, 'bpSiteRegistrationErrors' ), 10);
@@ -76,8 +76,8 @@ class BuddyPressRegistrationForm extends FormInterface
      */
     public function bpSiteRegistrationOtp()
     {
-        $enabled_register_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $enabled_register_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
         if ('on' === $buyer_signup_otp && 'on' === $enabled_register_popup ) {
             echo do_shortcode('[sa_verify phone_selector=".billing_phone" submit_selector="signup_submit"]');    
         }      
@@ -93,8 +93,8 @@ class BuddyPressRegistrationForm extends FormInterface
      */
     public function bpSiteLoginOtp($content = '', $args = array())
     {
-        $default_login_otp   = smspro_get_option('buyer_login_otp', 'smspro_general');
-        $enabled_login_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');        
+        $default_login_otp   = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
+        $enabled_login_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');        
         if ('on' === $default_login_otp && 'on' === $enabled_login_popup ) {
             return  do_shortcode('[sa_verify user_selector="#bp-login-widget-user-login" pwd_selector="#bp-login-widget-user-pass" submit_selector="#bp-login-widget-submit"]');
         }
@@ -111,7 +111,7 @@ class BuddyPressRegistrationForm extends FormInterface
     public function bpSiteLoginMobile($form = null, $args=array())
     {
         if ($form == null || is_array($form) || $form == 'login') {
-               echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'sms-pro') . '" style="width: 100%;box-sizing: border-box">' . __('Login with OTP', 'sms-pro') . '</button></div>';
+               echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'softeria-sms-alerts') . '" style="width: 100%;box-sizing: border-box">' . __('Login with OTP', 'softeria-sms-alerts') . '</button></div>';
             add_action('wp_footer', array( $this, 'addLoginwithotpShortcode' ), 15);
         }
     }
@@ -133,9 +133,9 @@ class BuddyPressRegistrationForm extends FormInterface
      */
     public static function isFormEnabled()
     {    
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ? true : false;
+        return ( $islogged && softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
     
     /**
@@ -189,10 +189,10 @@ class BuddyPressRegistrationForm extends FormInterface
             return;
         } 
                    
-        if (smspro_get_option('allow_multiple_user', 'smspro_general') !== 'on' && ! SmsAlertUtility::isBlank($phone) ) {    
+        if (softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') !== 'on' && ! SmsAlertUtility::isBlank($phone) ) {    
             $getusers = SmsAlertUtility::getUsersByPhone('billling_phone', $phone);
             if (count($getusers) > 0 ) {  
-                $bp->signup->errors['signup_phone'] =  __('An account is already registered with this mobile number!', 'sms-pro');
+                $bp->signup->errors['signup_phone'] =  __('An account is already registered with this mobile number!', 'softeria-sms-alerts');
                 $bp->signup->signup_phone = $_POST['signup_phone'];
                 return;
             }            
@@ -215,7 +215,7 @@ class BuddyPressRegistrationForm extends FormInterface
         global $phoneLogic;
         $extra_data= null;       
         $phone = preg_replace('/[^0-9]/', '', $phone);
-        smspro_site_challenge_otp('test', $email, $password, $phone, 'phone', $extra_data);
+        softeria_alerts_site_challenge_otp('test', $email, $password, $phone, 'phone', $extra_data);
     } 
 
     /**
@@ -228,7 +228,7 @@ class BuddyPressRegistrationForm extends FormInterface
     public function smsproBpAddSignupPhoneField( $fields )
     {
         $fields['account_details']['signup_phone'] = array(
-        'label'          => __('Phone', 'sms-pro'),
+        'label'          => __('Phone', 'softeria-sms-alerts'),
         'required'       => true,
         'value'          => '',
         'attribute_type' => 'phone',
@@ -254,7 +254,7 @@ class BuddyPressRegistrationForm extends FormInterface
             return;
         }
         if (isset($_SESSION[ $this->form_session_var2 ]) ) {
-            smspro_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
+            softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
         }
          
     }

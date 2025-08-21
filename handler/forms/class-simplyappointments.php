@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (is_plugin_active('simply-schedule-appointments/simply-schedule-appointments.
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -70,9 +70,9 @@ class SimplyAppoinments extends FormInterface
         $buyer_mob          = $form_data['customer_information']['Phone'];;
         $booking_id         = $appointment_id;
         $booking_start      = $form_data['customer_start_date'];;
-        $customerNotify     = smspro_get_option('customer_notify', 'smspro_ssa_general', 'on');
+        $customerNotify     = softeria_alerts_get_option('customer_notify', 'softeria_alerts_ssa_general', 'on');
         global $wpdb;
-        $tableName          = $wpdb->prefix.'smspro_booking_reminder';
+        $tableName          = $wpdb->prefix.'softeria_alerts_booking_reminder';
         $source              = 'simply-appointments';
         $booking_details = $wpdb->get_results("SELECT * FROM $tableName WHERE booking_id = $booking_id and source = '$source'");
         if ($bookingStatus === 'booked' && $customerNotify === 'on') {
@@ -109,15 +109,15 @@ class SimplyAppoinments extends FormInterface
      */
     function sendReminderSms()
     {
-        if (smspro_get_option('customer_notify', 'smspro_ssa_general') !== 'on') {
+        if (softeria_alerts_get_option('customer_notify', 'softeria_alerts_ssa_general') !== 'on') {
             return;
         }
         global $wpdb;
-        $cronFrequency = BOOKING_REMINDER_CRON_INTERVAL;
-        // pick data from previous CART_CRON_INTERVAL min
-        $tableName     = $wpdb->prefix.'smspro_booking_reminder';        
+        $cronFrequency = BOOKING_SCHECDULE_REMINDER;
+        // pick data from previous CHECKOUT_JOB_SCHECDULE min
+        $tableName     = $wpdb->prefix.'softeria_alerts_booking_reminder';        
         $source        = 'simply-appointments';
-        $schedulerData = get_option('smspro_ssa_reminder_scheduler');
+        $schedulerData = get_option('softeria_alerts_ssa_reminder_scheduler');
 
         foreach ($schedulerData['cron'] as $sdata) {            
             $datetime = current_time('mysql');            
@@ -185,13 +185,13 @@ class SimplyAppoinments extends FormInterface
         'pending_payment',
         ]; 
         foreach ($bookingStatuses as $ks => $vs) {        
-            $defaults['smspro_ssa_general']['customer_ssa_notify_'.$vs]   = 'off';
-            $defaults['smspro_ssa_message']['customer_sms_ssa_body_'.$vs] = '';
-            $defaults['smspro_ssa_general']['admin_ssa_notify_'.$vs]      = 'off';
-            $defaults['smspro_ssa_message']['admin_sms_ssa_body_'.$vs]    = '';
+            $defaults['softeria_alerts_ssa_general']['customer_ssa_notify_'.$vs]   = 'off';
+            $defaults['softeria_alerts_ssa_message']['customer_sms_ssa_body_'.$vs] = '';
+            $defaults['softeria_alerts_ssa_general']['admin_ssa_notify_'.$vs]      = 'off';
+            $defaults['softeria_alerts_ssa_message']['admin_sms_ssa_body_'.$vs]    = '';
         }
-        $defaults['smspro_ssa_reminder_scheduler']['cron'][0]['frequency'] = '1';
-        $defaults['smspro_ssa_reminder_scheduler']['cron'][0]['message']   = '';
+        $defaults['softeria_alerts_ssa_reminder_scheduler']['cron'][0]['frequency'] = '1';
+        $defaults['softeria_alerts_ssa_reminder_scheduler']['cron'][0]['message']   = '';
         return $defaults;
 
     }//end add_default_setting()
@@ -261,21 +261,21 @@ class SimplyAppoinments extends FormInterface
      * */
     public static function getReminderTemplates()
     {
-        $currentVal     = smspro_get_option('customer_notify', 'smspro_ssa_general', 'on');
-        $checkboxMameId = 'smspro_ssa_general[customer_notify]';
-        $schedulerData  = get_option('smspro_ssa_reminder_scheduler');
+        $currentVal     = softeria_alerts_get_option('customer_notify', 'softeria_alerts_ssa_general', 'on');
+        $checkboxMameId = 'softeria_alerts_ssa_general[customer_notify]';
+        $schedulerData  = get_option('softeria_alerts_ssa_reminder_scheduler');
         $templates      = [];
         $count          = 0;
         if (empty($schedulerData) === true) {
             $schedulerData  = array();
             $schedulerData['cron'][] = [
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[Name]', '#[id]', '[store_name]', '[start_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[Name]', '#[id]', '[store_name]', '[start_date]', PHP_EOL, PHP_EOL),
             ];
         }
         foreach ($schedulerData['cron'] as $key => $data) {
-            $textAreaNameId = 'smspro_ssa_reminder_scheduler[cron]['.$count.'][message]';
-            $selectNameId   = 'smspro_ssa_reminder_scheduler[cron]['.$count.'][frequency]';
+            $textAreaNameId = 'softeria_alerts_ssa_reminder_scheduler[cron]['.$count.'][message]';
+            $selectNameId   = 'softeria_alerts_ssa_reminder_scheduler[cron]['.$count.'][frequency]';
             $textBody       = $data['message'];
 
             $templates[$key]['notify_id']      = 'simply-appointments';
@@ -310,13 +310,13 @@ class SimplyAppoinments extends FormInterface
          ];        
          $templates = [];
          foreach ($bookingStatuses as $ks  => $vs) {
-             $currentVal = smspro_get_option('customer_ssa_notify_'.strtolower($ks), 'smspro_ssa_general', 'on');
-             $checkboxMameId = 'smspro_ssa_general[customer_ssa_notify_'.strtolower($ks).']';
-             $textareaNameId = 'smspro_ssa_message[customer_sms_ssa_body_'.strtolower($ks).']';
+             $currentVal = softeria_alerts_get_option('customer_ssa_notify_'.strtolower($ks), 'softeria_alerts_ssa_general', 'on');
+             $checkboxMameId = 'softeria_alerts_ssa_general[customer_ssa_notify_'.strtolower($ks).']';
+             $textareaNameId = 'softeria_alerts_ssa_message[customer_sms_ssa_body_'.strtolower($ks).']';
 
-             $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[Name]', '[id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL);
+             $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[Name]', '[id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL);
 
-             $textBody = smspro_get_option('customer_sms_ssa_body_'.strtolower($ks), 'smspro_ssa_message', $defaultTemplate);
+             $textBody = softeria_alerts_get_option('customer_sms_ssa_body_'.strtolower($ks), 'softeria_alerts_ssa_message', $defaultTemplate);
              $templates[$ks]['title']          = 'When customer appoinment is '.ucwords($vs);
              $templates[$ks]['enabled']        = $currentVal;
              $templates[$ks]['status']         = $ks;
@@ -346,13 +346,13 @@ class SimplyAppoinments extends FormInterface
         ];
         $templates = [];
         foreach ($bookingStatuses as $ks  => $vs) {
-            $currentVal      = smspro_get_option('admin_ssa_notify_'.strtolower($ks), 'smspro_ssa_general', 'on');
-            $checkboxMameId  = 'smspro_ssa_general[admin_ssa_notify_'.strtolower($ks).']';
-            $textareaNameId  = 'smspro_ssa_message[admin_sms_ssa_body_'.strtolower($ks).']';
+            $currentVal      = softeria_alerts_get_option('admin_ssa_notify_'.strtolower($ks), 'softeria_alerts_ssa_general', 'on');
+            $checkboxMameId  = 'softeria_alerts_ssa_general[admin_ssa_notify_'.strtolower($ks).']';
+            $textareaNameId  = 'softeria_alerts_ssa_message[admin_sms_ssa_body_'.strtolower($ks).']';
 
-            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
 
-            $textBody       = smspro_get_option('admin_sms_ssa_body_'.strtolower($ks), 'smspro_ssa_message', $defaultTemplate);
+            $textBody       = softeria_alerts_get_option('admin_sms_ssa_body_'.strtolower($ks), 'softeria_alerts_ssa_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When admin change status to '.ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -421,20 +421,20 @@ class SimplyAppoinments extends FormInterface
         $form_data = !empty($data['appointment_type_id'])?$data:$data_before;
         $buyerNumber = $form_data['customer_information']['Phone'];        
         $this->setBookingReminder($appointment_id, $form_data, $appoinmentStatus);
-        $customerMessage   = smspro_get_option('customer_sms_ssa_body_' . $appoinmentStatus, 'smspro_ssa_message', '');        
-        $customerNotify    = smspro_get_option('customer_ssa_notify_' . $appoinmentStatus, 'smspro_ssa_general', 'on');        
+        $customerMessage   = softeria_alerts_get_option('customer_sms_ssa_body_' . $appoinmentStatus, 'softeria_alerts_ssa_message', '');        
+        $customerNotify    = softeria_alerts_get_option('customer_ssa_notify_' . $appoinmentStatus, 'softeria_alerts_ssa_general', 'on');        
         if ($customerNotify === 'on' && $customerMessage !== '') {            
             $buyerMessage = $this->parseSmsBody($appointment_id, $form_data, $appoinmentStatus, $customerMessage);            
             do_action('sa_send_sms', $buyerNumber, $buyerMessage);
         }
         // send msg to admin.
-        $adminPhoneNumber       = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber       = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $nos                    = explode(',', $adminPhoneNumber);
         $adminPhoneNumber       = array_diff($nos, ['postauthor', 'post_author']);
         $adminPhoneNumber       = implode(',', $adminPhoneNumber);
         if (empty($adminPhoneNumber) === false) {
-            $adminNotify        = smspro_get_option('admin_ssa_notify_' . $appoinmentStatus, 'smspro_ssa_general', 'on');
-            $adminMessage       = smspro_get_option('admin_sms_ssa_body_' . $appoinmentStatus, 'smspro_ssa_message', '');
+            $adminNotify        = softeria_alerts_get_option('admin_ssa_notify_' . $appoinmentStatus, 'softeria_alerts_ssa_general', 'on');
+            $adminMessage       = softeria_alerts_get_option('admin_sms_ssa_body_' . $appoinmentStatus, 'softeria_alerts_ssa_message', '');
             if ($adminNotify === 'on' && $adminMessage !== '') {
                 $adminMessage = $this->parseSmsBody($appointment_id, $form_data, $appoinmentStatus, $adminMessage);
                 do_action('sa_send_sms', $adminPhoneNumber, $adminMessage);
@@ -544,7 +544,7 @@ class SimplyAppoinments extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('simply-schedule-appointments/simply-schedule-appointments.php') === true) && ($islogged === true)) {
             return true;

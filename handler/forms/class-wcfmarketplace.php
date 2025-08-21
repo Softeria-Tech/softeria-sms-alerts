@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('wc-multivendor-marketplace/wc-multivendor-marketplace.ph
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Wcfmarketplace class.
@@ -72,9 +72,9 @@ class Wcfmarketplace extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ? true : false;
+        return ( $islogged && softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
 
     /**
@@ -92,7 +92,7 @@ class Wcfmarketplace extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -118,7 +118,7 @@ class Wcfmarketplace extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {

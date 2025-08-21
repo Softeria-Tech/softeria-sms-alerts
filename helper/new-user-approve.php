@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! is_plugin_active('new-user-approve/new-user-approve.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * NewUserApprove class
@@ -70,10 +70,10 @@ class NewUserApprove
      */
     public static function add_default_setting( $defaults = array() )
     {
-        $defaults['smspro_nua_general']['approved_notify'] = 'off';
-        $defaults['smspro_nua_message']['approved_notify'] = '';
-        $defaults['smspro_nua_general']['denied_notify']   = 'off';
-        $defaults['smspro_nua_message']['denied_notify']   = '';
+        $defaults['softeria_alerts_nua_general']['approved_notify'] = 'off';
+        $defaults['softeria_alerts_nua_message']['approved_notify'] = '';
+        $defaults['softeria_alerts_nua_general']['denied_notify']   = 'off';
+        $defaults['softeria_alerts_nua_message']['denied_notify']   = '';
         return $defaults;
     }
 
@@ -85,10 +85,10 @@ class NewUserApprove
     public static function getNewUserApproveTemplates()
     {
         // customer template.
-        $current_val      = smspro_get_option('approved_notify', 'smspro_nua_general', 'on');
-        $checkbox_name_id = 'smspro_nua_general[approved_notify]';
-        $textarea_name_id = 'smspro_nua_message[approved_notify]';
-        $text_body        = smspro_get_option('approved_notify', 'smspro_nua_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
+        $current_val      = softeria_alerts_get_option('approved_notify', 'softeria_alerts_nua_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_nua_general[approved_notify]';
+        $textarea_name_id = 'softeria_alerts_nua_message[approved_notify]';
+        $text_body        = softeria_alerts_get_option('approved_notify', 'softeria_alerts_nua_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_APPROVED'));
 
         $templates = array();
 
@@ -101,10 +101,10 @@ class NewUserApprove
         $templates['approved']['token']          = self::getNewUserApprovevariables();
 
         // admin template.
-        $current_val      = smspro_get_option('denied_notify', 'smspro_nua_general', 'on');
-        $checkbox_name_id = 'smspro_nua_general[denied_notify]';
-        $textarea_name_id = 'smspro_nua_message[denied_notify]';
-        $text_body        = smspro_get_option('denied_notify', 'smspro_nua_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
+        $current_val      = softeria_alerts_get_option('denied_notify', 'softeria_alerts_nua_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_nua_general[denied_notify]';
+        $textarea_name_id = 'softeria_alerts_nua_message[denied_notify]';
+        $text_body        = softeria_alerts_get_option('denied_notify', 'softeria_alerts_nua_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REJECTED'));
 
         $templates['deny']['title']          = 'When account is Deny';
         $templates['deny']['enabled']        = $current_val;
@@ -129,11 +129,11 @@ class NewUserApprove
         $user  = new WP_User($user_id);
         $phone = get_the_author_meta('billing_phone', $user->ID);
 
-        $smspro_nua_approved_notify  = smspro_get_option('approved_notify', 'smspro_nua_general', 'on');
-        $smspro_nua_approved_message = smspro_get_option('approved_notify', 'smspro_nua_message', '');
+        $softeria_alerts_nua_approved_notify  = softeria_alerts_get_option('approved_notify', 'softeria_alerts_nua_general', 'on');
+        $softeria_alerts_nua_approved_message = softeria_alerts_get_option('approved_notify', 'softeria_alerts_nua_message', '');
 
-        if ('on' === $smspro_nua_approved_notify && '' !== $smspro_nua_approved_message ) {
-            do_action('sa_send_sms', $phone, $this->parseSmsBody($user_id, $smspro_nua_approved_message));
+        if ('on' === $softeria_alerts_nua_approved_notify && '' !== $softeria_alerts_nua_approved_message ) {
+            do_action('sa_send_sms', $phone, $this->parseSmsBody($user_id, $softeria_alerts_nua_approved_message));
         }
     }
 
@@ -150,11 +150,11 @@ class NewUserApprove
 
         $phone = get_the_author_meta('billing_phone', $user->ID);
 
-        $smspro_nua_denied_notify  = smspro_get_option('denied_notify', 'smspro_nua_general', 'on');
-        $smspro_nua_denied_message = smspro_get_option('denied_notify', 'smspro_nua_message', '');
+        $softeria_alerts_nua_denied_notify  = softeria_alerts_get_option('denied_notify', 'softeria_alerts_nua_general', 'on');
+        $softeria_alerts_nua_denied_message = softeria_alerts_get_option('denied_notify', 'softeria_alerts_nua_message', '');
 
-        if ('on' === $smspro_nua_denied_notify && '' !== $smspro_nua_denied_message ) {
-            do_action('sa_send_sms', $phone, $this->parseSmsBody($user_id, $smspro_nua_denied_message));
+        if ('on' === $softeria_alerts_nua_denied_notify && '' !== $softeria_alerts_nua_denied_message ) {
+            do_action('sa_send_sms', $phone, $this->parseSmsBody($user_id, $softeria_alerts_nua_denied_message));
         }
     }
 

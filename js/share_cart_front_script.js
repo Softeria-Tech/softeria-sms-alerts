@@ -2,7 +2,7 @@ $sa  =jQuery;
 $sa(document).ready(
     function () {
         $sa('body').on(
-            'click','#smspro_share_cart',function (e) {    
+            'click','#softeria_alerts_share_cart',function (e) {    
                 e.preventDefault();
                 $sa(this).addClass('button--loading');
                 $sa.ajax(
@@ -12,12 +12,12 @@ $sa(document).ready(
                         data:'action=check_cart_data',
                         success : function (response) {
                             if(response === '0') {
-                                $sa('#smspro_scp_ul').addClass('woocommerce-error').css({"padding":"1em 1.618em"});
-                                $sa('#smspro_scp_ul').html('<li>Sorry, You cannot share your cart, Your cart is empty</li>');
+                                $sa('#softeria_alerts_scp_ul').addClass('woocommerce-error').css({"padding":"1em 1.618em"});
+                                $sa('#softeria_alerts_scp_ul').html('<li>Sorry, You cannot share your cart, Your cart is empty</li>');
                             }
-                            $sa('body').addClass("smspro_sharecart_popup_body");
-                            $sa("#smspro_sharecart_popup").css("display","block");
-                            $sa('#smspro_share_cart').removeClass('button--loading');
+                            $sa('body').addClass("softeria_alerts_sharecart_popup_body");
+                            $sa("#softeria_alerts_sharecart_popup").css("display","block");
+                            $sa('#softeria_alerts_share_cart').removeClass('button--loading');
                             $sa('#sc_umobile').trigger('keyup');
                         },
                         error: function () {
@@ -33,14 +33,14 @@ $sa(document).ready(
             'click','.close',function () {
                 var modal_style = $sa('.smsproModal').attr('data-modal-close');
                 $sa('.smsproModal').addClass(modal_style+'Out');
-                $sa("#smspro_sharecart_popup").css("display","none");
-                $sa('body').removeClass("smspro_sharecart_popup_body");
+                $sa("#softeria_alerts_sharecart_popup").css("display","none");
+                $sa('body').removeClass("softeria_alerts_sharecart_popup_body");
                 setTimeout(
                     function () {
                         $sa('.smsproModal').removeClass(modal_style+'Out');
                     }, 500
                 );
-                $sa('#smspro_scp_ul').removeClass('woocommerce-error').css({"padding":"0"});
+                $sa('#softeria_alerts_scp_ul').removeClass('woocommerce-error').css({"padding":"0"});
             }
         );
 
@@ -82,8 +82,8 @@ $sa(document).ready(
                                 $sa('#sc_response').html(response);
                                 setTimeout(
                                     function () {
-                                              $sa("#smspro_sharecart_popup").css("display","none"); 
-                                              $sa('body').removeClass("smspro_sharecart_popup_body");
+                                              $sa("#softeria_alerts_sharecart_popup").css("display","none"); 
+                                              $sa('body').removeClass("softeria_alerts_sharecart_popup_body");
                                               $sa('.sc_form').show();
                                               $sa('#sc_response').html('');
                                     }, 2000

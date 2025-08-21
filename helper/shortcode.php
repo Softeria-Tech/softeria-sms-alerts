@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -17,8 +17,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAVerify class
@@ -36,7 +36,7 @@ class SAVerify
      */
     public function __construct()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         if (! $islogged ) {
             return;
@@ -57,7 +57,7 @@ class SAVerify
      */
     public static function add_shortcode_popup_html()
     {
-        echo stripslashes(get_smspro_template('template/otp-popup.php', array(), true));
+        echo stripslashes(get_softeria_alerts_template('template/otp-popup.php', array(), true));
     }
 
     /**
@@ -100,7 +100,7 @@ class SAVerify
 			jQuery(window).on(\'load\', function(){
 			  function initialiseSaOtp()
 			  {		  
-				add_smspro_button("' . $submit_selector . '","' . $phone_selector . '","'.$uniqueNo.'");
+				add_softeria_alerts_button("' . $submit_selector . '","' . $phone_selector . '","'.$uniqueNo.'");
 				jQuery(document).on("click", "#sa_verify_'.$uniqueNo.'",function(event){
 					event.preventDefault();	
 					event.stopImmediatePropagation();
@@ -165,12 +165,12 @@ class SAVerify
             return;
         }
         switch ( trim(sanitize_text_field(wp_unslash($_GET['option']))) ) {
-        case 'smspro-shortcode-ajax-verify':
+        case 'softeria-alert-shortcode-ajax-verify':
             $this->_send_otp_shortcode_ajax_verify($_POST);
             exit();
             break;
 
-        /* case 'smspro-validate-otp-form':
+        /* case 'softeria-alert-validate-otp-form':
             $this->shortcode_otp_validate($_POST);
             exit();
             break; */
@@ -187,7 +187,7 @@ class SAVerify
     public function shortcode_otp_validate( $data )
     {
 
-        do_action('smspro_validate_otp', 'smspro_customer_validation_otp_token');
+        do_action('softeria_alerts_validate_otp', 'softeria_alerts_customer_validation_otp_token');
     }
 
     /**
@@ -206,10 +206,10 @@ class SAVerify
         $phone = SmsAlertcURLOTP::checkPhoneNos($getdata['user_phone']);
         if (array_key_exists('user_phone', $getdata) && ! SmsAlertUtility::isBlank($getdata['user_phone']) && ! empty($phone) ) {
             $_SESSION[ $this->formSessionVar ] = $phone;
-            smspro_site_challenge_otp('test', null, null, $phone, 'phone', null, null, 'ajax');
+            softeria_alerts_site_challenge_otp('test', null, null, $phone, 'phone', null, null, 'ajax');
         } else {
             if (SmsAlertUtility::isBlank($getdata['user_phone'])) {
-                $message = __('Please enter phone number.', 'sms-pro');
+                $message = __('Please enter phone number.', 'softeria-sms-alerts');
             } else {
                 $message = str_replace('##phone##', $getdata['user_phone'], $phoneLogic->_get_otp_invalid_format_message());
             }
@@ -234,7 +234,7 @@ class SAVerify
         if (! isset($_SESSION[ $this->formSessionVar ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && 'smspro-validate-otp-form' === sanitize_text_field($_REQUEST['option']) ) {
+        if (! empty($_REQUEST['option']) && 'softeria-alert-validate-otp-form' === sanitize_text_field($_REQUEST['option']) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -260,7 +260,7 @@ class SAVerify
         if (! isset($_SESSION[ $this->formSessionVar ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && 'smspro-validate-otp-form' === sanitize_text_field($_REQUEST['option']) ) {
+        if (! empty($_REQUEST['option']) && 'softeria-alert-validate-otp-form' === sanitize_text_field($_REQUEST['option']) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {
@@ -276,17 +276,17 @@ class SAVerify
     public static function enqueue_otp_js_script()
     {
 
-        $enabled_login_with_otp = smspro_get_option('login_with_otp', 'smspro_general');
-        $default_login_otp      = smspro_get_option('buyer_login_otp', 'smspro_general');
-        $signup_with_mobile     = smspro_get_option('signup_with_mobile', 'smspro_general', 'off');
+        $enabled_login_with_otp = softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general');
+        $default_login_otp      = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
+        $signup_with_mobile     = softeria_alerts_get_option('signup_with_mobile', 'softeria_alerts_general', 'off');
         
         wp_enqueue_script("sa-handle-footer", SA_MOV_URL . 'js/otp-sms.min.js', array( 'jquery' ), SmsAlertConstants::SA_VERSION, true); //SmsAlertConstants::SA_VERSION, true );
         
         wp_enqueue_style('sa-login-css', SA_MOV_CSS_URL, array(), SmsAlertConstants::SA_VERSION, false);
         
         $wpml_lang = (apply_filters('wpml_default_language', null) != apply_filters('wpml_current_language', null))?apply_filters('wpml_current_language', null):'';
-        $otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):smspro_get_option('otp_resend_timer', 'smspro_general', '15'); 
-        $auto_validate = !empty(SmsAlertUtility::get_elementor_data("auto_validate"))?SmsAlertUtility::get_elementor_data("auto_validate"):SmsAlertUtility::get_elementor_data('auto_validate', 'smspro_general', 'off');
+        $otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):softeria_alerts_get_option('otp_resend_timer', 'softeria_alerts_general', '15'); 
+        $auto_validate = !empty(SmsAlertUtility::get_elementor_data("auto_validate"))?SmsAlertUtility::get_elementor_data("auto_validate"):SmsAlertUtility::get_elementor_data('auto_validate', 'softeria_alerts_general', 'off');
         wp_localize_script(
             'sa-handle-footer',
             'sa_otp_settings',
@@ -294,24 +294,24 @@ class SAVerify
             'otp_time'                => $otp_resend_timer,
             'auto_validate'           => $auto_validate,
             'valid_otp'                => SmsAlertMessages::showMessage('VALID_OTP'),
-            'show_countrycode'        => smspro_get_option('checkout_show_country_code', 'smspro_general', 'off'),
-            'allow_otp_countries' => smspro_get_option('allow_otp_country', 'smspro_general'),
-            'allow_otp_verification' => smspro_get_option('allow_otp_verification', 'smspro_general', 'off'),
-            'otp_in_popup'        => smspro_get_option('otp_in_popup', 'smspro_general', 'on'),
+            'show_countrycode'        => softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general', 'off'),
+            'allow_otp_countries' => softeria_alerts_get_option('allow_otp_country', 'softeria_alerts_general'),
+            'allow_otp_verification' => softeria_alerts_get_option('allow_otp_verification', 'softeria_alerts_general', 'off'),
+            'otp_in_popup'        => softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on'),
             'site_url'                => site_url(),
             'ajax_url'          => admin_url('admin-ajax.php'),
             'is_checkout'             => ( ( function_exists('is_checkout') && is_checkout() ) ? true : false ),
             'login_with_otp'          => ( 'on' === $enabled_login_with_otp ? true : false ),
             'buyer_login_otp'         => ( 'on' === $default_login_otp ? true : false ),
-            'hide_default_login_form' => smspro_get_option('hide_default_login_form', 'smspro_general'),
-            'hide_default_admin_login_form' => smspro_get_option('hide_default_admin_login_form', 'smspro_general'),
+            'hide_default_login_form' => softeria_alerts_get_option('hide_default_login_form', 'softeria_alerts_general'),
+            'hide_default_admin_login_form' => softeria_alerts_get_option('hide_default_admin_login_form', 'softeria_alerts_general'),
             'is_wp_login'               => (is_login()) ? true : false,
             'signup_with_mobile'      => ( 'on' === $signup_with_mobile ? true : false ),
             'lang' => $wpml_lang
 
             )
         );
-        //wp_enqueue_script( 'smspro-auth' );
+        //wp_enqueue_script( 'softeria-alert-auth' );
         
         SmsAlertUtility::enqueue_script_for_intellinput();
     }

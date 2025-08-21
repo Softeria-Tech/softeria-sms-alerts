@@ -1,12 +1,12 @@
 <?php
 /**
- * SMSPro Widgets helper.
+ * SOFTSMSAlerts Widgets helper.
  *
  * PHP version 5
  *
  * @category HELPER
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -15,13 +15,13 @@
  * PHP version 5
  *
  * @category HELPER
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
- * SMSProWidgets
+ * SofteriaAlertsWidgets
  */
-class SMSProWidgets extends \WP_Widget
+class SofteriaAlertsWidgets extends \WP_Widget
 {
     /**
      * Construct function
@@ -31,9 +31,9 @@ class SMSProWidgets extends \WP_Widget
     function __construct()
     {
         parent::__construct(
-            'smspro_widget',
-            esc_html__('SMSPro', 'sms-pro'),
-            array('description' => esc_html__('Add smspro form', 'sms-pro'),)
+            'softeria_alerts_widget',
+            esc_html__('SOFTSMSAlerts', 'softeria-sms-alerts'),
+            array('description' => esc_html__('Add smspro form', 'softeria-sms-alerts'),)
         );
     }
 
@@ -113,9 +113,9 @@ class SMSProWidgets extends \WP_Widget
  *
  * @return array
  */
-function smspro_register_widgets()
+function softeria_alerts_register_widgets()
 {
-    register_widget('SMSProWidgets');
+    register_widget('SofteriaAlertsWidgets');
 }
 
-add_action('widgets_init', 'smspro_register_widgets');
+add_action('widgets_init', 'softeria_alerts_register_widgets');

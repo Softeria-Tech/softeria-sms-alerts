@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ use fluentform\app\Helpers\Helper;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * FluentForm class.
@@ -66,9 +66,9 @@ class SaFluentForm extends FormInterface
     {                
         $formId = $form->id;
         $uniqueNo = rand();
-        $form_enable = smspro_get_option('fluent_order_status_' .$formId, 'smspro_fluent_general', 'on');
-        $otp_enable  = smspro_get_option('fluent_otp_' .$formId, 'smspro_fluent_general', 'on');        
-        $phone_field = smspro_get_option('fluent_sms_phone_' .$formId, 'smspro_fluent_general', '');
+        $form_enable = softeria_alerts_get_option('fluent_order_status_' .$formId, 'softeria_alerts_fluent_general', 'on');
+        $otp_enable  = softeria_alerts_get_option('fluent_otp_' .$formId, 'softeria_alerts_fluent_general', 'on');        
+        $phone_field = softeria_alerts_get_option('fluent_sms_phone_' .$formId, 'softeria_alerts_fluent_general', '');
         if ('on' === $form_enable && 'on' === $otp_enable && '' !== $phone_field ) {
             $conversational_fluent_js = '
 			document.addEventListener("DOMContentLoaded", function() {
@@ -94,7 +94,7 @@ class SaFluentForm extends FormInterface
 				    addSmsalertButton();
 					function addSmsalertButton(){
 						if(jQuery(".ff-btn.sa-default-btn-hide").length == 0){
-							jQuery(".ff-btn-submit-left .f-enter-desc,.footer-inner-wrap,.ff-btn-submit-left .ff-btn").addClass("sa-default-btn-hide");	jQuery(".ff-btn-submit-left .ff-btn").clone().removeClass("sa-default-btn-hide").insertAfter(".ff-btn-submit-left .f-enter-desc");jQuery(".ff-btn-submit-left .ff-btn").not(".sa-default-btn-hide").addClass("sa-otp-btn-init smspro_otp_btn_submit").attr("id" ,"sa_verify_'.$uniqueNo.'").attr("name" ,"sa_verify_'.$uniqueNo.'");
+							jQuery(".ff-btn-submit-left .f-enter-desc,.footer-inner-wrap,.ff-btn-submit-left .ff-btn").addClass("sa-default-btn-hide");	jQuery(".ff-btn-submit-left .ff-btn").clone().removeClass("sa-default-btn-hide").insertAfter(".ff-btn-submit-left .f-enter-desc");jQuery(".ff-btn-submit-left .ff-btn").not(".sa-default-btn-hide").addClass("sa-otp-btn-init softeria_alerts_otp_btn_submit").attr("id" ,"sa_verify_'.$uniqueNo.'").attr("name" ,"sa_verify_'.$uniqueNo.'");
 						}
 					}
                     jQuery("#sa_conv_form").find("input[name='.$phone_field.']").addClass("sa-conv-phone");					
@@ -139,9 +139,9 @@ class SaFluentForm extends FormInterface
     {
         $unique_class    = 'sa-class-'.mt_rand(1, 100);
         $form_id     = $form->id;
-        $form_enable = smspro_get_option('fluent_order_status_' . $form_id, 'smspro_fluent_general', 'on');
-        $otp_enable  = smspro_get_option('fluent_otp_' . $form_id, 'smspro_fluent_general', 'on');
-        $phone_field = smspro_get_option('fluent_sms_phone_' . $form_id, 'smspro_fluent_general', '');
+        $form_enable = softeria_alerts_get_option('fluent_order_status_' . $form_id, 'softeria_alerts_fluent_general', 'on');
+        $otp_enable  = softeria_alerts_get_option('fluent_otp_' . $form_id, 'softeria_alerts_fluent_general', 'on');
+        $phone_field = softeria_alerts_get_option('fluent_sms_phone_' . $form_id, 'softeria_alerts_fluent_general', '');
         if ('on' === $form_enable && '' !== $phone_field ) {
 			$inline_script = 'document.addEventListener("DOMContentLoaded", function() {jQuery("input[name='.$phone_field.']").addClass("phone-valid");';
 			if ('on' === $otp_enable ) 
@@ -155,7 +155,7 @@ class SaFluentForm extends FormInterface
 						}		
 					});
 					jQuery(document).on("elementor/popup/show", (event, id, instance) => {
-						add_smspro_button(".'.$unique_class.' .ff-btn-submit","input[name=' . esc_attr($phone_field) . ']","'.$uniqueNo.'");
+						add_softeria_alerts_button(".'.$unique_class.' .ff-btn-submit","input[name=' . esc_attr($phone_field) . ']","'.$uniqueNo.'");
 						jQuery(document).on("click", "#sa_verify_'.$uniqueNo.'",function(event){
 							event.stopImmediatePropagation();
 							send_otp(this,".'.$unique_class.' .ff-btn-submit","input[name=' . esc_attr($phone_field) . ']","","");
@@ -186,10 +186,10 @@ class SaFluentForm extends FormInterface
     public function fluentformSubmissionComplete( $entry_id, $form_data, $form )
     {
         $form_id          = $form->id;
-        $form_enable      = smspro_get_option('fluent_order_status_' . $form_id, 'smspro_fluent_general', 'on');
-        $phone_field      = smspro_get_option('fluent_sms_phone_' . $form_id, 'smspro_fluent_general', '');
-        $buyer_sms_notify = smspro_get_option('fluent_message_' . $form_id, 'smspro_fluent_general', 'on');
-        $admin_sms_notify = smspro_get_option('fluent_admin_notification_' . $form_id, 'smspro_fluent_general', 'on');
+        $form_enable      = softeria_alerts_get_option('fluent_order_status_' . $form_id, 'softeria_alerts_fluent_general', 'on');
+        $phone_field      = softeria_alerts_get_option('fluent_sms_phone_' . $form_id, 'softeria_alerts_fluent_general', '');
+        $buyer_sms_notify = softeria_alerts_get_option('fluent_message_' . $form_id, 'softeria_alerts_fluent_general', 'on');
+        $admin_sms_notify = softeria_alerts_get_option('fluent_admin_notification_' . $form_id, 'softeria_alerts_fluent_general', 'on');
         
         $feeds = wpFluent()->table('fluentform_form_meta')
             ->where('form_id', $form_id)
@@ -208,16 +208,16 @@ class SaFluentForm extends FormInterface
         }        
         
         if ('on' === $form_enable && 'on' === $buyer_sms_notify && array_key_exists($phone_field, $form_data) ) {
-            $buyer_sms_content = smspro_get_option('fluent_sms_body_' . $form_id, 'smspro_fluent_message', '');
+            $buyer_sms_content = softeria_alerts_get_option('fluent_sms_body_' . $form_id, 'softeria_alerts_fluent_message', '');
             do_action('sa_send_sms', $form_data[ '' . $phone_field . '' ], self::parseSmsContent($buyer_sms_content, $form_data));
         }
         if ('on' === $admin_sms_notify ) {
 
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             $admin_phone_number = str_replace('post_author', '', $admin_phone_number);
 
             if (! empty($admin_phone_number) ) {
-                $admin_sms_content = smspro_get_option('fluent_admin_sms_body_' . $form_id, 'smspro_fluent_message', '');
+                $admin_sms_content = softeria_alerts_get_option('fluent_admin_sms_body_' . $form_id, 'softeria_alerts_fluent_message', '');
                 do_action('sa_send_sms', $admin_phone_number, self::parseSmsContent($admin_sms_content, $form_data));
             }
         }
@@ -230,7 +230,7 @@ class SaFluentForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
         return ( is_plugin_active('fluentform/fluentform.php') && $islogged ) ? true : false;
     }
@@ -250,7 +250,7 @@ class SaFluentForm extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && 'smspro-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (! empty($_REQUEST['option']) && 'softeria-alert-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -278,7 +278,7 @@ class SaFluentForm extends FormInterface
             return;
         }
         
-        if (! empty($_REQUEST['option']) && 'smspro-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (! empty($_REQUEST['option']) && 'softeria-alert-validate-otp-form' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {
@@ -375,24 +375,7 @@ class SaFluentForm extends FormInterface
 
         $tabs['fluent']['inner_nav']['fluent_admin']['icon'] = 'dashicons-list-view';
         $tabs['fluent']['inner_nav']['fluent_cust']['icon']  = 'dashicons-admin-users';
-        $tabs['fluent']['help_links']                        = array(
-        'youtube_link' => array(
-        'href'   => 'https://www.youtube.com/watch?v=1l3_RPAlxZU',
-        'target' => '_blank',
-        'alt'    => 'Watch steps on Youtube',
-        'class'  => 'btn-outline',
-        'label'  => 'Youtube',
-        'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-        ),
-        'kb_link'      => array(
-        'href'   => 'https://sms.softeriatech.com/knowledgebase/integrate-with-fluent-forms/',
-        'target' => '_blank',
-        'alt'    => 'Read how to integrate with fluent form',
-        'class'  => 'btn-outline',
-        'label'  => 'Documentation',
-        'icon'   => '<span class="dashicons dashicons-format-aside"></span>',
-        ),
+        $tabs['fluent']['help_links'] = array(
 
         );
 
@@ -473,15 +456,15 @@ class SaFluentForm extends FormInterface
     {
         $wpam_statuses = self::getFluentForms();
         foreach ( $wpam_statuses as $ks => $vs ) {
-            $defaults['smspro_fluent_general'][ 'fluent_admin_notification_' . $ks ] = 'off';
-            $defaults['smspro_fluent_general'][ 'fluent_order_status_' . $ks ]       = 'off';
-            $defaults['smspro_fluent_general'][ 'fluent_message_' . $ks ]            = 'off';
-            $defaults['smspro_fluent_message'][ 'fluent_admin_sms_body_' . $ks ]     = '';
-            $defaults['smspro_fluent_message'][ 'fluent_sms_body_' . $ks ]           = '';
-            $defaults['smspro_fluent_general'][ 'fluent_sms_phone_' . $ks ]          = '';
-            $defaults['smspro_fluent_general'][ 'fluent_sms_otp_' . $ks ]            = '';
-            $defaults['smspro_fluent_general'][ 'fluent_otp_' . $ks ]                = '';
-            $defaults['smspro_fluent_message'][ 'fluent_otp_sms_' . $ks ]            = '';
+            $defaults['softeria_alerts_fluent_general'][ 'fluent_admin_notification_' . $ks ] = 'off';
+            $defaults['softeria_alerts_fluent_general'][ 'fluent_order_status_' . $ks ]       = 'off';
+            $defaults['softeria_alerts_fluent_general'][ 'fluent_message_' . $ks ]            = 'off';
+            $defaults['softeria_alerts_fluent_message'][ 'fluent_admin_sms_body_' . $ks ]     = '';
+            $defaults['softeria_alerts_fluent_message'][ 'fluent_sms_body_' . $ks ]           = '';
+            $defaults['softeria_alerts_fluent_general'][ 'fluent_sms_phone_' . $ks ]          = '';
+            $defaults['softeria_alerts_fluent_general'][ 'fluent_sms_otp_' . $ks ]            = '';
+            $defaults['softeria_alerts_fluent_general'][ 'fluent_otp_' . $ks ]                = '';
+            $defaults['softeria_alerts_fluent_message'][ 'fluent_otp_sms_' . $ks ]            = '';
         }
         return $defaults;
     }

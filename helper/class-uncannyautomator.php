@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -47,8 +47,8 @@ function SAintegrationLoadFiles()
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  
@@ -68,7 +68,7 @@ class SAUncanny_Automator extends \Uncanny_Automator\Integration
     {
     
         $this->set_integration('SAUncanny_Automator');
-        $this->set_name('SMS Pro');
+        $this->set_name('Softeria Tech');
         $this->set_icon_url(plugin_dir_url(__FILE__) . '../images/sms.softeriatech.com.png');
     }
 }
@@ -79,8 +79,8 @@ class SAUncanny_Automator extends \Uncanny_Automator\Integration
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  
@@ -101,7 +101,7 @@ class SAAutoMateHelpers
 
         $options = array();
         $options[] = array(
-        'text' => __('Any post type', 'sms-pro'),
+        'text' => __('Any post type', 'softeria-sms-alerts'),
         'value' => '-1'
         );
 
@@ -131,14 +131,14 @@ class SAAutoMateHelpers
         $values = automator_filter_input_array('values', INPUT_POST);
         $options = array();
         $options[] = array(
-        'text' => __('Any post', 'sms-pro'),
+        'text' => __('Any post', 'softeria-sms-alerts'),
         'value' => '-1'
         );
         if (empty($values['POST_TYPE']) ) {
             wp_send_json( 
                 array(
                 'success' => false,
-                'error'   => esc_html__("Please select the post type first.", 'sms-pro'),
+                'error'   => esc_html__("Please select the post type first.", 'softeria-sms-alerts'),
                 'options' => $options
                 )    
             );
@@ -192,8 +192,8 @@ class SAAutoMateHelpers
  * PHP version 5
  *
  * @category Helper
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -212,8 +212,8 @@ class Send_SMS extends \Uncanny_Automator\Recipe\Action
         $this->set_integration('SAUncanny_Automator');
         $this->set_action_code('Send_SMS');
         $this->set_action_meta('sa_mobile');
-        $this->set_sentence(sprintf(esc_attr__('Send an sms to {{a number:%1$s}} from SMS Pro', 'sms-pro'), $this->get_action_meta()));
-        $this->set_readable_sentence(esc_attr__('Send an {{SMS}} from SMS Pro', 'sms-pro'));
+        $this->set_sentence(sprintf(esc_attr__('Send an sms to {{a number:%1$s}} from Softeria Tech', 'softeria-sms-alerts'), $this->get_action_meta()));
+        $this->set_readable_sentence(esc_attr__('Send an {{SMS}} from Softeria Tech', 'softeria-sms-alerts'));
     }
     
     /**
@@ -254,7 +254,7 @@ class Send_SMS extends \Uncanny_Automator\Recipe\Action
     {
         return array(
         'STATUS' => array(
-        'name' => __('Send status', 'sms-pro'),
+        'name' => __('Send status', 'softeria-sms-alerts'),
         'type' => 'text',
         ),
         );
@@ -280,7 +280,7 @@ class Send_SMS extends \Uncanny_Automator\Recipe\Action
         //Send sms        
         do_action('sa_send_sms', $to, $body);
         $status = true;
-        $status_string = $status ? __('SMS was sent', 'sms-pro') : __('SMS was not sent', 'sms-pro');
+        $status_string = $status ? __('SMS was sent', 'softeria-sms-alerts') : __('SMS was not sent', 'softeria-sms-alerts');
         $this->hydrate_tokens( 
             array( 
             'STATUS' => $status_string 

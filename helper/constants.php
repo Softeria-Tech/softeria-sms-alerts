@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -17,8 +17,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SmsAlertConstants class
@@ -28,7 +28,7 @@ class SmsAlertConstants
 
     const SUCCESS                = 'SUCCESS';
     const FAILURE                = 'FAILURE';
-    const TEXT_DOMAIN            = 'sms-pro';
+    const TEXT_DOMAIN            = 'softeria-sms-alerts';
     const PATTERN_PHONE          = '/^(\+)?(country_code)?0?\d+$/'; // '/^\d{10}$/';//'/\d{10}$/';
     const ERROR_JSON_TYPE        = 'error';
     const SUCCESS_JSON_TYPE      = 'success';
@@ -54,8 +54,8 @@ class SmsAlertConstants
      */
     public static function getPhonePattern()
     {
-        $country_code      = smspro_get_option('default_country_code', 'smspro_general');
-        $sa_mobile_pattern = smspro_get_option('sa_mobile_pattern', 'smspro_general', '/^(\+)?(country_code)?0?\d{10}$/');
+        $country_code      = softeria_alerts_get_option('default_country_code', 'softeria_alerts_general');
+        $sa_mobile_pattern = softeria_alerts_get_option('sa_mobile_pattern', 'softeria_alerts_general', '/^(\+)?(country_code)?0?\d{10}$/');
         $pattern           = ( '' !== $sa_mobile_pattern ) ? $sa_mobile_pattern : self::PATTERN_PHONE;
         $country_code      = str_replace('+', '', $country_code);
         $pattern_phone     = str_replace('country_code', $country_code, $pattern);
@@ -73,7 +73,7 @@ class SmsAlertConstants
         $phoneLogic = new PhoneLogic();
         define('SA_MOV_DIR', plugin_dir_path(dirname(__FILE__)));
         define('SA_MOV_URL', plugin_dir_url(dirname(__FILE__)));
-        define('SA_MOV_CSS_URL', SA_MOV_URL . 'css/sms_pro_customer_validation_style.css');
+        define('SA_MOV_CSS_URL', SA_MOV_URL . 'css/softeria_alerts_customer_validation_style.css');
         define('SA_MOV_LOADER_URL', SA_MOV_URL . 'images/ajax-loader.gif');
     }
 }

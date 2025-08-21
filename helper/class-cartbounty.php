@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! is_plugin_active('woo-save-abandoned-carts/cartbounty-abandoned-carts.php'
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * WCAbandonedCart class
@@ -70,10 +70,10 @@ class WCAbandonedCart
      */
     public static function add_default_setting( $defaults = array() )
     {
-        $defaults['smspro_ac_general']['customer_notify'] = 'off';
-        $defaults['smspro_ac_message']['customer_notify'] = '';
-        $defaults['smspro_ac_general']['admin_notify']    = 'off';
-        $defaults['smspro_ac_message']['admin_notify']    = '';
+        $defaults['softeria_alerts_ac_general']['customer_notify'] = 'off';
+        $defaults['softeria_alerts_ac_message']['customer_notify'] = '';
+        $defaults['softeria_alerts_ac_general']['admin_notify']    = 'off';
+        $defaults['softeria_alerts_ac_message']['admin_notify']    = '';
         return $defaults;
     }
 
@@ -85,14 +85,14 @@ class WCAbandonedCart
     public static function getCartbountyTemplates()
     {
         // customer template.
-        $current_val      = smspro_get_option('customer_notify', 'smspro_ac_general', 'on');
-        $checkbox_name_id = 'smspro_ac_general[customer_notify]';
-        $textarea_name_id = 'smspro_ac_message[customer_notify]';
-        $text_body        = smspro_get_option('customer_notify', 'smspro_ac_message', SmsAlertMessages::showMessage('DEFAULT_AC_CUSTOMER_MESSAGE'));
+        $current_val      = softeria_alerts_get_option('customer_notify', 'softeria_alerts_ac_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_ac_general[customer_notify]';
+        $textarea_name_id = 'softeria_alerts_ac_message[customer_notify]';
+        $text_body        = softeria_alerts_get_option('customer_notify', 'softeria_alerts_ac_message', SmsAlertMessages::showMessage('DEFAULT_AC_CUSTOMER_MESSAGE'));
 
         $templates = array();
 
-        $templates['cartbounty-cust']['title']          = 'Send message to customer when product is left in cart';
+        $templates['cartbounty-cust']['title']          = 'Notify Customer on incomplete purchase';
         $templates['cartbounty-cust']['enabled']        = $current_val;
         $templates['cartbounty-cust']['status']         = 'cartbounty-cust';
         $templates['cartbounty-cust']['text-body']      = $text_body;
@@ -101,12 +101,12 @@ class WCAbandonedCart
         $templates['cartbounty-cust']['token']          = self::getAbandonCartvariables();
 
         // admin template.
-        $current_val      = smspro_get_option('admin_notify', 'smspro_ac_general', 'on');
-        $checkbox_name_id = 'smspro_ac_general[admin_notify]';
-        $textarea_name_id = 'smspro_ac_message[admin_notify]';
-        $text_body        = smspro_get_option('admin_notify', 'smspro_ac_message', SmsAlertMessages::showMessage('DEFAULT_AC_ADMIN_MESSAGE'));
+        $current_val      = softeria_alerts_get_option('admin_notify', 'softeria_alerts_ac_general', 'on');
+        $checkbox_name_id = 'softeria_alerts_ac_general[admin_notify]';
+        $textarea_name_id = 'softeria_alerts_ac_message[admin_notify]';
+        $text_body        = softeria_alerts_get_option('admin_notify', 'softeria_alerts_ac_message', SmsAlertMessages::showMessage('DEFAULT_AC_ADMIN_MESSAGE'));
 
-        $templates['cartbounty-admin']['title']          = 'Send message to admin when product is left in cart';
+        $templates['cartbounty-admin']['title']          = 'Notify Customer on incomplete purchase';
         $templates['cartbounty-admin']['enabled']        = $current_val;
         $templates['cartbounty-admin']['status']         = 'cartbounty-admin';
         $templates['cartbounty-admin']['text-body']      = $text_body;
@@ -128,13 +128,13 @@ class WCAbandonedCart
         $set_checkout_url = false;
         if (is_plugin_active('woo-save-abandoned-carts-pro/cartbounty-pro-abandoned-carts.php') ) {
             $table_name       = $wpdb->prefix . CARTBOUNTY_PRO_TABLE_NAME;
-            $time             = smspro_get_option('hours', 'cartbounty_pro_notification_frequency', '60');
+            $time             = softeria_alerts_get_option('hours', 'cartbounty_pro_notification_frequency', '60');
             $plugin_admin     = new CartBounty_Pro_Admin(CARTBOUNTY_PRO_PLUGIN_NAME_SLUG, CARTBOUNTY_PRO_VERSION_NUMBER);
             $set_checkout_url = true;
 
         } else {
             $table_name = $wpdb->prefix . CARTBOUNTY_TABLE_NAME;
-            $time       = smspro_get_option('hours', 'cartbounty_notification_frequency', '60');
+            $time       = softeria_alerts_get_option('hours', 'cartbounty_notification_frequency', '60');
         }
 
         $timezone      = wp_timezone_string();
@@ -148,28 +148,28 @@ class WCAbandonedCart
         );
 
         if ($rows_to_phone ) {
-            $smspro_ac_customer_notify  = smspro_get_option('customer_notify', 'smspro_ac_general', 'on');
-            $smspro_ac_customer_message = smspro_get_option('customer_notify', 'smspro_ac_message', '');
+            $softeria_alerts_ac_customer_notify  = softeria_alerts_get_option('customer_notify', 'softeria_alerts_ac_general', 'on');
+            $softeria_alerts_ac_customer_message = softeria_alerts_get_option('customer_notify', 'softeria_alerts_ac_message', '');
 
-            if ('on' === $smspro_ac_customer_notify && '' !== $smspro_ac_customer_message ) {
+            if ('on' === $softeria_alerts_ac_customer_notify && '' !== $softeria_alerts_ac_customer_message ) {
                 foreach ( $rows_to_phone as $data ) {
                     if ($set_checkout_url ) {
                         $data['checkout_url'] = $plugin_admin->create_cart_url($data['email'], $data['session_id'], $data['id']);
                     }
-                    do_action('sa_send_sms', $data['phone'], $this->parseSmsBody($data, $smspro_ac_customer_message));
+                    do_action('sa_send_sms', $data['phone'], $this->parseSmsBody($data, $softeria_alerts_ac_customer_message));
                 }
             }
 
             // send msg to admin.
-            $sms_admin_phone = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $sms_admin_phone = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             if (! empty($sms_admin_phone) ) {
-                $smspro_ac_admin_notify  = smspro_get_option('admin_notify', 'smspro_ac_general', 'on');
-                $smspro_ac_admin_message = smspro_get_option('admin_notify', 'smspro_ac_message', '');
+                $softeria_alerts_ac_admin_notify  = softeria_alerts_get_option('admin_notify', 'softeria_alerts_ac_general', 'on');
+                $softeria_alerts_ac_admin_message = softeria_alerts_get_option('admin_notify', 'softeria_alerts_ac_message', '');
 
-                if ('on' === $smspro_ac_admin_notify && '' !== $smspro_ac_admin_message ) {
+                if ('on' === $softeria_alerts_ac_admin_notify && '' !== $softeria_alerts_ac_admin_message ) {
                     $sms_admin_phone = explode(',', $sms_admin_phone);
                     foreach ( $sms_admin_phone as $phone ) {
-                        do_action('sa_send_sms', $phone, $this->parseSmsBody($data, $smspro_ac_admin_message));
+                        do_action('sa_send_sms', $phone, $this->parseSmsBody($data, $softeria_alerts_ac_admin_message));
                     }
                 }
             }

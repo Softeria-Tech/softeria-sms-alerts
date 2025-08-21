@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -24,8 +24,8 @@ if (is_plugin_active('wp-travel-engine/wp-travel-engine.php') === false) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SAwptravelengine class 
@@ -56,9 +56,9 @@ class SAwptravelengine extends FormInterface
         add_filter('wp_travel_engine_booking_fields_display', array( $this, 'addBookingPhoneField' ), 10);
         add_action('wp_travel_engine_after_booking_process_completed', array( $this, 'sendsmsNewBooking' ), 10, 1);
         add_filter('wte_before_update__prev_booking_status', array($this, 'sendSmsOnUpdate'), 10, 2);
-        $this->guest_check_out_only      = ( smspro_get_option('checkout_show_otp_guest_only', 'smspro_general') === 'on' ) ? true : false;             
+        $this->guest_check_out_only      = ( softeria_alerts_get_option('checkout_show_otp_guest_only', 'softeria_alerts_general') === 'on' ) ? true : false;             
         add_action('wte_booking_before_submit_button', array($this, 'addShortcode'), 100);     
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
         if ('on' === $buyer_signup_otp ) {
             if (isset($_REQUEST['register']) ) {
                         add_filter('wp_travel_engine_registration_errors', array( $this, 'wptSiteRegistrationErrors' ), 10, 3);
@@ -96,22 +96,22 @@ class SAwptravelengine extends FormInterface
         $username = ! empty($_REQUEST['username']) ? sanitize_text_field(wp_unslash($_REQUEST['username'])) : '';
         $email    = ! empty($_REQUEST['email']) ? sanitize_text_field(wp_unslash($_REQUEST['email'])) : '';
         $password = ! empty($_REQUEST['password']) ? sanitize_text_field(wp_unslash($_REQUEST['password'])) : '';
-        if (isset($_REQUEST['option']) && 'smspro_register_with_otp' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (isset($_REQUEST['option']) && 'softeria_alerts_register_with_otp' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             SmsAlertUtility::initialize_transaction($this->form_session_var);
         }
 
        
         
-        if ('on' !== smspro_get_option('allow_multiple_user', 'smspro_general') && ! SmsAlertUtility::isBlank($user_phone) ) {
+        if ('on' !== softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') && ! SmsAlertUtility::isBlank($user_phone) ) {
 
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
             if (count($getusers) > 0 ) {
-                return new WP_Error('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'sms-pro'));
+                return new WP_Error('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
             }
         }
 
         if (isset($user_phone) && SmsAlertUtility::isBlank($user_phone) ) {
-            return new WP_Error('registration-error-invalid-phone', __('Please enter phone number.', 'sms-pro'));
+            return new WP_Error('registration-error-invalid-phone', __('Please enter phone number.', 'softeria-sms-alerts'));
         }
 
         return $this->processFormFields($username, $email, $errors, $password);
@@ -136,7 +136,7 @@ class SAwptravelengine extends FormInterface
         if (! isset($phone_num) || ! SmsAlertUtility::validatePhoneNumber($phone_num) ) {
             return new WP_Error('billing_phone_error', str_replace('##phone##', $phone_num, $phoneLogic->_get_otp_invalid_format_message()));
         }
-        smspro_site_challenge_otp($username, $email, $errors, $phone_num, 'phone', $password);
+        softeria_alerts_site_challenge_otp($username, $email, $errors, $phone_num, 'phone', $password);
     }
 
     /**
@@ -149,7 +149,7 @@ class SAwptravelengine extends FormInterface
         if ($this->guest_check_out_only && is_user_logged_in() ) {
             return;
         }
-        if (smspro_get_option('otp_enable', 'smspro_te_general') === 'on') {
+        if (softeria_alerts_get_option('otp_enable', 'softeria_alerts_te_general') === 'on') {
             echo do_shortcode('[sa_verify phone_selector="#billing_phone" submit_selector= "wp_travel_engine_nw_bkg_submit"]');
         }
     }
@@ -165,8 +165,8 @@ class SAwptravelengine extends FormInterface
     {
         ?>
         <div class='wpte-lrf-field lrf-phone'>
-            <label><?php echo esc_attr__('Phone', 'sms-pro'); ?><span class='required'>*</span></label>
-            <input required data-parsley-required-message="<?php esc_attr_e('Please enter a valid phone number', 'sms-pro'); ?>" name='billing_phone' class="phone-valid" type='text' placeholder='<?php echo esc_attr__('Phone number', 'sms-pro'); ?>'/>
+            <label><?php echo esc_attr__('Phone', 'softeria-sms-alerts'); ?><span class='required'>*</span></label>
+            <input required data-parsley-required-message="<?php esc_attr_e('Please enter a valid phone number', 'softeria-sms-alerts'); ?>" name='billing_phone' class="phone-valid" type='text' placeholder='<?php echo esc_attr__('Phone number', 'softeria-sms-alerts'); ?>'/>
         </div>
         <?php
         echo do_shortcode('[sa_verify phone_selector="billing_phone" submit_selector= "register"]');       
@@ -195,8 +195,8 @@ class SAwptravelengine extends FormInterface
         'type'      => 'alphanum',
         ),
         'attributes'     => array(
-        'data-msg'                      => __('Please enter your phone number', 'sms-pro'),
-        'data-parsley-required-message' => __('Please enter your phone number', 'sms-pro'),
+        'data-msg'                      => __('Please enter your phone number', 'softeria-sms-alerts'),
+        'data-parsley-required-message' => __('Please enter your phone number', 'softeria-sms-alerts'),
         ),
         'default'        => $booking_phone,
         'priority'       => 20,
@@ -219,13 +219,13 @@ class SAwptravelengine extends FormInterface
     {
         $bookingStatuses = array( 'pending', 'booked', 'refunded', 'canceled');         
         foreach ($bookingStatuses as $ks => $vs) {
-            $defaults['smspro_te_general']['customer_te_notify_' . $vs]   = 'off';
-            $defaults['smspro_te_message']['customer_sms_te_body_' . $vs] = '';
-            $defaults['smspro_te_general']['admin_te_notify_' . $vs]      = 'off';
-            $defaults['smspro_te_message']['admin_sms_te_body_' . $vs]    = '';
+            $defaults['softeria_alerts_te_general']['customer_te_notify_' . $vs]   = 'off';
+            $defaults['softeria_alerts_te_message']['customer_sms_te_body_' . $vs] = '';
+            $defaults['softeria_alerts_te_general']['admin_te_notify_' . $vs]      = 'off';
+            $defaults['softeria_alerts_te_message']['admin_sms_te_body_' . $vs]    = '';
         }
-        $defaults['smspro_te_general']['otp_enable']                      = 'off';
-        $defaults['smspro_te_general']['customer_notify']                 = 'off';
+        $defaults['softeria_alerts_te_general']['otp_enable']                      = 'off';
+        $defaults['softeria_alerts_te_general']['customer_notify']                 = 'off';
         return $defaults;
     }
 
@@ -277,11 +277,11 @@ class SAwptravelengine extends FormInterface
 
         $templates           = [];
         foreach ($bookingStatuses as $ks => $vs) {
-            $currentVal      = smspro_get_option('customer_te_notify_' . strtolower($vs), 'smspro_te_general', 'on');
-            $checkboxNameId  = 'smspro_te_general[customer_te_notify_' . strtolower($vs) . ']';
-            $textareaNameId  = 'smspro_te_message[customer_sms_te_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('customer_sms_te_body_' . strtolower($vs), 'smspro_te_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$sPowered by%6$ssms.softeriatech.com', 'sms-pro'), '[fname]', '[booking_id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
-            $textBody       = smspro_get_option('customer_sms_te_body_' . strtolower($vs), 'smspro_te_message', $defaultTemplate);
+            $currentVal      = softeria_alerts_get_option('customer_te_notify_' . strtolower($vs), 'softeria_alerts_te_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_te_general[customer_te_notify_' . strtolower($vs) . ']';
+            $textareaNameId  = 'softeria_alerts_te_message[customer_sms_te_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[fname]', '[booking_id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
+            $textBody       = softeria_alerts_get_option('customer_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -308,11 +308,11 @@ class SAwptravelengine extends FormInterface
         ];
         $templates           = [];
         foreach ($bookingStatuses as $ks => $vs) {
-            $currentVal      = smspro_get_option('admin_te_notify_' . strtolower($vs), 'smspro_te_general', 'on');
-            $checkboxNameId  = 'smspro_te_general[admin_te_notify_' . strtolower($vs) . ']';
-            $textareaNameId  = 'smspro_te_message[admin_sms_te_body_' . strtolower($vs) . ']';
-            $defaultTemplate = smspro_get_option('admin_sms_te_body_' . strtolower($vs), 'smspro_te_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
-            $textBody = smspro_get_option('admin_sms_te_body_' . strtolower($vs), 'smspro_te_message', $defaultTemplate);
+            $currentVal      = softeria_alerts_get_option('admin_te_notify_' . strtolower($vs), 'softeria_alerts_te_general', 'on');
+            $checkboxNameId  = 'softeria_alerts_te_general[admin_te_notify_' . strtolower($vs) . ']';
+            $textareaNameId  = 'softeria_alerts_te_message[admin_sms_te_body_' . strtolower($vs) . ']';
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
+            $textBody = softeria_alerts_get_option('admin_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When admin change status to ' . $vs;
             $templates[$ks]['enabled']        = $currentVal;
             $templates[$ks]['status']         = $vs;
@@ -351,8 +351,8 @@ class SAwptravelengine extends FormInterface
         $buyerNumber   = $booking_metas['place_order']['booking']['phone']; 
         $bookingStatuss = get_post_meta($booking_id, 'wp_travel_engine_booking_status', true);
         $bookingStatus = !empty($_POST['wp_travel_engine_booking_status']) ? $_POST['wp_travel_engine_booking_status'] : $bookingStatuss;        
-        $customerMessage   = smspro_get_option('customer_sms_te_body_' . $bookingStatus, 'smspro_te_message', '');
-        $customerNotify    = smspro_get_option('customer_te_notify_' . $bookingStatus, 'smspro_te_general', 'on');
+        $customerMessage   = softeria_alerts_get_option('customer_sms_te_body_' . $bookingStatus, 'softeria_alerts_te_message', '');
+        $customerNotify    = softeria_alerts_get_option('customer_te_notify_' . $bookingStatus, 'softeria_alerts_te_general', 'on');
         if (($customerNotify === 'on' && $customerMessage !== '')) {
             $buyerMessage = $this->parseSmsBody($booking_id, $customerMessage);
             $obj             = array();
@@ -362,10 +362,10 @@ class SAwptravelengine extends FormInterface
 
         }
             // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         if (empty($adminPhoneNumber) === false) {
-            $adminNotify        = smspro_get_option('admin_te_notify_' . $bookingStatus, 'smspro_te_general', 'on');
-            $adminMessage       = smspro_get_option('admin_sms_te_body_' . $bookingStatus, 'smspro_te_message', '');
+            $adminNotify        = softeria_alerts_get_option('admin_te_notify_' . $bookingStatus, 'softeria_alerts_te_general', 'on');
+            $adminMessage       = softeria_alerts_get_option('admin_sms_te_body_' . $bookingStatus, 'softeria_alerts_te_message', '');
             $nos = explode(',', $adminPhoneNumber);
             $adminPhoneNumber   = array_diff($nos, array('postauthor', 'post_author'));
             $adminPhoneNumber   = implode(',', $adminPhoneNumber);
@@ -502,7 +502,7 @@ class SAwptravelengine extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('wp-travel-engine/wp-travel-engine.php') === true) && ($islogged === true)) {
             return true;

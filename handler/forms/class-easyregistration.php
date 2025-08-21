@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('easy-registration-forms/erforms.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * EasyRegistration class.
@@ -78,7 +78,7 @@ class EasyRegistration extends FormInterface
      */
     public function saErHandleJsScript( $html, $form )
     {
-        if (smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) {
+        if (softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) {
             $fields  = erforms_get_form_input_fields($form['id']);
             $search  = array();
             $replace = array();
@@ -106,7 +106,7 @@ class EasyRegistration extends FormInterface
             return;
         }
         switch ( trim(sanitize_text_field(wp_unslash($_GET['option']))) ) {
-        case 'smspro-er-ajax-verify':
+        case 'softeria-alert-er-ajax-verify':
             $this->sendOtpErAjaxVerify($_POST);
             exit();
                 break;
@@ -128,7 +128,7 @@ class EasyRegistration extends FormInterface
         if (array_key_exists('user_phone', $getdata) && ! SmsAlertUtility::isBlank($getdata['user_phone']) ) {
             $_SESSION[ $this->form_session_var ] = trim($getdata['user_phone']);
             $message                             = str_replace('##phone##', $getdata['user_phone'], SmsAlertMessages::showMessage('OTP_SENT_PHONE'));
-            smspro_site_challenge_otp('test', null, null, trim($getdata['user_phone']), 'phone', null, null, true);
+            softeria_alerts_site_challenge_otp('test', null, null, trim($getdata['user_phone']), 'phone', null, null, true);
         } else {
             wp_send_json(SmsAlertUtility::_create_json_response('Enter a number in the following format : 9xxxxxxxxx', SmsAlertConstants::ERROR_JSON_TYPE));
         }
@@ -165,9 +165,9 @@ class EasyRegistration extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ? true : false;
+        return ( $islogged && softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
 
 
@@ -186,7 +186,7 @@ class EasyRegistration extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
             exit();
         } else {
@@ -212,7 +212,7 @@ class EasyRegistration extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) ) {
             return;
         }
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-validate-otp-form' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-validate-otp-form' ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('VALID_OTP'), 'success'));
             exit();
         } else {

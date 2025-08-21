@@ -1,33 +1,5 @@
 (function ($) {
     'use strict';
-
-    /**
-    * All of the code for your public-facing JavaScript source
-    * should reside in this file.
-    *
-    * Note: It has been assumed you will write jQuery code here, so the
-    * $ function reference has been prepared for usage within the scope
-    * of this function.
-    *
-    * This enables you to define handlers, for when the DOM is ready:
-    *
-    * $(function() {
-    *
-    * });
-    *
-    * When the window is loaded:
-    *
-    * $( window ).load(function() {
-    *
-    * });
-    *
-    * ...and/or other possibilities.
-    *
-    * Ideally, it is not considered best practise to attach more than a
-    * single DOM-ready or window-load handler for a particular page.
-    * Although scripts in the WordPress core, Plugins and Themes may be
-    * practising this, we should strive to set a better example in our own work.
-    */
     $(document).ready(
         function () {
 
@@ -57,7 +29,7 @@
                     if (ab_cart_phone.length >= 1) { //Checking if the phone number is longer than 1 digit
                         //If Phone valid
                         var ab_cart_name                 = $("#billing_first_name").val();
-                        var ab_cart_nonce                 = $("#smspro_abcart_nonce").val();
+                        var ab_cart_nonce                 = $("#softeria_alerts_abcart_nonce").val();
                         var ab_cart_surname             = $("#billing_last_name").val();
                         var ab_cart_phone                 = mob_field.val();
                         var ab_cart_country             = $("#billing_country").val();
@@ -96,7 +68,7 @@
                         var data = {
                             action:                            "save_data",
                             ab_cart_email:                  ab_cart_email,
-                            smspro_abcart_nonce:            ab_cart_nonce,
+                            softeria_alerts_abcart_nonce:            ab_cart_nonce,
                             ab_cart_name:                  ab_cart_name,
                             ab_cart_surname:              ab_cart_surname,
                             ab_cart_phone:                  ab_cart_phone,
@@ -149,8 +121,8 @@
                 }
             }
 
-            $("#billing_email, #billing_phone, input.input-text, input.input-checkbox, textarea.input-text").on("keyup keypress change", getCheckoutData); //All action happens on or after changing Phone fields or any other fields in the Checkout form. All Checkout form input fields are now triggering plugin action. Data saved to Database only after Phone fields have been entered.
-            $(window).on("load", getCheckoutData); //Automatically collect and save input field data if input fields already filled on page load
+            $("#billing_email, #billing_phone, input.input-text, input.input-checkbox, textarea.input-text").on("keyup keypress change", getCheckoutData); 
+            $(window).on("load", getCheckoutData); 
         }
     );
 })(jQuery);

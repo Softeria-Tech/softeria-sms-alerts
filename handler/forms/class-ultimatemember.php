@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('ultimate-member/ultimate-member.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * UltimateMemberRegistrationForm class.
@@ -78,14 +78,14 @@ class UltimateMemberRegistrationForm extends FormInterface
         add_filter('sa_get_user_phone_no', array( $this, 'saUpdateBillingPhone' ), 10, 2);
         add_action('um_submit_form_errors_hook_', array( $this, 'smsproUmRegistrationValidation' ), 10);
 
-        if (smspro_get_option('reset_password', 'smspro_general') === 'on' ) {
+        if (softeria_alerts_get_option('reset_password', 'softeria_alerts_general') === 'on' ) {
             add_action('um_reset_password_process_hook', array( $this, 'smsproUmResetPwdSubmitted' ), 0, 1);
         }
         add_action('um_after_form', array( $this, 'umFormAddShortcode' ), 10, 1);
         
         add_action('um_after_form_fields', array( $this, 'addCountryCode' ), 10, 1);
 
-        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'smspro-um-reset-pwd-action' ) {
+        if (! empty($_REQUEST['option']) && sanitize_text_field(wp_unslash($_REQUEST['option'])) === 'softeria-alert-um-reset-pwd-action' ) {
             $this->handleSmsalertChangedPwd($_POST);
             wp_enqueue_style('wpv_sa_common_style', SA_MOV_CSS_URL, array(), SmsAlertConstants::SA_VERSION, false);
         }
@@ -137,8 +137,8 @@ class UltimateMemberRegistrationForm extends FormInterface
         'inactive'         => 'Deactivate'
         );
         foreach ($ultimate_actions as $status=>$label) {
-            $defaults['smspro_um_general'][$status] = 'off';
-            $defaults['smspro_um_message'][$status] = '';
+            $defaults['softeria_alerts_um_general'][$status] = 'off';
+            $defaults['softeria_alerts_um_message'][$status] = '';
         }
         return $defaults;
     }
@@ -167,10 +167,10 @@ class UltimateMemberRegistrationForm extends FormInterface
         'inactive'         => 'Deactivate'
         );
         foreach ($ultimate_actions as $status=>$label) {
-            $current_val      = smspro_get_option($status, 'smspro_um_general', 'on');
-            $checkbox_name_id = 'smspro_um_general['.$status.']';
-            $textarea_name_id = 'smspro_um_message['.$status.']';
-            $text_body        = smspro_get_option($status, 'smspro_um_message', sprintf(__('Dear %1$s, your account status with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[username]', '[store_name]', '[status]', PHP_EOL, PHP_EOL));
+            $current_val      = softeria_alerts_get_option($status, 'softeria_alerts_um_general', 'on');
+            $checkbox_name_id = 'softeria_alerts_um_general['.$status.']';
+            $textarea_name_id = 'softeria_alerts_um_message['.$status.']';
+            $text_body        = softeria_alerts_get_option($status, 'softeria_alerts_um_message', sprintf(__('Dear %1$s, your account status with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[username]', '[store_name]', '[status]', PHP_EOL, PHP_EOL));
 
             $templates[$status]['title']          = 'When Account Status is '.$label;
             $templates[$status]['enabled']        = $current_val;
@@ -196,9 +196,9 @@ class UltimateMemberRegistrationForm extends FormInterface
         $user  = new WP_User($user_id);
         $phone = get_the_author_meta('billing_phone', $user->ID);
 
-        $smspro_um_enabled_msg  = smspro_get_option($status, 'smspro_um_general', 'on');
-        $smspro_um_msg = smspro_get_option($status, 'smspro_um_message', '');
-        if ('on' === $smspro_um_enabled_msg && '' !== $smspro_um_msg ) {
+        $softeria_alerts_um_enabled_msg  = softeria_alerts_get_option($status, 'softeria_alerts_um_general', 'on');
+        $softeria_alerts_um_msg = softeria_alerts_get_option($status, 'softeria_alerts_um_message', '');
+        if ('on' === $softeria_alerts_um_enabled_msg && '' !== $softeria_alerts_um_msg ) {
             $search = array(
             '[username]',
             '[email]',
@@ -212,7 +212,7 @@ class UltimateMemberRegistrationForm extends FormInterface
             $phone,
             $status,
             );
-            $sms_body = str_replace($search, $replace, $smspro_um_msg);
+            $sms_body = str_replace($search, $replace, $softeria_alerts_um_msg);
             do_action('sa_send_sms', $phone, $sms_body);
         }
     }
@@ -243,7 +243,7 @@ class UltimateMemberRegistrationForm extends FormInterface
      */    
     public function addCountryCode( $args )
     {
-        $enabled_country          = smspro_get_option('checkout_show_country_code', 'smspro_general');
+        $enabled_country          = softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general');
         
         if ('register' === $args['mode'] && 'on' === $enabled_country ) {
             $inline_script = 'document.addEventListener("DOMContentLoaded", function() {jQuery("#billing_phone-'.$args['form_id'].'").addClass("phone-valid");
@@ -271,8 +271,8 @@ class UltimateMemberRegistrationForm extends FormInterface
     {
         SmsAlertUtility::checkSession();
         $error            = '';
-        $new_password     = ! empty($post_data['smspro_user_newpwd']) ? $post_data['smspro_user_newpwd'] : '';
-        $confirm_password = ! empty($post_data['smspro_user_cnfpwd']) ? $post_data['smspro_user_cnfpwd'] : '';
+        $new_password     = ! empty($post_data['softeria_alerts_user_newpwd']) ? $post_data['softeria_alerts_user_newpwd'] : '';
+        $confirm_password = ! empty($post_data['softeria_alerts_user_cnfpwd']) ? $post_data['softeria_alerts_user_cnfpwd'] : '';
 
         if (empty($new_password) ) {
             $error = SmsAlertMessages::showMessage('ENTER_PWD');
@@ -299,10 +299,10 @@ class UltimateMemberRegistrationForm extends FormInterface
      */
     public function umFormAddShortcode( $args )
     {
-        $default_login_otp   = smspro_get_option('buyer_login_otp', 'smspro_general');
-        $enabled_login_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
-        $enabled_register_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $default_login_otp   = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
+        $enabled_login_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
+        $enabled_register_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
         if ('on' === $default_login_otp && 'on' === $enabled_login_popup ) {
             if ('login' === $args['mode'] ) {
                 echo do_shortcode('[sa_verify user_selector="#username-' . esc_attr($args['form_id']) . '" pwd_selector="#user_password-' . esc_attr($args['form_id']) . '" submit_selector=".um-login #um-submit-btn"]');
@@ -324,7 +324,7 @@ class UltimateMemberRegistrationForm extends FormInterface
      */
     public function myBeforeForm( $args )
     {
-        echo '<p class="um-notice success"><i class="um-icon-ios-close-empty" onclick="jQuery(this).parent().fadeOut();"></i>' . __('Password Changed Successfully.', 'sms-pro') . '</p>';
+        echo '<p class="um-notice success"><i class="um-icon-ios-close-empty" onclick="jQuery(this).parent().fadeOut();"></i>' . __('Password Changed Successfully.', 'softeria-sms-alerts') . '</p>';
     }
 
     /**
@@ -376,7 +376,7 @@ class UltimateMemberRegistrationForm extends FormInterface
         $username = ! empty($args['user_login']) ? sanitize_text_field(wp_unslash($args['user_login'])) : '';
         $email    = ! empty($args['user_email']) ? sanitize_text_field(wp_unslash($args['user_email'])) : '';
         $password = ! empty($args['user_password']) ? sanitize_text_field(wp_unslash($args['user_password'])) : '';
-        if (isset($_REQUEST['option']) && 'smspro_register_with_otp' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
+        if (isset($_REQUEST['option']) && 'softeria_alerts_register_with_otp' === sanitize_text_field(wp_unslash($_REQUEST['option'])) ) {
             SmsAlertUtility::initialize_transaction($this->form_session_var3);
         } else {
             SmsAlertUtility::initialize_transaction($this->form_session_var);
@@ -384,7 +384,7 @@ class UltimateMemberRegistrationForm extends FormInterface
 
        
         if (isset($user_phone) && SmsAlertUtility::isBlank($user_phone) ) {
-            UM()->form()->add_error('registration-error-invalid-phone', __('Please enter phone number.', 'sms-pro'));
+            UM()->form()->add_error('registration-error-invalid-phone', __('Please enter phone number.', 'softeria-sms-alerts'));
         }
         
         global $phoneLogic;
@@ -392,10 +392,10 @@ class UltimateMemberRegistrationForm extends FormInterface
             UM()->form()->add_error('billing_phone_error', str_replace('##phone##', $user_phone, $phoneLogic->_get_otp_invalid_format_message()));
         }
         
-        if (smspro_get_option('allow_multiple_user', 'smspro_general') !== 'on' && ! SmsAlertUtility::isBlank($args['billing_phone']) ) {
+        if (softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') !== 'on' && ! SmsAlertUtility::isBlank($args['billing_phone']) ) {
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $args['billing_phone']);
             if (count($getusers) > 0 ) {
-                UM()->form()->add_error('billing_phone', __('An account is already registered with this mobile number. Please login.', 'sms-pro'));
+                UM()->form()->add_error('billing_phone', __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
             }
         }
         if (isset(UM()->form()->errors) ) {
@@ -418,7 +418,7 @@ class UltimateMemberRegistrationForm extends FormInterface
      */
     public function processFormFields( $username, $email, $errors, $password, $phone_no )
     {
-        smspro_site_challenge_otp($username, $email, $errors, $phone_no, 'phone', $password);
+        softeria_alerts_site_challenge_otp($username, $email, $errors, $phone_no, 'phone', $password);
     }
 
 
@@ -429,9 +429,9 @@ class UltimateMemberRegistrationForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( 'on' === smspro_get_option('buyer_signup_otp', 'smspro_general') && $islogged ) ? true : false;
+        return ( 'on' === softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') && $islogged ) ? true : false;
     }
 
     /**
@@ -448,7 +448,7 @@ class UltimateMemberRegistrationForm extends FormInterface
      */
     public function startOtpTransaction( $username, $email, $errors, $phone_number, $password, $extra_data )
     {
-        smspro_site_challenge_otp($username, $email, $errors, $phone_number, 'phone', $password, $extra_data);
+        softeria_alerts_site_challenge_otp($username, $email, $errors, $phone_number, 'phone', $password, $extra_data);
     }
 
     /**
@@ -466,7 +466,7 @@ class UltimateMemberRegistrationForm extends FormInterface
         if (! isset($_SESSION[ $this->form_session_var ]) && ! isset($_SESSION[ $this->form_session_var2 ]) && ! isset($_SESSION[ $this->form_session_var3 ]) ) {
             return;
         }
-        smspro_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
+        softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
     }
 
     /**
@@ -493,7 +493,7 @@ class UltimateMemberRegistrationForm extends FormInterface
         }
 
         if (isset($_SESSION[ $this->form_session_var2 ]) ) {
-            smsproAskForResetPassword($_SESSION['user_login'], $_SESSION['phone_number_mo'], SmsAlertMessages::showMessage('CHANGE_PWD'), 'phone', false, 'smspro-um-reset-pwd-action');
+            smsproAskForResetPassword($_SESSION['user_login'], $_SESSION['phone_number_mo'], SmsAlertMessages::showMessage('CHANGE_PWD'), 'phone', false, 'softeria-alert-um-reset-pwd-action');
         } 
     }
 

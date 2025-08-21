@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -20,8 +20,8 @@ if (! is_plugin_active('learnpress/learnpress.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SmsAlertLearnPress class
@@ -97,24 +97,24 @@ class SmsAlertLearnPress
     {
         $lpress_statuses = self::getLearnpressStatus();
 
-        $become_teacher                       = smspro_get_option('become_teacher', 'smspro_lpress_general', 'on');
-        $student_notification_course_enroll   = smspro_get_option('course_enroll', 'smspro_lpress_general', 'on');
-        $student_notification_course_finished = smspro_get_option('course_finished', 'smspro_lpress_general', 'on');
-        $sms_body_become_teacher_msg          = smspro_get_option('sms_body_become_teacher_msg', 'smspro_lpress_message', SmsAlertMessages::showMessage('DEFAULT_NEW_TEACHER_REGISTER'));
-        $sms_body_course_enroll_msg           = smspro_get_option('sms_body_course_enroll', 'smspro_lpress_message', SmsAlertMessages::showMessage('DEFAULT_USER_COURSE_ENROLL'));
-        $sms_body_course_finished_msg         = smspro_get_option('sms_body_course_finished', 'smspro_lpress_message', SmsAlertMessages::showMessage('DEFAULT_USER_COURSE_FINISHED'));
+        $become_teacher                       = softeria_alerts_get_option('become_teacher', 'softeria_alerts_lpress_general', 'on');
+        $student_notification_course_enroll   = softeria_alerts_get_option('course_enroll', 'softeria_alerts_lpress_general', 'on');
+        $student_notification_course_finished = softeria_alerts_get_option('course_finished', 'softeria_alerts_lpress_general', 'on');
+        $sms_body_become_teacher_msg          = softeria_alerts_get_option('sms_body_become_teacher_msg', 'softeria_alerts_lpress_message', SmsAlertMessages::showMessage('DEFAULT_NEW_TEACHER_REGISTER'));
+        $sms_body_course_enroll_msg           = softeria_alerts_get_option('sms_body_course_enroll', 'softeria_alerts_lpress_message', SmsAlertMessages::showMessage('DEFAULT_USER_COURSE_ENROLL'));
+        $sms_body_course_finished_msg         = softeria_alerts_get_option('sms_body_course_finished', 'softeria_alerts_lpress_message', SmsAlertMessages::showMessage('DEFAULT_USER_COURSE_FINISHED'));
 
         $templates = array();
         foreach ( $lpress_statuses as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('lpress_order_status_' . $vs, 'smspro_lpress_general', 'on');
+            $current_val = softeria_alerts_get_option('lpress_order_status_' . $vs, 'softeria_alerts_lpress_general', 'on');
 
-            $checkbox_name_id = 'smspro_lpress_general[lpress_order_status_' . $vs . ']';
-            $textarea_name_id = 'smspro_lpress_message[lpress_sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_lpress_general[lpress_order_status_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_lpress_message[lpress_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option(
+            $text_body = softeria_alerts_get_option(
                 'lpress_sms_body_' . $vs,
-                'smspro_lpress_message',
+                'softeria_alerts_lpress_message',
                 SmsAlertMessages::showMessage('DEFAULT_LPRESS_BUYER_SMS_STATUS_CHANGED')
             );
 
@@ -132,8 +132,8 @@ class SmsAlertLearnPress
         $templates['enroll-student']['enabled']        = $student_notification_course_enroll;
         $templates['enroll-student']['status']         = 'enroll-student';
         $templates['enroll-student']['text-body']      = $sms_body_course_enroll_msg;
-        $templates['enroll-student']['checkboxNameId'] = 'smspro_lpress_general[course_enroll]';
-        $templates['enroll-student']['textareaNameId'] = 'smspro_lpress_message[sms_body_course_enroll]';
+        $templates['enroll-student']['checkboxNameId'] = 'softeria_alerts_lpress_general[course_enroll]';
+        $templates['enroll-student']['textareaNameId'] = 'softeria_alerts_lpress_message[sms_body_course_enroll]';
         $templates['enroll-student']['token']          = self::getLpressVariables('courses');
 
         // course finished student.
@@ -141,8 +141,8 @@ class SmsAlertLearnPress
         $templates['finished-student']['enabled']        = $student_notification_course_finished;
         $templates['finished-student']['status']         = 'finished-student';
         $templates['finished-student']['text-body']      = $sms_body_course_finished_msg;
-        $templates['finished-student']['checkboxNameId'] = 'smspro_lpress_general[course_finished]';
-        $templates['finished-student']['textareaNameId'] = 'smspro_lpress_message[sms_body_course_finished]';
+        $templates['finished-student']['checkboxNameId'] = 'softeria_alerts_lpress_general[course_finished]';
+        $templates['finished-student']['textareaNameId'] = 'softeria_alerts_lpress_message[sms_body_course_finished]';
         $templates['finished-student']['token']          = self::getLpressVariables('courses');
 
         // become_a_teacher.
@@ -150,8 +150,8 @@ class SmsAlertLearnPress
         $templates['become_a_teacher']['enabled']        = $become_teacher;
         $templates['become_a_teacher']['status']         = 'become_a_teacher';
         $templates['become_a_teacher']['text-body']      = $sms_body_become_teacher_msg;
-        $templates['become_a_teacher']['checkboxNameId'] = 'smspro_lpress_general[become_teacher]';
-        $templates['become_a_teacher']['textareaNameId'] = 'smspro_lpress_message[sms_body_become_teacher_msg]';
+        $templates['become_a_teacher']['checkboxNameId'] = 'softeria_alerts_lpress_general[become_teacher]';
+        $templates['become_a_teacher']['textareaNameId'] = 'softeria_alerts_lpress_message[sms_body_become_teacher_msg]';
         $templates['become_a_teacher']['token']          = self::getLpressVariables('teacher');
 
         return $templates;
@@ -166,22 +166,22 @@ class SmsAlertLearnPress
     {
         $lpress_statuses = self::getLearnpressStatus();
 
-        $admin_become_teacher               = smspro_get_option('admin_become_teacher', 'smspro_lpress_general', 'on');
-        $admin_notification_course_enroll   = smspro_get_option('admin_course_enroll', 'smspro_lpress_general', 'on');
-        $admin_notification_course_finished = smspro_get_option('admin_course_finished', 'smspro_lpress_general', 'on');
-        $sms_body_admin_become_teacher_msg  = smspro_get_option('sms_body_admin_become_teacher_msg', 'smspro_lpress_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_TEACHER_REGISTER'));
-        $sms_body_course_enroll_admin_msg   = smspro_get_option('sms_body_course_enroll_admin_msg', 'smspro_lpress_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_COURSE_ENROLL'));
-        $sms_body_course_finished_admin_msg = smspro_get_option('sms_body_course_finished_admin_msg', 'smspro_lpress_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_COURSE_FINISHED'));
+        $admin_become_teacher               = softeria_alerts_get_option('admin_become_teacher', 'softeria_alerts_lpress_general', 'on');
+        $admin_notification_course_enroll   = softeria_alerts_get_option('admin_course_enroll', 'softeria_alerts_lpress_general', 'on');
+        $admin_notification_course_finished = softeria_alerts_get_option('admin_course_finished', 'softeria_alerts_lpress_general', 'on');
+        $sms_body_admin_become_teacher_msg  = softeria_alerts_get_option('sms_body_admin_become_teacher_msg', 'softeria_alerts_lpress_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_TEACHER_REGISTER'));
+        $sms_body_course_enroll_admin_msg   = softeria_alerts_get_option('sms_body_course_enroll_admin_msg', 'softeria_alerts_lpress_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_COURSE_ENROLL'));
+        $sms_body_course_finished_admin_msg = softeria_alerts_get_option('sms_body_course_finished_admin_msg', 'softeria_alerts_lpress_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_COURSE_FINISHED'));
 
         $templates = array();
         foreach ( $lpress_statuses as $ks  => $vs ) {
 
-            $current_val = smspro_get_option('lpress_admin_notification_' . $vs, 'smspro_lpress_general', 'on');
+            $current_val = softeria_alerts_get_option('lpress_admin_notification_' . $vs, 'softeria_alerts_lpress_general', 'on');
 
-            $checkbox_name_id = 'smspro_lpress_general[lpress_admin_notification_' . $vs . ']';
-            $textarea_name_id = 'smspro_lpress_message[lpress_admin_sms_body_' . $vs . ']';
+            $checkbox_name_id = 'softeria_alerts_lpress_general[lpress_admin_notification_' . $vs . ']';
+            $textarea_name_id = 'softeria_alerts_lpress_message[lpress_admin_sms_body_' . $vs . ']';
 
-            $text_body = smspro_get_option('lpress_admin_sms_body_' . $vs, 'smspro_lpress_message', SmsAlertMessages::showMessage('DEFAULT_LPRESS_ADMIN_SMS_STATUS_CHANGED'));
+            $text_body = softeria_alerts_get_option('lpress_admin_sms_body_' . $vs, 'softeria_alerts_lpress_message', SmsAlertMessages::showMessage('DEFAULT_LPRESS_ADMIN_SMS_STATUS_CHANGED'));
 
             $templates[ $ks ]['title']          = 'When Order is ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;
@@ -197,8 +197,8 @@ class SmsAlertLearnPress
         $templates['enroll-student']['enabled']        = $admin_notification_course_enroll;
         $templates['enroll-student']['status']         = 'enroll-student';
         $templates['enroll-student']['text-body']      = $sms_body_course_enroll_admin_msg;
-        $templates['enroll-student']['checkboxNameId'] = 'smspro_lpress_general[admin_course_enroll]';
-        $templates['enroll-student']['textareaNameId'] = 'smspro_lpress_message[sms_body_course_enroll_admin_msg]';
+        $templates['enroll-student']['checkboxNameId'] = 'softeria_alerts_lpress_general[admin_course_enroll]';
+        $templates['enroll-student']['textareaNameId'] = 'softeria_alerts_lpress_message[sms_body_course_enroll_admin_msg]';
         $templates['enroll-student']['token']          = self::getLpressVariables('courses');
 
         // course finished student.
@@ -206,8 +206,8 @@ class SmsAlertLearnPress
         $templates['finished-student']['enabled']        = $admin_notification_course_finished;
         $templates['finished-student']['status']         = 'finished-student';
         $templates['finished-student']['text-body']      = $sms_body_course_finished_admin_msg;
-        $templates['finished-student']['checkboxNameId'] = 'smspro_lpress_general[admin_course_finished]';
-        $templates['finished-student']['textareaNameId'] = 'smspro_lpress_message[sms_body_course_finished_admin_msg]';
+        $templates['finished-student']['checkboxNameId'] = 'softeria_alerts_lpress_general[admin_course_finished]';
+        $templates['finished-student']['textareaNameId'] = 'softeria_alerts_lpress_message[sms_body_course_finished_admin_msg]';
         $templates['finished-student']['token']          = self::getLpressVariables('courses');
 
         // become_a_teacher
@@ -215,8 +215,8 @@ class SmsAlertLearnPress
         $templates['become_a_teacher']['enabled']        = $admin_become_teacher;
         $templates['become_a_teacher']['status']         = 'become_a_teacher';
         $templates['become_a_teacher']['text-body']      = $sms_body_admin_become_teacher_msg;
-        $templates['become_a_teacher']['checkboxNameId'] = 'smspro_lpress_general[admin_become_teacher]';
-        $templates['become_a_teacher']['textareaNameId'] = 'smspro_lpress_message[sms_body_admin_become_teacher_msg]';
+        $templates['become_a_teacher']['checkboxNameId'] = 'softeria_alerts_lpress_general[admin_become_teacher]';
+        $templates['become_a_teacher']['textareaNameId'] = 'softeria_alerts_lpress_message[sms_body_admin_become_teacher_msg]';
         $templates['become_a_teacher']['token']          = self::getLpressVariables('teacher');
 
         return $templates;
@@ -269,7 +269,7 @@ class SmsAlertLearnPress
         // $ret_string = '';
         // foreach($variables as $vk => $vv)
         // {
-        // $ret_string .= sprintf( "<a href='#' val='%s'>%s</a> | " , $vk , __($vv,'sms-pro'));
+        // $ret_string .= sprintf( "<a href='#' val='%s'>%s</a> | " , $vk , __($vv,'softeria-sms-alerts'));
         // }
         return $variables;
     }
@@ -285,26 +285,26 @@ class SmsAlertLearnPress
     {
         $wpam_statuses = self::getLearnpressStatus();
         foreach ( $wpam_statuses as $ks => $vs ) {
-            $defaults['smspro_lpress_general'][ 'lpress_admin_notification_' . $vs ] = 'off';
-            $defaults['smspro_lpress_general'][ 'lpress_order_status_' . $vs ]       = 'off';
-            $defaults['smspro_lpress_message'][ 'lpress_admin_sms_body_' . $vs ]     = '';
-            $defaults['smspro_lpress_message'][ 'lpress_sms_body_' . $vs ]           = '';
+            $defaults['softeria_alerts_lpress_general'][ 'lpress_admin_notification_' . $vs ] = 'off';
+            $defaults['softeria_alerts_lpress_general'][ 'lpress_order_status_' . $vs ]       = 'off';
+            $defaults['softeria_alerts_lpress_message'][ 'lpress_admin_sms_body_' . $vs ]     = '';
+            $defaults['softeria_alerts_lpress_message'][ 'lpress_sms_body_' . $vs ]           = '';
         }
 
-        $defaults['smspro_lpress_general']['course_enroll']                    = 'off';
-        $defaults['smspro_lpress_message']['sms_body_course_enroll']           = '';
-        $defaults['smspro_lpress_general']['admin_course_enroll']              = 'off';
-        $defaults['smspro_lpress_message']['sms_body_course_enroll_admin_msg'] = '';
+        $defaults['softeria_alerts_lpress_general']['course_enroll']                    = 'off';
+        $defaults['softeria_alerts_lpress_message']['sms_body_course_enroll']           = '';
+        $defaults['softeria_alerts_lpress_general']['admin_course_enroll']              = 'off';
+        $defaults['softeria_alerts_lpress_message']['sms_body_course_enroll_admin_msg'] = '';
 
-        $defaults['smspro_lpress_general']['course_finished']                    = 'off';
-        $defaults['smspro_lpress_message']['sms_body_course_finished']           = '';
-        $defaults['smspro_lpress_general']['admin_course_finished']              = 'off';
-        $defaults['smspro_lpress_message']['sms_body_course_finished_admin_msg'] = '';
+        $defaults['softeria_alerts_lpress_general']['course_finished']                    = 'off';
+        $defaults['softeria_alerts_lpress_message']['sms_body_course_finished']           = '';
+        $defaults['softeria_alerts_lpress_general']['admin_course_finished']              = 'off';
+        $defaults['softeria_alerts_lpress_message']['sms_body_course_finished_admin_msg'] = '';
 
-        $defaults['smspro_lpress_general']['become_teacher']                    = 'off';
-        $defaults['smspro_lpress_message']['sms_body_become_teacher_msg']       = '';
-        $defaults['smspro_lpress_general']['admin_become_teacher']              = 'off';
-        $defaults['smspro_lpress_message']['sms_body_admin_become_teacher_msg'] = '';
+        $defaults['softeria_alerts_lpress_general']['become_teacher']                    = 'off';
+        $defaults['softeria_alerts_lpress_message']['sms_body_become_teacher_msg']       = '';
+        $defaults['softeria_alerts_lpress_general']['admin_become_teacher']              = 'off';
+        $defaults['softeria_alerts_lpress_message']['sms_body_admin_become_teacher_msg'] = '';
         return $defaults;
     }
 
@@ -435,18 +435,18 @@ class SmsAlertLearnPress
     public static function smsproLpSendSmsUserEnroll( $course_id, $user_id, $user_course )
     {
         $billing_phone    = get_user_meta($user_id, 'billing_phone', true);
-        $buyer_sms_notify = smspro_get_option('course_enroll', 'smspro_lpress_general', 'on');
-        $admin_sms_notify = smspro_get_option('admin_course_enroll', 'smspro_lpress_general', 'on');
+        $buyer_sms_notify = softeria_alerts_get_option('course_enroll', 'softeria_alerts_lpress_general', 'on');
+        $admin_sms_notify = softeria_alerts_get_option('admin_course_enroll', 'softeria_alerts_lpress_general', 'on');
 
         if ('on' === $buyer_sms_notify ) {
-            $buyer_sms_content = smspro_get_option('sms_body_course_enroll', 'smspro_lpress_message', '');
+            $buyer_sms_content = softeria_alerts_get_option('sms_body_course_enroll', 'softeria_alerts_lpress_message', '');
             do_action('sa_send_sms', $billing_phone, self::parseSmsContent(null, $buyer_sms_content, null, $user_id, $course_id));
         }
 
         if ('on' === $admin_sms_notify ) {
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             if ('' !== $admin_phone_number ) {
-                $admin_sms_content = smspro_get_option('sms_body_course_enroll_admin_msg', 'smspro_lpress_message', '');
+                $admin_sms_content = softeria_alerts_get_option('sms_body_course_enroll_admin_msg', 'softeria_alerts_lpress_message', '');
                 do_action('sa_send_sms', $admin_phone_number, self::parseSmsContent(null, $admin_sms_content, null, $user_id, $course_id));
             }
         }
@@ -464,18 +464,18 @@ class SmsAlertLearnPress
     public static function smsproLpUserCourseFinished( $course_id, $user_id, $user_item_id )
     {
         $billing_phone    = get_user_meta($user_id, 'billing_phone', true);
-        $buyer_sms_notify = smspro_get_option('course_finished', 'smspro_lpress_general', 'on');
-        $admin_sms_notify = smspro_get_option('admin_course_finished', 'smspro_lpress_general', 'on');
+        $buyer_sms_notify = softeria_alerts_get_option('course_finished', 'softeria_alerts_lpress_general', 'on');
+        $admin_sms_notify = softeria_alerts_get_option('admin_course_finished', 'softeria_alerts_lpress_general', 'on');
 
         if ('on' === $buyer_sms_notify ) {
-            $buyer_sms_content = smspro_get_option('sms_body_course_finished', 'smspro_lpress_message', '');
+            $buyer_sms_content = softeria_alerts_get_option('sms_body_course_finished', 'softeria_alerts_lpress_message', '');
             do_action('sa_send_sms', $billing_phone, self::parseSmsContent(null, $buyer_sms_content, null, $user_id, $course_id));
         }
 
         if ('on' === $admin_sms_notify ) {
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
             if ('' !== $admin_phone_number ) {
-                $admin_sms_content = smspro_get_option('sms_body_course_finished_admin_msg', 'smspro_lpress_message', '');
+                $admin_sms_content = softeria_alerts_get_option('sms_body_course_finished_admin_msg', 'softeria_alerts_lpress_message', '');
                 do_action('sa_send_sms', $admin_phone_number, self::parseSmsContent(null, $admin_sms_content, null, $user_id, $course_id));
             }
         }
@@ -493,19 +493,19 @@ class SmsAlertLearnPress
     public static function smsproLpSendSmsOnChangedStatus( $order_id, $old_status, $new_status )
     {
         if ('' !== $old_status && ( $old_status !== $new_status ) ) {
-			$buyer_sms_notify = smspro_get_option('lpress_order_status_' . $new_status, 'smspro_lpress_general', 'on');
-            $admin_sms_notify = smspro_get_option('lpress_admin_notification_' . $new_status, 'smspro_lpress_general', 'on');
+			$buyer_sms_notify = softeria_alerts_get_option('lpress_order_status_' . $new_status, 'softeria_alerts_lpress_general', 'on');
+            $admin_sms_notify = softeria_alerts_get_option('lpress_admin_notification_' . $new_status, 'softeria_alerts_lpress_general', 'on');
             $user_id          = get_post_meta($order_id, '_user_id', true);
             $billing_phone     = get_post_meta($order_id, '_billing_phone', true);
             if ('on' === $buyer_sms_notify ) {
-                $buyer_sms_content = smspro_get_option('lpress_sms_body_' . $new_status, 'smspro_lpress_message', sprintf(__('Hello %1$s, status of your %2$s with %3$s has been changed to %4$s.', 'sms-pro'), '[username]', '[order_id]', '[store_name]', '[order_status]'));
+                $buyer_sms_content = softeria_alerts_get_option('lpress_sms_body_' . $new_status, 'softeria_alerts_lpress_message', sprintf(__('Hello %1$s, status of your %2$s with %3$s has been changed to %4$s.', 'softeria-sms-alerts'), '[username]', '[order_id]', '[store_name]', '[order_status]'));
                 do_action('sa_send_sms', $billing_phone, self::parseSmsContent($order_id, $buyer_sms_content, $new_status, $user_id));
             }
 
             if ('on' === $admin_sms_notify ) {
-                $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+                $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
                 if ('' !== $admin_phone_number ) {
-                    $admin_sms_content = smspro_get_option('lpress_admin_sms_body_' . $new_status, 'smspro_lpress_message', sprintf(__('%1$s status of order %2$s has been changed to %3$s.', 'sms-pro'), '[store_name]:', '#[order_id]', '[order_status]'));
+                    $admin_sms_content = softeria_alerts_get_option('lpress_admin_sms_body_' . $new_status, 'softeria_alerts_lpress_message', sprintf(__('%1$s status of order %2$s has been changed to %3$s.', 'softeria-sms-alerts'), '[store_name]:', '#[order_id]', '[order_status]'));
                     do_action('sa_send_sms', $admin_phone_number, self::parseSmsContent($order_id, $admin_sms_content, $new_status, $user_id));
                 }
             }
@@ -524,19 +524,19 @@ class SmsAlertLearnPress
     public static function smsproLpAfterBecomeTeacher( $user_id, $role, $old_roles )
     {
 
-        $buyer_sms_notify = smspro_get_option('become_teacher', 'smspro_lpress_general', 'on');
+        $buyer_sms_notify = softeria_alerts_get_option('become_teacher', 'softeria_alerts_lpress_general', 'on');
         if ('on' === $buyer_sms_notify ) {
             $billing_phone     = get_user_meta($user_id, 'billing_phone', true);
-            $buyer_sms_content = smspro_get_option('sms_body_become_teacher_msg', 'smspro_lpress_message', '');
+            $buyer_sms_content = softeria_alerts_get_option('sms_body_become_teacher_msg', 'softeria_alerts_lpress_message', '');
             if ('lp_teacher' === $role ) {
                 do_action('sa_send_sms', $billing_phone, self::parseSmsContent(null, $buyer_sms_content, null, $user_id));
             }
         }
 
-        $admin_sms_notify = smspro_get_option('admin_become_teacher', 'smspro_lpress_general', 'on');
+        $admin_sms_notify = softeria_alerts_get_option('admin_become_teacher', 'softeria_alerts_lpress_general', 'on');
         if ('on' === $admin_sms_notify ) {
-            $admin_phone_number = smspro_get_option('sms_admin_phone', 'smspro_message', '');
-            $admin_sms_content  = smspro_get_option('sms_body_admin_become_teacher_msg', 'smspro_lpress_message', '');
+            $admin_phone_number = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
+            $admin_sms_content  = softeria_alerts_get_option('sms_body_admin_become_teacher_msg', 'softeria_alerts_lpress_message', '');
             if ('lp_teacher' === $role ) {
                 do_action('sa_send_sms', $billing_phone, self::parseSmsContent(null, $admin_sms_content, null, $user_id));
             }

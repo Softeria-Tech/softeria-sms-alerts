@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -21,8 +21,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * WPLogin class.
@@ -69,12 +69,12 @@ class WPLogin extends FormInterface
         if (! empty($_REQUEST['learn-press-register-nonce']) ) {
             return;
         }
-        $enabled_login_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
+        $enabled_login_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
         $is_admin_login = (is_login()) ? true : false;
         $this->routeData();
-        $enable_login_with_admin_otp = smspro_get_option('login_with_admin_otp', 'smspro_general');
-        $enabled_login_with_otp = smspro_get_option('login_with_otp', 'smspro_general');
-        $default_login_otp      = smspro_get_option('buyer_login_otp', 'smspro_general');
+        $enable_login_with_admin_otp = softeria_alerts_get_option('login_with_admin_otp', 'softeria_alerts_general');
+        $enabled_login_with_otp = softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general');
+        $default_login_otp      = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
 
         if ('on' === $default_login_otp ) {
             //if ( 'on' === $enabled_login_popup ) {
@@ -120,8 +120,8 @@ class WPLogin extends FormInterface
      */
     public function add_custom_recaptcha_forms( $forms )
     {
-        $forms['sa_lwo_form'] = array( "form_name" => "SMS Pro Login With OTP" );
-        $forms['sa_swm_form'] = array( "form_name" => "SMS Pro Signup With Mobile" );
+        $forms['sa_lwo_form'] = array( "form_name" => "Softeria Tech Login With OTP" );
+        $forms['sa_swm_form'] = array( "form_name" => "Softeria Tech Signup With Mobile" );
         return $forms;
     } 
 
@@ -136,19 +136,19 @@ class WPLogin extends FormInterface
             return;
         }
         switch ( trim(sanitize_text_field(wp_unslash($_REQUEST['option']))) ) {
-        case 'smspro-ajax-otp-generate':
+        case 'softeria-alert-ajax-otp-generate':
             $this->handleWpLoginAjaxSendOtp($_POST);
             break;
-        case 'smspro-ajax-otp-validate':
+        case 'softeria-alert-ajax-otp-validate':
             $this->handleWpLoginAjaxFormValidateAction($_POST);
             break;
-        case 'smspro_ajax_login_with_otp':
+        case 'softeria_alerts_ajax_login_with_otp':
             $this->handleLoginWithOtp();
             break;
-        case 'smspro_ajax_login_popup':
+        case 'softeria_alerts_ajax_login_popup':
             $this->handleLoginPopup();
             break;
-        case 'smspro_verify_login_with_otp':
+        case 'softeria_alerts_verify_login_with_otp':
             $this->processLoginWithOtp();
             break;
         }
@@ -192,7 +192,7 @@ class WPLogin extends FormInterface
         }
 
         SmsAlertUtility::initialize_transaction($this->form_session_var3);
-        smspro_site_challenge_otp($username, null, null, $phone_number, 'phone', $password, SmsAlertUtility::currentPageUrl(), true);
+        softeria_alerts_site_challenge_otp($username, null, null, $phone_number, 'phone', $password, SmsAlertUtility::currentPageUrl(), true);
     }
 
     /**
@@ -202,14 +202,14 @@ class WPLogin extends FormInterface
      */
     public function handleLoginWithOtp()
     {
-        $verify = check_ajax_referer('smspro_wp_loginwithotp_nonce', 'smspro_loginwithotp_nonce', false);
+        $verify = check_ajax_referer('softeria_alerts_wp_loginwithotp_nonce', 'softeria_alerts_loginwithotp_nonce', false);
         if (!$verify) {
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Sorry, nonce did not verify.', 'sms-pro'), 'error'));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Sorry, nonce did not verify.', 'softeria-sms-alerts'), 'error'));
         }
         if (is_plugin_active('google-captcha/google-captcha.php')) {
             $check_result = apply_filters('gglcptch_verify_recaptcha', true, 'string', 'sa_lwo_form');
             if (true !== $check_result ) { 
-                wp_send_json(SmsAlertUtility::_create_json_response(__('The reCaptcha verification failed. Please try again.', 'sms-pro'), 'error'));
+                wp_send_json(SmsAlertUtility::_create_json_response(__('The reCaptcha verification failed. Please try again.', 'softeria-sms-alerts'), 'error'));
             }
         }
         if (isset($_REQUEST['username']) ) {
@@ -217,7 +217,7 @@ class WPLogin extends FormInterface
             $phone_number = ! empty($_REQUEST['username']) ? sanitize_text_field(wp_unslash($_REQUEST['username'])) : '';
             $billing_phone = SmsAlertcURLOTP::checkPhoneNos($phone_number);
             if (SmsAlertUtility::isBlank($phone_number)) {
-                wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'sms-pro'), 'error'));
+                wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), 'error'));
             } else if (! $billing_phone ) {
 
                 $message = str_replace('##phone##', $phone_number, $phoneLogic->_get_otp_invalid_format_message());
@@ -239,7 +239,7 @@ class WPLogin extends FormInterface
 
             if (! empty($user_login) ) {
                 SmsAlertUtility::initialize_transaction($this->form_session_var3);
-                smspro_site_challenge_otp(null, null, null, $billing_phone, 'phone', null, SmsAlertUtility::currentPageUrl(), true);
+                softeria_alerts_site_challenge_otp(null, null, null, $billing_phone, 'phone', null, SmsAlertUtility::currentPageUrl(), true);
             } else {
                 wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('PHONE_NOT_FOUND'), 'error'));
             }
@@ -257,7 +257,7 @@ class WPLogin extends FormInterface
     public function smsproDisplayLoginWithOtp($form = null, $args=array())
     {
         if ($form == null || is_array($form) || $form == 'login') {
-            echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'sms-pro') . '" style="width: 100%;box-sizing: border-box;display:block">' . __('Login with OTP', 'sms-pro') . '</button></div>';
+            echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'softeria-sms-alerts') . '" style="width: 100%;box-sizing: border-box;display:block">' . __('Login with OTP', 'softeria-sms-alerts') . '</button></div>';
 			add_action('wp_footer', array( $this, 'addLoginwithotpShortcode' ), 15);
             if (is_plugin_active('google-captcha/google-captcha.php')) {
                 gglcptch_add_scripts();
@@ -272,7 +272,7 @@ class WPLogin extends FormInterface
      */
     function showLoginWithOtpAdmin()
     {        
-        echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'sms-pro') . '" style="box-sizing: border-box">' . __('Login with OTP', 'sms-pro') . '</button></div>';
+        echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'softeria-sms-alerts') . '" style="box-sizing: border-box">' . __('Login with OTP', 'softeria-sms-alerts') . '</button></div>';
         add_action('login_footer', array( $this, 'addAdminLoginWithOtpShortcode' ), 15);
           
     }
@@ -295,8 +295,8 @@ class WPLogin extends FormInterface
      */
     public function xooElAddLoginOtpPopup()
     {
-        $enabled_login_popup    = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
-        $default_login_otp      = smspro_get_option('buyer_login_otp', 'smspro_general');
+        $enabled_login_popup    = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
+        $default_login_otp      = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
         if ('on' === $enabled_login_popup && 'on' === $default_login_otp) {
             $unique_class    = 'sa-class-'.mt_rand(1, 100);
             echo '<script>
@@ -320,8 +320,8 @@ class WPLogin extends FormInterface
      */
     public function addLoginOtpPopup()
     {
-        $enabled_login_popup    = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
-        $default_login_otp      = smspro_get_option('buyer_login_otp', 'smspro_general');
+        $enabled_login_popup    = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
+        $default_login_otp      = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
         if ('on' === $enabled_login_popup && 'on' === $default_login_otp) {
             $unique_class    = 'sa-class-'.mt_rand(1, 100);
             echo '<script>	
@@ -343,8 +343,8 @@ class WPLogin extends FormInterface
      */
     public function edumaLoginOtpPopup()
     {
-        $enabled_login_popup    = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
-        $default_login_otp      = smspro_get_option('buyer_login_otp', 'smspro_general');
+        $enabled_login_popup    = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
+        $default_login_otp      = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general');
         if ('on' === $enabled_login_popup && 'on' === $default_login_otp) {
             $unique_class    = 'sa-class-'.mt_rand(1, 100);
             echo '<script>
@@ -378,9 +378,9 @@ class WPLogin extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && ( smspro_get_option('buyer_login_otp', 'smspro_general') === 'on' || smspro_get_option('login_with_otp', 'smspro_general') === 'on' ) ) ? true : false;
+        return ( $islogged && ( softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general') === 'on' || softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general') === 'on' ) ) ? true : false;
     }
 
     /**
@@ -413,8 +413,8 @@ class WPLogin extends FormInterface
     public function byPassLogin( $user_role )
     {
         $current_role   = array_shift($user_role);
-        $excluded_roles = smspro_get_option('admin_bypass_otp_login', 'smspro_general', array());
-        $otp_for_roles              = smspro_get_option('otp_for_roles', 'smspro_general', 'on');
+        $excluded_roles = softeria_alerts_get_option('admin_bypass_otp_login', 'softeria_alerts_general', array());
+        $otp_for_roles              = softeria_alerts_get_option('otp_for_roles', 'softeria_alerts_general', 'on');
         if ('on' !== $otp_for_roles) {
             return false;
         }
@@ -431,7 +431,7 @@ class WPLogin extends FormInterface
      */
     public function checkWpLoginRestrictDuplicates()
     {
-        return ( smspro_get_option('allow_multiple_user', 'smspro_general') === 'on' ) ? true : false;
+        return ( softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
 
     /**
@@ -463,7 +463,7 @@ class WPLogin extends FormInterface
     public function processLoginWithOtp()
     {
         SmsAlertUtility::checkSession();
-        $login_with_otp_enabled = ( smspro_get_option('login_with_otp', 'smspro_general') === 'on' ) ? true : false;
+        $login_with_otp_enabled = ( softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
         $password='';
         if (empty($password) ) {
             if (! empty($_REQUEST['username']) ) {
@@ -495,7 +495,7 @@ class WPLogin extends FormInterface
     public function handleSmsalertWpLogin( $user, $username, $password )
     {
         SmsAlertUtility::checkSession();
-        $login_with_otp_enabled = ( smspro_get_option('login_with_otp', 'smspro_general') === 'on' ) ? true : false;
+        $login_with_otp_enabled = ( softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
         if (empty($password) ) {
             if (! empty($_REQUEST['username']) ) {
                 $phone_number = ! empty($_REQUEST['username']) ? sanitize_text_field(wp_unslash($_REQUEST['username'])) : '';
@@ -547,7 +547,7 @@ class WPLogin extends FormInterface
             return $user;
         }
 
-        if (( smspro_get_option('buyer_login_otp', 'smspro_general') === 'off' && smspro_get_option('login_with_otp', 'smspro_general') === 'on' ) ) {
+        if (( softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general') === 'off' && softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general') === 'on' ) ) {
             return $user;
         }
        
@@ -614,10 +614,10 @@ class WPLogin extends FormInterface
             return;
         }
         if (! $this->checkWpLoginRegisterPhone() ) {
-            smspro_site_otp_validation_form(null, null, null, SmsAlertMessages::showMessage('PHONE_NOT_FOUND'), null, null);
+            softeria_alerts_site_otp_validation_form(null, null, null, SmsAlertMessages::showMessage('PHONE_NOT_FOUND'), null, null);
         } else {
             SmsAlertUtility::initialize_transaction($this->form_session_var);
-            smspro_external_phone_validation_form(SmsAlertUtility::currentPageUrl(), $user->data->user_login, __('A new security system has been enabled for you. Please register your phone to continue.', 'sms-pro'), $key, array( 'user_login' => $username ));
+            softeria_alerts_external_phone_validation_form(SmsAlertUtility::currentPageUrl(), $user->data->user_login, __('A new security system has been enabled for you. Please register your phone to continue.', 'softeria-sms-alerts'), $key, array( 'user_login' => $username ));
         }
     }
 
@@ -640,7 +640,7 @@ class WPLogin extends FormInterface
             return;
         }
         SmsAlertUtility::initialize_transaction($this->form_session_var2); 
-        smspro_site_challenge_otp($username, null, null, $phone_number, 'phone', $password, SmsAlertUtility::currentPageUrl(), false);
+        softeria_alerts_site_challenge_otp($username, null, null, $phone_number, 'phone', $password, SmsAlertUtility::currentPageUrl(), false);
     }
 
     /**
@@ -656,9 +656,9 @@ class WPLogin extends FormInterface
         if (! $this->checkWpLoginRestrictDuplicates()
             && ! SmsAlertUtility::isBlank($this->getUserFromPhoneNumber($data['billing_phone'], $this->phone_number_key)) 
         ) {
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Phone Number is already in use. Please use another number.', 'sms-pro'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Phone Number is already in use. Please use another number.', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
         } elseif (isset($_SESSION[ $this->form_session_var ]) ) {
-            smspro_site_challenge_otp('ajax_phone', '', null, trim($data['billing_phone']), 'phone', null, $data, null);
+            softeria_alerts_site_challenge_otp('ajax_phone', '', null, trim($data['billing_phone']), 'phone', null, $data, null);
         }
     }
 
@@ -679,7 +679,7 @@ class WPLogin extends FormInterface
         if (strcmp($_SESSION['phone_number_mo'], $data['billing_phone']) && isset($data['billing_phone']) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('PHONE_MISMATCH'), 'error'));
         } else {
-            do_action('smspro_validate_otp', 'phone');
+            do_action('softeria_alerts_validate_otp', 'phone');
         }
     }
 
@@ -704,7 +704,7 @@ class WPLogin extends FormInterface
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
         }
         if (isset($_SESSION[ $this->form_session_var2 ]) ) {
-            smspro_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertMessages::showMessage('INVALID_OTP'), 'phone', false);
+            softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertMessages::showMessage('INVALID_OTP'), 'phone', false);
         }
         if (isset($_SESSION[ $this->form_session_var3 ]) ) {
             wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));

@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -17,8 +17,8 @@ use Elementor\Plugin as Elementor;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -51,7 +51,7 @@ class ElementorWidget
         $widgets_manager = Elementor::instance()->widgets_manager;
         if (file_exists(plugin_dir_path(__DIR__) . 'helper/class-smsproforms.php')) {            
             include_once plugin_dir_path(__DIR__) . 'helper/class-smsproforms.php';
-            $widgets_manager->register(new SMSProForms());           
+            $widgets_manager->register(new SofteriaAlertsForms());           
         }
     }
 }

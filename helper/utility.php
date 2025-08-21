@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -17,8 +17,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * SmsAlertUtility class
@@ -215,7 +215,7 @@ class SmsAlertUtility
      */
     public static function get_otp_length()
     {
-        $otp_template = smspro_get_option('sms_otp_send', 'smspro_message', '');
+        $otp_template = softeria_alerts_get_option('sms_otp_send', 'softeria_alerts_message', '');
 
         if (strpos($otp_template, 'length') !== false ) {
             $position   = strpos($otp_template, 'length');
@@ -232,7 +232,7 @@ class SmsAlertUtility
      */
     public static function enqueue_script_for_intellinput()
     {
-        if ('on' === smspro_get_option('checkout_show_country_code', 'smspro_general') ) {
+        if ('on' === softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general') ) {
             $dep = apply_filters('intel_dep', array( 'jquery' ));
 
             wp_enqueue_script('sa_pv_intl-phones-lib', SA_MOV_URL . 'js/intlTelInput-jquery.min.js', $dep, SmsAlertConstants::SA_VERSION, true);
@@ -243,15 +243,15 @@ class SmsAlertUtility
                 'wccheckout_default',
                 'sa_intl_warning',
                 array(
-                'invalid_no'          => __('Invalid number', 'sms-pro'),
-                'invalid_country'     => __('Invalid country code', 'sms-pro'),
-                'ppvn'                => __('Please provide a valid Number', 'sms-pro'),
-                'allow_otp_countries' => smspro_get_option('allow_otp_country', 'smspro_general'),
-                'allow_otp_verification' => smspro_get_option('allow_otp_verification', 'smspro_general', 'off'),
-                'buyer_checkout_otp'        => smspro_get_option('buyer_checkout_otp', 'smspro_general', 'off'),
+                'invalid_no'          => __('Invalid number', 'softeria-sms-alerts'),
+                'invalid_country'     => __('Invalid country code', 'softeria-sms-alerts'),
+                'ppvn'                => __('Please provide a valid Number', 'softeria-sms-alerts'),
+                'allow_otp_countries' => softeria_alerts_get_option('allow_otp_country', 'softeria_alerts_general'),
+                'allow_otp_verification' => softeria_alerts_get_option('allow_otp_verification', 'softeria_alerts_general', 'off'),
+                'buyer_checkout_otp'        => softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general', 'off'),
                 'is_checkout'             => ( ( function_exists('is_checkout') && is_checkout() ) ? true : false ),
-                'post_verify'             => ( smspro_get_option('post_order_verification', 'smspro_general') === 'on' ) ? true : false,
-                'whitelist_countries' => ('on'===smspro_get_option('enable_selected_country', 'smspro_general'))?smspro_get_option('whitelist_country', 'smspro_general'):'',
+                'post_verify'             => ( softeria_alerts_get_option('post_order_verification', 'softeria_alerts_general') === 'on' ) ? true : false,
+                'whitelist_countries' => ('on'===softeria_alerts_get_option('enable_selected_country', 'softeria_alerts_general'))?softeria_alerts_get_option('whitelist_country', 'softeria_alerts_general'):'',
                 )
             );
 
@@ -259,14 +259,14 @@ class SmsAlertUtility
                 'sa_pv_intl-phones-lib',
                 'sa_country_settings',
                 array(
-                'sa_default_countrycode' => smspro_get_option('default_country_code', 'smspro_general'),
-                'show_flag' => smspro_get_option('show_flag', 'smspro_general', 'on'),
+                'sa_default_countrycode' => softeria_alerts_get_option('default_country_code', 'softeria_alerts_general'),
+                'show_flag' => softeria_alerts_get_option('show_flag', 'softeria_alerts_general', 'on'),
                 )
             );
             wp_localize_script(
                 'sa_pv_intl-phones-lib',
                 'sa_notices',
-                array('enter_here'=> __('Enter Number Here', 'sms-pro'))
+                array('enter_here'=> __('Enter Number Here', 'softeria-sms-alerts'))
             );
             wp_enqueue_style('wpv_telinputcss_style', SA_MOV_URL . 'css/intlTelInput.min.css', array(), SmsAlertConstants::SA_VERSION, false);
         }
@@ -311,7 +311,7 @@ class SmsAlertUtility
      */
     public static function formatNumberForCountryCode( $phoneNum )
     {
-        $country_code_enabled = smspro_get_option('checkout_show_country_code', 'smspro_general');
+        $country_code_enabled = softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general');
         $phoneNum = str_replace(' ', '', $phoneNum);
         
         if ('on' === $country_code_enabled && ! empty($phoneNum) ) {
@@ -386,7 +386,7 @@ class SmsAlertUtility
     }
 	
 	public static function isPlayground(){
-		$sandbox_mode = get_option('smspro_sandbox_mode', 0);
+		$sandbox_mode = get_option('softeria_alerts_sandbox_mode', 0);
 		return ($_SERVER['HTTP_HOST'] == 'playground.wordpress.net' && $sandbox_mode == 1)  ? true : false;
 	}
     
@@ -425,7 +425,7 @@ class SmsAlertUtility
      */
     public static function get_elementor_data($setting_key=null)
     {
-        $post = get_page_by_path('modal_style', OBJECT, 'sms-pro'); 
+        $post = get_page_by_path('modal_style', OBJECT, 'softeria-sms-alerts'); 
         $datas = '';        
         if (!empty($post)) {
             $postmetas          = get_post_meta($post->ID);$elementor_data     = !empty($postmetas['_elementor_data']) ? current($postmetas['_elementor_data']) : "";

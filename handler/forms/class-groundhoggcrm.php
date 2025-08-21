@@ -6,8 +6,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -25,8 +25,8 @@ use Groundhogg\Preferences;
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Groundhogg CRM class
@@ -60,10 +60,10 @@ class Groundhoggcrm extends FormInterface
         $bookingStatuses = Preferences::get_preference_names();
         foreach ($bookingStatuses as $ks => $vs) {
             $vs = str_replace(' ', '_', strtolower($vs));
-            $defaults['smspro_gdh_general']['customer_gdh_notify_'.$vs]   = 'off';
-            $defaults['smspro_gdh_message']['customer_sms_gdh_body_'.$vs] = '';
-            $defaults['smspro_gdh_general']['admin_gdh_notify_'.$vs]      = 'off';
-            $defaults['smspro_gdh_message']['admin_sms_gdh_body_'.$vs]    = '';
+            $defaults['softeria_alerts_gdh_general']['customer_gdh_notify_'.$vs]   = 'off';
+            $defaults['softeria_alerts_gdh_message']['customer_sms_gdh_body_'.$vs] = '';
+            $defaults['softeria_alerts_gdh_general']['admin_gdh_notify_'.$vs]      = 'off';
+            $defaults['softeria_alerts_gdh_message']['admin_sms_gdh_body_'.$vs]    = '';
         }
         return $defaults;
 
@@ -103,17 +103,8 @@ class Groundhoggcrm extends FormInterface
         $tabs['groundhogg_crm']['inner_nav']['groundhogg_crm_admin']['tabContent']  = $admin_param;
         $tabs['groundhogg_crm']['inner_nav']['groundhogg_crm_admin']['filePath']    = 'views/message-template.php';
         $tabs['groundhogg_crm']['help_links'] = [
-            /* 'youtube_link' => [
-                'href'   => 'https://youtu.be/4BXd_XZt9zM',
-                'target' => '_blank',
-                'alt'    => 'Watch steps on Youtube',
-                'class'  => 'btn-outline',
-                'label'  => 'Youtube',
-                'icon'   => '<span class="dashicons dashicons-video-alt3" style="font-size: 21px;"></span> ',
-
-            ], */
             'kb_link'      => [
-                'href'   => 'https://sms.softeriatech.com/knowledgebase/groundhogcrm-sms-integration/',
+                'href'   => 'https://sms.softeriatech.com',
                 'target' => '_blank',
                 'alt'    => 'Read how to integrate with groundhoggcrm',
                 'class'  => 'btn-outline',
@@ -139,13 +130,13 @@ class Groundhoggcrm extends FormInterface
         foreach ($bookingStatuses as $ks  => $vs) {
             $title = $vs;
             $vs = str_replace(' ', '_', $vs);
-            $currentVal = smspro_get_option('customer_gdh_notify_'.strtolower($vs), 'smspro_gdh_general', 'on');
-            $checkboxNameId = 'smspro_gdh_general[customer_gdh_notify_'.strtolower($vs).']';
-            $textareaNameId = 'smspro_gdh_message[customer_sms_gdh_body_'.strtolower($vs).']';
+            $currentVal = softeria_alerts_get_option('customer_gdh_notify_'.strtolower($vs), 'softeria_alerts_gdh_general', 'on');
+            $checkboxNameId = 'softeria_alerts_gdh_general[customer_gdh_notify_'.strtolower($vs).']';
+            $textareaNameId = 'softeria_alerts_gdh_message[customer_sms_gdh_body_'.strtolower($vs).']';
 
-            $defaultTemplate = smspro_get_option('admin_sms_gdh_body_'.strtolower($vs), 'smspro_gdh_message', sprintf(__('Hello %1$s, status of your contact with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'sms-pro'), '[first_name]', '[store_name]', $title, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_gdh_body_'.strtolower($vs), 'softeria_alerts_gdh_message', sprintf(__('Hello %1$s, status of your contact with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[first_name]', '[store_name]', $title, PHP_EOL, PHP_EOL));
 
-            $textBody = smspro_get_option('customer_sms_gdh_body_'.strtolower($vs), 'smspro_gdh_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('customer_sms_gdh_body_'.strtolower($vs), 'softeria_alerts_gdh_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When contact status changed to '.$title;
             $templates[$ks]['enabled']        = $currentVal;
@@ -174,13 +165,13 @@ class Groundhoggcrm extends FormInterface
         foreach ($bookingStatuses as $ks  => $vs) {
             $title = $vs;
             $vs = str_replace(' ', '_', $vs);
-            $currentVal     = smspro_get_option('admin_gdh_notify_'.strtolower($vs), 'smspro_gdh_general', 'on');
-            $checkboxNameId = 'smspro_gdh_general[admin_gdh_notify_'.strtolower($vs).']';
-            $textareaNameId = 'smspro_gdh_message[admin_sms_gdh_body_'.strtolower($vs).']';
+            $currentVal     = softeria_alerts_get_option('admin_gdh_notify_'.strtolower($vs), 'softeria_alerts_gdh_general', 'on');
+            $checkboxNameId = 'softeria_alerts_gdh_general[admin_gdh_notify_'.strtolower($vs).']';
+            $textareaNameId = 'softeria_alerts_gdh_message[admin_sms_gdh_body_'.strtolower($vs).']';
 
-            $defaultTemplate = smspro_get_option('admin_sms_gdh_body_'.strtolower($vs), 'smspro_gdh_message', sprintf(__('Hello admin, status of your contact with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'sms-pro'), '[store_name]', $title, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_gdh_body_'.strtolower($vs), 'softeria_alerts_gdh_message', sprintf(__('Hello admin, status of your contact with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $title, PHP_EOL, PHP_EOL));
 
-            $textBody = smspro_get_option('admin_sms_gdh_body_'.strtolower($vs), 'smspro_gdh_message', $defaultTemplate);
+            $textBody = softeria_alerts_get_option('admin_sms_gdh_body_'.strtolower($vs), 'softeria_alerts_gdh_message', $defaultTemplate);
 
             $templates[$ks]['title']          = 'When contact status changed to '.$title;
             $templates[$ks]['enabled']        = $currentVal;
@@ -226,8 +217,8 @@ class Groundhoggcrm extends FormInterface
         $status     = $this->convert_optin_status($contact->get_optin_status());
         $userPhone = $contact->get_mobile_number();
        
-        $customerMessage  = smspro_get_option('customer_sms_gdh_body_'.$status, 'smspro_gdh_message', '');
-        $customerRrNotify = smspro_get_option('customer_gdh_notify_'.$status, 'smspro_gdh_general', 'on');
+        $customerMessage  = softeria_alerts_get_option('customer_sms_gdh_body_'.$status, 'softeria_alerts_gdh_message', '');
+        $customerRrNotify = softeria_alerts_get_option('customer_gdh_notify_'.$status, 'softeria_alerts_gdh_general', 'on');
        
         if ($customerRrNotify === 'on' && $customerMessage !== '') {
             $buyerMessage = $this->parseSmsBody($contact, $customerMessage);
@@ -235,14 +226,14 @@ class Groundhoggcrm extends FormInterface
         }
 
         // Send msg to admin.
-        $adminPhoneNumber = smspro_get_option('sms_admin_phone', 'smspro_message', '');
+        $adminPhoneNumber = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $nos = explode(',', $adminPhoneNumber);
         $adminPhoneNumber = array_diff($nos, ['postauthor', 'post_author']);
         $adminPhoneNumber = implode(',', $adminPhoneNumber);
 
         if (empty($adminPhoneNumber) === false) {
-            $adminRrNotify = smspro_get_option('admin_gdh_notify_'.$status, 'smspro_gdh_general', 'on');
-            $adminMessage  = smspro_get_option('admin_sms_gdh_body_'.$status, 'smspro_gdh_message', '');
+            $adminRrNotify = softeria_alerts_get_option('admin_gdh_notify_'.$status, 'softeria_alerts_gdh_general', 'on');
+            $adminMessage  = softeria_alerts_get_option('admin_sms_gdh_body_'.$status, 'softeria_alerts_gdh_message', '');
             if ('on' === $adminRrNotify && '' !== $adminMessage) {
                 $adminMessage = $this->parseSmsBody($contact, $adminMessage);
                 do_action('sa_send_sms', $adminPhoneNumber, $adminMessage);
@@ -380,7 +371,7 @@ class Groundhoggcrm extends FormInterface
      */
     public function isFormEnabled()
     {
-        $userAuthorize = new smspro_Setting_Options();
+        $userAuthorize = new softeria_alerts_Setting_Options();
         $islogged      = $userAuthorize->is_user_authorised();
         if ((is_plugin_active('groundhogg/groundhogg.php') === true) && ($islogged === true)) {
             return true;

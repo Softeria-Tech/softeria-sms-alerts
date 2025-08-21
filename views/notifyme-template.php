@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category View
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -25,7 +25,7 @@
             <table class="form-table">
                 <tr valign="top" style="position:relative">
                     <td>
-                        <div class="smspro_tokens">
+                        <div class="softeria_alerts_tokens">
                 <?php
                 foreach ( $template['token'] as $vk => $vv ) {
                     echo  "<a href='#' data-val='".esc_attr($vk)."'>".esc_attr($vv)."</a> | ";
@@ -49,11 +49,11 @@
                         Notify Me Style:                </td>
             <td><?php
                 $disabled = (! is_plugin_active('elementor/elementor.php')) ? "anchordisabled" : "";
-                $post = get_page_by_path('notifyme_style', OBJECT, 'sms-pro'); 
+                $post = get_page_by_path('notifyme_style', OBJECT, 'softeria-sms-alerts'); 
             ?>              
-                <a href= <?php get_admin_url() ?>"edit.php?post_name=notifyme_style" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="button <?php echo $disabled; ?> notifyme action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'sms-pro'); ?></a>
+                <a href= <?php get_admin_url() ?>"edit.php?post_name=notifyme_style" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="button <?php echo $disabled; ?> notifyme action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'softeria-sms-alerts'); ?></a>
                 <?php if (!empty($post->post_type)) {?>
-                <a href="#" onclick="return false;" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" id="btn_reset_style" temp-style="notifyme_style" class="btn_reset_style btn-outline" style="float:left;"><?php esc_html_e('Reset', 'sms-pro'); ?></a>
+                <a href="#" onclick="return false;" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" id="btn_reset_style" temp-style="notifyme_style" class="btn_reset_style btn-outline" style="float:left;"><?php esc_html_e('Reset', 'softeria-sms-alerts'); ?></a>
                     <?php
                 }
                 ?>
@@ -61,7 +61,7 @@
             <?php
             if ($disabled!='') {
                 ?>        
-            <span><?php esc_html_e('To edit, please install elementor plugin', 'sms-pro'); ?>    </span>
+            <span><?php esc_html_e('To edit, please install elementor plugin', 'softeria-sms-alerts'); ?>    </span>
                 <?php
             }
             ?>
@@ -87,6 +87,6 @@ if (!empty($templates)) {
 ?>
 
 <div class="submit" style="clear:both">
-    <a href="admin.php?page=all-subscriber" class="button action alignright"><?php esc_html_e('View Subscriber', 'sms-pro'); ?></a>
+    <a href="admin.php?page=all-subscriber" class="button action alignright"><?php esc_html_e('View Subscriber', 'softeria-sms-alerts'); ?></a>
 </div>
 

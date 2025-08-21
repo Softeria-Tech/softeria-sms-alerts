@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -18,8 +18,8 @@ if (! defined('ABSPATH') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  * Phone logic class.
@@ -102,7 +102,7 @@ class PhoneLogic extends LogicInterface
         if (self::_is_ajax_form() ) {
             wp_send_json(SmsAlertUtility::_create_json_response($message, SmsAlertConstants::ERROR_JSON_TYPE));
         } else {
-            smspro_site_otp_validation_form(null, null, null, $message, $otp_type, $form);
+            softeria_alerts_site_otp_validation_form(null, null, null, $message, $otp_type, $form);
         }
     }
 
@@ -132,7 +132,7 @@ class PhoneLogic extends LogicInterface
         if (self::_is_ajax_form() || ( 'ajax' === $form ) ) {
             wp_send_json(SmsAlertUtility::_create_json_response($message, SmsAlertConstants::ERROR_JSON_TYPE));
         } else {
-            smspro_site_otp_validation_form(null, null, null, $message, $otp_type, $form);
+            softeria_alerts_site_otp_validation_form(null, null, null, $message, $otp_type, $form);
         }
     }
 
@@ -163,7 +163,7 @@ class PhoneLogic extends LogicInterface
         if (self::_is_ajax_form() || ( 'ajax' === $form ) ) {
             wp_send_json(SmsAlertUtility::_create_json_response($message, SmsAlertConstants::SUCCESS_JSON_TYPE));
         } else {
-            smspro_site_otp_validation_form($user_login, $user_email, $phone_number, $message, $otp_type, $form);
+            softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, $message, $otp_type, $form);
         }
     }
 
@@ -189,7 +189,7 @@ class PhoneLogic extends LogicInterface
     public function _get_otp_sent_failed_message()
     {
         /* translators: %s: Plugin help URL */
-        return wp_kses_post(sprintf(__("There was an error in sending the OTP to the given Phone Number. Please Try Again or contact site Admin. If you are the website admin, please browse <a href='%s' target='_blank'> here</a> for steps to resolve this error.", 'sms-pro'), 'https://sms.softeriatech.com/knowledgebase/unable-to-send-otp-from-wordpress-plugin/'));
+        return wp_kses_post(sprintf(__("There was an error in sending the OTP to the given Phone Number. Please Try Again or contact site Admin. If you are the website admin, please browse <a href='%s' target='_blank'> here</a> for steps to resolve this error.", 'softeria-sms-alerts'), 'https://sms.softeriatech.com/knowledgebase/unable-to-send-otp-from-wordpress-plugin/'));
     }
 
     /**
@@ -200,6 +200,6 @@ class PhoneLogic extends LogicInterface
     public function _get_otp_invalid_format_message()
     {
         /* translators: %1$s: tag, %2$s: tag */
-        return sprintf(__('%1$sphone%2$s is not a valid phone number. Please enter a valid Phone Number', 'sms-pro'), '##', '##');
+        return sprintf(__('%1$sphone%2$s is not a valid phone number. Please enter a valid Phone Number', 'softeria-sms-alerts'), '##', '##');
     }
 }

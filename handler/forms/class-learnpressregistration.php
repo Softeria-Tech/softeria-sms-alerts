@@ -5,8 +5,8 @@
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -22,8 +22,8 @@ if (! is_plugin_active('learnpress/learnpress.php') ) {
  * PHP version 5
  *
  * @category Handler
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  *
@@ -60,8 +60,8 @@ class LearnpressRegistrationForm extends FormInterface
      */
     public function lpSiteRegistrationOtp()
     {
-        $enabled_register_popup = smspro_get_option('otp_in_popup', 'smspro_general', 'on');
-        $buyer_signup_otp = smspro_get_option('buyer_signup_otp', 'smspro_general');
+        $enabled_register_popup = softeria_alerts_get_option('otp_in_popup', 'softeria_alerts_general', 'on');
+        $buyer_signup_otp = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general');
         if ('on' === $buyer_signup_otp) {
             echo do_shortcode('[sa_verify phone_selector="#billing_phone" submit_selector=".learn-press-form-register button"]');    
         }      
@@ -73,9 +73,9 @@ class LearnpressRegistrationForm extends FormInterface
      */
     public static function isFormEnabled()
     {
-        $user_authorize = new smspro_Setting_Options();
+        $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        return ( $islogged && smspro_get_option('buyer_signup_otp', 'smspro_general') === 'on' ) ? true : false;
+        return ( $islogged && softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general') === 'on' ) ? true : false;
     }
 
     /**
@@ -143,7 +143,7 @@ class LearnpressRegistrationForm extends FormInterface
         if (! isset($phone) || ! SmsAlertUtility::validatePhoneNumber($phone) ) {
             return new WP_Error('billing_phone_error', str_replace('##phone##', SmsAlertcURLOTP::checkPhoneNos($phone), $phoneLogic->_get_otp_invalid_format_message()));
         }
-        smspro_site_challenge_otp($username, $email, $errors, $phone, 'phone', $password);
+        softeria_alerts_site_challenge_otp($username, $email, $errors, $phone, 'phone', $password);
     }
 
     /**
@@ -154,8 +154,8 @@ class LearnpressRegistrationForm extends FormInterface
     public function smsproLearnpressAddPhoneField( )
     {
         ?><li class="form-field">
-                <label for="reg_username"><?php esc_html_e('Phone', 'sms-pro'); ?>&nbsp;<span class="required">*</span></label>
-                <input id ="billing_phone" name="billing_phone" type="text" placeholder="<?php esc_attr_e('Phone', 'sms-pro'); ?>" autocomplete="phone" value="<?php echo esc_attr(LP_Helper::sanitize_params_submitted($_POST['billing_phone'] ?? '')); ?>">
+                <label for="reg_username"><?php esc_html_e('Phone', 'softeria-sms-alerts'); ?>&nbsp;<span class="required">*</span></label>
+                <input id ="billing_phone" name="billing_phone" type="text" placeholder="<?php esc_attr_e('Phone', 'softeria-sms-alerts'); ?>" autocomplete="phone" value="<?php echo esc_attr(LP_Helper::sanitize_params_submitted($_POST['billing_phone'] ?? '')); ?>">
             </li><?php
     }
 
@@ -175,7 +175,7 @@ class LearnpressRegistrationForm extends FormInterface
             return;
         }
         if (isset($_SESSION[ $this->form_session_var ]) ) {
-            smspro_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
+            softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, SmsAlertUtility::_get_invalid_otp_method(), 'phone', false);
         }
     }
 

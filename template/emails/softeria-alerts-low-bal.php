@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category Template
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -53,7 +53,7 @@ echo '<div style="background: #fafafa;background-color:#d45028;background-positi
                                                                     <br />Remember the more you purchase the more you save <span style="font-size:30px;color:orange;">&#9787;	</span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td style="padding-top:5px;padding-bottom:10px;font-weight:normal;font-size:16px;line-height:26px;color:#6f8996">If you are happy with our services, please give us a <a href="https://wordpress.org/support/plugin/sms-pro/reviews/#postform" style="text-decoration:none;color: #48a9f9;">★★★★★</a>, to help us encourage and develop more features and integrations.</td>
+                                                                <td style="padding-top:5px;padding-bottom:10px;font-weight:normal;font-size:16px;line-height:26px;color:#6f8996">If you are happy with our services, please give us a <a href="https://wordpress.org/support/plugin/softeria-sms-alerts/reviews/#postform" style="text-decoration:none;color: #48a9f9;">★★★★★</a>, to help us encourage and develop more features and integrations.</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -85,10 +85,10 @@ echo '<div style="background: #fafafa;background-color:#d45028;background-positi
                             </tr>
                             <tr>
                                 <td bgcolor="#fafafa" align="center" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:normal;font-size:16px;line-height:32px;color:#9fb1c1">
-                                    <br />You are receving this email because you have subscribed to low balance alert. You may update your email preferences <a href="' . esc_attr($admin_url) . 'admin.php?page=wc-settings&tab=sms_pro#customertemplates" style="color:#03a9f4;font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:normal;text-decoration:none" target="_blank">here</a>.</td>
+                                    <br />You are receving this email because you have subscribed to low balance alert. You may update your email preferences <a href="' . esc_attr($admin_url) . 'admin.php?page=wc-settings&tab=softeria_alerts#customertemplates" style="color:#03a9f4;font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:normal;text-decoration:none" target="_blank">here</a>.</td>
                             </tr>
                             <tr>
-                                <td bgcolor="#fafafa" align="center" style="padding:25px 20px;font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:normal;font-size:12px;line-height:16px;color:#9fb1c1"><img alt="SMS Pro" src="' . esc_attr($admin_url) . '/images/sms.softeriatech.com.png" style="padding-bottom:20px;" width="120">
+                                <td bgcolor="#fafafa" align="center" style="padding:25px 20px;font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:normal;font-size:12px;line-height:16px;color:#9fb1c1"><img alt="Softeria Tech" src="' . esc_attr($admin_url) . '/images/sms.softeriatech.com.png" style="padding-bottom:20px;" width="120">
                                     <br><a style="color:#9fb1c1;font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:normal;text-decoration:none"> &copy; 2017 sms.softeriatech.com. a venture of www.cozyvision.com, 1023, The Ithum Tower-B Plot No. A-40, Sector-62, Noida Uttar Pradesh - 201301</a></td>
                             </tr>
                         </tbody>

@@ -4,8 +4,8 @@
  * PHP version 5
  *
  * @category View
- * @package  SMSPro
- * @author   SMS Pro <support@softeriatech.com>
+ * @package  SOFTSMSAlerts
+ * @author   Softeria Tech <billing@softeriatech.com>
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
@@ -30,7 +30,7 @@ if (!empty($templates)) {
             <table class="form-table wc_reminder_sche bottom-border" id="scheduler_<?php echo esc_attr($count); ?>">
                 <tr valign="top">
                     <th>
-                        <label><?php esc_html_e('Send Booking Reminder Before', 'sms-pro'); ?></label>
+                        <label><?php esc_html_e('Send Booking Reminder Before', 'softeria-sms-alerts'); ?></label>
                     </th>
                     <td>
                 <?php
@@ -40,25 +40,25 @@ if (!empty($templates)) {
                     $hours = 1;
                 }
                 ?>
-                    <select id="<?php echo esc_attr($template['selectNameId']); ?>" name="<?php echo esc_attr($template['selectNameId']); ?>" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="smspro_reminder_scheduler">
-                            <option value='1' <?php selected($hours, 1); ?>><?php esc_html_e('Before 1 hour', 'sms-pro'); ?></option>
-                            <option value='2' <?php selected($hours, 2); ?>><?php esc_html_e('Before 2 hours', 'sms-pro'); ?></option>
-                            <option value='3' <?php selected($hours, 3); ?>><?php esc_html_e('Before 3 hours', 'sms-pro'); ?></option>
-                            <option value='4' <?php selected($hours, 4); ?>><?php esc_html_e('Before 4 hours', 'sms-pro'); ?></option>
-                            <option value='5' <?php selected($hours, 5); ?>><?php esc_html_e('Before 5 hours', 'sms-pro'); ?></option>
-                            <option value='6' <?php selected($hours, 6); ?>><?php esc_html_e('Before 6 hours', 'sms-pro'); ?></option>
-                            <option value='12' <?php selected($hours, 12); ?>><?php esc_html_e('Before 12 hours', 'sms-pro'); ?></option>
-                            <option value='24' <?php selected($hours, 24); ?>><?php esc_html_e('Before 1 day', 'sms-pro'); ?></option>
-                            <option value='48' <?php selected($hours, 48); ?>><?php esc_html_e('Before 2 days', 'sms-pro'); ?></option>
-                            <option value='0' <?php selected($hours, 0); ?>><?php esc_html_e('Disable notifications', 'sms-pro'); ?></option>
+                    <select id="<?php echo esc_attr($template['selectNameId']); ?>" name="<?php echo esc_attr($template['selectNameId']); ?>" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="softeria_alerts_reminder_scheduler">
+                            <option value='1' <?php selected($hours, 1); ?>><?php esc_html_e('Before 1 hour', 'softeria-sms-alerts'); ?></option>
+                            <option value='2' <?php selected($hours, 2); ?>><?php esc_html_e('Before 2 hours', 'softeria-sms-alerts'); ?></option>
+                            <option value='3' <?php selected($hours, 3); ?>><?php esc_html_e('Before 3 hours', 'softeria-sms-alerts'); ?></option>
+                            <option value='4' <?php selected($hours, 4); ?>><?php esc_html_e('Before 4 hours', 'softeria-sms-alerts'); ?></option>
+                            <option value='5' <?php selected($hours, 5); ?>><?php esc_html_e('Before 5 hours', 'softeria-sms-alerts'); ?></option>
+                            <option value='6' <?php selected($hours, 6); ?>><?php esc_html_e('Before 6 hours', 'softeria-sms-alerts'); ?></option>
+                            <option value='12' <?php selected($hours, 12); ?>><?php esc_html_e('Before 12 hours', 'softeria-sms-alerts'); ?></option>
+                            <option value='24' <?php selected($hours, 24); ?>><?php esc_html_e('Before 1 day', 'softeria-sms-alerts'); ?></option>
+                            <option value='48' <?php selected($hours, 48); ?>><?php esc_html_e('Before 2 days', 'softeria-sms-alerts'); ?></option>
+                            <option value='0' <?php selected($hours, 0); ?>><?php esc_html_e('Disable notifications', 'softeria-sms-alerts'); ?></option>
                         </select>    
                     
-                        <a href="#" onclick="return false;" class="sa-delete-btn alignright"><span class="dashicons dashicons-dismiss"></span><?php esc_html_e('Remove', 'sms-pro'); ?></a>
+                        <a href="#" onclick="return false;" class="sa-delete-btn alignright"><span class="dashicons dashicons-dismiss"></span><?php esc_html_e('Remove', 'softeria-sms-alerts'); ?></a>
                     </td>
                 </tr>
                 <tr valign="top">
                     <td colspan="2">
-                        <div class="smspro_tokens">
+                        <div class="softeria_alerts_tokens">
                 <?php
                 foreach ( $template['token'] as $vk => $vv ) {
                     echo  "<a href='#' data-val='".esc_attr($vk)."'>".esc_attr($vv)."</a> | ";
@@ -76,13 +76,13 @@ if (!empty($templates)) {
                 <?php $count++; 
             } ?>
             <div style="padding: 10px 0px 0px 10px;">
-                <button class="button action addNew" type="button" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"> <span class="dashicons dashicons-plus-alt2"></span> <?php esc_html_e('Add New', 'sms-pro'); ?></button>
+                <button class="button action addNew" type="button" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"> <span class="dashicons dashicons-plus-alt2"></span> <?php esc_html_e('Add New', 'softeria-sms-alerts'); ?></button>
             </div>
             </div>
         </div>
     </div>    
        <div class="submit alignright">
-<a href="admin.php?page=booking-reminder&source=<?php echo $notify_id; ?>" class="button action"><?php esc_html_e('View List', 'sms-pro'); ?></a>
+<a href="admin.php?page=booking-reminder&source=<?php echo $notify_id; ?>" class="button action"><?php esc_html_e('View List', 'softeria-sms-alerts'); ?></a>
         </div>
 <!-- /-cvt-accordion -->
 <script>
@@ -118,9 +118,9 @@ if (!empty($templates)) {
     jQuery(document).ready(function(){
         var frequency_arr = <?php echo json_encode($total_frequency) ?>;
         var notify_id = '<?php echo $notify_id ?>';
-        jQuery('#'+notify_id+' .smspro_reminder_scheduler').each(
+        jQuery('#'+notify_id+' .softeria_alerts_reminder_scheduler').each(
         function(index) {
-            var selected_freq = jQuery("#"+notify_id+" #scheduler_"+index+" .smspro_reminder_scheduler").find(":selected").val();
+            var selected_freq = jQuery("#"+notify_id+" #scheduler_"+index+" .softeria_alerts_reminder_scheduler").find(":selected").val();
             
             jQuery.each(frequency_arr, function (i, elem) {                
                 if( selected_freq != elem ){
