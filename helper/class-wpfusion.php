@@ -42,7 +42,7 @@ class SaFusion
     }
     
     /**
-     * Set smspro CRM
+     * Set softsmsalerts CRM
      *
      * @param array $data data.
      *
@@ -50,7 +50,7 @@ class SaFusion
      */
     function setCrm($data)
     {
-        $data['smspro']     = 'WPFSMSALert';
+        $data['softsmsalerts']     = 'WPFSMSALert';
         return $data;
     }
     
@@ -78,9 +78,9 @@ class WPFSMSALert
      */
     public function __construct()
     {    
-        $this->slug = 'smspro';
+        $this->slug = 'softsmsalerts';
         $this->name = 'SOFTSMSAlerts';
-        $this->crm  = 'smspro';
+        $this->crm  = 'softsmsalerts';
         add_filter('wpf_crm_post_data', array( $this, 'format_post_data' ));    
         if (is_admin() ) {
             new WPF_SmsAlert_Admin($this->slug, $this->name, $this);
@@ -229,13 +229,13 @@ class WPF_SmsAlert_Admin
      */
     public function __construct( $slug, $name, $crm )
     {
-        $this->slug = 'smspro';
+        $this->slug = 'softsmsalerts';
         $this->name = 'SOFTSMSAlerts';
-        $this->crm  = 'smspro';
+        $this->crm  = 'softsmsalerts';
         add_filter('wpf_configure_settings', array( $this, 'register_connection_settings' ), 10, 2);
         add_action('show_field_softeria_alerts_header_begin', array( $this, 'show_field_softeria_alerts_header_begin' ), 10, 2);
         add_action('wp_ajax_wpf_test_connection_smspro', array( $this, 'test_connection' ));
-        if (wpf_get_option('crm') == 'smspro' ) {
+        if (wpf_get_option('crm') == 'softsmsalerts' ) {
             $this->init();
         }
     }
@@ -279,7 +279,7 @@ class WPF_SmsAlert_Admin
         $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
              $new_settings['softeria_alerts_header'] = array(
-            'title'   => __('SOFTSMSAlerts Configuration', 'softeria-sms-alerts'),
+            'title'   => __('SOFTSMSAlerts Configuration', 'soft-sms-alerts'),
             'type'    => 'heading',
             'section' => 'setup',
              ); 
@@ -288,11 +288,11 @@ class WPF_SmsAlert_Admin
                  'type'        => 'text',        
                  'section'     => 'setup',
                  'class'       => 'api_key hide',
-                 'desc'        => __('<a href="'. get_admin_url() .'admin.php?page=softeria-sms-alerts" target="_blank">Login to Softeria Tech</a>  to configure SMS Notifications', 'softeria-sms-alerts'),
+                 'desc'        => '<a href="'. get_admin_url() .'admin.php?page=soft-sms-alerts" target="_blank">Login to Softeria Tech</a>  to configure SMS Notifications',
                  );            
              } else {
                  $new_settings['group_auto_sync'] = array(
-                 'title'        => __('Select SOFTSMSAlerts Group', 'softeria-sms-alerts'),                
+                 'title'        => __('Select SOFTSMSAlerts Group', 'soft-sms-alerts'),                
                  'type'         => 'select',
                  'placeholder' => 'Select Group',
                  'section'     => 'setup',
@@ -302,7 +302,7 @@ class WPF_SmsAlert_Admin
                  );
                 
                  $new_settings['softeria_alerts_key'] = array(
-                 'title'       => __('Connect to SOFTSMSAlerts', 'softeria-sms-alerts'),            
+                 'title'       => __('Connect to SOFTSMSAlerts', 'soft-sms-alerts'),            
                  'type'        => 'api_validate',
                  'section'     => 'setup',
                  'class'       => 'api_key hide',
@@ -404,7 +404,7 @@ class WPF_SmsAlert_Admin
         
         if (false == $options['connection_configured'] && $islogged) {
             $options['connection_configured'] = true;        
-            $options['crm']                   = 'smspro';                
+            $options['crm']                   = 'softsmsalerts';                
             $options['group_name']            = sanitize_text_field($_POST['group_auto_sync']);    
             wp_fusion()->settings->set_multiple($options);
             wp_send_json_success();

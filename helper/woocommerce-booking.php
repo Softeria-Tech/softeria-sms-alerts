@@ -156,7 +156,7 @@ class SmsAlertWcBooking
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -351,7 +351,7 @@ class SmsAlertWcBooking
     }
 
     /**
-     * Display woocommerce booking variable at smspro setting page.
+     * Display woocommerce booking variable at softsmsalerts setting page.
      *
      * @return array
      */

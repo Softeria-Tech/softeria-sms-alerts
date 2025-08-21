@@ -74,7 +74,7 @@ class Wpmember extends FormInterface
     }
 
     /**
-     * Add Tab in smspro settings at backend
+     * Add Tab in softsmsalerts settings at backend
      *
      * @param array $tabs get tabs data from filter.
      *
@@ -82,7 +82,7 @@ class Wpmember extends FormInterface
      */
     public function wpmemAddSmsalertTab( $tabs )
     {
-        return array_merge($tabs, array( 'smspro' => __('SOFTSMSAlerts', 'softeria-sms-alerts') ));
+        return array_merge($tabs, array( 'softsmsalerts' => __('SOFTSMSAlerts', 'soft-sms-alerts') ));
     }
 
     /**
@@ -244,7 +244,7 @@ class Wpmember extends FormInterface
     }
 
     /**
-     * Add smspro shortcode to wp member form.
+     * Add softsmsalerts shortcode to wp member form.
      *
      * @param string $sa_type button label.
      * @param string $field   form field.

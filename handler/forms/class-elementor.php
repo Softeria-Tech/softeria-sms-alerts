@@ -116,7 +116,7 @@ class SAElementor extends FormInterface
         $field = current($fields);
         $user_phone = $field['value'];
         if (isset($user_phone) && SmsAlertUtility::isBlank($user_phone) ) {
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'soft-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
             exit();
         }
 
@@ -264,7 +264,7 @@ class Elementor extends ElementorPro\Modules\Forms\Fields\Field_Base
       */
     public function get_name()
     {
-        return __('SOFTSMSAlerts', 'softeria-sms-alerts');
+        return __('SOFTSMSAlerts', 'soft-sms-alerts');
     }
 
 
@@ -344,7 +344,7 @@ class Elementor extends ElementorPro\Modules\Forms\Fields\Field_Base
                         if (array_key_exists('elements', $element) ) {
                             foreach ( $element['elements'] as $setting ) {
                                 if (array_key_exists('settings', $setting) ) {
-                                    if (!empty($setting['settings']['submit_actions']) && in_array("smspro", $setting['settings']['submit_actions']) ) {
+                                    if (!empty($setting['settings']['submit_actions']) && in_array("softsmsalerts", $setting['settings']['submit_actions']) ) {
                                                  $softeria_alerts_action_added = true;
                                         if (!empty($setting['settings']['form_fields'])) {
                                             foreach ($setting['settings']['form_fields'] as $fields) {
@@ -361,7 +361,7 @@ class Elementor extends ElementorPro\Modules\Forms\Fields\Field_Base
                 }
             }
             if ($softeria_alerts_action_added && !$softeria_alerts_field_added) {
-                wp_send_json_error([ 'statusText' => esc_html__('Please add field type Softeria Tech in your form.', 'softeria-sms-alerts'),'readyState'=>4,'status'=>500 ]);
+                wp_send_json_error([ 'statusText' => esc_html__('Please add field type Softeria Tech in your form.', 'soft-sms-alerts'),'readyState'=>4,'status'=>500 ]);
             }
         }
     }
@@ -458,7 +458,7 @@ class Elementor extends ElementorPro\Modules\Forms\Fields\Field_Base
     }
 
     /**
-     *  Add action smspro
+     *  Add action softsmsalerts
      *
      * @return void
      */
@@ -491,7 +491,7 @@ class Elementor extends ElementorPro\Modules\Forms\Fields\Field_Base
         $field_controls = [
         'sa_billing_phone' => [
                     'name'         => 'sa_billing_phone',
-                    'label'        => esc_html__('Placeholder', 'softeria-sms-alerts'),
+                    'label'        => esc_html__('Placeholder', 'soft-sms-alerts'),
                     'type'         => Elementor\Controls_Manager::TEXT,
                     'condition'    => [
                         'field_type' => $this->get_type(),
@@ -502,7 +502,7 @@ class Elementor extends ElementorPro\Modules\Forms\Fields\Field_Base
         ],
         'sa_default_value' => [
         'name'         => 'sa_default_value',
-        'label'        => esc_html__('Default Value', 'softeria-sms-alerts'),
+        'label'        => esc_html__('Default Value', 'soft-sms-alerts'),
         'type'         => Elementor\Controls_Manager::TEXT,
         'default' => '',
         'dynamic' => [
@@ -564,7 +564,7 @@ class Sendmsms_Action_After_Submit extends \ElementorPro\Modules\Forms\Classes\A
      */
     public function get_name()
     {
-        return 'smspro';
+        return 'softsmsalerts';
     }
 
     /**
@@ -574,7 +574,7 @@ class Sendmsms_Action_After_Submit extends \ElementorPro\Modules\Forms\Classes\A
      */
     public function get_label()
     {
-        return __('SOFTSMSAlerts', 'softeria-sms-alerts');
+        return __('SOFTSMSAlerts', 'soft-sms-alerts');
     }
 
     /**
@@ -589,7 +589,7 @@ class Sendmsms_Action_After_Submit extends \ElementorPro\Modules\Forms\Classes\A
         $widget->start_controls_section(
             'section_smspro',
             [
-            'label' => __('Softeria Tech', 'softeria-sms-alerts'),
+            'label' => __('Softeria Tech', 'soft-sms-alerts'),
             'condition' => [
             'submit_actions' => $this->get_name(),
             ],
@@ -599,10 +599,10 @@ class Sendmsms_Action_After_Submit extends \ElementorPro\Modules\Forms\Classes\A
         $widget->add_control(
             'otp_verification_enable',
             [
-            'label' => __('OTP verification', 'softeria-sms-alerts'),
+            'label' => __('OTP verification', 'soft-sms-alerts'),
             'type' => \Elementor\Controls_Manager::SWITCHER,
-            'label_on' => __('On', 'softeria-sms-alerts'),
-            'label_off' => __('Off', 'softeria-sms-alerts'),
+            'label_on' => __('On', 'soft-sms-alerts'),
+            'label_off' => __('Off', 'soft-sms-alerts'),
             'return_value' => 'true',
             'default' => 'true',
             ]
@@ -611,10 +611,10 @@ class Sendmsms_Action_After_Submit extends \ElementorPro\Modules\Forms\Classes\A
         $widget->add_control(
             'customer_sms_enable',
             [
-            'label' => __('Customer SMS', 'softeria-sms-alerts'),
+            'label' => __('Customer SMS', 'soft-sms-alerts'),
             'type' => \Elementor\Controls_Manager::SWITCHER,
-            'label_on' => __('On', 'softeria-sms-alerts'),
-            'label_off' => __('Off', 'softeria-sms-alerts'),
+            'label_on' => __('On', 'soft-sms-alerts'),
+            'label_off' => __('Off', 'soft-sms-alerts'),
             'return_value' => 'true',
             'default' => 'true',
             ]
@@ -623,24 +623,24 @@ class Sendmsms_Action_After_Submit extends \ElementorPro\Modules\Forms\Classes\A
         $widget->add_control(
             'customer_message',
             [
-            'label' => __('Customer Message', 'softeria-sms-alerts'),
+            'label' => __('Customer Message', 'soft-sms-alerts'),
             'type' => \Elementor\Controls_Manager::TEXTAREA,
-            'placeholder' => __('Write yout text or use fields shortcode', 'softeria-sms-alerts'),
+            'placeholder' => __('Write yout text or use fields shortcode', 'soft-sms-alerts'),
             'label_block' => true,
             'render_type' => 'none',
             'default' => SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'),
             'classes' => '',
-            'description' => __('Use fields shortcodes for send form data or write your custom text.', 'softeria-sms-alerts'),
+            'description' => __('Use fields shortcodes for send form data or write your custom text.', 'soft-sms-alerts'),
             ]
         );
 
         $widget->add_control(
             'admin_sms_enable',
             [
-            'label' => __('Admin SMS', 'softeria-sms-alerts'),
+            'label' => __('Admin SMS', 'soft-sms-alerts'),
             'type' => \Elementor\Controls_Manager::SWITCHER,
-            'label_on' => __('On', 'softeria-sms-alerts'),
-            'label_off' => __('Off', 'softeria-sms-alerts'),
+            'label_on' => __('On', 'soft-sms-alerts'),
+            'label_off' => __('Off', 'soft-sms-alerts'),
             'return_value' => 'true',
             'default' => 'true',
             ]
@@ -649,27 +649,27 @@ class Sendmsms_Action_After_Submit extends \ElementorPro\Modules\Forms\Classes\A
         $widget->add_control(
             'admin_number',
             [
-            'label' => __('Admin Phone', 'softeria-sms-alerts'),
+            'label' => __('Admin Phone', 'soft-sms-alerts'),
             'type' => \Elementor\Controls_Manager::TEXT,
-            'placeholder' => __('8010551055', 'softeria-sms-alerts'),
+            'placeholder' => __('8010551055', 'soft-sms-alerts'),
             'label_block' => true,
             'render_type' => 'none',
             'classes' => '',
-            'description' => __('Send Message to admin on this number', 'softeria-sms-alerts'),
+            'description' => __('Send Message to admin on this number', 'soft-sms-alerts'),
             ]
         );
 
         $widget->add_control(
             'admin_message',
             [
-            'label' => __('Admin Message', 'softeria-sms-alerts'),
+            'label' => __('Admin Message', 'soft-sms-alerts'),
             'type' => \Elementor\Controls_Manager::TEXTAREA,
-            'placeholder' => __('Write yout text or use fields shortcode', 'softeria-sms-alerts'),
+            'placeholder' => __('Write yout text or use fields shortcode', 'soft-sms-alerts'),
             'label_block' => true,
             'render_type' => 'none',
             'default' => SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'),
             'classes' => '',
-            'description' => __('Use fields shortcodes for send form data or write your custom text.', 'softeria-sms-alerts'),
+            'description' => __('Use fields shortcodes for send form data or write your custom text.', 'soft-sms-alerts'),
             'separator' => 'after',
 
             ]

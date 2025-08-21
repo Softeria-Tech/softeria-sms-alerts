@@ -73,7 +73,7 @@ class WpLoyalty extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -133,7 +133,7 @@ class WpLoyalty extends FormInterface
         $checkboxNameId  = 'softeria_alerts_wpl_general[customer_wpl_notify_points]';
         $textareaNameId  = 'softeria_alerts_wpl_message[customer_sms_wpl_body_points]';
 
-        $defaultTemplate = softeria_alerts_get_option('customer_sms_wpl_body_points', 'softeria_alerts_wpl_message', sprintf(__('%1$s: %2$s store credits added in your account! Total store credits are %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', '[points]', '[total_points]', PHP_EOL, PHP_EOL));
+        $defaultTemplate = softeria_alerts_get_option('customer_sms_wpl_body_points', 'softeria_alerts_wpl_message', sprintf(__('%1$s: %2$s store credits added in your account! Total store credits are %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', '[points]', '[total_points]', PHP_EOL, PHP_EOL));
 
 
         $textBody       = softeria_alerts_get_option('customer_sms_wpl_body_points', 'softeria_alerts_wpl_message', $defaultTemplate);
@@ -151,7 +151,7 @@ class WpLoyalty extends FormInterface
         $checkboxNameId  = 'softeria_alerts_wpl_general[customer_wpl_notify_rewards]';
         $textareaNameId  = 'softeria_alerts_wpl_message[customer_sms_wpl_body_rewards]';
 
-        $defaultTemplate = softeria_alerts_get_option('customer_sms_wpl_body_rewards', 'softeria_alerts_wpl_message', sprintf(__('Dear %1$s, %2$s loyalty points has been debited from your account.Your total points : %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[first_name]', '[points]', '[total_points]', PHP_EOL, PHP_EOL));
+        $defaultTemplate = softeria_alerts_get_option('customer_sms_wpl_body_rewards', 'softeria_alerts_wpl_message', sprintf(__('Dear %1$s, %2$s loyalty points has been debited from your account.Your total points : %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[first_name]', '[points]', '[total_points]', PHP_EOL, PHP_EOL));
 
 
         $textBody       = softeria_alerts_get_option('customer_sms_wpl_body_rewards', 'softeria_alerts_wpl_message', $defaultTemplate);

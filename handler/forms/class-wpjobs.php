@@ -184,9 +184,9 @@ class Wpjobs extends FormInterface
     }
 
     /**
-     * Job Manager Settings for smspro.
+     * Job Manager Settings for softsmsalerts.
      *
-     * @param array $settings backend smspro settings in job form.
+     * @param array $settings backend softsmsalerts settings in job form.
      *
      * @return array
      */
@@ -194,19 +194,19 @@ class Wpjobs extends FormInterface
     {
 
         $data                   = array();
-        $settings['smspro'][] = 'Softeria Tech';
+        $settings['softsmsalerts'][] = 'Softeria Tech';
 
         $data[] = array(
         'name'     => 'softeria_alerts_sms_notification',
-        'cb_label' => __('Enable to send sms notification to admin as well as employer', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable to send sms notification to admin as well as employer', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_sms_notification', 1),
-        'label'    => __('SMS Notification', 'softeria-sms-alerts'),
+        'label'    => __('SMS Notification', 'soft-sms-alerts'),
         'type'     => 'checkbox',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_new_job_sms_status',
-        'cb_label' => __('Enable Admin Message When New Job Submitted', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Admin Message When New Job Submitted', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_new_job_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -216,13 +216,13 @@ class Wpjobs extends FormInterface
         'name'  => 'softeria_alerts_new_job_sms',
         'std'   => 'Dear admin, a new job [job_name] is submitted by [username].Please check your admin dashboard for complete details.',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_job_approve_sms_status',
-        'cb_label' => __('Enable Admin Message When A Job Approved', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Admin Message When A Job Approved', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_job_approve_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -232,13 +232,13 @@ class Wpjobs extends FormInterface
         'name'  => 'softeria_alerts_job_approve_sms',
         'std'   => 'Dear admin, a new job [job_name] is approved.Please check your admin dashboard for complete details.',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_edit_job_sms_status',
-        'cb_label' => __('Enable Admin Message When Job Edited', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Admin Message When Job Edited', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_edit_job_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -248,13 +248,13 @@ class Wpjobs extends FormInterface
         'name'  => 'softeria_alerts_edit_job_sms',
         'std'   => 'Dear admin, a job [job_name] is updated by [username].Please check your admin dashboard for complete details.',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_new_application_admin_sms_status',
-        'cb_label' => __('Enable Admin Message When New Application Submitted', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Admin Message When New Application Submitted', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_new_application_admin_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -264,13 +264,13 @@ class Wpjobs extends FormInterface
         'name'  => 'softeria_alerts_new_application_admin_sms',
         'std'   => 'Dear [username], a candidate [candidate_name] is applied for job.',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone] ,[candidate_name] ,[candidate_email]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone] ,[candidate_name] ,[candidate_email]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_new_job_customer_sms_status',
-        'cb_label' => __('Enable Employer Message When New Job Submitted', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Employer Message When New Job Submitted', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_new_job_customer_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -280,13 +280,13 @@ class Wpjobs extends FormInterface
         'name'  => 'softeria_alerts_new_job_customer_sms',
         'std'   => 'Dear [username], Thank you for sumitting job, please wait for approval.',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_job_approve_customer_sms_status',
-        'cb_label' => __('Enable Employer Message When A Job Approved', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Employer Message When A Job Approved', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_job_approve_customer_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -296,13 +296,13 @@ class Wpjobs extends FormInterface
         'name'  => 'softeria_alerts_job_approve_customer_sms',
         'std'   => 'Dear [username], your job [job_name] is approved.',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_edit_job_customer_sms_status',
-        'cb_label' => __('Enable Employer Message When Job Edited', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Employer Message When Job Edited', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_edit_job_customer_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -312,13 +312,13 @@ class Wpjobs extends FormInterface
         'name'  => 'softeria_alerts_edit_job_customer_sms',
         'std'   => 'Dear [username], job [job_name] is updated successfully.',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_new_application_sms_status',
-        'cb_label' => __('Enable Employer Message When New Application Submitted', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Employer Message When New Application Submitted', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_new_application_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -328,13 +328,13 @@ class Wpjobs extends FormInterface
         'name'  => 'softeria_alerts_new_application_sms',
         'std'   => 'Dear [username], a candidate [candidate_name] is applied for job.',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone] ,[candidate_name] ,[candidate_email]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone] ,[candidate_name] ,[candidate_email]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
         $data[] = array(
         'name'     => 'softeria_alerts_new_application_candidate_sms_status',
-        'cb_label' => __('Enable Candidate Message When New Application Submitted', 'softeria-sms-alerts'),
+        'cb_label' => __('Enable Candidate Message When New Application Submitted', 'soft-sms-alerts'),
         'std'      => get_option('softeria_alerts_new_application_sms_status', 1),
         'label'    => '',
         'type'     => 'checkbox',
@@ -346,11 +346,11 @@ class Wpjobs extends FormInterface
 Powered by
 sms.softeriatech.com',
         'label' => '',
-        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone] ,[candidate_name] ,[candidate_email]', 'softeria-sms-alerts'),
+        'desc'  => __('You can use following tokens [store_name], [job_id], [job_name] ,[username] ,[email] ,[phone] ,[candidate_name] ,[candidate_email]', 'soft-sms-alerts'),
         'type'  => 'textarea',
         );
 
-        $settings['smspro'][] = $data;
+        $settings['softsmsalerts'][] = $data;
 
         return $settings;
     }

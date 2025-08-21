@@ -68,14 +68,14 @@ foreach ( $templates as $template ) {
 <!-- Delivery driver -->
 <?php if ('delivery_drivers' === $checkTemplateFor ) { ?>
     <div class="submit">
-    <a href="users.php?role=driver" class="button action alignright"><?php esc_html_e('View Drivers', 'softeria-sms-alerts'); ?></a>
+    <a href="users.php?role=driver" class="button action alignright"><?php esc_html_e('View Drivers', 'soft-sms-alerts'); ?></a>
     </div>
 <?php } ?>
 <!-- /- Delivery driver -->
 <!-- Backinstock -->
 <?php if ('backinstock' === $checkTemplateFor ) { ?>
     <div class="submit" style="clear:both">
-        <a href="admin.php?page=all-subscriber" class="button action alignright"><?php esc_html_e('View Subscriber', 'softeria-sms-alerts'); ?></a>
+        <a href="admin.php?page=all-subscriber" class="button action alignright"><?php esc_html_e('View Subscriber', 'soft-sms-alerts'); ?></a>
     </div>
 <?php } ?>
 <!-- /- Backinstock -->
@@ -91,7 +91,7 @@ if ('cartbounty' === $checkTemplateFor ) {
         <tbody>
         <tr valign="top">
             <td>
-                <p><span class="dashicons dashicons-info"></span> <b><?php esc_html_e('Please enable Email Notification at Cart Bounty Setting page.', 'softeria-sms-alerts'); ?></b> <a href="<?php echo esc_url($admin_url()) . 'admin.php?page=cartbounty&tab=settings'; ?>"><?php esc_html_e('Click Here', 'softeria-sms-alerts'); ?></a></p>
+                <p><span class="dashicons dashicons-info"></span> <b><?php esc_html_e('Please enable Email Notification at Cart Bounty Setting page.', 'soft-sms-alerts'); ?></b> <a href="<?php echo esc_url($admin_url()) . 'admin.php?page=cartbounty&tab=settings'; ?>"><?php esc_html_e('Click Here', 'soft-sms-alerts'); ?></a></p>
             </td>
         </tr>
     </tbody></table>

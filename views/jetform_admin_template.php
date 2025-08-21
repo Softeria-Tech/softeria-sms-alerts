@@ -23,7 +23,7 @@ if (! empty($Jet_forms) ) {
             <table class="form-table">
                 <tr valign="top" style="position:relative">
                 <td>
-                <a href="post.php?post=<?php echo $ks;?>&action=edit" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'softeria-sms-alerts')?></small></a>
+                <a href="post.php?post=<?php echo $ks;?>&action=edit" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'soft-sms-alerts')?></small></a>
                 <div class="softeria_alerts_tokens">
         <?php
         $fields = JetForm::getJetformVariables($ks);

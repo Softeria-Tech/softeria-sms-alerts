@@ -1,10 +1,10 @@
 {
   "apiVersion": 1,
-  "name": "softeria-sms-alerts/sa-loginwithotp",
+  "name": "soft-sms-alerts/sa-loginwithotp",
   "title": "Login With OTP",
   "description": "Displaying the login with otp form",
   "icon": "lock",
   "category": "widgets",
   "editorScript": "file:./build/index.js",
-  "textdomain": "softeria-sms-alerts"
+  "textdomain": "soft-sms-alerts"
 }

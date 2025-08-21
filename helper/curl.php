@@ -28,7 +28,7 @@ class SmsAlertcURLOTP
     protected static $url="https://sms.softeriatech.com/api/v1/bulksms";
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param string $template template.
      *
@@ -248,7 +248,7 @@ class SmsAlertcURLOTP
         if ($cookie_value >= $max_otp_resend_allowed ) {
             $data                        = array();
             $data['status']              = 'error';
-            $data['data']['msg'] = __('Maximum OTP limit exceeded', 'softeria-sms-alerts');
+            $data['data']['msg'] = __('Maximum OTP limit exceeded', 'soft-sms-alerts');
             return json_encode($data);
         }
 
@@ -262,14 +262,14 @@ class SmsAlertcURLOTP
         if ($phone === false ) {
             $data                        = array();
             $data['status']              = 'error';
-            $data['data']['msg'] = __('phone number not valid', 'softeria-sms-alerts');
+            $data['data']['msg'] = __('phone number not valid', 'soft-sms-alerts');
             return $data;
         }
 
         if (empty($password) || empty($senderid) ) {
             $data                        = array();
             $data['status']              = 'error';
-            $data['data']['msg'] = __('Wrong SOFTSMSAlerts credentials', 'softeria-sms-alerts');
+            $data['data']['msg'] = __('Wrong SOFTSMSAlerts credentials', 'soft-sms-alerts');
             return $data;
         }
         $url = self::$url.'/mverify';
@@ -545,83 +545,6 @@ class SmsAlertcURLOTP
 
         $fields['contacts'] = implode(',', $mobiles);
         $url     = self::$url.'/updatecontacts';
-        if ($cnt > 0 ) {
-            $response = self::callAPI($url, $fields, null);
-        } else {
-            $response = json_encode(
-                array(
-                'status'      => 'error',
-                'description' => 'Invalid WC Users Contact Numbers',
-                )
-            );
-        }
-
-        return $response;
-    }
-
-    /**
-     * Send sms xml.
-     *
-     * @param array $sms_datas sms_datas.
-     * @param array $senderid  senderid.
-     * @param array $route     route.
-     *
-     * @return array
-     */
-    public static function sendSmsXml( $sms_datas, $senderid='', $route='' )
-    {
-        if (is_array($sms_datas) && sizeof($sms_datas) == 0 ) {
-            return false;
-        }
-
-        $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
-        $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
-        $senderid = !empty($senderid)?$senderid:softeria_alerts_get_option('softeria_alerts_api', 'softeria_alerts_gateway');
-        $xmlstr = <<<XML
-        <?xml version='1.0' encoding='UTF-8'?>
-        <message>
-        </message>
-        XML;
-        $msg    = new SimpleXMLElement($xmlstr);
-        $user   = $msg->addChild('user');
-        $user->addAttribute('username', $username);
-        $user->addAttribute('password', $password);
-        if ($route!='') {
-            $user->addAttribute('route', $route);
-        }
-        $enable_short_url = softeria_alerts_get_option('enable_short_url', 'softeria_alerts_general');
-        if ($enable_short_url === 'on' ) {
-            $user->addAttribute('shortenurl', 1);
-        }
-
-        $cnt = 0;
-        foreach ( $sms_datas as $sms_data ) {
-            $phone = self::checkPhoneNos($sms_data['number']);
-            if ($phone !== false ) {
-                $sms = $msg->addChild('sms');
-
-                $datas = apply_filters('sa_before_send_sms', array( 'text' => $sms_data['sms_body'] ));
-
-                if (! empty($datas['text']) ) {
-                    $sms_data['sms_body'] = $datas['text'];
-                }
-
-                $sms->addAttribute('text', $sms_data['sms_body']);
-
-                $address = $sms->addChild('address');
-                $address->addAttribute('from', $senderid);
-                $address->addAttribute('to', $phone);
-                $cnt++;
-            }
-        }
-
-        if ($msg->count() <= 1 ) {
-            return false;
-        }
-
-        $xmldata = $msg->asXML();
-        $url     = 'http://sms.softeriatech.com/api/xmlpush.json?';
-        $fields  = array( 'data' => $xmldata );
         if ($cnt > 0 ) {
             $response = self::callAPI($url, $fields, null);
         } else {

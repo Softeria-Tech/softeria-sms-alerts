@@ -23,7 +23,7 @@ $modal_style = softeria_alerts_get_option('modal_style', 'softeria_alerts_genera
 $otp_template_style = ('otp-popup-1.php'===$otp_template_style)?'popup-1':(('otp-popup-2.php'===$otp_template_style)?'popup-2':$otp_template_style);
 $sa_values              = !empty(SmsAlertUtility::get_elementor_data("form_list"))?SmsAlertUtility::get_elementor_data("form_list"):$otp_template_style;
 $form_id                = (isset($form_id) ? $form_id : $alt_form_id);
-$post = get_page_by_path('modal_style', OBJECT, 'softeria-sms-alerts');
+$post = get_page_by_path('modal_style', OBJECT, 'soft-sms-alerts');
 if (is_plugin_active('elementor/elementor.php') && !empty($post)) {  
     $post_id= $post->ID;    
     $frontent = new Frontend();

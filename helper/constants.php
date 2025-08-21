@@ -28,7 +28,7 @@ class SmsAlertConstants
 
     const SUCCESS                = 'SUCCESS';
     const FAILURE                = 'FAILURE';
-    const TEXT_DOMAIN            = 'softeria-sms-alerts';
+    const TEXT_DOMAIN            = 'soft-sms-alerts';
     const PATTERN_PHONE          = '/^(\+)?(country_code)?0?\d+$/'; // '/^\d{10}$/';//'/\d{10}$/';
     const ERROR_JSON_TYPE        = 'error';
     const SUCCESS_JSON_TYPE      = 'success';

@@ -76,7 +76,7 @@ class jetPackCRM extends FormInterface
 
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -144,7 +144,7 @@ class jetPackCRM extends FormInterface
             $checkboxNameId = 'softeria_alerts_jcm_general[customer_jcm_notify_'.strtolower($vs).']';
             $textareaNameId = 'softeria_alerts_jcm_message[customer_sms_jcm_body_'.strtolower($vs).']';
 
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_jcm_body_'.strtolower($vs), 'softeria_alerts_jcm_message', sprintf(__('Hello %1$s, status of your contact #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '[contact_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_jcm_body_'.strtolower($vs), 'softeria_alerts_jcm_message', sprintf(__('Hello %1$s, status of your contact #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[name]', '[contact_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_jcm_body_'.strtolower($vs), 'softeria_alerts_jcm_message', $defaultTemplate);
 
@@ -183,7 +183,7 @@ class jetPackCRM extends FormInterface
             $checkboxNameId = 'softeria_alerts_jcm_general[admin_jcm_notify_'.strtolower($vs).']';
             $textareaNameId = 'softeria_alerts_jcm_message[admin_sms_jcm_body_'.strtolower($vs).']';
 
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_jcm_body_'.strtolower($vs), 'softeria_alerts_jcm_message', sprintf(__('Hello admin, status of your contact with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_jcm_body_'.strtolower($vs), 'softeria_alerts_jcm_message', sprintf(__('Hello admin, status of your contact with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('admin_sms_jcm_body_'.strtolower($vs), 'softeria_alerts_jcm_message', $defaultTemplate);
 

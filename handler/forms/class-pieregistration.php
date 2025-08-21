@@ -81,7 +81,7 @@ class PieRegistrationForm extends FormInterface
     }
     
     /**
-     * Add smspro button to pie form.
+     * Add softsmsalerts button to pie form.
      *
      * @param int $data form data.
      *
@@ -97,7 +97,7 @@ class PieRegistrationForm extends FormInterface
     }
     
     /**
-     * Add smspro button to pie form.
+     * Add softsmsalerts button to pie form.
      *
      * @param int $data form data.
      *
@@ -153,7 +153,7 @@ class PieRegistrationForm extends FormInterface
         }
         $verify = check_ajax_referer('piereg_wp_registration_form_nonce', 'piereg_registration_form_nonce', false);
         if (!$verify) {
-            return $errors->add('registration-error-invalid-nonce', __('Sorry, nonce did not verify.', 'softeria-sms-alerts'));
+            return $errors->add('registration-error-invalid-nonce', __('Sorry, nonce did not verify.', 'soft-sms-alerts'));
         }
         if (sizeof($errors->errors) > 0) {
             return $errors;
@@ -166,7 +166,7 @@ class PieRegistrationForm extends FormInterface
 
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
             if (count($getusers) > 0 ) {
-                return $errors->add("registration-error-number-exists", __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
+                return $errors->add("registration-error-number-exists", __('An account is already registered with this mobile number. Please login.', 'soft-sms-alerts'));
             }
         }
 

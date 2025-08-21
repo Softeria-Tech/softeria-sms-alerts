@@ -61,7 +61,7 @@ class SAShareCartWidget extends Widget_Base
      */
     public function get_title()
     {
-        return __('Softeria Tech Share Cart', 'softeria-sms-alerts');
+        return __('Softeria Tech Share Cart', 'soft-sms-alerts');
     }
 
     /**
@@ -84,8 +84,8 @@ class SAShareCartWidget extends Widget_Base
         return [
             'smsprosharecart',
             'smsprosharecart',
-            'smspro sharecart',
-            'smspro sharecart',
+            'softsmsalerts sharecart',
+            'softsmsalerts sharecart',
             'contact form',
             'form',
             'elementor form',
@@ -149,14 +149,14 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_section(
             'section_smsprosharecart_form',
             [
-                'label' => __('Softeria Tech Share Cart', 'softeria-sms-alerts'),
+                'label' => __('Softeria Tech Share Cart', 'soft-sms-alerts'),
             ]
         );     
  
         $this->add_control(
             'sa_ele_f_sharecart_title',
             [
-                'label'        => __('Modal Title', 'softeria-sms-alerts'),
+                'label'        => __('Modal Title', 'soft-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Enter Title', 
                                 
@@ -166,7 +166,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_user_placehoder',
             [
-                'label'        => __('User Name Placeholder', 'softeria-sms-alerts'),
+                'label'        => __('User Name Placeholder', 'soft-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Your Name',
                                
@@ -175,7 +175,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_user_phone_placeholder',
             [
-                'label'        => __('User Phone Placeholder', 'softeria-sms-alerts'),
+                'label'        => __('User Phone Placeholder', 'soft-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Your Name Mobile',
                                 
@@ -184,7 +184,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_frnd_placeholder',
             [
-                'label'        => __('Friend Name Placeholder', 'softeria-sms-alerts'),
+                'label'        => __('Friend Name Placeholder', 'soft-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Friend Name',
                                
@@ -193,7 +193,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'sa_ele_f_frnd_phone_placeholder',
             [
-                'label'        => __("Friend Phone Placeholder", 'softeria-sms-alerts'),
+                'label'        => __("Friend Phone Placeholder", 'soft-sms-alerts'),
                 'type'         => "text",
                 'placeholder'      => 'Friend Name Mobile',
                                 
@@ -202,7 +202,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'sa_submit_button',
             [
-                'label'        => __('Button Text', 'softeria-sms-alerts'),
+                'label'        => __('Button Text', 'soft-sms-alerts'),
                 'type'         => "text",
                 'placeholder'  => 'Enter Button Text',
                                
@@ -221,7 +221,7 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_container_style',
             [
-                'label' => __('Form Container', 'softeria-sms-alerts'),
+                'label' => __('Form Container', 'soft-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -229,7 +229,7 @@ class SAShareCartWidget extends Widget_Base
             Group_Control_Background::get_type(),
             [
                 'name'     => 'form_container_background',
-                'label'    => __('Background', 'softeria-sms-alerts'),
+                'label'    => __('Background', 'soft-sms-alerts'),
                 'types'    => ['classic'],
                 'selector' => '{{WRAPPER}} .smsprosharecart-widget-wrapper .modal-content',
                 'exclude' => ['image'],        
@@ -246,7 +246,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_container_border_radius',
             [
-                'label'      => esc_html__('Border Radius', 'softeria-sms-alerts'),
+                'label'      => esc_html__('Border Radius', 'soft-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'separator'  => 'before',
                 'size_units' => ['px'],
@@ -268,7 +268,7 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_description_style',
             [
-                'label'     => __('Title', 'softeria-sms-alerts'),
+                'label'     => __('Title', 'soft-sms-alerts'),
                 'tab'       => Controls_Manager::TAB_STYLE,
                 
             ]
@@ -277,19 +277,19 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'heading_alignment',
             [
-                'label'   => __('Alignment', 'softeria-sms-alerts'),
+                'label'   => __('Alignment', 'soft-sms-alerts'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
-                        'title' => __('Left', 'softeria-sms-alerts'),
+                        'title' => __('Left', 'soft-sms-alerts'),
                         'icon'  => 'fa fa-align-left',
                     ],
                     'center' => [
-                        'title' => __('Center', 'softeria-sms-alerts'),
+                        'title' => __('Center', 'soft-sms-alerts'),
                         'icon'  => 'fa fa-align-center',
                     ],
                     'right' => [
-                        'title' => __('Right', 'softeria-sms-alerts'),
+                        'title' => __('Right', 'soft-sms-alerts'),
                         'icon'  => 'fa fa-align-right',
                     ],
                 ],
@@ -304,7 +304,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_title_text_color',
             [
-                'label'     => __('Color', 'softeria-sms-alerts'),
+                'label'     => __('Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -316,7 +316,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_title_bg_color',
             [
-                'label'     => __('Background Color', 'softeria-sms-alerts'),
+                'label'     => __('Background Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -329,7 +329,7 @@ class SAShareCartWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'      => 'form_title_typography',
-                'label'     => __('Typography', 'softeria-sms-alerts'),
+                'label'     => __('Typography', 'soft-sms-alerts'),
                 'selector'  => '{{WRAPPER}} .smsprosharecart-widget-wrapper .box-title',
                 
             ]
@@ -338,7 +338,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_title_margin',
             [
-                'label'              => __('Margin', 'softeria-sms-alerts'),
+                'label'              => __('Margin', 'soft-sms-alerts'),
                 'type'               => Controls_Manager::DIMENSIONS,
                 'size_units'         => ['px', 'em', '%'],
                 'allowed_dimensions' => 'vertical',
@@ -359,7 +359,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_title_padding',
             [
-                'label'      => esc_html__('Padding', 'softeria-sms-alerts'),
+                'label'      => esc_html__('Padding', 'soft-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -380,7 +380,7 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_fields_style',
             [
-                'label' => __('Input Field', 'softeria-sms-alerts'),
+                'label' => __('Input Field', 'soft-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -388,7 +388,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'input_alignment',
             [
-                'label'   => __('Alignment', 'softeria-sms-alerts'),
+                'label'   => __('Alignment', 'soft-sms-alerts'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
@@ -396,11 +396,11 @@ class SAShareCartWidget extends Widget_Base
                         'icon'  => 'fa fa-align-left',
                     ],
                     'center' => [
-                        'title' => __('Center', 'softeria-sms-alerts'),
+                        'title' => __('Center', 'soft-sms-alerts'),
                         'icon'  => 'fa fa-align-center',
                     ],
                     'right' => [
-                        'title' => __('Right', 'softeria-sms-alerts'),
+                        'title' => __('Right', 'soft-sms-alerts'),
                         'icon'  => 'fa fa-align-right',
                     ],
                 ],
@@ -416,14 +416,14 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_form_fields_normal',
             [
-                'label' => __('Normal', 'softeria-sms-alerts'),
+                'label' => __('Normal', 'soft-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_field_bg_color',
             [
-                'label'     => __('Background Color', 'softeria-sms-alerts'),
+                'label'     => __('Background Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -435,7 +435,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_field_text_color',
             [
-                'label'     => __('Text Color', 'softeria-sms-alerts'),
+                'label'     => __('Text Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -448,7 +448,7 @@ class SAShareCartWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_field_border',
-                'label'       => __('Border', 'softeria-sms-alerts'),
+                'label'       => __('Border', 'soft-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
                 'selector'    => '{{WRAPPER}} .smsprosharecart-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]):not(.select2-search__field), {{WRAPPER}} .smsprosharecart-widget-wrapper #sc_uname textarea, .smsprosharecart-widget-wrapper #sc_umobile textarea , .smsprosharecart-widget-wrapper #sc_fname textarea , .smsprosharecart-widget-wrapper #sc_fmobile textarea {{WRAPPER}} .smsprosharecart-widget-wrapper #sc_uname select {{WRAPPER}},.smsprosharecart-widget-wrapper #sc_umobile select {{WRAPPER}},.smsprosharecart-widget-wrapper #sc_fname select {{WRAPPER}},.smsprosharecart-widget-wrapper #sc_fmobile select  {{WRAPPER}} .smsprosharecart-widget-wrapper #sc_uname .select2-container--default .select2-selection--multiple, .smsprosharecart-widget-wrapper #sc_umobile .select2-container--default .select2-selection--multiple, .smsprosharecart-widget-wrapper #sc_fname .select2-container--default .select2-selection--multiple, .smsprosharecart-widget-wrapper #sc_fmobile .select2-container--default .select2-selection--multiple',
@@ -459,7 +459,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_field_radius',
             [
-                'label'      => __('Border Radius', 'softeria-sms-alerts'),
+                'label'      => __('Border Radius', 'soft-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -471,7 +471,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_text_indent',
             [
-                'label' => __('Text Indent', 'softeria-sms-alerts'),
+                'label' => __('Text Indent', 'soft-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -496,7 +496,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_input_width',
             [
-                'label' => __('Input Width', 'softeria-sms-alerts'),
+                'label' => __('Input Width', 'soft-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -515,7 +515,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_input_height',
             [
-                'label' => __('Input Height', 'softeria-sms-alerts'),
+                'label' => __('Input Height', 'soft-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -534,7 +534,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_padding',
             [
-                'label'      => __('Padding', 'softeria-sms-alerts'),
+                'label'      => __('Padding', 'soft-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -546,7 +546,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_field_spacing',
             [
-                'label' => __('Spacing', 'softeria-sms-alerts'),
+                'label' => __('Spacing', 'soft-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -566,7 +566,7 @@ class SAShareCartWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'      => 'form_field_typography',
-                'label'     => __('Typography', 'softeria-sms-alerts'),
+                'label'     => __('Typography', 'soft-sms-alerts'),
                 'selector'  => '{{WRAPPER}} .smsprosharecart-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]), {{WRAPPER}} .smsprosharecart-widget-wrapper #sc_uname textarea,.smsprosharecart-widget-wrapper #sc_umobile textarea,.smsprosharecart-widget-wrapper #sc_fname textarea,.smsprosharecart-widget-wrapper #sc_fmobile textarea {{WRAPPER}} .smsprosharecart-widget-wrapper #sc_uname select,.smsprosharecart-widget-wrapper #sc_umobile select,.smsprosharecart-widget-wrapper #sc_fname,.smsprosharecart-widget-wrapper #sc_fmobile select',
                 'separator' => 'before',
             ]
@@ -586,14 +586,14 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_form_fields_focus',
             [
-                'label' => __('Focus', 'softeria-sms-alerts'),
+                'label' => __('Focus', 'soft-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_field_bg_color_focus',
             [
-                'label'     => __('Background Color', 'softeria-sms-alerts'),
+                'label'     => __('Background Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -606,7 +606,7 @@ class SAShareCartWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_input_focus_border',
-                'label'       => __('Border', 'softeria-sms-alerts'),
+                'label'       => __('Border', 'soft-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
                 'selector'    => '{{WRAPPER}} .smsprosharecart-widget-wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]):focus, {{WRAPPER}} .smsprosharecart-widget-wrapper #sc_uname:focus,.smsprosharecart-widget-wrapper #sc_umobile:focus,.smsprosharecart-widget-wrapper #sc_fname:focus,.smsprosharecart-widget-wrapper #sc_fmobile:focus',
@@ -640,7 +640,7 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_section(
             'section_form_submit_button_style',
             [
-                'label' => __('Share Cart Button', 'softeria-sms-alerts'),
+                'label' => __('Share Cart Button', 'soft-sms-alerts'),
                 'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -648,19 +648,19 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_align',
             [
-                'label'   => __('Alignment', 'softeria-sms-alerts'),
+                'label'   => __('Alignment', 'soft-sms-alerts'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
-                        'title' => __('Left', 'softeria-sms-alerts'),
+                        'title' => __('Left', 'soft-sms-alerts'),
                         'icon'  => 'eicon-h-align-left',
                     ],
                     'center' => [
-                        'title' => __('Center', 'softeria-sms-alerts'),
+                        'title' => __('Center', 'soft-sms-alerts'),
                         'icon'  => 'eicon-h-align-center',
                     ],
                     'right' => [
-                        'title' => __('Right', 'softeria-sms-alerts'),
+                        'title' => __('Right', 'soft-sms-alerts'),
                         'icon'  => 'eicon-h-align-right',
                     ],
                 ],
@@ -673,12 +673,12 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_width_type',
             [
-                'label'   => __('Width', 'softeria-sms-alerts'),
+                'label'   => __('Width', 'soft-sms-alerts'),
                 'type'    => Controls_Manager::SELECT,
                 'default' => 'custom',
                 'options' => [
-                    'full-width' => __('Full Width', 'softeria-sms-alerts'),
-                    'custom'     => __('Custom', 'softeria-sms-alerts'),
+                    'full-width' => __('Full Width', 'soft-sms-alerts'),
+                    'custom'     => __('Custom', 'soft-sms-alerts'),
                 ],
                 'prefix_class' => 'smsprosharecart-widget-submit-button-',
             ]
@@ -687,7 +687,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_width',
             [
-                'label' => __('Width', 'softeria-sms-alerts'),
+                'label' => __('Width', 'soft-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -708,14 +708,14 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_submit_button_normal',
             [
-                'label' => __('Normal', 'softeria-sms-alerts'),
+                'label' => __('Normal', 'soft-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_submit_button_bg_color_normal',
             [
-                'label'     => __('Background Color', 'softeria-sms-alerts'),
+                'label'     => __('Background Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#409EFF',
                 'selectors' => [
@@ -727,7 +727,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_text_color_normal',
             [
-                'label'     => __('Text Color', 'softeria-sms-alerts'),
+                'label'     => __('Text Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#ffffff',
                 'selectors' => [
@@ -740,7 +740,7 @@ class SAShareCartWidget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'        => 'form_submit_button_border_normal',
-                'label'       => __('Border', 'softeria-sms-alerts'),
+                'label'       => __('Border', 'soft-sms-alerts'),
                 'placeholder' => '1px',
                 'default'     => '1px',
                 'selector'    => '{{WRAPPER}} .smsprosharecart-widget-wrapper #sc_btn',
@@ -750,7 +750,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_border_radius',
             [
-                'label'      => __('Border Radius', 'softeria-sms-alerts'),
+                'label'      => __('Border Radius', 'soft-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -762,7 +762,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_padding',
             [
-                'label'      => __('Padding', 'softeria-sms-alerts'),
+                'label'      => __('Padding', 'soft-sms-alerts'),
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
@@ -774,7 +774,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_responsive_control(
             'form_submit_button_margin',
             [
-                'label' => __('Margin Top', 'softeria-sms-alerts'),
+                'label' => __('Margin Top', 'soft-sms-alerts'),
                 'type'  => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -794,7 +794,7 @@ class SAShareCartWidget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'      => 'form_submit_button_typography',
-                'label'     => __('Typography', 'softeria-sms-alerts'),
+                'label'     => __('Typography', 'soft-sms-alerts'),
                 'selector'  => '{{WRAPPER}} .smsprosharecart-widget-wrapper #sc_btn',
                 'separator' => 'before',
             ]
@@ -814,14 +814,14 @@ class SAShareCartWidget extends Widget_Base
         $this->start_controls_tab(
             'tab_submit_button_hover',
             [
-                'label' => __('Hover', 'softeria-sms-alerts'),
+                'label' => __('Hover', 'soft-sms-alerts'),
             ]
         );
 
         $this->add_control(
             'form_submit_button_bg_color_hover',
             [
-                'label'     => __('Background Color', 'softeria-sms-alerts'),
+                'label'     => __('Background Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -833,7 +833,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_text_color_hover',
             [
-                'label'     => __('Text Color', 'softeria-sms-alerts'),
+                'label'     => __('Text Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [
@@ -845,7 +845,7 @@ class SAShareCartWidget extends Widget_Base
         $this->add_control(
             'form_submit_button_border_color_hover',
             [
-                'label'     => __('Border Color', 'softeria-sms-alerts'),
+                'label'     => __('Border Color', 'soft-sms-alerts'),
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '',
                 'selectors' => [

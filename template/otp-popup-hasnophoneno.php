@@ -24,12 +24,12 @@ echo '	<html>';
 								<div class="sa_customer_validation-modal-dialog sa_customer_validation-modal-md">
 									<div class="login sa_customer_validation-modal-content">
 										<div class="sa_customer_validation-modal-header">
-											<b>' . esc_html__('Validate your Phone Number', 'softeria-sms-alerts') . '</b>
+											<b>Validate your Phone Number</b>
 											<a class="go_back" href="#" onclick="window.location =\'' . esc_attr($go_back_url) . '\'" > &larr;
-												' . esc_html__('Go Back', 'softeria-sms-alerts') . '</a>
+												Go Back</a>
 										</div>
 										<div class="sa_customer_validation-modal-body center">
-											<div id="message">' . esc_html__($message, 'softeria-sms-alerts') . '</div><br /> ';
+											<div id="message">' . $message. '</div><br /> ';
 if (! SmsAlertUtility::isBlank($user_email) ) {
     echo '									<div class="sa_customer_validation-login-container">
 													<form name="f" id="validate_otp_form" method="post" action="">
@@ -38,11 +38,11 @@ if (! SmsAlertUtility::isBlank($user_email) ) {
 														<input type="text" name="sa_phone_number"  autofocus="true" placeholder="" 
 															id="sa_phone_number" required="true" class="sa_customer_validation-textbox phone-valid" 
 															autofocus="true" pattern="^[\+]\d{1,4}\d{7,12}$|^[\+]\d{1,4}[\s]\d{7,12}$" 
-															title="' . esc_html__('Enter a number in the following format', 'softeria-sms-alerts') . ': 9xxxxxxxxx"/>
+															title="Enter a number in the following format: 07xxxxxxxxx"/>
 														<div id="salert_message" hidden="" 
 															style="background-color: #f7f6f7;padding: 1em 2em 1em 1.5em;color:black;"></div><br/>
 														<div id="sa_validate_otp" hidden>
-															' . esc_html__('Verify Code ', 'softeria-sms-alerts') . ' <input type="text" 
+															Verify Code  <input type="text" 
 															name="softeria_alerts_customer_validation_otp_token"  autofocus="true" placeholder="" 
 															id="softeria_alerts_customer_validation_otp_token" required="true" 
 															class="sa_customer_validation-textbox" autofocus="true" pattern="[0-9]{4,8}" 

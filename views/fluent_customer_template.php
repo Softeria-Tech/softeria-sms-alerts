@@ -9,14 +9,14 @@
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
-$soft-sms-alerts = SaFluentForm::getFluentForms();
-if (! empty($soft-sms-alerts) ) {
+$fluent_forms = SaFluentForm::getFluentForms();
+if (! empty($fluent_forms) ) {
 	$disablePlayground     = SmsAlertUtility::isPlayground()?"disablePlayground":"";
     ?>
 <!-- accordion -->
 <div class="cvt-accordion">
     <div class="accordion-section">
-    <?php foreach ( $soft-sms-alerts as $ks => $vs ) { ?>
+    <?php foreach ( $fluent_forms as $ks => $vs ) { ?>
         <div class="cvt-accordion-body-title" data-href="#accordion_cust_<?php echo esc_attr($ks); ?>">
             <input type="checkbox" name="softeria_alerts_fluent_general[fluent_order_status_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_fluent_general[fluent_order_status_<?php echo esc_attr($ks); ?>]" class="notify_box" <?php echo ( ( softeria_alerts_get_option('fluent_order_status_' . esc_attr($ks), 'softeria_alerts_fluent_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/><label><?php echo esc_attr(ucwords(str_replace('-', ' ', $vs))); ?></label>
             <span class="expand_btn"></span>
@@ -25,7 +25,7 @@ if (! empty($soft-sms-alerts) ) {
             <table class="form-table">
                 <tr>
                     <td><input data-parent_id="softeria_alerts_fluent_general[fluent_order_status_<?php echo esc_attr($ks); ?>]" type="checkbox" name="softeria_alerts_fluent_general[fluent_message_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_fluent_general[fluent_message_<?php echo esc_attr($ks); ?>]" class="notify_box" <?php echo ( ( softeria_alerts_get_option('fluent_message_' . esc_attr($ks), 'softeria_alerts_fluent_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/><label for="softeria_alerts_fluent_general[fluent_message_<?php echo esc_attr($ks); ?>]">Enable Message</label>
-                    <a href="admin.php?page=soft-sms-alerts&route=editor&form_id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'softeria-sms-alerts')?></small></a>
+                    <a href="admin.php?page=fluent_forms&route=editor&form_id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'soft-sms-alerts')?></small></a>
                     </td>
                     </tr>
                 <tr valign="top"  style="position:relative">

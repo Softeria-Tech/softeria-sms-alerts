@@ -55,7 +55,7 @@ class SaFluentForm extends FormInterface
     
      
     /**
-     * Add smspro conversational
+     * Add softsmsalerts conversational
      *
      * @param string $renderable renderable.
      * @param string $form       form.
@@ -129,7 +129,7 @@ class SaFluentForm extends FormInterface
     }
     
     /**
-     * Add smspro shortcode
+     * Add softsmsalerts shortcode
      *
      * @param string $form form.
      *
@@ -351,7 +351,7 @@ class SaFluentForm extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend
+     * Add tabs to softsmsalerts settings at backend
      *
      * @param array $tabs list of tabs data.
      *
@@ -446,9 +446,9 @@ class SaFluentForm extends FormInterface
     }
 
     /**
-     * Get default settings for the smspro fluent forms.
+     * Get default settings for the softsmsalerts fluent forms.
      *
-     * @param array $defaults smspro backend settings default values.
+     * @param array $defaults softsmsalerts backend settings default values.
      *
      * @return array
      */
@@ -476,16 +476,16 @@ class SaFluentForm extends FormInterface
      */
     public static function getFluentForms()
     {
-        $soft-sms-alerts = array();
+        $fluent_forms = array();
         $forms        = wpFluent()->table('fluentform_forms')
             ->select(array( 'id', 'title' ))
             ->orderBy('id', 'DESC')
             ->get();
         foreach ( $forms as $form ) {
             $form_id                  = $form->id;
-            $soft-sms-alerts[ $form_id ] = $form->title;
+            $fluent_forms[ $form_id ] = $form->title;
         }
-        return $soft-sms-alerts;
+        return $fluent_forms;
     }
 }
 new SaFluentForm();

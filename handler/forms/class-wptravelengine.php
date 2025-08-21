@@ -106,12 +106,12 @@ class SAwptravelengine extends FormInterface
 
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
             if (count($getusers) > 0 ) {
-                return new WP_Error('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
+                return new WP_Error('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'soft-sms-alerts'));
             }
         }
 
         if (isset($user_phone) && SmsAlertUtility::isBlank($user_phone) ) {
-            return new WP_Error('registration-error-invalid-phone', __('Please enter phone number.', 'softeria-sms-alerts'));
+            return new WP_Error('registration-error-invalid-phone', __('Please enter phone number.', 'soft-sms-alerts'));
         }
 
         return $this->processFormFields($username, $email, $errors, $password);
@@ -165,8 +165,8 @@ class SAwptravelengine extends FormInterface
     {
         ?>
         <div class='wpte-lrf-field lrf-phone'>
-            <label><?php echo esc_attr__('Phone', 'softeria-sms-alerts'); ?><span class='required'>*</span></label>
-            <input required data-parsley-required-message="<?php esc_attr_e('Please enter a valid phone number', 'softeria-sms-alerts'); ?>" name='billing_phone' class="phone-valid" type='text' placeholder='<?php echo esc_attr__('Phone number', 'softeria-sms-alerts'); ?>'/>
+            <label><?php echo esc_attr__('Phone', 'soft-sms-alerts'); ?><span class='required'>*</span></label>
+            <input required data-parsley-required-message="<?php esc_attr_e('Please enter a valid phone number', 'soft-sms-alerts'); ?>" name='billing_phone' class="phone-valid" type='text' placeholder='<?php echo esc_attr__('Phone number', 'soft-sms-alerts'); ?>'/>
         </div>
         <?php
         echo do_shortcode('[sa_verify phone_selector="billing_phone" submit_selector= "register"]');       
@@ -195,8 +195,8 @@ class SAwptravelengine extends FormInterface
         'type'      => 'alphanum',
         ),
         'attributes'     => array(
-        'data-msg'                      => __('Please enter your phone number', 'softeria-sms-alerts'),
-        'data-parsley-required-message' => __('Please enter your phone number', 'softeria-sms-alerts'),
+        'data-msg'                      => __('Please enter your phone number', 'soft-sms-alerts'),
+        'data-parsley-required-message' => __('Please enter your phone number', 'soft-sms-alerts'),
         ),
         'default'        => $booking_phone,
         'priority'       => 20,
@@ -230,7 +230,7 @@ class SAwptravelengine extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -280,7 +280,7 @@ class SAwptravelengine extends FormInterface
             $currentVal      = softeria_alerts_get_option('customer_te_notify_' . strtolower($vs), 'softeria_alerts_te_general', 'on');
             $checkboxNameId  = 'softeria_alerts_te_general[customer_te_notify_' . strtolower($vs) . ']';
             $textareaNameId  = 'softeria_alerts_te_message[customer_sms_te_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[fname]', '[booking_id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[fname]', '[booking_id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
             $textBody       = softeria_alerts_get_option('customer_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -311,7 +311,7 @@ class SAwptravelengine extends FormInterface
             $currentVal      = softeria_alerts_get_option('admin_te_notify_' . strtolower($vs), 'softeria_alerts_te_general', 'on');
             $checkboxNameId  = 'softeria_alerts_te_general[admin_te_notify_' . strtolower($vs) . ']';
             $textareaNameId  = 'softeria_alerts_te_message[admin_sms_te_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
             $textBody = softeria_alerts_get_option('admin_sms_te_body_' . strtolower($vs), 'softeria_alerts_te_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When admin change status to ' . $vs;
             $templates[$ks]['enabled']        = $currentVal;

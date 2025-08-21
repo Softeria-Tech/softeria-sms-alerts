@@ -166,7 +166,7 @@ class SofteriaAlertsDivi
             'ajax_url'          => admin_url('admin-ajax.php'),
             'nonce'             => wp_create_nonce('softeria_alerts_divi_builder'),
             'placeholder'       => '',
-            'placeholder_title' => esc_html__('SOFTSMSAlerts', 'softeria-sms-alerts'),
+            'placeholder_title' => esc_html__('SOFTSMSAlerts', 'soft-sms-alerts'),
             ]
         );
     }

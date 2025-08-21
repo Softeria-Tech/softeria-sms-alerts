@@ -24,7 +24,7 @@ if (! empty($formmarker_forms) ) {
             <table class="form-table">
                 <tr valign="top" style="position:relative">
                 <td>
-                <a href="admin.php?page=manage_fm&task=edit&current_id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'softeria-sms-alerts')?></small></a>
+                <a href="admin.php?page=manage_fm&task=edit&current_id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'soft-sms-alerts')?></small></a>
                 <div class="softeria_alerts_tokens">
         <?php
         $fields = SAFormMaker::getFormMakerVariables($ks);

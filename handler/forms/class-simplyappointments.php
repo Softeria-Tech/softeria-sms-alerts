@@ -199,7 +199,7 @@ class SimplyAppoinments extends FormInterface
     
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -270,7 +270,7 @@ class SimplyAppoinments extends FormInterface
             $schedulerData  = array();
             $schedulerData['cron'][] = [
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[Name]', '#[id]', '[store_name]', '[start_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'soft-sms-alerts'), '[Name]', '#[id]', '[store_name]', '[start_date]', PHP_EOL, PHP_EOL),
             ];
         }
         foreach ($schedulerData['cron'] as $key => $data) {
@@ -314,7 +314,7 @@ class SimplyAppoinments extends FormInterface
              $checkboxMameId = 'softeria_alerts_ssa_general[customer_ssa_notify_'.strtolower($ks).']';
              $textareaNameId = 'softeria_alerts_ssa_message[customer_sms_ssa_body_'.strtolower($ks).']';
 
-             $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[Name]', '[id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL);
+             $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[Name]', '[id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL);
 
              $textBody = softeria_alerts_get_option('customer_sms_ssa_body_'.strtolower($ks), 'softeria_alerts_ssa_message', $defaultTemplate);
              $templates[$ks]['title']          = 'When customer appoinment is '.ucwords($vs);
@@ -350,7 +350,7 @@ class SimplyAppoinments extends FormInterface
             $checkboxMameId  = 'softeria_alerts_ssa_general[admin_ssa_notify_'.strtolower($ks).']';
             $textareaNameId  = 'softeria_alerts_ssa_message[admin_sms_ssa_body_'.strtolower($ks).']';
 
-            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
 
             $textBody       = softeria_alerts_get_option('admin_sms_ssa_body_'.strtolower($ks), 'softeria_alerts_ssa_message', $defaultTemplate);
 

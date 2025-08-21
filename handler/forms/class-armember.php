@@ -132,7 +132,7 @@ class Armember extends FormInterface
 
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -198,7 +198,7 @@ class Armember extends FormInterface
             $checkboxNameId = 'softeria_alerts_arm_general[customer_arm_notify_' . strtolower($vs) . ']';
             $textareaNameId = 'softeria_alerts_arm_message[customer_sms_arm_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', sprintf(__('Hello %1$s, status of your plan %2$s with %3$s has been %4$s.%5$s', 'softeria-sms-alerts'), '[member_name]', '[plan_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', sprintf(__('Hello %1$s, status of your plan %2$s with %3$s has been %4$s.%5$s', 'soft-sms-alerts'), '[member_name]', '[plan_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', $defaultTemplate);
 
@@ -234,7 +234,7 @@ class Armember extends FormInterface
             $checkboxNameId = 'softeria_alerts_arm_general[admin_arm_notify_' . strtolower($vs) . ']';
             $textareaNameId = 'softeria_alerts_arm_message[admin_sms_arm_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', sprintf(__('Hello admin, status of your plan %1$s with %2$s has been changed to %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[plan_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', sprintf(__('Hello admin, status of your plan %1$s with %2$s has been changed to %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[plan_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
             $textBody = softeria_alerts_get_option('admin_sms_arm_body_' . strtolower($vs), 'softeria_alerts_arm_message', $defaultTemplate);

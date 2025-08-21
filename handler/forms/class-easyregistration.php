@@ -114,7 +114,7 @@ class EasyRegistration extends FormInterface
     }
 
     /**
-     * Initialize smspro otp process.
+     * Initialize softsmsalerts otp process.
      *
      * @param array $getdata posted getdata.
      *

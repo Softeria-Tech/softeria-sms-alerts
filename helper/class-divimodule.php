@@ -47,7 +47,7 @@ class SofteriaAlertsSelector extends ET_Builder_Module
     public function init()
     {
 
-        $this->name = esc_html__('SOFTSMSAlerts', 'softeria-sms-alerts');
+        $this->name = esc_html__('SOFTSMSAlerts', 'soft-sms-alerts');
     }
 
     /**

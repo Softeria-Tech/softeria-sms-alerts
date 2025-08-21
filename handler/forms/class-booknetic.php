@@ -79,7 +79,7 @@ class SMBooknetic extends FormInterface
 
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -139,7 +139,7 @@ class SMBooknetic extends FormInterface
             $checkboxNameId  = 'softeria_alerts_bnc_general[customer_bnc_notify_' . strtolower($ks) . ']';
             $textareaNameId  = 'softeria_alerts_bnc_message[customer_sms_bnc_body_' . strtolower($ks) . ']';
 
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[service_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '[service_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
             $textBody       = softeria_alerts_get_option('customer_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', $defaultTemplate);
@@ -175,7 +175,7 @@ class SMBooknetic extends FormInterface
             $checkboxNameId  = 'softeria_alerts_bnc_general[admin_bnc_notify_' . strtolower($ks) . ']';
             $textareaNameId  = 'softeria_alerts_bnc_message[admin_sms_bnc_body_' . strtolower($ks) . ']';
 
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', sprintf(__('%1$s status of booking has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', $vs));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', sprintf(__('%1$s status of booking has been changed to %2$s.', 'soft-sms-alerts'), '[store_name]:', $vs));
 
 
             $textBody = softeria_alerts_get_option('admin_sms_bnc_body_' . strtolower($ks), 'softeria_alerts_bnc_message', $defaultTemplate);

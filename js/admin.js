@@ -31,7 +31,7 @@ function verifyUser(e) {
     });
     $sa(e).text(i);
   } else {
-    $sa.ajax({url: "admin.php", type: "GET", data: "option=softeria-alert-woocommerce-senderlist&nonce=" + smspro.nonce + "&user=" + encodeURIComponent(t) + "&pwd=" + encodeURIComponent(s), crossDomain: true, dataType: "json", contentType: "application/json; charset=utf-8", success: function (t) {
+    $sa.ajax({url: "admin.php", type: "GET", data: "option=softeria-alert-woocommerce-senderlist&nonce=" + softsmsalerts.nonce + "&user=" + encodeURIComponent(t) + "&pwd=" + encodeURIComponent(s), crossDomain: true, dataType: "json", contentType: "application/json; charset=utf-8", success: function (t) {
       if (typeof t == "object") {
         var s = t;
       } else {
@@ -106,7 +106,7 @@ function doSASyncNow(e = null) {
   return false;
 }
 function logout() {
-  $sa.ajax({url: "admin.php", type: "GET", data: "option=softeria-alert-woocommerce-logout&nonce=" + smspro.nonce, crossDomain: true, dataType: "json", contentType: "application/json; charset=utf-8", success: function (e) {
+  $sa.ajax({url: "admin.php", type: "GET", data: "option=softeria-alert-woocommerce-logout&nonce=" + softsmsalerts.nonce, crossDomain: true, dataType: "json", contentType: "application/json; charset=utf-8", success: function (e) {
     window.location.reload();
   }, error: function (e) {
     console.log(e);
@@ -121,7 +121,7 @@ function create_group(e) {
   var t = $sa('input[data-id="softeria_alerts_name"]').val();
   var s = $sa('input[data-id="softeria_alerts_password"]').val();
   $sa(e).text("Please Wait...");
-  $sa.ajax({url: "admin.php", type: "GET", data: "option=softeria-alert-woocommerce-creategroup&nonce=" + smspro.nonce + "&user=" + encodeURIComponent(t) + "&pwd=" + encodeURIComponent(s), crossDomain: true, dataType: "json", contentType: "application/json; charset=utf-8", success: function (t) {
+  $sa.ajax({url: "admin.php", type: "GET", data: "option=softeria-alert-woocommerce-creategroup&nonce=" + softsmsalerts.nonce + "&user=" + encodeURIComponent(t) + "&pwd=" + encodeURIComponent(s), crossDomain: true, dataType: "json", contentType: "application/json; charset=utf-8", success: function (t) {
     if (typeof t == "object") {
       var s = t;
     } else {
@@ -239,7 +239,7 @@ $sa("a#wc_softeria_alerts_sms_order_send_message").click(function (e) {
   }
   t.addClass("processing").block({sms_body: null, overlayCSS: {background: "#fff", backgroundSize: "100px 400px", opacity: 1}});
   var i = {action: "wc_softeria_alerts_sms_send_order_sms", sms_body: s.val(), order_id: $orderid.val()};
-  $sa.ajax({type: "POST", url: smspro.ajaxurl, data: i, success: function (e) {
+  $sa.ajax({type: "POST", url: softsmsalerts.ajaxurl, data: i, success: function (e) {
     t.removeClass("processing").unblock();
     if (e) {
       var i = JSON.parse(e);
@@ -1875,14 +1875,14 @@ function loadCountry()
 	$sa.ajax({
         url: "admin.php",
         type: "GET",
-		data: "option=softeria-alert-woocommerce-countrylist&nonce="+smspro.nonce,
+		data: "option=softeria-alert-woocommerce-countrylist&nonce="+softsmsalerts.nonce,
         crossDomain: !0,
         dataType: "json",
         success: function(data) {
 			if ("object" != typeof data) {
                 data = $sa.parseJSON(data);
             }
-			var country = '<option value="" data-pattern="'+smspro.pattern+'" selected="selected">Global</option>';
+			var country = '<option value="" data-pattern="'+softsmsalerts.pattern+'" selected="selected">Global</option>';
 			if(data.status == true)
 			{
 				var mcountry = '';
@@ -1890,17 +1890,17 @@ function loadCountry()
 				$sa.each(data.data,function(index,item){
           console.log(item,index);
 					country += '<option value="'+item.phone_code+'"';
-					if(item.phone_code == smspro.sa_default_countrycode) {
+					if(item.phone_code == softsmsalerts.sa_default_countrycode) {
 						country += 'selected="selected"';
 					}
 					country +='>'+item.name+'</option>';
 					mcountry += '<option value="'+item.phone_code+'"';
-					if($sa.inArray(item.phone_code, smspro.whitelist_countries) != -1) {
+					if($sa.inArray(item.phone_code, softsmsalerts.whitelist_countries) != -1) {
 						mcountry += 'selected="selected"';
 					}
 					mcountry +=item.name+'</option>';
 					mcountries += '<option value="'+item.phone_code+'"';
-					if($sa.inArray(item.phone_code, smspro.allow_otp_countries) != -1) {
+					if($sa.inArray(item.phone_code, softsmsalerts.allow_otp_countries) != -1) {
 						mcountries += 'selected="selected"';
 					}
 					mcountries +='>'+item.name+'</option>';
@@ -1919,7 +1919,7 @@ function loadCountry()
 }
 function defaultCountry()
 {
-	if(!smspro.islogged)
+	if(!softsmsalerts.islogged)
 	{
 		try
 		{
@@ -1944,7 +1944,7 @@ function defaultCountry()
 }
 $sa(window).on('load',function(){
 	var url = window.location.href;
-	if((url.split('#')[1] == 'callbacks') || !smspro.islogged)
+	if((url.split('#')[1] == 'callbacks') || !softsmsalerts.islogged)
 	{
       loadCountry(); 	  
 	}	
@@ -1961,7 +1961,7 @@ $sa(document).on('click', '#softeria-alert-remind-later', function() {
        $sa.ajax({
         url: "admin.php",
         type: "GET",
-		data: "option=dismiss_chatondesk_notice&nonce="+smspro.nonce,
+		data: "option=dismiss_chatondesk_notice&nonce="+softsmsalerts.nonce,
         crossDomain: !0,
         success: function(data) {
 			$sa('#softeria-alert-remind-later').parents('.notice-warning').find('.notice-dismiss').trigger('click');
@@ -1975,7 +1975,7 @@ $sa(document).on('click', '#softeria-alert-sandbox-mode', function() {
        $sa.ajax({
         url: "admin.php",
         type: "GET",
-		data: "option=softeria_alerts_sandbox_mode&nonce="+smspro.nonce,
+		data: "option=softeria_alerts_sandbox_mode&nonce="+softsmsalerts.nonce,
         crossDomain: !0,
         success: function(data) {
 			window.location.reload();

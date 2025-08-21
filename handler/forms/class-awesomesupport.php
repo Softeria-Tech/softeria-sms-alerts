@@ -104,8 +104,8 @@ class SaAwesomeSupport extends FormInterface
             'args' => array(
             'required'    => true,
             'field_type'  => 'text',
-            'label'       => __('Phone', 'softeria-sms-alerts'),
-            'placeholder' => __('Phone', 'softeria-sms-alerts'),
+            'label'       => __('Phone', 'soft-sms-alerts'),
+            'placeholder' => __('Phone', 'soft-sms-alerts'),
             'sanitize'    => 'sanitize_text_field',
             'desc'          => $billling_phone_desc,
             'default'      => ( isset($_SESSION["wpas_registration_form"]["billling_phone"]) && $_SESSION["wpas_registration_form"]["billling_phone"] ) ? $_SESSION["wpas_registration_form"]["billling_phone"] : ""
@@ -218,7 +218,7 @@ class SaAwesomeSupport extends FormInterface
     }//end add_default_setting()
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -281,7 +281,7 @@ class SaAwesomeSupport extends FormInterface
             
             $textareaNameId = 'softeria_alerts_ast_message[customer_sms_ast_body_'.strtolower($ks).']';
             
-            $defaultTemplate = sprintf(__('Hello %1$s, status of your ticket #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[client_first_name]', '[ticket_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello %1$s, status of your ticket #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[client_first_name]', '[ticket_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL);
             
             $textBody = softeria_alerts_get_option('customer_sms_ast_body_'.strtolower($ks), 'softeria_alerts_ast_message', $defaultTemplate);
             
@@ -314,7 +314,7 @@ class SaAwesomeSupport extends FormInterface
             $checkboxMameId = 'softeria_alerts_ast_general[admin_ast_notify_'.strtolower($ks).']';
             $textareaNameId = 'softeria_alerts_ast_message[admin_sms_ast_body_'.strtolower($ks).']';
 
-            $defaultTemplate = sprintf(__('%1$s: Your ticket #%2$s is %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', '[ticket_id]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('%1$s: Your ticket #%2$s is %3$s. %4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', '[ticket_id]', $vs, PHP_EOL, PHP_EOL);
 
             $textBody = softeria_alerts_get_option('admin_sms_ast_body_'.strtolower($ks), 'softeria_alerts_ast_message', $defaultTemplate);
 

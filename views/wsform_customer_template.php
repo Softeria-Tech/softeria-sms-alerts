@@ -25,7 +25,7 @@ if (! empty($wsform_forms) ) {
             <table class="form-table">
                 <tr>
                     <td><input data-parent_id="softeria_alerts_wsform_general[wsform_form_status_<?php echo esc_attr($ks); ?>]" type="checkbox" name="softeria_alerts_wsform_general[wsform_message_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_wsform_general[wsform_message_<?php echo esc_attr($ks); ?>]" class="notify_box" <?php echo ( ( softeria_alerts_get_option('wsform_message_' . esc_attr($ks), 'softeria_alerts_wsform_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/><label for="softeria_alerts_wsform_general[wsform_message_<?php echo esc_attr($ks); ?>]">Enable Message</label>
-                    <a href="admin.php?page=ws-form-edit&id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'softeria-sms-alerts')?></small></a>
+                    <a href="admin.php?page=ws-form-edit&id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'soft-sms-alerts')?></small></a>
                     </td>
                     </tr>
                 <tr valign="top"  style="position:relative">

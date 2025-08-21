@@ -178,13 +178,13 @@ class UserRegistrationForm extends FormInterface
         if ('on' !== softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') && ! SmsAlertUtility::isBlank($user_phone) ) {
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
             if (count($getusers) > 0 ) {
-                $errors[]=  __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts');
+                $errors[]=  __('An account is already registered with this mobile number. Please login.', 'soft-sms-alerts');
                 return $errors;
             }
         }
 
         if (isset($user_phone) && SmsAlertUtility::isBlank($user_phone) ) {
-            $errors[]= __('Please enter phone number.', 'softeria-sms-alerts');
+            $errors[]= __('Please enter phone number.', 'soft-sms-alerts');
             return $errors;
         }
         return $this->processFormFields($username, $email, $errors, $password, $user_phone);

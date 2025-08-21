@@ -13,7 +13,7 @@
 
 
 /**
- * Add smspro phone button in ultimate form.
+ * Add softsmsalerts phone button in ultimate form.
  *
  * @param array $data Extra form fields data.
  *
@@ -52,7 +52,7 @@ function sa_extra_post_data( $data = null )
 }
 
 /**
- * Add smspro phone button in ultimate form.
+ * Add softsmsalerts phone button in ultimate form.
  *
  * @param array  $inputs    Default fields of the form.
  * @param string $field_key Key for which value is to be extracted.
@@ -77,7 +77,7 @@ function get_nestedkey_single_val( array $inputs, $field_key = '', &$output = ar
 }
 
 /**
- * Add smspro phone button in ultimate form.
+ * Add softsmsalerts phone button in ultimate form.
  *
  * @param array $data Default fields of the form.
  *
@@ -98,7 +98,7 @@ function show_hidden_fields( $data )
 }
 
 /**
- * Add smspro phone button in ultimate form.
+ * Add softsmsalerts phone button in ultimate form.
  *
  * @param string $user_login   username of the user.
  * @param string $user_email   Email id of the user.
@@ -129,7 +129,7 @@ function softeria_alerts_site_otp_validation_form( $user_login, $user_email, $ph
 }
 
 /**
- * Add smspro phone button in ultimate form.
+ * Add softsmsalerts phone button in ultimate form.
  *
  * @param string $go_back_url Cancel URL.
  * @param string $user_email  Email id of the user.
@@ -157,7 +157,7 @@ function softeria_alerts_external_phone_validation_form( $go_back_url, $user_ema
 }
 
 /**
- * Add smspro phone button in ultimate form.
+ * Add softsmsalerts phone button in ultimate form.
  *
  * @param array $username     Default fields of the form.
  * @param array $phone_number Default fields of the form.

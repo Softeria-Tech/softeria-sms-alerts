@@ -443,7 +443,7 @@ class Plugin_Feedback
         if (is_array($valid_screens) ) {
 
             // Push your screen here.
-            array_push($valid_screens, 'softeria-sms-alerts');
+            array_push($valid_screens, 'soft-sms-alerts');
         }
 
         return $valid_screens;

@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.6.2; wp-6.0\n"
-"X-Domain: softeria-sms-alerts"
+"X-Domain: soft-sms-alerts"
 
 #. %1$s - Time, e.g. 1 minute, 5 hours
 #: helper/class-abandonedcart.php:1483
@@ -44,7 +44,7 @@ msgstr ""
 #, php-format
 msgid ""
 "%1$s You have a new subscription %2$s for order value Ksh. %3$s. Please check "
-"your admin dashboard for complete details.%4$sPowered by%5$swww.smspro.co."
+"your admin dashboard for complete details.%4$sPowered by%5$swww.softsmsalerts.co."
 "in"
 msgstr ""
 
@@ -77,14 +77,14 @@ msgstr ""
 #: helper/messages.php:116
 #, php-format
 msgid ""
-"%1$s: Hi Admin %2$s has enrolled course - %3$s%4$sPowered by%5$swww.smspro."
+"%1$s: Hi Admin %2$s has enrolled course - %3$s%4$sPowered by%5$swww.softsmsalerts."
 "co.in"
 msgstr ""
 
 #: helper/messages.php:113
 #, php-format
 msgid ""
-"%1$s: Hi Admin %2$s has finished course %3$s%4$sPowered by%5$swww.smspro."
+"%1$s: Hi Admin %2$s has finished course %3$s%4$sPowered by%5$swww.softsmsalerts."
 "co.in"
 msgstr ""
 
@@ -112,7 +112,7 @@ msgstr ""
 #: helper/messages.php:45
 #, php-format
 msgid ""
-"%1$s: Product %2$s is left in cart by %3$s.%4$sPowered by%5$swww.smspro.co."
+"%1$s: Product %2$s is left in cart by %3$s.%4$sPowered by%5$swww.softsmsalerts.co."
 "in"
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr ""
 #: helper/messages.php:34
 #, php-format
 msgid ""
-"%1$s: Your order %2$s Ksh. %3$s. is Cancelled.%4$sPowered by%5$swww.smspro."
+"%1$s: Your order %2$s Ksh. %3$s. is Cancelled.%4$sPowered by%5$swww.softsmsalerts."
 "co.in"
 msgstr ""
 
@@ -606,7 +606,7 @@ msgstr ""
 #: helper/messages.php:107
 #, php-format
 msgid ""
-"Dear admin, %1$s has just signed up on %2$s.%3$sPowered by%4$swww.smspro."
+"Dear admin, %1$s has just signed up on %2$s.%3$sPowered by%4$swww.softsmsalerts."
 "co.in"
 msgstr ""
 
@@ -621,7 +621,7 @@ msgstr ""
 #: handler/forms/class-elementor.php:280 handler/forms/class-wpforms.php:158
 #, php-format
 msgid ""
-"Dear admin, you have a new enquiry from %1$s.%2$sPowered by%3$swww.smspro."
+"Dear admin, you have a new enquiry from %1$s.%2$sPowered by%3$swww.softsmsalerts."
 "co.in"
 msgstr ""
 
@@ -882,7 +882,7 @@ msgstr ""
 #: helper/messages.php:96 helper/messages.php:102
 #, php-format
 msgid ""
-"Hello %1$s, Thank you for submitting on %2$s.%3$sPowered by%4$swww.smspro."
+"Hello %1$s, Thank you for submitting on %2$s.%3$sPowered by%4$swww.softsmsalerts."
 "co.in"
 msgstr ""
 
@@ -952,7 +952,7 @@ msgstr ""
 #, php-format
 msgid ""
 "Hey %1$s, We noticed you could not complete your order. Click on the link "
-"below to place your order. Shop Now - %2$s%3$sPowered by%4$swww.smspro.co."
+"below to place your order. Shop Now - %2$s%3$sPowered by%4$swww.softsmsalerts.co."
 "in"
 msgstr ""
 
@@ -976,7 +976,7 @@ msgid "Hide default Login form"
 msgstr ""
 
 #. URI of the plugin
-msgid "https://github.com/softeria-tech/softeria-sms-alerts-wp-plugin"
+msgid "https://github.com/softeria-tech/soft-sms-alerts-wp-plugin"
 msgstr ""
 
 #. Author URI of the plugin
@@ -1289,7 +1289,7 @@ msgstr ""
 #: classes/setting-options.php:419
 #, php-format
 msgid ""
-"Please enter below your <a href=\"%1$s\" target=\"_blank\">www.smspro.co."
+"Please enter below your <a href=\"%1$s\" target=\"_blank\">www.softsmsalerts.co."
 "in</a> login details to link it with %2$s"
 msgstr ""
 

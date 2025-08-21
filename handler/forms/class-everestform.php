@@ -67,7 +67,7 @@ class EverestForm extends FormInterface
     }
     
     /**
-     * Handle smspro everest form otp shortcode.
+     * Handle softsmsalerts everest form otp shortcode.
      *
      * @param rray $form_data form_data.
      *
@@ -82,16 +82,16 @@ class EverestForm extends FormInterface
         $islogged       = $user_authorize->is_user_authorised();
         $phone_field    = !empty(
             $form_data['settings']
-            ['smspro']['visitor_phone']
+            ['softsmsalerts']['visitor_phone']
         )? $form_data['settings']
-        ['smspro']['visitor_phone']:''; 
+        ['softsmsalerts']['visitor_phone']:''; 
         $otp_enable = $form_data['settings']
-        ['smspro']['otp_enable'];
+        ['softsmsalerts']['otp_enable'];
         if (!empty($otp_enable) && !empty($phone_field)) {                
             $phone_fields = '';
             foreach ($form_field as $field) {                                    
                 $phone_field == $form_data['settings']
-                ['smspro']['visitor_phone'];
+                ['softsmsalerts']['visitor_phone'];
                 if (strpos($phone_field, $field['id'])) {
                     $phone_fields = $field['id'];    
                 }                    
@@ -123,7 +123,7 @@ class EverestForm extends FormInterface
     }
 
     /**
-     * Add Tab smspro setting in evrestform builder section
+     * Add Tab softsmsalerts setting in evrestform builder section
      *
      * @param array $tab       form tab.
      * @param array $form_data form data.
@@ -132,14 +132,14 @@ class EverestForm extends FormInterface
      */
     public function saEverestformBuilderSettingsSections($tab, $form_data)
     {
-        $tab['smspro']= esc_html__(
+        $tab['softsmsalerts']= esc_html__(
             'Softeria Tech', 'soft-sms-alerts'
         );
         return $tab;
     }
 
     /**
-     * Add Tab panel smspro setting in evrestform builder section
+     * Add Tab panel softsmsalerts setting in evrestform builder section
      *
      * @return void
      */
@@ -155,100 +155,100 @@ class EverestForm extends FormInterface
         echo '<a href="https://sms.softeriatech.com/knowledgebase/everest-forms-sms-integration/" target="_blank" class="btn-outline"><span class="dashicons dashicons-format-aside"></span> Documentation</a><br>';        
         everest_forms_panel_field(
             'checkbox',
-            'smspro',
+            'softsmsalerts',
             'enable_message',
             $form_data,
-            esc_html__('Enable Message', 'softeria-sms-alerts'),
+            esc_html__('Enable Message', 'soft-sms-alerts'),
             array(
             'default' => isset($this->form->enable_message) ? 
             $this->form->enable_message : '',
             'tooltip' => esc_html__(
-                'Enable to send customer and admin notifications', 'softeria-sms-alerts'
+                'Enable to send customer and admin notifications', 'soft-sms-alerts'
             ),
             'parent'     => 'settings',
             )
         ); 
         everest_forms_panel_field(
             'checkbox',
-            'smspro',
+            'softsmsalerts',
             'otp_enable',
             $form_data,
-            esc_html__('Enable Mobile Verification', 'softeria-sms-alerts'),
+            esc_html__('Enable Mobile Verification', 'soft-sms-alerts'),
             array(
             'default' => isset($this->form->otp_enable) ? 
             $this->form->otp_enable : '',
-            'tooltip' => esc_html__('Enable Mobile Verification', 'softeria-sms-alerts'),
+            'tooltip' => esc_html__('Enable Mobile Verification', 'soft-sms-alerts'),
             'parent'     => 'settings',
             )
         );
         everest_forms_panel_field(
             'text',
-            'smspro',
+            'softsmsalerts',
             'admin_number',
             $form_data,
-            esc_html__('Send Admin SMS To', 'softeria-sms-alerts'),            
+            esc_html__('Send Admin SMS To', 'soft-sms-alerts'),            
             array(
             'default' => isset($this->form->admin_number) ?
             $this->form->admin_number : '',
             'tooltip' => esc_html__(
-                'Admin sms notifications will be sent to this number', 'softeria-sms-alerts'
+                'Admin sms notifications will be sent to this number', 'soft-sms-alerts'
             ),
             'smarttags'  => array(
                                 'type'        => 'fields',
-                                'form_fields' => 'smspro',
+                                'form_fields' => 'softsmsalerts',
                             ),
                             'parent'     => 'settings',
             )
         );
         everest_forms_panel_field(
             'textarea',
-            'smspro',
+            'softsmsalerts',
             'admin_message',
             $form_data,
-            esc_html__('Admin Message', 'softeria-sms-alerts'),            
+            esc_html__('Admin Message', 'soft-sms-alerts'),            
             array(
             'default' => SmsAlertMessages::showMessage(
                 'DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'
             ),
             'smarttags'  => array(
                                 'type'        => 'fields',
-                                'form_fields' => 'smspro',
+                                'form_fields' => 'softsmsalerts',
                             ),
                             'parent'     => 'settings',                
             )
         );
         everest_forms_panel_field(
             'text',
-            'smspro',
+            'softsmsalerts',
             'visitor_phone',
             $form_data,
-            esc_html__('Select Phone Field', 'softeria-sms-alerts'),            
+            esc_html__('Select Phone Field', 'soft-sms-alerts'),            
             array(
             'default' => isset($this->form->visitor_phone) ?
             $this->form->visitor_phone : '',
             'tooltip' => esc_html__(
-                'Customer sms notifications will be sent to this number', 'softeria-sms-alerts'
+                'Customer sms notifications will be sent to this number', 'soft-sms-alerts'
             ),
             'smarttags'  => array(
                                 'type'        => 'fields',
-                                'form_fields' => 'smspro',
+                                'form_fields' => 'softsmsalerts',
                             ),
                             'parent'     => 'settings',                
             )            
         );
         everest_forms_panel_field(
             'textarea',            
-            'smspro',
+            'softsmsalerts',
             'visitor_message',
             $form_data,
-            esc_html__('Visitor Message', 'softeria-sms-alerts'),            
+            esc_html__('Visitor Message', 'soft-sms-alerts'),            
             array(
             'default' => SmsAlertMessages::showMessage(
                 'DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'
             ),
             'smarttags'  => array(
                                 'type'        => 'fields',
-                                'form_fields' => 'smspro',
+                                'form_fields' => 'softsmsalerts',
                             ),
                             'parent'     => 'settings',                
             )
@@ -272,18 +272,18 @@ class EverestForm extends FormInterface
         $islogged       = $user_authorize->is_user_authorised();
         $msg_enable     = !empty(
             $form_data['settings']
-            ['smspro']['enable_message']
+            ['softsmsalerts']['enable_message']
         )?
-        $form_data['settings']['smspro']['enable_message']:'';        
+        $form_data['settings']['softsmsalerts']['enable_message']:'';        
         if ($msg_enable && $islogged) {            
             $phone_field     = $form_data['settings']
-            ['smspro']['visitor_phone'];             
+            ['softsmsalerts']['visitor_phone'];             
             $admin_number    = $form_data['settings']
-            ['smspro']['admin_number'];        
+            ['softsmsalerts']['admin_number'];        
             $visitor_message = $form_data['settings']
-            ['smspro']['visitor_message'];            
+            ['softsmsalerts']['visitor_message'];            
             $admin_message   = $form_data['settings']
-            ['smspro']['admin_message'];            
+            ['softsmsalerts']['admin_message'];            
             if (! empty($phone_field) ) {
                 $phone = '';                
                 foreach ( $fields as $key => $field ) {

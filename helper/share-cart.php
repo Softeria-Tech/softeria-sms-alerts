@@ -108,7 +108,7 @@ class Share_Cart
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -235,7 +235,7 @@ class Share_Cart
         if (!empty($cart_total)) {
             add_action('wp_footer', array( $this, 'shareCartPopupDiv' ));    
             $btn_text = softeria_alerts_get_option('share_btntext', 'softeria_alerts_share_cart_general');
-            return '<button class="button button-primary" id="softeria_alerts_share_cart"><span class="button__text">' . esc_html__($btn_text) . '</span></button>';
+            return '<button class="button button-primary" id="softeria_alerts_share_cart"><span class="button__text">' .$btn_text . '</span></button>';
         } else if (current_user_can('administrator')) {
             return $empty_msg;;
         }
@@ -254,7 +254,7 @@ class Share_Cart
             return;
         }
         $modal_style = softeria_alerts_get_option('modal_style', 'softeria_alerts_general', 'center');
-        $post = get_page_by_path('sharecart_style', OBJECT, 'softeria-sms-alerts');
+        $post = get_page_by_path('sharecart_style', OBJECT, 'soft-sms-alerts');
         if (is_plugin_active('elementor/elementor.php') && !empty($post)) {  
             $post_id= $post->ID;    
             $frontent = new Frontend();

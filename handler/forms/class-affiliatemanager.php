@@ -178,7 +178,7 @@ class AffiliateManager extends FormInterface
     }
 
     /**
-     * Add default setting to smspro form settings.
+     * Add default setting to softsmsalerts form settings.
      *
      * @param array $defaults default values.
      *
@@ -262,7 +262,7 @@ class AffiliateManager extends FormInterface
 
     /**
      * Display tokens for sms content at 
-       woocommerce >> smspro >> affiliate 
+       woocommerce >> softsmsalerts >> affiliate 
        templates, passes $type as optional.
      *
      * @param string $type action type.
@@ -603,9 +603,9 @@ class AffiliateManager extends FormInterface
 
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
-     * @param array $tabs smspro tab.
+     * @param array $tabs softsmsalerts tab.
      *
      * @return array
      */

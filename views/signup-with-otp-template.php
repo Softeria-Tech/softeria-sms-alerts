@@ -2,23 +2,23 @@
     <?php
         $shortcodes = array(
             array(
-                'label' => __('Signup With Mobile', 'softeria-sms-alerts'),
+                'label' => __('Signup With Mobile', 'soft-sms-alerts'),
                 'value' => 'sa_signupwithmobile',
             ),
             array(
-                'label' => __('Login With Otp', 'softeria-sms-alerts'),
+                'label' => __('Login With Otp', 'soft-sms-alerts'),
                 'value' => 'sa_loginwithotp',
             ), 
             array(
-                'label' => __('Cart', 'softeria-sms-alerts'),
+                'label' => __('Cart', 'soft-sms-alerts'),
                 'value' => 'sa_sharecart',
             ),
             array(
-                'label' => __('Verify OTP', 'softeria-sms-alerts'),
+                'label' => __('Verify OTP', 'soft-sms-alerts'),
                 'value' => 'sa_verify phone_selector="#phone" submit_selector= ".btn"',
             ),
             array(
-                'label' => __('Subscription Form', 'softeria-sms-alerts'),
+                'label' => __('Subscription Form', 'soft-sms-alerts'),
                 'value' => 'sa_subscribe group_name=""',
             )
         );
@@ -43,7 +43,7 @@
                 if (!empty($groups)) {
                     if (! is_array($groups['data'])) {
                         ?>
-                                            <option value=""><?php esc_attr_e('SELECT', 'softeria-sms-alerts'); ?></option>
+                                            <option value=""><?php esc_attr_e('SELECT', 'soft-sms-alerts'); ?></option>
                           <?php
                     } else {
                         foreach ( $groups['data'] as $group ) {
@@ -66,10 +66,10 @@
                             ?>
                         <!--optional attribute-->
                         <br/><br/>
-                        <b><?php esc_html_e('Attributes', 'softeria-sms-alerts'); ?></b><br />
+                        <b><?php esc_html_e('Attributes', 'soft-sms-alerts'); ?></b><br />
                         <ul>
-                        <li><b>phone_selector</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set phone field selector', 'softeria-sms-alerts'); ?></li>
-                        <li><b>submit_selector</b> &nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set submit button selector.', 'softeria-sms-alerts'); ?></li>
+                        <li><b>phone_selector</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set phone field selector', 'soft-sms-alerts'); ?></li>
+                        <li><b>submit_selector</b> &nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('set submit button selector.', 'soft-sms-alerts'); ?></li>
                         </ul>
                         <b>eg</b> : <code>[sa_verify phone_selector="#phone" submit_selector= ".btn"]</code></span>
                     <!--/-optional attribute-->
@@ -78,9 +78,9 @@
                             ?>
                 <!--optional attribute-->
                         <br/><br/>
-                        <b><?php esc_html_e('Attributes', 'softeria-sms-alerts'); ?></b><br />
+                        <b><?php esc_html_e('Attributes', 'soft-sms-alerts'); ?></b><br />
                         <ul>
-                        <li><b>redirect_url</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('Set the redirect url', 'softeria-sms-alerts'); ?></li> 
+                        <li><b>redirect_url</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('Set the redirect url', 'soft-sms-alerts'); ?></li> 
                         </ul>
                         <b>eg</b> : <code>[sa_signupwithmobile redirect_url="<?php echo get_site_url();?>"]</code></span>                        
                     <!--/-optional attribute-->                
@@ -89,9 +89,9 @@
                         if ('sa_loginwithotp' === $shortcode['value']) {
                             ?>
                         <br/><br/>
-                        <b><?php esc_html_e('Attributes', 'softeria-sms-alerts'); ?></b><br />
+                        <b><?php esc_html_e('Attributes', 'soft-sms-alerts'); ?></b><br />
                         <ul>
-                        <li><b>redirect_url</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('Set the redirect url', 'softeria-sms-alerts'); ?></li> 
+                        <li><b>redirect_url</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <?php esc_html_e('Set the redirect url', 'soft-sms-alerts'); ?></li> 
                         </ul>
                         <b>eg</b> : <code>[sa_loginwithotp redirect_url="<?php echo get_site_url();?>"]</code></span>            
                             <?php	            

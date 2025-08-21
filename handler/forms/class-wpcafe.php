@@ -224,7 +224,7 @@ class SAWPCafe extends FormInterface
 
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -294,7 +294,7 @@ class SAWPCafe extends FormInterface
             $schedulerData  = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'soft-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
@@ -332,7 +332,7 @@ class SAWPCafe extends FormInterface
             $currentVal = softeria_alerts_get_option('customer_wcf_notify_' . strtolower($vs), 'softeria_alerts_wcf_general', 'on');
             $checkboxNameId = 'softeria_alerts_wcf_general[customer_wcf_notify_' . strtolower($vs) . ']';
             $textareaNameId = 'softeria_alerts_wcf_message[customer_sms_wcf_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[name]', '[booking_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
             $textBody = softeria_alerts_get_option('customer_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -360,7 +360,7 @@ class SAWPCafe extends FormInterface
             $checkboxNameId = 'softeria_alerts_wcf_general[admin_wcf_notify_' . strtolower($vs) . ']';
             $textareaNameId = 'softeria_alerts_wcf_message[admin_sms_wcf_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
             $textBody = softeria_alerts_get_option('admin_sms_wcf_body_' . strtolower($vs), 'softeria_alerts_wcf_message', $defaultTemplate);

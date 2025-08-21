@@ -99,7 +99,7 @@ class SA_Paidmembershipspro extends FormInterface
     {  
         global $pmpro_requirebilling;
         if (!$pmpro_requirebilling) {
-              echo '<label for="billing_phone">'. esc_html__('Phone', 'softeria-sms-alerts').'</label>
+              echo '<label for="billing_phone">'. esc_html__('Phone', 'soft-sms-alerts').'</label>
 				<input id="bphone" name="billing_phone" type="text" class="billing_phone pmpro_required" size="30" value="" autocomplete="off"/>';
         }    
     }
@@ -245,7 +245,7 @@ class SA_Paidmembershipspro extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -302,11 +302,11 @@ class SA_Paidmembershipspro extends FormInterface
             $schedulerData = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your membership %2$s with %3$s is expired on %4$s.%5$s', 'softeria-sms-alerts'), '[userName]', '#[order_id]', '[store_name]', '[membership_expiration_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your membership %2$s with %3$s is expired on %4$s.%5$s', 'soft-sms-alerts'), '[userName]', '#[order_id]', '[store_name]', '[membership_expiration_date]', PHP_EOL, PHP_EOL),
             );
             $schedulerData['cron'][] = array(
                 'frequency' => '2',
-                'message'   => sprintf(__('Hello %1$s, your membership %2$s with %3$s is expired on %4$s.%5$s', 'softeria-sms-alerts'), '[userName]', '#[order_id]', '[store_name]', '[membership_expiration_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your membership %2$s with %3$s is expired on %4$s.%5$s', 'soft-sms-alerts'), '[userName]', '#[order_id]', '[store_name]', '[membership_expiration_date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
@@ -345,7 +345,7 @@ class SA_Paidmembershipspro extends FormInterface
             $currentVal      = softeria_alerts_get_option('customer_pmp_notify_' . strtolower($ms), 'softeria_alerts_pmp_general', 'on');
             $checkboxNameId  = 'softeria_alerts_pmp_general[customer_pmp_notify_' . strtolower($ms) . ']';
             $textareaNameId  = 'softeria_alerts_pmp_message[customer_sms_pmp_body_' . strtolower($ms) . ']';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[userName]', '[membership_id]', '[store_name]', $ms, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[userName]', '[membership_id]', '[store_name]', $ms, PHP_EOL, PHP_EOL));
             $textBody       = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', $defaultTemplate);
             $templates[$ws]['title']          = 'When membership status is ' . ucwords($ms);
             $templates[$ws]['enabled']        = $currentVal;
@@ -361,7 +361,7 @@ class SA_Paidmembershipspro extends FormInterface
                 $currentVal      = softeria_alerts_get_option('customer_pmp_notify_' . strtolower($vs), 'softeria_alerts_pmp_general', 'on');
                 $checkboxNameId  = 'softeria_alerts_pmp_general[customer_pmp_notify_' . strtolower($vs) . ']';
                 $textareaNameId  = 'softeria_alerts_pmp_message[customer_sms_pmp_body_' . strtolower($vs) . ']';
-                $defaultTemplate = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', sprintf(__('Hello %1$s, status of your order #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[order_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+                $defaultTemplate = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', sprintf(__('Hello %1$s, status of your order #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '[order_id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
                 $textBody       = softeria_alerts_get_option('customer_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', $defaultTemplate);
                 $templates[$ws]['title']          = 'When order status is ' . ucwords($vs);
                 $templates[$ws]['enabled']        = $currentVal;
@@ -392,7 +392,7 @@ class SA_Paidmembershipspro extends FormInterface
                 $currentVal      = softeria_alerts_get_option('admin_pmp_notify_' . strtolower($ms), 'softeria_alerts_pmp_general', 'on');
                 $checkboxNameId  = 'softeria_alerts_pmp_general[admin_pmp_notify_' . strtolower($ms) . ']';
                 $textareaNameId  = 'softeria_alerts_pmp_message[admin_sms_pmp_body_' . strtolower($ms) . ']';
-                $defaultTemplate = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $ms, PHP_EOL, PHP_EOL));
+                $defaultTemplate = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $ms, PHP_EOL, PHP_EOL));
                 $textBody = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($ms), 'softeria_alerts_pmp_message', $defaultTemplate);
                 $templates[$ws]['title']          = 'When admin change membership status to ' . $ms;
                 $templates[$ws]['enabled']        = $currentVal;
@@ -409,7 +409,7 @@ class SA_Paidmembershipspro extends FormInterface
                 $currentVal      = softeria_alerts_get_option('admin_pmp_notify_' . strtolower($vs), 'softeria_alerts_pmp_general', 'on');
                 $checkboxNameId  = 'softeria_alerts_pmp_general[admin_pmp_notify_' . strtolower($vs) . ']';
                 $textareaNameId  = 'softeria_alerts_pmp_message[admin_sms_pmp_body_' . strtolower($vs) . ']';
-                $defaultTemplate = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+                $defaultTemplate = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
                 $textBody = softeria_alerts_get_option('admin_sms_pmp_body_' . strtolower($vs), 'softeria_alerts_pmp_message', $defaultTemplate);
                 $templates[$ws]['title']          = 'When admin change status to ' . $vs;
                 $templates[$ws]['enabled']        = $currentVal;

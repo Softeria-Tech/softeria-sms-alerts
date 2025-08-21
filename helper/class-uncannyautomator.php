@@ -101,7 +101,7 @@ class SAAutoMateHelpers
 
         $options = array();
         $options[] = array(
-        'text' => __('Any post type', 'softeria-sms-alerts'),
+        'text' => __('Any post type', 'soft-sms-alerts'),
         'value' => '-1'
         );
 
@@ -131,14 +131,14 @@ class SAAutoMateHelpers
         $values = automator_filter_input_array('values', INPUT_POST);
         $options = array();
         $options[] = array(
-        'text' => __('Any post', 'softeria-sms-alerts'),
+        'text' => __('Any post', 'soft-sms-alerts'),
         'value' => '-1'
         );
         if (empty($values['POST_TYPE']) ) {
             wp_send_json( 
                 array(
                 'success' => false,
-                'error'   => esc_html__("Please select the post type first.", 'softeria-sms-alerts'),
+                'error'   => esc_html__("Please select the post type first.", 'soft-sms-alerts'),
                 'options' => $options
                 )    
             );
@@ -212,8 +212,8 @@ class Send_SMS extends \Uncanny_Automator\Recipe\Action
         $this->set_integration('SAUncanny_Automator');
         $this->set_action_code('Send_SMS');
         $this->set_action_meta('sa_mobile');
-        $this->set_sentence(sprintf(esc_attr__('Send an sms to {{a number:%1$s}} from Softeria Tech', 'softeria-sms-alerts'), $this->get_action_meta()));
-        $this->set_readable_sentence(esc_attr__('Send an {{SMS}} from Softeria Tech', 'softeria-sms-alerts'));
+        $this->set_sentence(sprintf(esc_attr__('Send an sms to {{a number:%1$s}} from Softeria Tech', 'soft-sms-alerts'), $this->get_action_meta()));
+        $this->set_readable_sentence(esc_attr__('Send an {{SMS}} from Softeria Tech', 'soft-sms-alerts'));
     }
     
     /**
@@ -254,7 +254,7 @@ class Send_SMS extends \Uncanny_Automator\Recipe\Action
     {
         return array(
         'STATUS' => array(
-        'name' => __('Send status', 'softeria-sms-alerts'),
+        'name' => __('Send status', 'soft-sms-alerts'),
         'type' => 'text',
         ),
         );
@@ -280,7 +280,7 @@ class Send_SMS extends \Uncanny_Automator\Recipe\Action
         //Send sms        
         do_action('sa_send_sms', $to, $body);
         $status = true;
-        $status_string = $status ? __('SMS was sent', 'softeria-sms-alerts') : __('SMS was not sent', 'softeria-sms-alerts');
+        $status_string = $status ? __('SMS was sent', 'soft-sms-alerts') : __('SMS was not sent', 'soft-sms-alerts');
         $this->hydrate_tokens( 
             array( 
             'STATUS' => $status_string 

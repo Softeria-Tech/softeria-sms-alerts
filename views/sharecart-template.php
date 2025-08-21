@@ -24,7 +24,7 @@
                 </tr>                
                 <tr class="top-border">
                 <td class="td-heading">
-                    <label><?php esc_html_e('Share button position', 'softeria-sms-alerts')?></label>
+                    <label><?php esc_html_e('Share button position', 'soft-sms-alerts')?></label>
                 </td>
                 <td>
                     <?php 
@@ -44,7 +44,7 @@
             </tr>
             <tr valign="top">
                 <td class="td-heading">
-                    <label><?php esc_html_e('Share cart button text', 'softeria-sms-alerts') ?></label>
+                    <label><?php esc_html_e('Share cart button text', 'soft-sms-alerts') ?></label>
                 </td>
                 <td>
                     <input class="min_width_200" name="softeria_alerts_share_cart_general[share_btntext]" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>"  id="softeria_alerts_share_cart_general[share_btntext]" type="text" placeholder="Get Quote" value="<?php echo softeria_alerts_get_option('share_btntext', 'softeria_alerts_share_cart_general') ? softeria_alerts_get_option('share_btntext', 'softeria_alerts_share_cart_general') : 'Share cart'; ?>">
@@ -52,16 +52,16 @@
             </tr>
              <tr>
                 <td class="td-heading">
-                    <?php esc_html_e('Share Cart Style:', 'softeria-sms-alerts'); ?>
+                    <?php esc_html_e('Share Cart Style:', 'soft-sms-alerts'); ?>
                 </td>
                 <td>
                 <?php
                 $disabled = (! is_plugin_active('elementor/elementor.php')) ? "anchordisabled" : "";
-				$post = get_page_by_path( 'sharecart_style', OBJECT, 'softeria-sms-alerts' ); 
+				$post = get_page_by_path( 'sharecart_style', OBJECT, 'soft-sms-alerts' ); 
                 ?>              
-                <a href= <?php get_admin_url() ?>"edit.php?post_name=sharecart_style" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="button <?php echo $disabled; ?> sharecart action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'softeria-sms-alerts'); ?></a>
+                <a href= <?php get_admin_url() ?>"edit.php?post_name=sharecart_style" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="button <?php echo $disabled; ?> sharecart action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'soft-sms-alerts'); ?></a>
                 <?php if(!empty($post->post_type)){?>
-                <a href="#" onclick="return false;" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" id="btn_reset_style" temp-style="sharecart_style" class="btn_reset_style btn-outline" style="float:left;"><?php esc_html_e('Reset', 'softeria-sms-alerts'); ?></a>
+                <a href="#" onclick="return false;" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" id="btn_reset_style" temp-style="sharecart_style" class="btn_reset_style btn-outline" style="float:left;"><?php esc_html_e('Reset', 'soft-sms-alerts'); ?></a>
                 <?php
 				}
 				?>
@@ -70,7 +70,7 @@
 			if($disabled!='')
 			{
             ?>		
-            <span><?php esc_html_e('To edit, please install elementor plugin', 'softeria-sms-alerts'); ?>	</span>
+            <span><?php esc_html_e('To edit, please install elementor plugin', 'soft-sms-alerts'); ?>	</span>
 			<?php
 			}
 			?>

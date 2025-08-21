@@ -91,8 +91,8 @@ class WpForm extends FormInterface
         $form_id = !empty($_POST['wpforms']['id'])?$_POST['wpforms']['id']:'';
         if ($form_id != '') {
             $form_data = wpforms()->get('form')->get($form_id, ['content_only' => true,]);
-            if (!empty($form_data['settings']['smspro']['visitor_phone'])) {
-                $phone_field     = $form_data['settings']['smspro']['visitor_phone'];
+            if (!empty($form_data['settings']['softsmsalerts']['visitor_phone'])) {
+                $phone_field     = $form_data['settings']['softsmsalerts']['visitor_phone'];
                 $phone_field_id  = preg_replace('/[^0-9]/', '', $phone_field);
                 $phone = '';
                 if (! empty($phone_field_id) ) {
@@ -128,7 +128,7 @@ class WpForm extends FormInterface
         } else {
             return;
         }        
-        $phone_field     = !empty($form_data['settings']['smspro']['visitor_phone'])?$form_data['settings']['smspro']['visitor_phone']:'';        
+        $phone_field     = !empty($form_data['settings']['softsmsalerts']['visitor_phone'])?$form_data['settings']['softsmsalerts']['visitor_phone']:'';        
         $phone_field_id  = preg_replace('/[^0-9]/', '', $phone_field);
         $phone = '';
         if (! empty($phone_field_id) ) {
@@ -141,7 +141,7 @@ class WpForm extends FormInterface
             }
         }
         if (isset($phone) && SmsAlertUtility::isBlank($phone)) {            
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'soft-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
             exit();
         }
 
@@ -181,12 +181,12 @@ class WpForm extends FormInterface
      */    
     public function smsproWpformShowWarnings($form, $data, $args)
     {
-        $is_msg_enabled   = !empty($data['settings']['smspro']['message_enable'])?$data['settings']['smspro']['message_enable']:'';
-        $is_otp_enable    = !empty($data['settings']['smspro']['otp_enable'])?$data['settings']['smspro']['otp_enable']:''; 
-        $is_visitor_phone = !empty($data['settings']['smspro']['visitor_phone'])?$data['settings']['smspro']['visitor_phone']:'';
+        $is_msg_enabled   = !empty($data['settings']['softsmsalerts']['message_enable'])?$data['settings']['softsmsalerts']['message_enable']:'';
+        $is_otp_enable    = !empty($data['settings']['softsmsalerts']['otp_enable'])?$data['settings']['softsmsalerts']['otp_enable']:''; 
+        $is_visitor_phone = !empty($data['settings']['softsmsalerts']['visitor_phone'])?$data['settings']['softsmsalerts']['visitor_phone']:'';
         
         if ((!empty($is_msg_enabled) || !empty($is_otp_enable)) && empty($is_visitor_phone)) {
-            wp_send_json_error(esc_html__('Please choose Softeria Tech phone field in Softeria Tech tab.', 'softeria-sms-alerts'));
+            wp_send_json_error(esc_html__('Please choose Softeria Tech phone field in Softeria Tech tab.', 'soft-sms-alerts'));
         }
         return $form;
     } 
@@ -205,13 +205,13 @@ class WpForm extends FormInterface
         $unique_class    = 'sa-class-'.mt_rand(1, 100);
         $user_authorize  = new softeria_alerts_Setting_Options();
         $islogged        = $user_authorize->is_user_authorised();
-        $phone_field     = !empty($form_data['settings']['smspro']['visitor_phone'])?$form_data['settings']['smspro']['visitor_phone']:'';
+        $phone_field     = !empty($form_data['settings']['softsmsalerts']['visitor_phone'])?$form_data['settings']['softsmsalerts']['visitor_phone']:'';
         $phone_field_id  = preg_replace('/[^0-9]/', '', $phone_field);
         $enabled_country = softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general', '');
         $inline_script = 'document.addEventListener("DOMContentLoaded", function() {';
-        if (isset($form_data['settings']['smspro']['otp_enable']) && $islogged && ($field['id'] === $phone_field_id) ) {
+        if (isset($form_data['settings']['softsmsalerts']['otp_enable']) && $islogged && ($field['id'] === $phone_field_id) ) {
             
-            $otp_enable = $form_data['settings']['smspro']['otp_enable'];
+            $otp_enable = $form_data['settings']['softsmsalerts']['otp_enable'];
             
             if ($otp_enable ) {
                 $inline_script .= 'jQuery("form#wpforms-form-' . esc_attr($form_data['id']) . '").each(function () 
@@ -225,7 +225,7 @@ class WpForm extends FormInterface
             }
         }
         
-        if (isset($form_data['settings']['smspro']) && 'on' === $enabled_country && !array_key_exists('otp_enable', (array)$form_data['settings']['smspro']) ) {
+        if (isset($form_data['settings']['softsmsalerts']) && 'on' === $enabled_country && !array_key_exists('otp_enable', (array)$form_data['settings']['softsmsalerts']) ) {
             $inline_script .= 'jQuery(document).ready(function(){
 				initialiseCountrySelector(".softeria-alert-phone #wpforms-' . esc_attr($form_data['id']) . '-field_' . esc_attr($phone_field_id) . '");
 			});';            
@@ -239,7 +239,7 @@ class WpForm extends FormInterface
     }
 
     /**
-     * Add Tab smspro setting in wpform builder section
+     * Add Tab softsmsalerts setting in wpform builder section
      *
      * @param array $sections  form section.
      * @param array $form_data form datas.
@@ -248,12 +248,12 @@ class WpForm extends FormInterface
      */
     public function customWpformsBuilderSettingsSections( $sections, $form_data )
     {
-        $sections['smspro'] = 'Softeria Tech';
+        $sections['softsmsalerts'] = 'Softeria Tech';
         return $sections;
     }
 
     /**
-     * Add Tab panel smspro setting in wpform builder section
+     * Add Tab panel softsmsalerts setting in wpform builder section
      *
      * @param object $instance tab panel object.
      *
@@ -262,7 +262,7 @@ class WpForm extends FormInterface
     public function customWpformsFormSettingsPanelContent( $instance )
     {
         $form_data = $instance->form_data;
-        echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-smspro">';
+        echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-softsmsalerts">';
 
         echo '<div class="wpforms-panel-content-section-title"><span id="wpforms-builder-settings-notifications-title">Softeria Tech Message Configuration</span>
 		</div>';
@@ -271,39 +271,39 @@ class WpForm extends FormInterface
         $checkbox = (!empty($plugin_data['Version']) && $plugin_data['Version'] < '1.6.2.3') ? 'checkbox':'toggle';
         wpforms_panel_field(
             $checkbox,
-            'smspro',
+            'softsmsalerts',
             'message_enable',
             $instance->form_data,
-            esc_html__('Enable Message', 'softeria-sms-alerts'),
+            esc_html__('Enable Message', 'soft-sms-alerts'),
             array( 'parent' => 'settings' )
         );
         wpforms_panel_field(
             $checkbox,
-            'smspro',
+            'softsmsalerts',
             'otp_enable',
             $instance->form_data,
-            esc_html__('Enable Mobile Verification', 'softeria-sms-alerts'),
+            esc_html__('Enable Mobile Verification', 'soft-sms-alerts'),
             array( 'parent' => 'settings' )
         );
         wpforms_panel_field(
             'text',
-            'smspro',
+            'softsmsalerts',
             'admin_number',
             $instance->form_data,
-            __('Send Admin SMS To', 'softeria-sms-alerts'),
+            __('Send Admin SMS To', 'soft-sms-alerts'),
             array(
             'default' => '',
             'parent'  => 'settings',
             'after'   => '<p class="note">' .
-                                __('Admin sms notifications will be sent to this number.', 'softeria-sms-alerts') . '</p>',
+                                __('Admin sms notifications will be sent to this number.', 'soft-sms-alerts') . '</p>',
             )
         );
         wpforms_panel_field(
             'textarea',
-            'smspro',
+            'softsmsalerts',
             'admin_message',
             $instance->form_data,
-            __('Admin Message', 'softeria-sms-alerts'),
+            __('Admin Message', 'soft-sms-alerts'),
             array(
             'rows'      => 6,
             'default'   => SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'),
@@ -317,10 +317,10 @@ class WpForm extends FormInterface
         );
         wpforms_panel_field(
             'text',
-            'smspro',
+            'softsmsalerts',
             'visitor_phone',
             $instance->form_data,
-            __('Select Phone Field', 'softeria-sms-alerts'),
+            __('Select Phone Field', 'soft-sms-alerts'),
             array(
             'default'   => '',
             'smarttags' => array(
@@ -331,10 +331,10 @@ class WpForm extends FormInterface
         );
         wpforms_panel_field(
             'textarea',
-            'smspro',
+            'softsmsalerts',
             'visitor_message',
             $instance->form_data,
-            __('Visitor Message', 'softeria-sms-alerts'),
+            __('Visitor Message', 'soft-sms-alerts'),
             array(
             'rows'      => 6,
             'default'   => SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'),
@@ -345,7 +345,7 @@ class WpForm extends FormInterface
             'class'     => 'email-msg',
             )
         );
-        $admin_number = isset($form_data['settings']['smspro']['admin_number'])?$form_data['settings']['smspro']['admin_number']:'';    
+        $admin_number = isset($form_data['settings']['softsmsalerts']['admin_number'])?$form_data['settings']['softsmsalerts']['admin_number']:'';    
         echo '</div>';
         echo "<script>
 		var adminnumber = '" . $admin_number . "';
@@ -372,7 +372,7 @@ class WpForm extends FormInterface
      */
     public function wpfAddPhoneClass( $properties, $field, $form_data )
     {
-        $phone_field    = !empty($form_data['settings']['smspro']['visitor_phone'])?$form_data['settings']['smspro']['visitor_phone']:'';
+        $phone_field    = !empty($form_data['settings']['softsmsalerts']['visitor_phone'])?$form_data['settings']['softsmsalerts']['visitor_phone']:'';
         $phone_field_id = preg_replace('/[^0-9]/', '', $phone_field);
         if ($field['id'] === $phone_field_id) {
             $properties['container']['class'][] = 'softeria-alert-phone';
@@ -395,12 +395,12 @@ class WpForm extends FormInterface
         
         $user_authorize = new softeria_alerts_Setting_Options();
         $islogged       = $user_authorize->is_user_authorised();
-        $msg_enable     = !empty($form_data['settings']['smspro']['message_enable'])?$form_data['settings']['smspro']['message_enable']:'';
+        $msg_enable     = !empty($form_data['settings']['softsmsalerts']['message_enable'])?$form_data['settings']['softsmsalerts']['message_enable']:'';
         if ($msg_enable && $islogged ) {
-            $phone_field     = $form_data['settings']['smspro']['visitor_phone'];
-            $admin_number    = $form_data['settings']['smspro']['admin_number'];
-            $visitor_message = $form_data['settings']['smspro']['visitor_message'];
-            $admin_message   = $form_data['settings']['smspro']['admin_message'];
+            $phone_field     = $form_data['settings']['softsmsalerts']['visitor_phone'];
+            $admin_number    = $form_data['settings']['softsmsalerts']['admin_number'];
+            $visitor_message = $form_data['settings']['softsmsalerts']['visitor_message'];
+            $admin_message   = $form_data['settings']['softsmsalerts']['admin_message'];
             $phone_field_id  = preg_replace('/[^0-9]/', '', $phone_field);
             if (! empty($phone_field_id) ) {
                 $phone = '';

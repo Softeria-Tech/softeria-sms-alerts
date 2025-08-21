@@ -205,7 +205,7 @@ class Sa_Return_Warranty
     {
         $active_tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : '';
         ?>
-        <a href="admin.php?page=warranties-settings&tab=softeria_alerts_warranty" class="nav-tab <?php echo ( 'softeria_alerts_warranty' === $active_tab ) ? 'nav-tab-active' : ''; ?>"><?php esc_attr_e('Softeria Tech', 'wc_warranty'); ?></a>
+        <a href="admin.php?page=warranties-settings&tab=softeria_alerts_warranty" class="nav-tab <?php echo ( 'softeria_alerts_warranty' === $active_tab ) ? 'nav-tab-active' : ''; ?>"><?php esc_attr_e('Softeria Tech', 'soft-sms-alerts'); ?></a>
         <?php
     }
 

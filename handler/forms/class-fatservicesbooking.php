@@ -188,7 +188,7 @@ class FatServiceBooking extends FormInterface
 
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -258,7 +258,7 @@ class FatServiceBooking extends FormInterface
             $schedulerData  = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[c_first_name]', '#[b_id]', '[store_name]', '[b_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'soft-sms-alerts'), '[c_first_name]', '#[b_id]', '[store_name]', '[b_date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
@@ -298,7 +298,7 @@ class FatServiceBooking extends FormInterface
             $currentVal = softeria_alerts_get_option('customer_fsb_notify_' . strtolower($vs), 'softeria_alerts_fsb_general', 'on');
             $checkboxNameId = 'softeria_alerts_fsb_general[customer_fsb_notify_' . strtolower($vs) . ']';
             $textareaNameId = 'softeria_alerts_fsb_message[customer_sms_fsb_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[c_first_name]', '[b_id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[c_first_name]', '[b_id]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
             $textBody = softeria_alerts_get_option('customer_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When customer booking is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -329,7 +329,7 @@ class FatServiceBooking extends FormInterface
             $currentVal     = softeria_alerts_get_option('admin_fsb_notify_' . strtolower($vs), 'softeria_alerts_fsb_general', 'on');
             $checkboxNameId = 'softeria_alerts_fsb_general[admin_fsb_notify_' . strtolower($vs) . ']';
             $textareaNameId = 'softeria_alerts_fsb_message[admin_sms_fsb_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL));
             $textBody = softeria_alerts_get_option('admin_sms_fsb_body_' . strtolower($vs), 'softeria_alerts_fsb_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When admin change status to ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;

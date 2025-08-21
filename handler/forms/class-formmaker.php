@@ -57,7 +57,7 @@ class SAFormMaker extends FormInterface
      
     
     /**
-     * Add smspro shortcode
+     * Add softsmsalerts shortcode
      *
      * @param string $form form.
      *
@@ -259,7 +259,7 @@ class SAFormMaker extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend
+     * Add tabs to softsmsalerts settings at backend
      *
      * @param array $tabs list of tabs data.
      *
@@ -330,9 +330,9 @@ class SAFormMaker extends FormInterface
     }
   
     /**
-     * Get default settings for the smspro formmaker forms.
+     * Get default settings for the softsmsalerts formmaker forms.
      *
-     * @param array $defaults smspro backend settings default values.
+     * @param array $defaults softsmsalerts backend settings default values.
      *
      * @return array
      */

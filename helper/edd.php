@@ -126,7 +126,7 @@ class SmsAlertEdd
     
     
     /**
-     * Display smspro settings page
+     * Display softsmsalerts settings page
      *
      * @param array $templates templates.
      *
@@ -146,15 +146,15 @@ class SmsAlertEdd
      */
     public function addSections($sections)
     {
-        $sections['smspro']= array(
-        'customer_notification' => __('Customer Notifications', 'softeria-sms-alerts'),
-        'admin_notification'    => __('Admin Notifications', 'softeria-sms-alerts')
+        $sections['softsmsalerts']= array(
+        'customer_notification' => __('Customer Notifications', 'soft-sms-alerts'),
+        'admin_notification'    => __('Admin Notifications', 'soft-sms-alerts')
         );
         return $sections;
     }
     
     /**
-     * Add register smspro settings.
+     * Add register softsmsalerts settings.
      *
      * @param array $settings settings.
      *
@@ -163,20 +163,20 @@ class SmsAlertEdd
     public function addRegisterSettings($settings)
     {
         
-        $settings['smspro']= apply_filters(
+        $settings['softsmsalerts']= apply_filters(
             'edd_settings_smspro', 
             array(
             'customer_notification' => array(
             'customer_setting' => array(
             'id'   => 'customer_setting',
-            'name' => '<h3>' . __('Customer', 'softeria-sms-alerts') . '</h3>',
+            'name' => '<h3>' . __('Customer', 'soft-sms-alerts') . '</h3>',
             'type' => 'descriptive_text'
                     )
             ),
             'admin_notification' => array(
                     'admin_setting' => array(
                         'id'   => 'admin_setting',
-                        'name' => '<h3>' . __('Admin', 'softeria-sms-alerts') . '</h3>',
+                        'name' => '<h3>' . __('Admin', 'soft-sms-alerts') . '</h3>',
                         'type' => 'descriptive_text'
             )
             )
@@ -186,7 +186,7 @@ class SmsAlertEdd
     }
     
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -194,7 +194,7 @@ class SmsAlertEdd
      */
     public function addAdminTab($tabs)
     {
-        $tabs['smspro'] = 'Softeria Tech';
+        $tabs['softsmsalerts'] = 'Softeria Tech';
         return $tabs;
     }
 

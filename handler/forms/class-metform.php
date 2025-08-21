@@ -62,7 +62,7 @@ class SA_Metform extends FormInterface
     public function addSmsalertSetting()
     {
         echo'<li role="presentation">
-		        <a href="#mf-smspro" aria-controls="smspro"
+		        <a href="#mf-softsmsalerts" aria-controls="softsmsalerts"
 				role="tab" data-toggle="tab" 
 				class="top">Softeria Tech</a>
             </li>'; 
@@ -76,7 +76,7 @@ class SA_Metform extends FormInterface
     public function smsproSettingContent()
     {
         echo '<a href="https://sms.softeriatech.com/knowledgebase/metform-sms-integration/" target="_blank" class="btn-outline"><span class="dashicons dashicons-format-aside"></span> Documentation</a><br><br>';        
-        echo'<div role="tabpanel" class="attr-tab-pane" id="mf-smspro">
+        echo'<div role="tabpanel" class="attr-tab-pane" id="mf-softsmsalerts">
 				<div class="attr-modal-body" id="metform_form_modal_body">
                     <div class="mf-input-group">
 							<label class="attr-input-label"  >

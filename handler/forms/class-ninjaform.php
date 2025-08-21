@@ -179,7 +179,7 @@ class NinjaForm extends FormInterface
 						<div class="field-wrap submit-wrap">
 							<div class="nf-field-label"></div>
 							<div class="nf-field-element">
-								<input id="sa_verify_'.$uniqueNo.'" class="sa-otp-btn-init ninja-forms-field nf-element softeria_alerts_otp_btn_submit" value="' . __('Submit', 'softeria-sms-alerts') . '" type="button">
+								<input id="sa_verify_'.$uniqueNo.'" class="sa-otp-btn-init ninja-forms-field nf-element softeria_alerts_otp_btn_submit" value="' . __('Submit', 'soft-sms-alerts') . '" type="button">
 							</div>
 						</div>
 					</div>
@@ -307,7 +307,7 @@ class NinjaForm extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend
+     * Add tabs to softsmsalerts settings at backend
      *
      * @param array $tabs list of tabs data.
      *
@@ -353,9 +353,9 @@ class NinjaForm extends FormInterface
     }
 
     /**
-     * Get default settings for the smspro ninja forms.
+     * Get default settings for the softsmsalerts ninja forms.
      *
-     * @param array $defaults smspro backend settings default values.
+     * @param array $defaults softsmsalerts backend settings default values.
      *
      * @return array
      */

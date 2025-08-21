@@ -47,19 +47,19 @@ class SABlocks
     {
             
         $blocks = array(
-        'softeria-sms-alerts/sa-loginwithotp'     => array(
+        'soft-sms-alerts/sa-loginwithotp'     => array(
         'render_callback' => array( $this, 'sa_loginwithotp_render' ),
         ),
-        'softeria-sms-alerts/sa-signupwithmobile'     => array(
+        'soft-sms-alerts/sa-signupwithmobile'     => array(
         'render_callback' => array( $this, 'sa_signupwithmobile_render' ),
         ),
-        'softeria-sms-alerts/sa-sharecart'     => array(
+        'soft-sms-alerts/sa-sharecart'     => array(
         'render_callback' => array( $this, 'sa_sharecart_render' ),
         )
         );
 
         foreach ( $blocks as $k => $block_data ) {
-            $block_type = str_replace('softeria-sms-alerts/', '', $k);
+            $block_type = str_replace('soft-sms-alerts/', '', $k);
             register_block_type_from_metadata(SA_MOV_DIR . 'blocks/' . $block_type, $block_data);
         }
     }

@@ -132,7 +132,7 @@ class ContactForm7 extends FormInterface
         }        
            
         if (isset($visitor_number) && SmsAlertUtility::isBlank($visitor_number)) {            
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'soft-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
             exit();
         }
 
@@ -160,7 +160,7 @@ class ContactForm7 extends FormInterface
     }    
     
     /**
-     * Show warning if softeria-sms-alerts phone field not selected.
+     * Show warning if soft-sms-alerts phone field not selected.
      *
      * @param object $page   get page objects.
      * @param object $action get action objects.
@@ -178,7 +178,7 @@ class ContactForm7 extends FormInterface
             if (((!empty($options['visitor_notification']) && 'on' === $options['visitor_notification']) || (!empty($options['auto_sync']) && 'on' === $options['auto_sync'])) && (empty($options['visitorNumber']) || (!empty($options['visitorNumber']) && '[billing_phone]' !== $options['visitorNumber']))) {
                 echo sprintf(
                     '<div id="message" class="notice notice-warning"><p>%s</p></div>',
-                    esc_html__("Please choose Softeria Tech phone field in Softeria Tech tab", 'softeria-sms-alerts')
+                    esc_html__("Please choose Softeria Tech phone field in Softeria Tech tab", 'soft-sms-alerts')
                 );
             }
         }
@@ -199,7 +199,7 @@ class ContactForm7 extends FormInterface
     }
 
     /**
-     * Handle smspro wpcf7 shortcode.
+     * Handle softsmsalerts wpcf7 shortcode.
      *
      * @param object $tag get tag objects.
      *
@@ -217,7 +217,7 @@ class ContactForm7 extends FormInterface
 
         $validation_error = wpcf7_get_validation_error($tag->name);
 
-        $class = wpcf7_form_controls_class($tag->type, 'wpcf7-smspro');
+        $class = wpcf7_form_controls_class($tag->type, 'wpcf7-softsmsalerts');
         if ($validation_error ) {
             $class .= ' wpcf7-not-valid';
         }
@@ -291,7 +291,7 @@ class ContactForm7 extends FormInterface
     }
 
     /**
-     * Tag generator for smspro phone field to cf7 for version 2
+     * Tag generator for softsmsalerts phone field to cf7 for version 2
      *
      * @return void
      */
@@ -304,7 +304,7 @@ class ContactForm7 extends FormInterface
     }
 	
 	/**
-     * Tag generator for smspro phone field to cf7
+     * Tag generator for softsmsalerts phone field to cf7
      *
      * @return void
      */
@@ -317,7 +317,7 @@ class ContactForm7 extends FormInterface
     }
 	
 	/**
-     * Tag generator form for smspro phone tag in cf7 backend
+     * Tag generator form for softsmsalerts phone tag in cf7 backend
      *
      * @param object $contact_form cf7 form object.
      * @param array  $args         cf7 form arguments.
@@ -393,13 +393,13 @@ class ContactForm7 extends FormInterface
 
         <br class="clear" />
 
-        <p class="description mail-tag"><label for="<?php echo esc_attr($args['content'] . '-mailtag'); ?>"><?php echo wp_kses_post(sprintf(__('To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.', 'softeria-sms-alerts'), '<strong><span class="mail-tag"></span></strong>')); ?><input type="text" class="mail-tag code hidden" readonly="readonly" id="<?php echo esc_attr($args['content'] . '-mailtag'); ?>" /></label></p>
+        <p class="description mail-tag"><label for="<?php echo esc_attr($args['content'] . '-mailtag'); ?>"><?php echo wp_kses_post(sprintf(__('To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.', 'soft-sms-alerts'), '<strong><span class="mail-tag"></span></strong>')); ?><input type="text" class="mail-tag code hidden" readonly="readonly" id="<?php echo esc_attr($args['content'] . '-mailtag'); ?>" /></label></p>
     </div>
         <?php
     }
 
     /**
-     * Tag generator form for smspro phone tag in cf7 backend
+     * Tag generator form for softsmsalerts phone tag in cf7 backend
      *
      * @param object $contact_form cf7 form object.
      * @param array  $args         cf7 form arguments.
@@ -417,7 +417,7 @@ class ContactForm7 extends FormInterface
 		$tgg->print( 'field_type', array(
 			'with_required' => true,
 			'select_options' => array(
-				'billing_phone' => __( 'Softeria Tech Phone', 'softeria-sms-alerts' ),
+				'billing_phone' => __( 'Softeria Tech Phone', 'soft-sms-alerts' ),
 			),
 		) );
 
@@ -496,12 +496,12 @@ class ContactForm7 extends FormInterface
             $message                           = str_replace('##phone##', $getdata['user_phone'], SmsAlertMessages::showMessage('OTP_SENT_PHONE'));
             softeria_alerts_site_challenge_otp('test', null, null, trim($getdata['user_phone']), 'phone', null, null, true);
         } else {
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Enter a number in the following format : 9xxxxxxxxx', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Enter a number in the following format : 9xxxxxxxxx', 'soft-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
         }
     }
 
     /**
-     * Validate form post for smspro phone field at frontend.
+     * Validate form post for softsmsalerts phone field at frontend.
      *
      * @param object $result result .
      * @param object $tag    tag .
@@ -590,8 +590,8 @@ class ContactForm7 extends FormInterface
             $messages,
             array(
             'invalid_no' => array(
-            'description' => __('Invalid number', 'softeria-sms-alerts'),
-            'default'     => __('Invalid number', 'softeria-sms-alerts'),
+            'description' => __('Invalid number', 'soft-sms-alerts'),
+            'default'     => __('Invalid number', 'soft-sms-alerts'),
             ),
             )
         );
@@ -749,7 +749,7 @@ class ContactForm7 extends FormInterface
     }
 
     /**
-     * Add smspro menu link to contact form 7 menu as submenu.
+     * Add softsmsalerts menu link to contact form 7 menu as submenu.
      *
      * @param array $panels panels.
      *
@@ -757,7 +757,7 @@ class ContactForm7 extends FormInterface
      */
     public function newMenuSmsAlert( $panels )
     {
-        $panels['softeria-sms-alerts-sms-panel'] = array(
+        $panels['soft-sms-alerts-sms-panel'] = array(
         'title'    => __('Softeria Tech'),
         'callback' => array( $this, 'addPanelSmsAlert' ),
         );
@@ -795,7 +795,7 @@ class ContactForm7 extends FormInterface
     }
 
     /**
-     * Save form settings at backend for smspro and cf7.
+     * Save form settings at backend for softsmsalerts and cf7.
      *
      * @param object $form form object.
      *

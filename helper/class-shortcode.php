@@ -47,7 +47,7 @@ class Shortcode
     }
     
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -76,11 +76,11 @@ class Shortcode
     public static function addSaSubscribe($callback)
     {                        
         $grp_name = ( ! empty($callback['group_name']) ) ? $callback['group_name'] : '';
-        $sa_name = ( ! empty($callback['sa_name']) ) ? $callback['sa_name'] : esc_html__('Name', 'softeria-sms-alerts');        
-        $sa_placeholder = ( ! empty($callback['sa_placeholder']) ) ? $callback['sa_placeholder'] : esc_html__('Enter Name', 'softeria-sms-alerts');    
-        $sa_mobile = ( ! empty($callback['sa_mobile']) ) ? $callback['sa_mobile'] : esc_html__('Mobile', 'softeria-sms-alerts');
-        $sa_mobile_placeholder = ( ! empty($callback['sa_mobile_placeholder']) ) ? $callback['sa_mobile_placeholder'] : esc_html__('Enter Mobile Number', 'softeria-sms-alerts');
-        $sa_button = ( ! empty($callback['sa_button']) ) ? $callback['sa_button'] : esc_html__('Subscribe', 'softeria-sms-alerts');
+        $sa_name = ( ! empty($callback['sa_name']) ) ? $callback['sa_name'] : esc_html__('Name', 'soft-sms-alerts');        
+        $sa_placeholder = ( ! empty($callback['sa_placeholder']) ) ? $callback['sa_placeholder'] : esc_html__('Enter Name', 'soft-sms-alerts');    
+        $sa_mobile = ( ! empty($callback['sa_mobile']) ) ? $callback['sa_mobile'] : esc_html__('Mobile', 'soft-sms-alerts');
+        $sa_mobile_placeholder = ( ! empty($callback['sa_mobile_placeholder']) ) ? $callback['sa_mobile_placeholder'] : esc_html__('Enter Mobile Number', 'soft-sms-alerts');
+        $sa_button = ( ! empty($callback['sa_button']) ) ? $callback['sa_button'] : esc_html__('Subscribe', 'soft-sms-alerts');
         $form_html = "<form id='sa-subscribe-form'>
 			   <input type='hidden' name='grp_name' id='sa_grp_name' value='".esc_attr($grp_name)."'>
 			   <p>
@@ -155,7 +155,7 @@ class Shortcode
         $button_field    = ( ! empty($callback['sa_button']) ) ? $callback['sa_button'] : 'Login with OTP';
         $enabled_login_with_otp = softeria_alerts_get_option('login_with_otp', 'softeria_alerts_general');
         if ('on' !== $enabled_login_with_otp && current_user_can('administrator')) {
-            return(esc_html__('Please Enable Login With OTP.', 'softeria-sms-alerts'));
+            return(esc_html__('Please Enable Login With OTP.', 'soft-sms-alerts'));
         }
         $unique_class    = 'sa-lwo-'.mt_rand(1, 100);
         if (is_user_logged_in() && !current_user_can('administrator')) {
@@ -203,7 +203,7 @@ class Shortcode
         $enabled_signup_with_mobile = softeria_alerts_get_option('signup_with_mobile', 'softeria_alerts_general');
         $unique_class    = 'sa-swm-'.mt_rand(1, 100);
         if ('on' !== $enabled_signup_with_mobile && current_user_can('administrator')) {
-            return(esc_html__('Please Enable Signup With Mobile.', 'softeria-sms-alerts'));
+            return(esc_html__('Please Enable Signup With Mobile.', 'soft-sms-alerts'));
         }
         if (is_user_logged_in() && !current_user_can('administrator')) {
             return;

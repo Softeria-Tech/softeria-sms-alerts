@@ -43,7 +43,7 @@ class TeraWallet
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -56,7 +56,7 @@ class TeraWallet
         'templates'        => self::getWcWoowalletTemplates(),
         );
 
-        $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['title']       = __('TeraWallet Notifications', 'softeria-sms-alerts');
+        $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['title']       = __('TeraWallet Notifications', 'soft-sms-alerts');
         $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['tab_section'] = 'woowallettemplates';
         $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['tabContent']  = $woowallet_param;
         $tabs['woocommerce']['inner_nav']['wc_woowalletnotification']['filePath']    = 'views/message-template.php';
@@ -88,10 +88,10 @@ class TeraWallet
     public static function getWcWoowalletTemplates()
     {
         $woo_wallet_credited_msg          = softeria_alerts_get_option('woo_wallet_credited_msg', 'softeria_alerts_general', 'on');
-        $sms_body_woo_wallet_credited_msg = softeria_alerts_get_option('sms_body_woo_wallet_credited_msg', 'softeria_alerts_message', sprintf(__('Dear %1$s, %2$s has been credited to your wallet. Current wallet balance is : %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[username]', '[amount]', '[wallet_amount]', PHP_EOL, PHP_EOL));
+        $sms_body_woo_wallet_credited_msg = softeria_alerts_get_option('sms_body_woo_wallet_credited_msg', 'softeria_alerts_message', sprintf(__('Dear %1$s, %2$s has been credited to your wallet. Current wallet balance is : %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[username]', '[amount]', '[wallet_amount]', PHP_EOL, PHP_EOL));
 
         $woo_wallet_debited_msg          = softeria_alerts_get_option('woo_wallet_debited_msg', 'softeria_alerts_general', 'on');
-        $sms_body_woo_wallet_debited_msg = softeria_alerts_get_option('sms_body_woo_wallet_debited_msg', 'softeria_alerts_message', sprintf(__('Dear %1$s, %2$s has been debited from your wallet. Current wallet balance is : %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[username]', '[amount]', '[wallet_amount]', PHP_EOL, PHP_EOL));
+        $sms_body_woo_wallet_debited_msg = softeria_alerts_get_option('sms_body_woo_wallet_debited_msg', 'softeria_alerts_message', sprintf(__('Dear %1$s, %2$s has been debited from your wallet. Current wallet balance is : %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[username]', '[amount]', '[wallet_amount]', PHP_EOL, PHP_EOL));
 
         $templates = array();
 

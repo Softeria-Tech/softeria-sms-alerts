@@ -113,7 +113,7 @@ class Sa_Backinstock
 
         echo wp_kses(
             '<p class="form-field form-row form-row-full">
-		<label for="softeria_alerts_backinstock_subscribers">' . __('Backorders', 'softeria-sms-alerts') . '</label>
+		<label for="softeria_alerts_backinstock_subscribers">' . __('Backorders', 'soft-sms-alerts') . '</label>
 		<input type="text" name="softeria_alerts_backinstock_subscribers" value="' . All_Subscriber_List::getNosSubscribersByProductId($variation->ID) . '" class="input-text short softeria_alerts_backinstock_subscribers" disabled style="border:none;box-shadow:none"/>
 	</p>',
             $allowedposttags
@@ -142,7 +142,7 @@ class Sa_Backinstock
 
             echo wp_kses(
                 '<p class="form-field">
-            <label for="softeria_alerts_backinstock_subscribers">' . esc_html__('Backorders', 'softeria-sms-alerts') . '</label>
+            <label for="softeria_alerts_backinstock_subscribers">' . esc_html__('Backorders', 'soft-sms-alerts') . '</label>
 			<input type="text" name="softeria_alerts_backinstock_subscribers" value="' . All_Subscriber_List::getNosSubscribersByProductId($post->ID) . '" class="input-text short softeria_alerts_backinstock_subscribers" disabled style="border:none;box-shadow:none"/>
         </p>',
                 $allowedposttags
@@ -196,15 +196,15 @@ class Sa_Backinstock
             'sa_single_product',
             'sa_notices',
             array(
-            'waiting_txt' => __('Please wait...', 'softeria-sms-alerts'),
-            'enter_here'  => __('Enter Number Here', 'softeria-sms-alerts'),
+            'waiting_txt' => __('Please wait...', 'soft-sms-alerts'),
+            'enter_here'  => __('Enter Number Here', 'soft-sms-alerts'),
             )
         );
         wp_enqueue_script('sa_single_product');
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -217,7 +217,7 @@ class Sa_Backinstock
         'templates'        => self::getBackInStockTemplates(),
         );
 
-        $tabs['woocommerce']['inner_nav']['backinstock']['title']       = __('Notify Me', 'softeria-sms-alerts');
+        $tabs['woocommerce']['inner_nav']['backinstock']['title']       = __('Notify Me', 'soft-sms-alerts');
         $tabs['woocommerce']['inner_nav']['backinstock']['tab_section'] = 'backinstocktemplates';
         $tabs['woocommerce']['inner_nav']['backinstock']['tabContent']  = $backinstock_param;
         $tabs['woocommerce']['inner_nav']['backinstock']['filePath']    = 'views/notifyme-template.php';
@@ -557,7 +557,7 @@ class Sa_Backinstock
 
             if (! empty($check_is_already_subscribed) ) {
                 $data['status']      = 'error';
-                $data['description'] = __('Seems like you have already subscribed to this product', 'softeria-sms-alerts');
+                $data['description'] = __('Seems like you have already subscribed to this product', 'soft-sms-alerts');
             } else {
                 if ('' !== $subscriber_phone ) {
 
@@ -582,7 +582,7 @@ class Sa_Backinstock
                         SmsAlertcURLOTP::sendsms($buyer_sms_data);
                     }
                     $data['status']      = 'success';
-                    $data['description'] = __('You have subscribed successfully.', 'softeria-sms-alerts');
+                    $data['description'] = __('You have subscribed successfully.', 'soft-sms-alerts');
                 }
             }
         }
@@ -850,7 +850,7 @@ class All_Subscriber_List extends WP_List_Table
      */
     public function no_items()
     {
-        esc_html_e('No Subscriber.', 'softeria-sms-alerts');
+        esc_html_e('No Subscriber.', 'soft-sms-alerts');
     }
 
     /**
@@ -975,7 +975,7 @@ class All_Subscriber_List extends WP_List_Table
     {
         $actions = array(
         'delete' => 'Delete',
-        'sa_sub_sendsms' => __('Send SMS', 'softeria-sms-alerts'),
+        'sa_sub_sendsms' => __('Send SMS', 'soft-sms-alerts'),
         );
         return $actions;
     }
@@ -1097,7 +1097,7 @@ function subscriberPageHandler()
 
     if ('delete' === $table_data->current_action() ) {
         /* translators: %d: Number of items deleted */
-        $message = '<div class="updated below-h2" id="message"><p>' . sprintf(__('Items deleted: %d', 'custom_table_example'), $cnt) . '</p></div>';
+        $message = '<div class="updated below-h2" id="message"><p>' . sprintf(__('Items deleted: %d', 'soft-sms-alerts'), $cnt) . '</p></div>';
     }
     ?>
 <div class="wrap">

@@ -209,7 +209,7 @@ class SAVerify
             softeria_alerts_site_challenge_otp('test', null, null, $phone, 'phone', null, null, 'ajax');
         } else {
             if (SmsAlertUtility::isBlank($getdata['user_phone'])) {
-                $message = __('Please enter phone number.', 'softeria-sms-alerts');
+                $message = __('Please enter phone number.', 'soft-sms-alerts');
             } else {
                 $message = str_replace('##phone##', $getdata['user_phone'], $phoneLogic->_get_otp_invalid_format_message());
             }

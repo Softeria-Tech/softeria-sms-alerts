@@ -203,7 +203,7 @@ class Quickrestaurantreservation extends FormInterface
 
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -273,7 +273,7 @@ class Quickrestaurantreservation extends FormInterface
             $schedulerData  = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[booking_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'soft-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[booking_date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
@@ -318,7 +318,7 @@ class Quickrestaurantreservation extends FormInterface
             $checkboxNameId  = 'softeria_alerts_qr_general[customer_qr_notify_' . strtolower($vs) . ']';
             $textareaNameId  = 'softeria_alerts_qr_message[customer_sms_qr_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_qr_body_' . strtolower($vs), 'softeria_alerts_qr_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '[booking_id]', '[store_name]', $label, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_qr_body_' . strtolower($vs), 'softeria_alerts_qr_message', sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[name]', '[booking_id]', '[store_name]', $label, PHP_EOL, PHP_EOL));
 
 
             $textBody       = softeria_alerts_get_option('customer_sms_qr_body_' . strtolower($vs), 'softeria_alerts_qr_message', $defaultTemplate);
@@ -351,7 +351,7 @@ class Quickrestaurantreservation extends FormInterface
             $checkboxNameId  = 'softeria_alerts_qr_general[admin_qr_notify_' . strtolower($vs) . ']';
             $textareaNameId  = 'softeria_alerts_qr_message[admin_sms_qr_body_' . strtolower($vs) . ']';
 
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_qr_body_' . strtolower($vs), 'softeria_alerts_qr_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $label, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_qr_body_' . strtolower($vs), 'softeria_alerts_qr_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $label, PHP_EOL, PHP_EOL));
 
 
             $textBody = softeria_alerts_get_option('admin_sms_qr_body_' . strtolower($vs), 'softeria_alerts_qr_message', $defaultTemplate);

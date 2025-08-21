@@ -229,7 +229,7 @@ class SA_Wsform extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend
+     * Add tabs to softsmsalerts settings at backend
      *
      * @param array $tabs list of tabs data.
      *
@@ -288,9 +288,9 @@ class SA_Wsform extends FormInterface
     }
 
     /**
-     * Get default settings for the smspro ws form.
+     * Get default settings for the softsmsalerts ws form.
      *
-     * @param array $defaults smspro backend settings default values.
+     * @param array $defaults softsmsalerts backend settings default values.
      *
      * @return array
      */

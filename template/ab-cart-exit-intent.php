@@ -14,7 +14,7 @@ if (! defined('ABSPATH') ) {
     exit;
 }
 
- $post = get_page_by_path('exitintent_style', OBJECT, 'softeria-sms-alerts');
+ $post = get_page_by_path('exitintent_style', OBJECT, 'soft-sms-alerts');
 if (is_plugin_active('elementor/elementor.php') && !empty($post)) {  
     $post_id= $post->ID;    
     $frontent = new Frontend();

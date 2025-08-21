@@ -49,11 +49,11 @@
                         Notify Me Style:                </td>
             <td><?php
                 $disabled = (! is_plugin_active('elementor/elementor.php')) ? "anchordisabled" : "";
-                $post = get_page_by_path('notifyme_style', OBJECT, 'softeria-sms-alerts'); 
+                $post = get_page_by_path('notifyme_style', OBJECT, 'soft-sms-alerts'); 
             ?>              
-                <a href= <?php get_admin_url() ?>"edit.php?post_name=notifyme_style" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="button <?php echo $disabled; ?> notifyme action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'softeria-sms-alerts'); ?></a>
+                <a href= <?php get_admin_url() ?>"edit.php?post_name=notifyme_style" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" class="button <?php echo $disabled; ?> notifyme action" target="_blank" style="float:left;"><?php esc_html_e('Edit With Elementor', 'soft-sms-alerts'); ?></a>
                 <?php if (!empty($post->post_type)) {?>
-                <a href="#" onclick="return false;" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" id="btn_reset_style" temp-style="notifyme_style" class="btn_reset_style btn-outline" style="float:left;"><?php esc_html_e('Reset', 'softeria-sms-alerts'); ?></a>
+                <a href="#" onclick="return false;" data-parent_id="<?php echo esc_attr($template['checkboxNameId']); ?>" id="btn_reset_style" temp-style="notifyme_style" class="btn_reset_style btn-outline" style="float:left;"><?php esc_html_e('Reset', 'soft-sms-alerts'); ?></a>
                     <?php
                 }
                 ?>
@@ -61,7 +61,7 @@
             <?php
             if ($disabled!='') {
                 ?>        
-            <span><?php esc_html_e('To edit, please install elementor plugin', 'softeria-sms-alerts'); ?>    </span>
+            <span><?php esc_html_e('To edit, please install elementor plugin', 'soft-sms-alerts'); ?>    </span>
                 <?php
             }
             ?>
@@ -87,6 +87,6 @@ if (!empty($templates)) {
 ?>
 
 <div class="submit" style="clear:both">
-    <a href="admin.php?page=all-subscriber" class="button action alignright"><?php esc_html_e('View Subscriber', 'softeria-sms-alerts'); ?></a>
+    <a href="admin.php?page=all-subscriber" class="button action alignright"><?php esc_html_e('View Subscriber', 'soft-sms-alerts'); ?></a>
 </div>
 

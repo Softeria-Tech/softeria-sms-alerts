@@ -66,7 +66,7 @@ class SA_Abandoned_Cart
     {
 
         $this->plugin_name = SOFTERIA_ALERTS_PLUGIN_NAME_SLUG;
-        $this->version     = 'softeria-sms-alerts';
+        $this->version     = 'soft-sms-alerts';
 
         $this->loadDependencies();
         if ('on' === softeria_alerts_get_option('customer_notify', 'softeria_alerts_abandoned_cart') ) {
@@ -211,7 +211,7 @@ class SA_Abandoned_Cart
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -539,7 +539,7 @@ class SA_Cart_Admin
             if (0 === self::abandonedCartCount() ) { // If no abandoned carts, then output this note
                 ?>
                 <p>
-                <?php esc_html_e('Looks like you do not have any saved Abandoned carts yet.<br/>But do not worry, as soon as someone fills the <strong>Phone number</strong> fields of your WooCommerce Checkout form and abandons the cart, it will automatically appear here.', 'softeria-sms-alerts'); ?>
+                <?php esc_html_e('Looks like you do not have any saved Abandoned carts yet.<br/>But do not worry, as soon as someone fills the <strong>Phone number</strong> fields of your WooCommerce Checkout form and abandons the cart, it will automatically appear here.', 'soft-sms-alerts'); ?>
                 </p>
             <?php } else { ?>
                 <form method="GET">
@@ -831,13 +831,13 @@ class SA_Cart_Admin
             wp_register_script('reports_js', SA_MOV_URL . 'js/ab-cart-graph.js', '', SmsAlertConstants::SA_VERSION, false);
 
             $sa_duration_range_select = array(
-            'this_month'   => __('This Month', 'softeria-sms-alerts'),
-            'last_month'   => __('Last Month', 'softeria-sms-alerts'),
-            'this_quarter' => __('This Quarter', 'softeria-sms-alerts'),
-            'last_quarter' => __('Last Quarter', 'softeria-sms-alerts'),
-            'this_year'    => __('This Year', 'softeria-sms-alerts'),
-            'last_year'    => __('Last Year', 'softeria-sms-alerts'),
-            'custom'       => __('Custom', 'softeria-sms-alerts'),
+            'this_month'   => __('This Month', 'soft-sms-alerts'),
+            'last_month'   => __('Last Month', 'soft-sms-alerts'),
+            'this_quarter' => __('This Quarter', 'soft-sms-alerts'),
+            'last_quarter' => __('Last Quarter', 'soft-sms-alerts'),
+            'this_year'    => __('This Year', 'soft-sms-alerts'),
+            'last_year'    => __('Last Year', 'soft-sms-alerts'),
+            'custom'       => __('Custom', 'soft-sms-alerts'),
             );
             $sa_duration_range        = isset($_GET['softeria_alerts_date_range']) ? sanitize_text_field(wp_unslash($_GET['softeria_alerts_date_range'])) : 'this_month';
 
@@ -854,7 +854,7 @@ class SA_Cart_Admin
                 <div class = "filter_date_drop_down" id = "filter_date_drop_down" >
                     <label class="date_time_filter_label" for="date_time_filter_label">
                         <strong>
-            <?php esc_html_e('Select date range:', 'softeria-sms-alerts'); ?>
+            <?php esc_html_e('Select date range:', 'soft-sms-alerts'); ?>
                         </strong>
                     </label>
 
@@ -865,7 +865,7 @@ class SA_Cart_Admin
                 if ($key == $sa_duration_range ) {
                     $sel = 'selected';
                 }
-             echo sprintf( "<option value='%s' %s>%s</option>", esc_attr( $key ), esc_attr( $sel ), esc_attr( __( $value, 'softeria-sms-alerts' ) ) ); //phpcs:ignore
+             echo sprintf( "<option value='%s' %s>%s</option>", esc_attr( $key ), esc_attr( $sel ), esc_attr( __( $value, 'soft-sms-alerts' ) ) ); //phpcs:ignore
             }
             ?>
                     </select>
@@ -874,7 +874,7 @@ class SA_Cart_Admin
                         <input type="date" id="sa_end_date" name="sa_end_date" value="<?php echo esc_attr($end_date); ?>" placeholder="yyyy-mm-dd"/>
                     </div>
                     <div id="sa_submit_button" class="sa_submit_button">
-                        <button type="submit" class="button-primary" id="sa_search" value="go"><?php esc_html_e('Go', 'softeria-sms-alerts'); ?></button>
+                        <button type="submit" class="button-primary" id="sa_search" value="go"><?php esc_html_e('Go', 'soft-sms-alerts'); ?></button>
                         <a href="admin.php?page=ab-cart-reports" class="button-secondary">Reset</a>
                     </div>
 
@@ -975,7 +975,7 @@ class SA_Cart_Admin
         global $pagenow;
 
         // Checking if we are on open plugin page
-        if ('admin.php' === $pagenow && 'softeria-sms-alerts' === sanitize_text_field($_GET['page']) ) {
+        if ('admin.php' === $pagenow && 'soft-sms-alerts' === sanitize_text_field($_GET['page']) ) {
 
             // Checking if WP Cron hooks are scheduled
             $missing_hooks = array();
@@ -1000,14 +1000,14 @@ class SA_Cart_Admin
                 <?php
                 echo sprintf(
                 /* translators: %s - Cron event name */
-                    _n('It seems that WP Cron event <strong>%s</strong> required for automation is not scheduled.', 'It seems that WP Cron events <strong>%s</strong> required for automation are not scheduled.', $total, 'softeria-sms-alerts'),
+                    _n('It seems that WP Cron event <strong>%s</strong> required for automation is not scheduled.', 'It seems that WP Cron events <strong>%s</strong> required for automation are not scheduled.', $total, 'soft-sms-alerts'),
                     $hooks
                 );
                 ?>
                 <?php
                 echo sprintf(
                 /* translators: %1$s - Plugin name, %2$s - Link */
-                    __('Please try disabling and enabling %1$s plugin. If this notice does not go away after that, please <a href="https://wordpress.org/support/plugin/softeria-sms-alerts/" target="_blank">get in touch with us</a>.', 'softeria-sms-alerts'),
+                    __('Please try disabling and enabling %1$s plugin. If this notice does not go away after that, please <a href="https://wordpress.org/support/plugin/soft-sms-alerts/" target="_blank">get in touch with us</a>.', 'soft-sms-alerts'),
                     SOFTERIA_ALERTS_PLUGIN_NAME
                 );
                 ?>
@@ -1021,7 +1021,7 @@ class SA_Cart_Admin
                 if (DISABLE_WP_CRON == true ) {
                     ?>
                     <div class="warning notice updated">
-                        <p class="left-part"><?php esc_html_e('WP Cron has been disabled. Several WordPress core features, such as checking for updates or sending notifications utilize this function. Please enable it or contact your system administrator to help you with this.', 'softeria-sms-alerts'); ?></p>
+                        <p class="left-part"><?php esc_html_e('WP Cron has been disabled. Several WordPress core features, such as checking for updates or sending notifications utilize this function. Please enable it or contact your system administrator to help you with this.', 'soft-sms-alerts'); ?></p>
                     </div>
                     <?php
                 }
@@ -1294,7 +1294,7 @@ class SA_Cart_Admin
                         'notice',
                         sprintf(
                         /* translators: %d - Product ID */
-                            __('Unable to restore product in the shopping cart since the product no longer exists. ID: %d', 'softeria-sms-alerts'),
+                            __('Unable to restore product in the shopping cart since the product no longer exists. ID: %d', 'soft-sms-alerts'),
                             $product['product_id']
                         )
                     );
@@ -1387,15 +1387,15 @@ class SA_Admin_Table extends WP_List_Table
     {
         return $columns = array(
         'cb'            => '<input type="checkbox" />',
-        'id'            => __('ID', 'softeria-sms-alerts'),
-        'name'          => __('Name, Surname', 'softeria-sms-alerts'),
-        'email'         => __('Email', 'softeria-sms-alerts'),
-        'phone'         => __('Phone', 'softeria-sms-alerts'),
-        'location'      => __('Location', 'softeria-sms-alerts'),
-        'cart_contents' => __('Cart contents', 'softeria-sms-alerts'),
-        'cart_total'    => __('Cart total', 'softeria-sms-alerts'),
-        'time'          => __('Time', 'softeria-sms-alerts'),
-        'status'        => __('Status', 'softeria-sms-alerts'),
+        'id'            => __('ID', 'soft-sms-alerts'),
+        'name'          => __('Name, Surname', 'soft-sms-alerts'),
+        'email'         => __('Email', 'soft-sms-alerts'),
+        'phone'         => __('Phone', 'soft-sms-alerts'),
+        'location'      => __('Location', 'soft-sms-alerts'),
+        'cart_contents' => __('Cart contents', 'soft-sms-alerts'),
+        'cart_total'    => __('Cart total', 'soft-sms-alerts'),
+        'time'          => __('Time', 'soft-sms-alerts'),
+        'status'        => __('Status', 'soft-sms-alerts'),
         );
     }
 
@@ -1440,7 +1440,7 @@ class SA_Admin_Table extends WP_List_Table
     {
         $req_page = sanitize_text_field(wp_unslash($_REQUEST['page']));
         $actions  = array(
-        'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $req_page, $item['id'], __('Delete', 'softeria-sms-alerts')),
+        'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $req_page, $item['id'], __('Delete', 'soft-sms-alerts')),
         );
 
         return sprintf(
@@ -1595,7 +1595,7 @@ class SA_Admin_Table extends WP_List_Table
         if ($utc_time > strtotime('-1 day', current_time('timestamp')) ) { // In case the abandoned cart is newly captued
             $friendly_time = sprintf(
             /* translators: %1$s - Time, e.g. 1 minute, 5 hours */
-                __('%1$s ago', 'softeria-sms-alerts'),
+                __('%1$s ago', 'soft-sms-alerts'),
                 human_time_diff(
                     $utc_time,
                     current_time('timestamp')
@@ -1623,17 +1623,17 @@ class SA_Admin_Table extends WP_List_Table
         $status       = '';
 
         if ($cart_time > $current_time - SHOPPING_INPROGRESS * 60 && '0' === $item['msg_sent'] && '0' === $item['recovered'] ) { // Checking time if user is still shopping or might return - we add shopping label
-            $status .= sprintf('<span class="status shopping">%s</span>', __('Shopping', 'softeria-sms-alerts'));
+            $status .= sprintf('<span class="status shopping">%s</span>', __('Shopping', 'soft-sms-alerts'));
 
         } else {
             if ($cart_time > ( $current_time - CART_STATUS_CHANGED * 60 ) && '0' === $item['msg_sent'] && '0' === $item['recovered'] ) { // Checking time if user has not gone through with the checkout after the specified time we add new label
-                $status .= sprintf('<span class="status new" >%s</span>', __('New', 'softeria-sms-alerts'));
+                $status .= sprintf('<span class="status new" >%s</span>', __('New', 'soft-sms-alerts'));
             }
             if ('0' !== $item['msg_sent'] && '0' === $item['recovered'] ) {
-                $status .= sprintf('<div class="status-item-container"><span class="status msg-sent" >%s (%s)</span></div>', __('MSG Sent', 'softeria-sms-alerts'), $item['msg_sent']);
+                $status .= sprintf('<div class="status-item-container"><span class="status msg-sent" >%s (%s)</span></div>', __('MSG Sent', 'soft-sms-alerts'), $item['msg_sent']);
             }
             if ('1' === $item['recovered'] ) {
-                $status .= sprintf('<div class="status-item-container"><span class="status recovered" >%s</span></div>', __('Recovered', 'softeria-sms-alerts'));
+                $status .= sprintf('<div class="status-item-container"><span class="status recovered" >%s</span></div>', __('Recovered', 'soft-sms-alerts'));
             }
         }
         return $status;
@@ -1662,8 +1662,8 @@ class SA_Admin_Table extends WP_List_Table
     function get_bulk_actions()
     {
         $actions = array(
-        'delete' => __('Delete', 'softeria-sms-alerts'),
-        'sa_abcart_sendsms' => __('Send SMS', 'softeria-sms-alerts'),
+        'delete' => __('Delete', 'soft-sms-alerts'),
+        'sa_abcart_sendsms' => __('Send SMS', 'soft-sms-alerts'),
         );
         return $actions;
     }

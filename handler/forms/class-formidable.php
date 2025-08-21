@@ -131,7 +131,7 @@ class Formidable extends FormInterface
         $visitor_phone         = isset($datas['visitor_phone'])?$datas['visitor_phone']:'';
         $phone = !empty($_POST['item_meta'][$visitor_phone])?$_POST['item_meta'][$visitor_phone]:'';          
         if (isset($phone) && SmsAlertUtility::isBlank($phone)) {            
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'soft-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
             exit();
         }
         return $this->processFormFields($phone);            
@@ -157,7 +157,7 @@ class Formidable extends FormInterface
 
 
     /**
-     * Add smspro shortcode
+     * Add softsmsalerts shortcode
      *
      * @param string $button button.
      * @param array  $args   args.
@@ -222,7 +222,7 @@ class Formidable extends FormInterface
         if ((!empty($enable_message) || !empty($enable_otp)) && empty($visitor_phone)) {                
             $errors[] = esc_html__(
                 '
-					Please choose Softeria Tech phone field in Softeria Tech tab', 'softeria-sms-alerts' 
+					Please choose Softeria Tech phone field in Softeria Tech tab', 'soft-sms-alerts' 
             );
         }   
         return $errors;     
@@ -260,7 +260,7 @@ class Formidable extends FormInterface
     }
 
     /**
-     * Display smspro settings
+     * Display softsmsalerts settings
      *
      * @param array $sections sections.
      * @param array $values   values.
@@ -269,9 +269,9 @@ class Formidable extends FormInterface
      */
     public function frmAddSettings( $sections,$values )
     {
-        $sections['smspro'] = array(
-        'name'     => __('Softeria Tech', 'softeria-sms-alerts'),
-        'title'    => __('Softeria Tech Settings', 'softeria-sms-alerts'),
+        $sections['softsmsalerts'] = array(
+        'name'     => __('Softeria Tech', 'soft-sms-alerts'),
+        'title'    => __('Softeria Tech Settings', 'soft-sms-alerts'),
         'function' => array( 'Formidable', 'softeria_alerts_settings' ),
         'id'       => 'frm_softeria_alerts_settings',
         'icon'     => 'frm_icon_font frm_mail_bulk_icon',
@@ -280,7 +280,7 @@ class Formidable extends FormInterface
     }
 
     /**
-     * Display smspro settings page
+     * Display softsmsalerts settings page
      *
      * @param array $values values.
      *

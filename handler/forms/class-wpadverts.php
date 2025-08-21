@@ -174,7 +174,7 @@ class SA_WPadverts extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -246,11 +246,11 @@ class SA_WPadverts extends FormInterface
             $schedulerData = array();
             $schedulerData['cron'][] = array(
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your advertisement %2$s with %3$s is expired on %4$s.%5$s', 'softeria-sms-alerts'), '[authorName]', '#[id]', '[store_name]', '[expiration_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your advertisement %2$s with %3$s is expired on %4$s.%5$s', 'soft-sms-alerts'), '[authorName]', '#[id]', '[store_name]', '[expiration_date]', PHP_EOL, PHP_EOL),
             );
             $schedulerData['cron'][] = array(
                 'frequency' => '2',
-                'message'   => sprintf(__('Hello %1$s, your advertisement %2$s with %3$s is expired on %4$s.%5$s', 'softeria-sms-alerts'), '[authorName]', '#[id]', '[store_name]', '[expiration_date]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your advertisement %2$s with %3$s is expired on %4$s.%5$s', 'soft-sms-alerts'), '[authorName]', '#[id]', '[store_name]', '[expiration_date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ($schedulerData['cron'] as $key => $data) {
@@ -287,7 +287,7 @@ class SA_WPadverts extends FormInterface
             $currentVal      = softeria_alerts_get_option('customer_adv_notify_' . strtolower($vs), 'softeria_alerts_adv_general', 'on');
             $checkboxNameId  = 'softeria_alerts_adv_general[customer_adv_notify_' . strtolower($vs) . ']';
             $textareaNameId  = 'softeria_alerts_adv_message[customer_sms_adv_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', sprintf(__('Hello %1$s, status of your advertisement #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[authorName]', '[id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', sprintf(__('Hello %1$s, status of your advertisement #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[authorName]', '[id]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
             $textBody       = softeria_alerts_get_option('customer_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When advertisement status is ' . ucwords($vs);
             $templates[$ks]['enabled']        = $currentVal;
@@ -337,7 +337,7 @@ class SA_WPadverts extends FormInterface
             $currentVal      = softeria_alerts_get_option('admin_adv_notify_' . strtolower($vs), 'softeria_alerts_adv_general', 'on');
             $checkboxNameId  = 'softeria_alerts_adv_general[admin_adv_notify_' . strtolower($vs) . ']';
             $textareaNameId  = 'softeria_alerts_adv_message[admin_sms_adv_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', sprintf(__('%1$s status of advertisement has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', $vs));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', sprintf(__('%1$s status of advertisement has been changed to %2$s.', 'soft-sms-alerts'), '[store_name]:', $vs));
             $textBody = softeria_alerts_get_option('admin_sms_adv_body_' . strtolower($vs), 'softeria_alerts_adv_message', $defaultTemplate);
             $templates[$ks]['title']          = 'When advertisement status is ' . $vs;
             $templates[$ks]['enabled']        = $currentVal;

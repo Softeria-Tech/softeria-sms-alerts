@@ -69,7 +69,7 @@ class Fluentcrm extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -128,7 +128,7 @@ class Fluentcrm extends FormInterface
             $currentVal      = softeria_alerts_get_option('customer_ft_notify_' . strtolower($vs), 'softeria_alerts_ft_general', 'on');
             $checkboxNameId  = 'softeria_alerts_ft_general[customer_ft_notify_' . strtolower($vs) . ']';
             $textareaNameId  = 'softeria_alerts_ft_message[customer_sms_ft_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', sprintf(__('Hello %1$s, status of your contact with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[first_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', sprintf(__('Hello %1$s, status of your contact with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[first_name]', '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
             $textBody = softeria_alerts_get_option('customer_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', $defaultTemplate);
@@ -158,7 +158,7 @@ class Fluentcrm extends FormInterface
             $currentVal      = softeria_alerts_get_option('admin_ft_notify_' . strtolower($vs), 'softeria_alerts_ft_general', 'on');
             $checkboxNameId  = 'softeria_alerts_ft_general[admin_ft_notify_' . strtolower($vs) . ']';
             $textareaNameId  = 'softeria_alerts_ft_message[admin_sms_ft_body_' . strtolower($vs) . ']';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', sprintf(__('Hello admin, status of your contact with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', sprintf(__('Hello admin, status of your contact with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
 
             $textBody       = softeria_alerts_get_option('admin_sms_ft_body_' . strtolower($vs), 'softeria_alerts_ft_message', $defaultTemplate);

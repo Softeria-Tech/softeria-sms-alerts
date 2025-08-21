@@ -111,7 +111,7 @@ class BuddyPressRegistrationForm extends FormInterface
     public function bpSiteLoginMobile($form = null, $args=array())
     {
         if ($form == null || is_array($form) || $form == 'login') {
-               echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'softeria-sms-alerts') . '" style="width: 100%;box-sizing: border-box">' . __('Login with OTP', 'softeria-sms-alerts') . '</button></div>';
+               echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'soft-sms-alerts') . '" style="width: 100%;box-sizing: border-box">' . __('Login with OTP', 'soft-sms-alerts') . '</button></div>';
             add_action('wp_footer', array( $this, 'addLoginwithotpShortcode' ), 15);
         }
     }
@@ -192,7 +192,7 @@ class BuddyPressRegistrationForm extends FormInterface
         if (softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') !== 'on' && ! SmsAlertUtility::isBlank($phone) ) {    
             $getusers = SmsAlertUtility::getUsersByPhone('billling_phone', $phone);
             if (count($getusers) > 0 ) {  
-                $bp->signup->errors['signup_phone'] =  __('An account is already registered with this mobile number!', 'softeria-sms-alerts');
+                $bp->signup->errors['signup_phone'] =  __('An account is already registered with this mobile number!', 'soft-sms-alerts');
                 $bp->signup->signup_phone = $_POST['signup_phone'];
                 return;
             }            
@@ -228,7 +228,7 @@ class BuddyPressRegistrationForm extends FormInterface
     public function smsproBpAddSignupPhoneField( $fields )
     {
         $fields['account_details']['signup_phone'] = array(
-        'label'          => __('Phone', 'softeria-sms-alerts'),
+        'label'          => __('Phone', 'soft-sms-alerts'),
         'required'       => true,
         'value'          => '',
         'attribute_type' => 'phone',

@@ -235,7 +235,7 @@ class BookingCalendar extends FormInterface
     }
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -298,7 +298,7 @@ class BookingCalendar extends FormInterface
             $scheduler_data  = array();
             $scheduler_data['cron'][] = array(
             'frequency' => '1',
-            'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
+            'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'soft-sms-alerts'), '[name]', '#[booking_id]', '[store_name]', '[date]', PHP_EOL, PHP_EOL),
             );
         }
         foreach ( $scheduler_data['cron'] as $key => $data ) {
@@ -380,7 +380,7 @@ class BookingCalendar extends FormInterface
             $textarea_name_id = 'softeria_alerts_bc_message[admin_sms_bc_body_' . strtolower($vs) . ']';
 
             /* translators: %1$s: Store name tag, %2$s: Booking status */
-            $text_body = softeria_alerts_get_option('admin_sms_bc_body_' . strtolower($vs), 'softeria_alerts_bc_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
+            $text_body = softeria_alerts_get_option('admin_sms_bc_body_' . strtolower($vs), 'softeria_alerts_bc_message', sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL));
 
             $templates[ $ks ]['title']          = 'When admin change status to ' . ucwords($vs);
             $templates[ $ks ]['enabled']        = $current_val;

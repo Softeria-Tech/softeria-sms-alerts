@@ -154,8 +154,8 @@ class LearnpressRegistrationForm extends FormInterface
     public function smsproLearnpressAddPhoneField( )
     {
         ?><li class="form-field">
-                <label for="reg_username"><?php esc_html_e('Phone', 'softeria-sms-alerts'); ?>&nbsp;<span class="required">*</span></label>
-                <input id ="billing_phone" name="billing_phone" type="text" placeholder="<?php esc_attr_e('Phone', 'softeria-sms-alerts'); ?>" autocomplete="phone" value="<?php echo esc_attr(LP_Helper::sanitize_params_submitted($_POST['billing_phone'] ?? '')); ?>">
+                <label for="reg_username"><?php esc_html_e('Phone', 'soft-sms-alerts'); ?>&nbsp;<span class="required">*</span></label>
+                <input id ="billing_phone" name="billing_phone" type="text" placeholder="<?php esc_attr_e('Phone', 'soft-sms-alerts'); ?>" autocomplete="phone" value="<?php echo esc_attr(LP_Helper::sanitize_params_submitted($_POST['billing_phone'] ?? '')); ?>">
             </li><?php
     }
 

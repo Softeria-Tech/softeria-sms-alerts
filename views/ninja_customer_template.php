@@ -24,7 +24,7 @@ if (! empty($ninja_forms) ) {
             <table class="form-table">
                 <tr>
                     <td><input data-parent_id="softeria_alerts_ninja_general[ninja_order_status_<?php echo esc_attr($ks); ?>]" type="checkbox" name="softeria_alerts_ninja_general[ninja_message_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_ninja_general[ninja_message_<?php echo esc_attr($ks); ?>]" class="notify_box" <?php echo ( ( softeria_alerts_get_option('ninja_message_' . esc_attr($ks), 'softeria_alerts_ninja_general', 'on') === 'on' ) ? "checked='checked'" : '' ); ?>/><label>Enable Message</label>
-                    <a href="admin.php?page=ninja-forms&form_id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'softeria-sms-alerts')?></small></a>
+                    <a href="admin.php?page=ninja-forms&form_id=<?php echo $ks;?>" title="Edit Form" target="_blank" class="alignright"><small><?php esc_html_e('Edit Form', 'soft-sms-alerts')?></small></a>
                     </td>
                 </tr>
                 <tr valign="top" style="position:relative">

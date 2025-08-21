@@ -1,7 +1,7 @@
 <?php
 /**
- * This file handles gravity form smspro notification
- * This file handles gravity form smspro notification
+ * This file handles gravity form softsmsalerts notification
+ * This file handles gravity form softsmsalerts notification
  *
  * PHP version 5
  *
@@ -25,7 +25,7 @@ if (! is_plugin_active('gravityforms-master/gravityforms.php')
 GFForms::include_feed_addon_framework();
 
 /**
- * This file handles gravity form smspro notification
+ * This file handles gravity form softsmsalerts notification
  *
  * PHP version 5
  *
@@ -54,11 +54,11 @@ class GF_SMS_Alert extends GFFeedAddOn
     protected $_min_gravityforms_version = '1.8.20';
 
     /**
-     * Add on gravity and smspro slug
+     * Add on gravity and softsmsalerts slug
      *
      * @var stirng
      */
-    protected $_slug = 'gravity-forms-softeria-sms-alerts';
+    protected $_slug = 'gravity-forms-soft-sms-alerts';
 
     /**
      * Add full path
@@ -89,14 +89,14 @@ class GF_SMS_Alert extends GFFeedAddOn
     protected $_multiple_feeds = false;
 
     /**
-     * Instance for smspro addon.
+     * Instance for softsmsalerts addon.
      *
      * @var object
      */
     private static $_instance = null;
     
     /**
-     * ErrorMsg for smspro form setting.
+     * ErrorMsg for softsmsalerts form setting.
      *
      * @var string
      */
@@ -380,7 +380,7 @@ class GF_SMS_Alert extends GFFeedAddOn
     
     
     /**
-     * Handle form submission at gravity smspro setting.
+     * Handle form submission at gravity softsmsalerts setting.
      *
      * @param array $feed_id  form feed_id. 
      * @param array $form_id  form form_id.
@@ -397,7 +397,7 @@ class GF_SMS_Alert extends GFFeedAddOn
             GFCommon::add_error_message(
                 __(
                     "Please enter
-			your customer number.", 'softeria-sms-alerts'
+			your customer number.", 'soft-sms-alerts'
                 )
             );
             $result = false;
@@ -408,7 +408,7 @@ class GF_SMS_Alert extends GFFeedAddOn
             GFCommon::add_error_message(
                 __(
                     "Please enter
-			your customer number.", 'softeria-sms-alerts'
+			your customer number.", 'soft-sms-alerts'
                 )
             );
             $result = false;
@@ -419,7 +419,7 @@ class GF_SMS_Alert extends GFFeedAddOn
             GFCommon::add_error_message(
                 __(
                     "Please enter
-			your admin number.", 'softeria-sms-alerts'
+			your admin number.", 'soft-sms-alerts'
                 )
             );
             $result = false;
@@ -431,7 +431,7 @@ class GF_SMS_Alert extends GFFeedAddOn
     }
     
     /**
-     * Handle form submission at gravity smspro setting save error message.
+     * Handle form submission at gravity softsmsalerts setting save error message.
      *
      * @param array $sections form sections. 
      *
@@ -441,7 +441,7 @@ class GF_SMS_Alert extends GFFeedAddOn
     {
         return !empty($this->_errorMsg) ? '' : esc_html__(
             'There
-		was an error while saving your settings.', 'softeria-sms-alerts'
+		was an error while saving your settings.', 'soft-sms-alerts'
         );
     }
     
@@ -463,7 +463,7 @@ class GF_SMS_Alert extends GFFeedAddOn
         $meta       = RGFormsModel::get_form_meta($entry['form_id']);       
         $feeds      = GFAPI::get_feeds(
             null, $entry['form_id'],
-            'gravity-forms-softeria-sms-alerts'
+            'gravity-forms-soft-sms-alerts'
         );
         foreach ( $feeds as $feed ) {
             if (count($feed) > 0 && array_key_exists('meta', $feed) ) {
@@ -528,7 +528,7 @@ add_action(
 
 
  /**
-  * This file handles gravity form smspro notification
+  * This file handles gravity form softsmsalerts notification
   *
   * PHP version 5
   *
@@ -680,7 +680,7 @@ class GF_Smsalert_Form extends FormInterface
         $meta       = RGFormsModel::get_form_meta($entry['form_id']);      
         $feeds      = GFAPI::get_feeds(
             null, $entry['form_id'],
-            'gravity-forms-softeria-sms-alerts'
+            'gravity-forms-soft-sms-alerts'
         );
                  
         foreach ( $feeds as $feed ) {        
@@ -799,7 +799,7 @@ class GF_Smsalert_Form extends FormInterface
         $admin_nos           = '';             
         $admin_notification  = '';    
         $meta       = RGFormsModel::get_form_meta($entry['form_id']);
-        $feeds      = GFAPI::get_feeds(null, $entry['form_id'],    'gravity-forms-softeria-sms-alerts');            
+        $feeds      = GFAPI::get_feeds(null, $entry['form_id'],    'gravity-forms-soft-sms-alerts');            
         foreach ( $feeds as $feed ) {        
             if (count($feed) > 0 && array_key_exists('meta', $feed) ) {
                 $statuss = strtolower($post->post_status);
@@ -874,7 +874,7 @@ class GF_Smsalert_Form extends FormInterface
     }
     
     /**
-     * Handle smspro gravity shortcode.
+     * Handle softsmsalerts gravity shortcode.
      *
      * @param int $form_id form id.
      *
@@ -905,7 +905,7 @@ class GF_Smsalert_Form extends FormInterface
         $meta       = RGFormsModel::get_form_meta($entry['form_id']);      
         $feeds      = GFAPI::get_feeds(
             null, $entry['form_id'],
-            'gravity-forms-softeria-sms-alerts'
+            'gravity-forms-soft-sms-alerts'
         );        
         foreach ( $feeds as $feed ) {        
             if (count($feed) > 0 && array_key_exists('meta', $feed) ) {
@@ -976,7 +976,7 @@ class GF_Smsalert_Form extends FormInterface
     }    
     
     /**
-     * Handle smspro gravity shortcode.
+     * Handle softsmsalerts gravity shortcode.
      *
      * @param object $button get button.
      * @param object $form   get form array.
@@ -988,7 +988,7 @@ class GF_Smsalert_Form extends FormInterface
         $form_id          = $form["fields"][0]->formId;
         $feeds            = GFAPI::get_feeds(
             null, $form_id,
-            'gravity-forms-softeria-sms-alerts'
+            'gravity-forms-soft-sms-alerts'
         );
         if (!empty($feeds->errors)) {
             return $button;

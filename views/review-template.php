@@ -52,18 +52,18 @@ $url = add_query_arg(
             <table class="form-table">
                 <tbody>
                     <tr valign="top">
-                        <th scope="row"> <?php esc_html_e('Send Review SMS after', 'softeria-sms-alerts'); ?> <span class="tooltip" data-title="Enter SOFTSMSAlerts Password"><span class="dashicons dashicons-info"></span></span>
+                        <th scope="row"> <?php esc_html_e('Send Review SMS after', 'soft-sms-alerts'); ?> <span class="tooltip" data-title="Enter SOFTSMSAlerts Password"><span class="dashicons dashicons-info"></span></span>
                         </th>
                         <td>
                             <input type="number" data-parent_id="softeria_alerts_or_general[customer_notify]" name="softeria_alerts_review[schedule_day]" id="softeria_alerts_review[schedule_day]" min="1" max="90" value="<?php echo esc_attr(softeria_alerts_get_option('schedule_day', 'softeria_alerts_review', '1')); ?>"  style="width: 36%;"><span class="tooltip" data-title="Max day 90"><span class="dashicons dashicons-info"></span></span>
                         </td>
-                        <th scope="row"><?php esc_html_e('Days when order is marked as', 'softeria-sms-alerts'); ?><span class="tooltip" data-title="Select Order Status"><span class="dashicons dashicons-info"></span></span>
+                        <th scope="row"><?php esc_html_e('Days when order is marked as', 'soft-sms-alerts'); ?><span class="tooltip" data-title="Select Order Status"><span class="dashicons dashicons-info"></span></span>
                         </th>
                         <td>
                             <select name="softeria_alerts_review[review_status]" id="softeria_alerts_review[review_status]" data-parent_id="softeria_alerts_or_general[customer_notify]" style="width:100%">
                                 <option value="completed" selected>
                                 <?php
-                                echo esc_html(softeria_alerts_get_option('review_status', 'softeria_alerts_review', __('Completed', 'softeria-sms-alerts')));
+                                echo esc_html(softeria_alerts_get_option('review_status', 'softeria_alerts_review', __('Completed', 'soft-sms-alerts')));
                                 ?>
                                 </option>
                                 <?php
@@ -78,7 +78,7 @@ $url = add_query_arg(
                     </tr>
                     <tr valign="top">
                         <th scope="row">
-                        <input type="checkbox" data-parent_id="softeria_alerts_or_general[customer_notify]" name="softeria_alerts_review[send_at]" id="softeria_alerts_review[send_at]" class="notify_box" <?php echo ( ( softeria_alerts_get_option('send_at', 'softeria_alerts_review', 'off') === 'on' ) ? "checked='checked'" : '' ); ?>/><?php esc_html_e('Send At', 'softeria-sms-alerts'); ?> <span class="tooltip" data-title="Send At"><span class="dashicons dashicons-info"></span></span>
+                        <input type="checkbox" data-parent_id="softeria_alerts_or_general[customer_notify]" name="softeria_alerts_review[send_at]" id="softeria_alerts_review[send_at]" class="notify_box" <?php echo ( ( softeria_alerts_get_option('send_at', 'softeria_alerts_review', 'off') === 'on' ) ? "checked='checked'" : '' ); ?>/><?php esc_html_e('Send At', 'soft-sms-alerts'); ?> <span class="tooltip" data-title="Send At"><span class="dashicons dashicons-info"></span></span>
                         </th>
                         <td>
                             <input type="time" data-parent_id="softeria_alerts_review[send_at]" name="softeria_alerts_review[schedule_time]" id="softeria_alerts_review[schedule_time]" value="<?php echo esc_attr(softeria_alerts_get_option('schedule_time', 'softeria_alerts_review', '10:00')); ?>" ><span class="tooltip" data-title="Schedule time"><span class="dashicons dashicons-info"></span></span>

@@ -204,12 +204,12 @@ class WPLogin extends FormInterface
     {
         $verify = check_ajax_referer('softeria_alerts_wp_loginwithotp_nonce', 'softeria_alerts_loginwithotp_nonce', false);
         if (!$verify) {
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Sorry, nonce did not verify.', 'softeria-sms-alerts'), 'error'));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Sorry, nonce did not verify.', 'soft-sms-alerts'), 'error'));
         }
         if (is_plugin_active('google-captcha/google-captcha.php')) {
             $check_result = apply_filters('gglcptch_verify_recaptcha', true, 'string', 'sa_lwo_form');
             if (true !== $check_result ) { 
-                wp_send_json(SmsAlertUtility::_create_json_response(__('The reCaptcha verification failed. Please try again.', 'softeria-sms-alerts'), 'error'));
+                wp_send_json(SmsAlertUtility::_create_json_response(__('The reCaptcha verification failed. Please try again.', 'soft-sms-alerts'), 'error'));
             }
         }
         if (isset($_REQUEST['username']) ) {
@@ -217,7 +217,7 @@ class WPLogin extends FormInterface
             $phone_number = ! empty($_REQUEST['username']) ? sanitize_text_field(wp_unslash($_REQUEST['username'])) : '';
             $billing_phone = SmsAlertcURLOTP::checkPhoneNos($phone_number);
             if (SmsAlertUtility::isBlank($phone_number)) {
-                wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'softeria-sms-alerts'), 'error'));
+                wp_send_json(SmsAlertUtility::_create_json_response(__('Please enter phone number.', 'soft-sms-alerts'), 'error'));
             } else if (! $billing_phone ) {
 
                 $message = str_replace('##phone##', $phone_number, $phoneLogic->_get_otp_invalid_format_message());
@@ -257,7 +257,7 @@ class WPLogin extends FormInterface
     public function smsproDisplayLoginWithOtp($form = null, $args=array())
     {
         if ($form == null || is_array($form) || $form == 'login') {
-            echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'softeria-sms-alerts') . '" style="width: 100%;box-sizing: border-box;display:block">' . __('Login with OTP', 'softeria-sms-alerts') . '</button></div>';
+            echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'soft-sms-alerts') . '" style="width: 100%;box-sizing: border-box;display:block">' . __('Login with OTP', 'soft-sms-alerts') . '</button></div>';
 			add_action('wp_footer', array( $this, 'addLoginwithotpShortcode' ), 15);
             if (is_plugin_active('google-captcha/google-captcha.php')) {
                 gglcptch_add_scripts();
@@ -272,7 +272,7 @@ class WPLogin extends FormInterface
      */
     function showLoginWithOtpAdmin()
     {        
-        echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'softeria-sms-alerts') . '" style="box-sizing: border-box">' . __('Login with OTP', 'softeria-sms-alerts') . '</button></div>';
+        echo '<div class="lwo-container"><div class="sa_or">OR</div><button type="button" class="button sa_myaccount_btn" name="sa_myaccount_btn_login" value="' . __('Login with OTP', 'soft-sms-alerts') . '" style="box-sizing: border-box">' . __('Login with OTP', 'soft-sms-alerts') . '</button></div>';
         add_action('login_footer', array( $this, 'addAdminLoginWithOtpShortcode' ), 15);
           
     }
@@ -484,7 +484,7 @@ class WPLogin extends FormInterface
     }
 
     /**
-     * Handle smspro login after submitted by user.
+     * Handle softsmsalerts login after submitted by user.
      *
      * @param array  $user     user data.
      * @param string $username wp username.
@@ -617,7 +617,7 @@ class WPLogin extends FormInterface
             softeria_alerts_site_otp_validation_form(null, null, null, SmsAlertMessages::showMessage('PHONE_NOT_FOUND'), null, null);
         } else {
             SmsAlertUtility::initialize_transaction($this->form_session_var);
-            softeria_alerts_external_phone_validation_form(SmsAlertUtility::currentPageUrl(), $user->data->user_login, __('A new security system has been enabled for you. Please register your phone to continue.', 'softeria-sms-alerts'), $key, array( 'user_login' => $username ));
+            softeria_alerts_external_phone_validation_form(SmsAlertUtility::currentPageUrl(), $user->data->user_login, __('A new security system has been enabled for you. Please register your phone to continue.', 'soft-sms-alerts'), $key, array( 'user_login' => $username ));
         }
     }
 
@@ -656,7 +656,7 @@ class WPLogin extends FormInterface
         if (! $this->checkWpLoginRestrictDuplicates()
             && ! SmsAlertUtility::isBlank($this->getUserFromPhoneNumber($data['billing_phone'], $this->phone_number_key)) 
         ) {
-            wp_send_json(SmsAlertUtility::_create_json_response(__('Phone Number is already in use. Please use another number.', 'softeria-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SmsAlertUtility::_create_json_response(__('Phone Number is already in use. Please use another number.', 'soft-sms-alerts'), SmsAlertConstants::ERROR_JSON_TYPE));
         } elseif (isset($_SESSION[ $this->form_session_var ]) ) {
             softeria_alerts_site_challenge_otp('ajax_phone', '', null, trim($data['billing_phone']), 'phone', null, $data, null);
         }

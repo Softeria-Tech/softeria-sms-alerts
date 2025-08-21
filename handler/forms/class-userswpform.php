@@ -93,7 +93,7 @@ class UsersWpForm extends FormInterface
         }
         $verify = check_ajax_referer('uwp-register-nonce', 'uwp_register_nonce', false);
         if (!$verify) {
-            return new WP_Error('registration-error-invalid-nonce', __('Sorry, nonce did not verify.', 'softeria-sms-alerts'));
+            return new WP_Error('registration-error-invalid-nonce', __('Sorry, nonce did not verify.', 'soft-sms-alerts'));
         }
         if (is_wp_error($errors) ) {
             return $errors;
@@ -111,12 +111,12 @@ class UsersWpForm extends FormInterface
 
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $user_phone);
             if (count($getusers) > 0 ) {
-                return new WP_Error('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
+                return new WP_Error('registration-error-number-exists', __('An account is already registered with this mobile number. Please login.', 'soft-sms-alerts'));
             }
         }
 
         if (isset($user_phone) && SmsAlertUtility::isBlank($user_phone) ) {
-            return new WP_Error('registration-error-invalid-phone', __('Please enter phone number.', 'softeria-sms-alerts'));
+            return new WP_Error('registration-error-invalid-phone', __('Please enter phone number.', 'soft-sms-alerts'));
         }
 
         return $this->processFormFields($username, $email, $errors, $password);
@@ -301,7 +301,7 @@ class UsersWpForm extends FormInterface
     }
     
     /**
-     * Add smspro modal.
+     * Add softsmsalerts modal.
      *
      * @return string
      */

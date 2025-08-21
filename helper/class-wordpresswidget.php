@@ -32,8 +32,8 @@ class SofteriaAlertsWidgets extends \WP_Widget
     {
         parent::__construct(
             'softeria_alerts_widget',
-            esc_html__('SOFTSMSAlerts', 'softeria-sms-alerts'),
-            array('description' => esc_html__('Add smspro form', 'softeria-sms-alerts'),)
+            esc_html__('SOFTSMSAlerts', 'soft-sms-alerts'),
+            array('description' => esc_html__('Add softsmsalerts form', 'soft-sms-alerts'),)
         );
     }
 

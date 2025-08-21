@@ -224,7 +224,7 @@ class SAMemberMouses extends FormInterface
 
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -295,12 +295,12 @@ class SAMemberMouses extends FormInterface
             $scheduler_data  = array();
             $scheduler_data['cron'][] = array(
             'frequency' => '1',
-            'message'   => sprintf(__('Hello %1$s, your subscription %2$s with %3$s is due for renewal on %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '#[member_id]', '[store_name]', '[next_payment_date]', PHP_EOL, PHP_EOL),
+            'message'   => sprintf(__('Hello %1$s, your subscription %2$s with %3$s is due for renewal on %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '#[member_id]', '[store_name]', '[next_payment_date]', PHP_EOL, PHP_EOL),
            
             );
             $scheduler_data['cron'][] = array(
             'frequency' => '2',
-            'message'   => sprintf(__('Hello %1$s, your subscription %2$s with %3$s is due for renewal on %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '#[member_id]', '[store_name]', '[next_payment_date]', PHP_EOL, PHP_EOL),
+            'message'   => sprintf(__('Hello %1$s, your subscription %2$s with %3$s is due for renewal on %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '#[member_id]', '[store_name]', '[next_payment_date]', PHP_EOL, PHP_EOL),
          
             );
         }
@@ -338,7 +338,7 @@ class SAMemberMouses extends FormInterface
         $currentVal         = softeria_alerts_get_option('customer_mm_notify_member_added', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[customer_mm_notify_member_added]';
             $textareaNameId  = 'softeria_alerts_mm_message[customer_sms_mm_body_member_added]';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_membership_status', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[member_id]', '[store_name]', '[status_name]', PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_membership_status', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '[member_id]', '[store_name]', '[status_name]', PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_mm_body_member_added', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -356,7 +356,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('customer_mm_notify_mm_status', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[customer_mm_notify_mm_status]';
             $textareaNameId  = 'softeria_alerts_mm_message[customer_sms_mm_body_mm_status]';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_mm_status', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[member_id]', '[store_name]', '[status_name]', PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_mm_status', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '[member_id]', '[store_name]', '[status_name]', PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_mm_body_mm_status', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -374,7 +374,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('customer_mm_notify_membership_level', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[customer_mm_notify_membership_level]';
             $textareaNameId  = 'softeria_alerts_mm_message[customer_sms_mm_body_membership_level]';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_membership_level', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[member_id]', '[store_name]', '[membership_level_name]', PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_membership_level', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your membership #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '[member_id]', '[store_name]', '[membership_level_name]', PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_mm_body_membership_level', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -391,7 +391,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('customer_mm_notify_bundle_status', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[customer_mm_notify_add_bundle]';
             $textareaNameId  = 'softeria_alerts_mm_message[customer_sms_mm_body_add_bundle]';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your bundle #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[bundle_id]', '[store_name]', '[bundle_name]', PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your bundle #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '[bundle_id]', '[store_name]', '[bundle_name]', PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_mm_body_add_bundle', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -408,7 +408,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('customer_mm_notify_bundle_status', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[customer_mm_notify_bundle_status]';
             $textareaNameId  = 'softeria_alerts_mm_message[customer_sms_mm_body_bundle_status]';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your bundle #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[first_name]', '[bundle_id]', '[store_name]', '[bundle_status_name]', PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, status of your bundle #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[first_name]', '[bundle_id]', '[store_name]', '[bundle_status_name]', PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -426,7 +426,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('customer_mm_notify_mm_payment', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[customer_mm_notify_mm_payment]';
             $textareaNameId  = 'softeria_alerts_mm_message[customer_sms_mm_body_mm_payment]';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_mm_payment', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, payment status for your order #%2$s with %3$s has been changed to completed.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[first_name]', '[order_transaction_id]', '[store_name]', PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_mm_payment', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, payment status for your order #%2$s with %3$s has been changed to completed.%4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[first_name]', '[order_transaction_id]', '[store_name]', PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_mm_body_mm_payment', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -444,7 +444,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('customer_mm_notify_mm_payment_refund', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[customer_mm_notify_mm_payment_refund]';
             $textareaNameId  = 'softeria_alerts_mm_message[customer_sms_mm_body_mm_payment_refund]';
-            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_mm_payment_refund', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, payment status for your order #%2$s with %3$s has been changed to refunded.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[first_name]', '[order_transaction_id]', '[store_name]', PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('customer_sms_mm_body_mm_payment_refund', 'softeria_alerts_mm_message', sprintf(__('Hello %1$s, payment status for your order #%2$s with %3$s has been changed to refunded.%4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[first_name]', '[order_transaction_id]', '[store_name]', PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('customer_sms_mm_body_mm_payment_refund', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -470,7 +470,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('admin_mm_notify_member_added', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[admin_mm_notify_member_added]';
             $textareaNameId  = 'softeria_alerts_mm_message[admin_sms_mm_body_member_added]';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_member_added', 'softeria_alerts_mm_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', '[status_name]', PHP_EOL, PHP_EOL));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_member_added', 'softeria_alerts_mm_message', sprintf(__('Hello admin, status of your membership with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', '[status_name]', PHP_EOL, PHP_EOL));
 
             $textBody = softeria_alerts_get_option('admin_sms_mm_body_member_added', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -488,7 +488,7 @@ class SAMemberMouses extends FormInterface
             $currentVal      = softeria_alerts_get_option('admin_mm_notify_mm_status', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[admin_mm_notify_mm_status]';
             $textareaNameId  = 'softeria_alerts_mm_message[admin_sms_mm_body_mm_status]';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_mm_status', 'softeria_alerts_mm_message', sprintf(__('%1$s status of membership has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', '[status_name]'));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_mm_status', 'softeria_alerts_mm_message', sprintf(__('%1$s status of membership has been changed to %2$s.', 'soft-sms-alerts'), '[store_name]:', '[status_name]'));
 
             $textBody = softeria_alerts_get_option('admin_sms_mm_body_mm_status', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -503,7 +503,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('admin_mm_notify_membership_level', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[admin_mm_notify_membership_level]';
             $textareaNameId  = 'softeria_alerts_mm_message[admin_sms_mm_body_membership_level]';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_membership_level', 'softeria_alerts_mm_message', sprintf(__('%1$s status of membership has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', '[membership_level_name]'));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_membership_level', 'softeria_alerts_mm_message', sprintf(__('%1$s status of membership has been changed to %2$s.', 'soft-sms-alerts'), '[store_name]:', '[membership_level_name]'));
 
             $textBody = softeria_alerts_get_option('admin_sms_mm_body_membership_level', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -520,7 +520,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('admin_mm_notify_add_bundle', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[admin_mm_notify_add_bundle]';
             $textareaNameId  = 'softeria_alerts_mm_message[admin_sms_mm_body_add_bundle]';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', sprintf(__('%1$s status of bundle has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', '[bundle_status_name]'));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', sprintf(__('%1$s status of bundle has been changed to %2$s.', 'soft-sms-alerts'), '[store_name]:', '[bundle_status_name]'));
 
             $textBody = softeria_alerts_get_option('admin_sms_mm_body_add_bundle', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -537,7 +537,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('admin_mm_notify_bundle_status', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[admin_mm_notify_bundle_status]';
             $textareaNameId  = 'softeria_alerts_mm_message[admin_sms_mm_body_bundle_status]';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', sprintf(__('%1$s status of bundle has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', '[bundle_status_name]'));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', sprintf(__('%1$s status of bundle has been changed to %2$s.', 'soft-sms-alerts'), '[store_name]:', '[bundle_status_name]'));
 
             $textBody = softeria_alerts_get_option('admin_sms_mm_body_bundle_status', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -553,7 +553,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('admin_mm_notify_mm_payment', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[admin_mm_notify_mm_payment]';
             $textareaNameId  = 'softeria_alerts_mm_message[admin_sms_mm_body_mm_payment]';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_mm_payment', 'softeria_alerts_mm_message', sprintf(__('%1$s status of membership has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', '[status_name]'));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_mm_payment', 'softeria_alerts_mm_message', sprintf(__('%1$s status of membership has been changed to %2$s.', 'soft-sms-alerts'), '[store_name]:', '[status_name]'));
 
             $textBody = softeria_alerts_get_option('admin_sms_mm_body_mm_payment', 'softeria_alerts_mm_message', $defaultTemplate);
 
@@ -569,7 +569,7 @@ class SAMemberMouses extends FormInterface
         $currentVal      = softeria_alerts_get_option('admin_mm_notify_mm_payment_refund', 'softeria_alerts_mm_general', 'on');
             $checkboxNameId  = 'softeria_alerts_mm_general[admin_mm_notify_mm_payment_refund]';
             $textareaNameId  = 'softeria_alerts_mm_message[admin_sms_mm_body_mm_payment_refund]';
-            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_mm_payment_refund', 'softeria_alerts_mm_message', sprintf(__('%1$s status of membership has been changed to %2$s.', 'softeria-sms-alerts'), '[store_name]:', '[status_name]'));
+            $defaultTemplate = softeria_alerts_get_option('admin_sms_mm_body_mm_payment_refund', 'softeria_alerts_mm_message', sprintf(__('%1$s status of membership has been changed to %2$s.', 'soft-sms-alerts'), '[store_name]:', '[status_name]'));
 
             $textBody = softeria_alerts_get_option('admin_sms_mm_body_mm_payment_refund', 'softeria_alerts_mm_message', $defaultTemplate);
 

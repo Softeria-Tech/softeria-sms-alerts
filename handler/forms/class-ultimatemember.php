@@ -99,7 +99,7 @@ class UltimateMemberRegistrationForm extends FormInterface
     }
     
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -170,7 +170,7 @@ class UltimateMemberRegistrationForm extends FormInterface
             $current_val      = softeria_alerts_get_option($status, 'softeria_alerts_um_general', 'on');
             $checkbox_name_id = 'softeria_alerts_um_general['.$status.']';
             $textarea_name_id = 'softeria_alerts_um_message['.$status.']';
-            $text_body        = softeria_alerts_get_option($status, 'softeria_alerts_um_message', sprintf(__('Dear %1$s, your account status with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'softeria-sms-alerts'), '[username]', '[store_name]', '[status]', PHP_EOL, PHP_EOL));
+            $text_body        = softeria_alerts_get_option($status, 'softeria_alerts_um_message', sprintf(__('Dear %1$s, your account status with %2$s has been changed to %3$s.%4$sPowered by%5$ssms.softeriatech.com', 'soft-sms-alerts'), '[username]', '[store_name]', '[status]', PHP_EOL, PHP_EOL));
 
             $templates[$status]['title']          = 'When Account Status is '.$label;
             $templates[$status]['enabled']        = $current_val;
@@ -324,7 +324,7 @@ class UltimateMemberRegistrationForm extends FormInterface
      */
     public function myBeforeForm( $args )
     {
-        echo '<p class="um-notice success"><i class="um-icon-ios-close-empty" onclick="jQuery(this).parent().fadeOut();"></i>' . __('Password Changed Successfully.', 'softeria-sms-alerts') . '</p>';
+        echo '<p class="um-notice success"><i class="um-icon-ios-close-empty" onclick="jQuery(this).parent().fadeOut();"></i>' . __('Password Changed Successfully.', 'soft-sms-alerts') . '</p>';
     }
 
     /**
@@ -384,7 +384,7 @@ class UltimateMemberRegistrationForm extends FormInterface
 
        
         if (isset($user_phone) && SmsAlertUtility::isBlank($user_phone) ) {
-            UM()->form()->add_error('registration-error-invalid-phone', __('Please enter phone number.', 'softeria-sms-alerts'));
+            UM()->form()->add_error('registration-error-invalid-phone', __('Please enter phone number.', 'soft-sms-alerts'));
         }
         
         global $phoneLogic;
@@ -395,7 +395,7 @@ class UltimateMemberRegistrationForm extends FormInterface
         if (softeria_alerts_get_option('allow_multiple_user', 'softeria_alerts_general') !== 'on' && ! SmsAlertUtility::isBlank($args['billing_phone']) ) {
             $getusers = SmsAlertUtility::getUsersByPhone('billing_phone', $args['billing_phone']);
             if (count($getusers) > 0 ) {
-                UM()->form()->add_error('billing_phone', __('An account is already registered with this mobile number. Please login.', 'softeria-sms-alerts'));
+                UM()->form()->add_error('billing_phone', __('An account is already registered with this mobile number. Please login.', 'soft-sms-alerts'));
             }
         }
         if (isset(UM()->form()->errors) ) {

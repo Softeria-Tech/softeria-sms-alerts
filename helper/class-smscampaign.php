@@ -82,7 +82,7 @@ class SmsCampaign
      */
     public function addUsersAction($actions)
     {
-        $actions['sa_user_sendsms'] = __('Send SMS', 'softeria-sms-alerts');
+        $actions['sa_user_sendsms'] = __('Send SMS', 'soft-sms-alerts');
 
         return $actions;
     }
@@ -119,7 +119,7 @@ class SmsCampaign
      */
     public function addOrdersAction($actions)
     {
-        $actions['sa_order_sendsms'] = __('Send SMS', 'softeria-sms-alerts');
+        $actions['sa_order_sendsms'] = __('Send SMS', 'soft-sms-alerts');
 
         return $actions;
     }

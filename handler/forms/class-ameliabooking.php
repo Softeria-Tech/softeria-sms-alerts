@@ -210,7 +210,7 @@ class SAameliabooking extends FormInterface
     
 
     /**
-     * Add tabs to smspro settings at backend.
+     * Add tabs to softsmsalerts settings at backend.
      *
      * @param array $tabs tabs.
      *
@@ -285,7 +285,7 @@ class SAameliabooking extends FormInterface
             $schedulerData = array();
             $schedulerData['cron'][] = [
                 'frequency' => '1',
-                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'softeria-sms-alerts'), '[firstName]', '#[appointmentId]', '[store_name]', '[bookingStart]', PHP_EOL, PHP_EOL),
+                'message'   => sprintf(__('Hello %1$s, your booking %2$s with %3$s is fixed on %4$s.%5$s', 'soft-sms-alerts'), '[firstName]', '#[appointmentId]', '[store_name]', '[bookingStart]', PHP_EOL, PHP_EOL),
             ];
         }
 
@@ -331,7 +331,7 @@ class SAameliabooking extends FormInterface
              $checkboxMameId = 'softeria_alerts_alb_general[customer_alb_notify_'.strtolower($vs).']';
              $textareaNameId = 'softeria_alerts_alb_message[customer_sms_alb_body_'.strtolower($vs).']';
 
-             $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'softeria-sms-alerts'), '[firstName]', '[appointmentId]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL);
+             $defaultTemplate = sprintf(__('Hello %1$s, status of your booking #%2$s with %3$s has been changed to %4$s.%5$s', 'soft-sms-alerts'), '[firstName]', '[appointmentId]', '[store_name]', strtolower($vs), PHP_EOL, PHP_EOL);
 
              $textBody = softeria_alerts_get_option('customer_sms_alb_body_'.strtolower($vs), 'softeria_alerts_alb_message', $defaultTemplate);
              $templates[$ks]['title']          = 'When customer booking is '.ucwords($vs);
@@ -368,7 +368,7 @@ class SAameliabooking extends FormInterface
             $checkboxMameId  = 'softeria_alerts_alb_general[admin_alb_notify_'.strtolower($vs).']';
             $textareaNameId  = 'softeria_alerts_alb_message[admin_sms_alb_body_'.strtolower($vs).']';
 
-            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'softeria-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
+            $defaultTemplate = sprintf(__('Hello admin, status of your booking with %1$s has been changed to %2$s. %3$sPowered by%4$ssms.softeriatech.com', 'soft-sms-alerts'), '[store_name]', $vs, PHP_EOL, PHP_EOL);
 
             $textBody       = softeria_alerts_get_option('admin_sms_alb_body_'.strtolower($vs), 'softeria_alerts_alb_message', $defaultTemplate);
 
