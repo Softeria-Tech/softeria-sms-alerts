@@ -123,7 +123,7 @@ class GF_SMS_Alert extends GFFeedAddOn
      */
     public function feed_settings_title()
     {
-        return __('SMS ALERT', 'softeria-alert-gravity-forms');
+        return __('SOFT SMS', 'softeria-alert-gravity-forms');
     }
 
     /**

@@ -2343,7 +2343,7 @@ class SA_CodTOPrepaid
     }
 
     /**
-     * Get sms alert cod templates.
+     * Get soft sms cod templates.
      *
      * @return array
      */

@@ -1533,7 +1533,7 @@ msgid "Skip and Deactivate Now"
 msgstr ""
 
 #: views/support.php:58
-msgid "SMS ALERT"
+msgid "SOFT SMS"
 msgstr ""
 
 #: handler/forms/class-elementor.php:202 handler/forms/class-formidable.php:123

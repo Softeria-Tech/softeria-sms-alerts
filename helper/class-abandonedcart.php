@@ -233,7 +233,7 @@ class SA_Abandoned_Cart
     }
 
     /**
-     * Get sms alert cart templates.
+     * Get soft sms cart templates.
      *
      * @return array
      */

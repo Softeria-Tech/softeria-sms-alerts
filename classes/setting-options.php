@@ -285,36 +285,36 @@ class softeria_alerts_Setting_Options
         
         add_submenu_page('elementor', 'Softeria Tech', 'Softeria Tech', 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
         
-        add_submenu_page('options-general.php', 'SMS ALERT', 'Softeria Tech', 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('options-general.php', 'SOFT SMS', 'Softeria Tech', 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('gf_edit_forms', __('SMS ALERT', 'gravityforms'), __('Softeria Tech', 'gravityforms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('gf_edit_forms', __('SOFT SMS', 'gravityforms'), __('Softeria Tech', 'gravityforms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('ultimatemember', __('SMS ALERT', 'ultimatemember'), __('Softeria Tech', 'ultimatemember'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('ultimatemember', __('SOFT SMS', 'ultimatemember'), __('Softeria Tech', 'ultimatemember'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('wpcf7', __('SMS ALERT', 'wpcf7'), __('Softeria Tech', 'wpcf7'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('wpcf7', __('SOFT SMS', 'wpcf7'), __('Softeria Tech', 'wpcf7'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('pie-register', __('SMS ALERT', 'pie-register'), __('Softeria Tech', 'pie-register'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('pie-register', __('SOFT SMS', 'pie-register'), __('Softeria Tech', 'pie-register'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('wpam-affiliates', __('SMS ALERT', 'affiliates-manager'), __('Softeria Tech', 'affiliates-manager'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('wpam-affiliates', __('SOFT SMS', 'affiliates-manager'), __('Softeria Tech', 'affiliates-manager'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('learn_press', __('SMS ALERT', 'learnpress'), __('Softeria Tech', 'learnpress'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('learn_press', __('SOFT SMS', 'learnpress'), __('Softeria Tech', 'learnpress'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('ninja-forms', __('SMS ALERT', 'ninja-forms'), __('Softeria Tech', 'ninja-forms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('ninja-forms', __('SOFT SMS', 'ninja-forms'), __('Softeria Tech', 'ninja-forms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
         
-        add_submenu_page('fluent_forms', __('SMS ALERT', 'fluent_forms'), __('Softeria Tech', 'fluent_forms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('fluent_forms', __('SOFT SMS', 'fluent_forms'), __('Softeria Tech', 'fluent_forms'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
         
-        add_submenu_page('forminator', __('SMS ALERT', 'forminator'), __('Softeria Tech', 'forminator'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('forminator', __('SOFT SMS', 'forminator'), __('Softeria Tech', 'forminator'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('user-registration', __('SMS ALERT', 'user-registration'), __('Softeria Tech', 'user-registration'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('user-registration', __('SOFT SMS', 'user-registration'), __('Softeria Tech', 'user-registration'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
-        add_submenu_page('erforms-overview', __('SMS ALERT', 'erforms-overview'), __('Softeria Tech', 'erforms-overview'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('erforms-overview', __('SOFT SMS', 'erforms-overview'), __('Softeria Tech', 'erforms-overview'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
          add_submenu_page('options.php', 'Booking Calendar', __('Booking Calendar', 'softeria-sms-alerts'), 'manage_options', 'booking-reminder', array( 'SAReminderlist', 'display_page' ));
-        add_submenu_page('wpforms-overview', __('SMS ALERT', 'wpforms-overview'), __('Softeria Tech', 'wpforms-overview'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('wpforms-overview', __('SOFT SMS', 'wpforms-overview'), __('Softeria Tech', 'wpforms-overview'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
 
         add_submenu_page('options.php', 'Abandoned Carts', __('Abandoned Carts', 'softeria-sms-alerts'), 'manage_options', 'ab-cart', array( 'SA_Cart_Admin', 'display_page' ));
         add_submenu_page('options.php', 'Abandoned Carts', __('Abandoned Carts', 'softeria-sms-alerts'), 'manage_options', 'ab-cart-reports', array( 'SA_Cart_Admin', 'display_reports_page' ));
         
-        add_submenu_page('wpbc', __('SMS ALERT', 'wpbc'), __('Softeria Tech', 'wpbc'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
+        add_submenu_page('wpbc', __('SOFT SMS', 'wpbc'), __('Softeria Tech', 'wpbc'), 'manage_options', 'softeria-sms-alerts', __CLASS__ . '::settingsTab');
     }
 
     /**

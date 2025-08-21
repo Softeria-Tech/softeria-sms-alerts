@@ -1,4 +1,4 @@
-# SMS Alert Order Notifications for WooCommerce
+# SOFT SMS Order Notifications for WooCommerce
 
 **Contributors:** Softeria Tech Ltd & FutureVH  
 **Tags:** order notification, SMS order alerts, WooCommerce SMS integration, SMS plugin, mobile verification, bulk SMS  

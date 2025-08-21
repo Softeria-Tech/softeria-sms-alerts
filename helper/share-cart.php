@@ -147,7 +147,7 @@ class Share_Cart
     }
 
     /**
-     * Get sms alert share cart templates.
+     * Get soft sms share cart templates.
      *
      * @return array
      */
