@@ -30,7 +30,7 @@ if (! headers_sent() ) {
 									</div>
 									<div class="sa_customer_validation-modal-body center">
 										<div>' . esc_attr($message) . '</div><br /> ';
-if (! SmsAlertUtility::isBlank($user_email) || ! SmsAlertUtility::isBlank($phone_number) ) {
+if (! SOFTSMAL_Utility::isBlank($user_email) || ! SOFTSMAL_Utility::isBlank($phone_number) ) {
     echo '								<div class="sa_customer_validation-login-container">
 												<form name="f" method="post" action="">
 													<input type="hidden" name="option" value="' . esc_attr($action) . '" />

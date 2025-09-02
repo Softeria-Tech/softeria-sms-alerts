@@ -11,7 +11,7 @@
  */
 $fluent_forms = SaFluentForm::getFluentForms();
 if (! empty($fluent_forms) ) {
-	$disablePlayground     = SmsAlertUtility::isPlayground()?"disablePlayground":"";
+	$disablePlayground     = SOFTSMAL_Utility::isPlayground()?"disablePlayground":"";
     ?>
 <!-- accordion -->
 <div class="cvt-accordion">
@@ -38,7 +38,7 @@ if (! empty($fluent_forms) ) {
         }
         ?>
                         </div>
-                        <textarea data-parent_id="softeria_alerts_fluent_general[fluent_message_<?php echo esc_attr($ks); ?>]" name="softeria_alerts_fluent_message[fluent_sms_body_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_fluent_message[fluent_sms_body_<?php echo esc_attr($ks); ?>]" <?php echo( ( softeria_alerts_get_option('fluent_order_status_' . esc_attr($ks), 'softeria_alerts_fluent_general', 'on') === 'on' ) ? '' : "readonly='readonly'" ); ?> class="token-area"><?php echo esc_textarea(softeria_alerts_get_option('fluent_sms_body_' . esc_attr($ks), 'softeria_alerts_fluent_message', SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'))); ?></textarea>
+                        <textarea data-parent_id="softeria_alerts_fluent_general[fluent_message_<?php echo esc_attr($ks); ?>]" name="softeria_alerts_fluent_message[fluent_sms_body_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_fluent_message[fluent_sms_body_<?php echo esc_attr($ks); ?>]" <?php echo( ( softeria_alerts_get_option('fluent_order_status_' . esc_attr($ks), 'softeria_alerts_fluent_general', 'on') === 'on' ) ? '' : "readonly='readonly'" ); ?> class="token-area"><?php echo esc_textarea(softeria_alerts_get_option('fluent_sms_body_' . esc_attr($ks), 'softeria_alerts_fluent_message', SOFTSMAL_Messages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'))); ?></textarea>
                         <div id="menu_fluent_cust_<?php echo esc_attr($ks); ?>" class="sa-menu-token" role="listbox"></div>
                     </td>
                 </tr>

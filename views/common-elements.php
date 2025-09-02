@@ -21,31 +21,31 @@
  */
 function sa_extra_post_data( $data = null )
 {
-    if (isset($_SESSION[ FormSessionVars::WC_DEFAULT_REG ])
-        || isset($_SESSION[ FormSessionVars::CRF_DEFAULT_REG ])
-        || isset($_SESSION[ FormSessionVars::UULTRA_REG ])
-        || isset($_SESSION[ FormSessionVars::UPME_REG ])
-        || isset($_SESSION[ FormSessionVars::PB_DEFAULT_REG ])
-        || isset($_SESSION[ FormSessionVars::NINJA_FORM ])
-        || isset($_SESSION[ FormSessionVars::USERPRO_FORM ])
-        || isset($_SESSION[ FormSessionVars::EVENT_REG ])
-        || isset($_SESSION[ FormSessionVars::BUDDYPRESS_DEFAULT_REG ])
-        || isset($_SESSION[ FormSessionVars::WP_DEFAULT_LOGIN ])
-        || isset($_SESSION[ FormSessionVars::WP_LOGIN_REG_PHONE ])
-        || isset($_SESSION[ FormSessionVars::UM_DEFAULT_REG ])
-        || isset($_SESSION[ FormSessionVars::AFFILIATE_MANAGER_REG ])
-        || isset($_SESSION[ FormSessionVars::WP_DEFAULT_LOST_PWD ])
-        || isset($_SESSION[ FormSessionVars::LEARNPRESS_DEFAULT_REG ])
-        || isset($_SESSION[ FormSessionVars::USERSWP_FORM ])
+    if (isset($_SESSION[ SOFTSMAL_FormSessionVars::WC_DEFAULT_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::CRF_DEFAULT_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::UULTRA_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::UPME_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::PB_DEFAULT_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::NINJA_FORM ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::USERPRO_FORM ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::EVENT_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::BUDDYPRESS_DEFAULT_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::WP_DEFAULT_LOGIN ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::WP_LOGIN_REG_PHONE ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::UM_DEFAULT_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::AFFILIATE_MANAGER_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::WP_DEFAULT_LOST_PWD ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::LEARNPRESS_DEFAULT_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::USERSWP_FORM ])
     ) {
         show_hidden_fields($_REQUEST);
-    } elseif (( isset($_SESSION[ FormSessionVars::WC_SOCIAL_LOGIN ]) )
-        && ! SmsAlertUtility::isBlank($data)
+    } elseif (( isset($_SESSION[ SOFTSMAL_FormSessionVars::WC_SOCIAL_LOGIN ]) )
+        && ! SOFTSMAL_Utility::isBlank($data)
     ) {
         show_hidden_fields($data);
-    } elseif (( isset($_SESSION[ FormSessionVars::TML_REG ])
-        || isset($_SESSION[ FormSessionVars::WP_DEFAULT_REG ]) || isset($_SESSION[ FormSessionVars::BUDDYPRESS_REG ]) )
-        && ! SmsAlertUtility::isBlank($_POST)
+    } elseif (( isset($_SESSION[ SOFTSMAL_FormSessionVars::TML_REG ])
+        || isset($_SESSION[ SOFTSMAL_FormSessionVars::WP_DEFAULT_REG ]) || isset($_SESSION[ SOFTSMAL_FormSessionVars::BUDDYPRESS_REG ]) )
+        && ! SOFTSMAL_Utility::isBlank($_POST)
     ) {
         show_hidden_fields($_POST);
     }
@@ -112,13 +112,13 @@ function show_hidden_fields( $data )
 function softeria_alerts_site_otp_validation_form( $user_login, $user_email, $phone_number, $message, $otp_type, $from_both )
 {
    
-    $otp_resend_timer = !empty(SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"))?SmsAlertUtility::get_elementor_data("sa_otp_re_send_timer"):softeria_alerts_get_option('otp_resend_timer', 'softeria_alerts_general', '15'); 
-    $max_otp_resend_allowed = !empty(SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"))?SmsAlertUtility::get_elementor_data("max_otp_resend_allowed"):softeria_alerts_get_option('max_otp_resend_allowed', 'softeria_alerts_general', '4'); 
+    $otp_resend_timer = !empty(SOFTSMAL_Utility::get_elementor_data("sa_otp_re_send_timer"))?SOFTSMAL_Utility::get_elementor_data("sa_otp_re_send_timer"):softeria_alerts_get_option('otp_resend_timer', 'softeria_alerts_general', '15'); 
+    $max_otp_resend_allowed = !empty(SOFTSMAL_Utility::get_elementor_data("max_otp_resend_allowed"))?SOFTSMAL_Utility::get_elementor_data("max_otp_resend_allowed"):softeria_alerts_get_option('max_otp_resend_allowed', 'softeria_alerts_general', '4'); 
     
     $params                 = array(
     'message'                => $message,
     'user_email'             => $user_email,
-    'phone_number'           => SmsAlertcURLOTP::checkPhoneNos($phone_number),
+    'phone_number'           => SOFTSMAL_cURLOTP::checkPhoneNos($phone_number),
     'otp_type'               => $otp_type,
     'from_both'              => $from_both,
     'otp_resend_timer'       => $otp_resend_timer,
@@ -152,7 +152,7 @@ function softeria_alerts_external_phone_validation_form( $go_back_url, $user_ema
     'ajax_lib_jquery' => SA_MOV_URL . 'js/jquery.min.js',
     );
     get_softeria_alerts_template('template/otp-popup-hasnophoneno.php', $params);
-    SmsAlertUtility::enqueue_script_for_intellinput();
+    SOFTSMAL_Utility::enqueue_script_for_intellinput();
     exit();
 }
 
@@ -173,7 +173,7 @@ function smsproAskForResetPassword( $username, $phone_number, $message, $otp_typ
     $params = array(
     'message'      => $message,
     'username'     => $username,
-    'phone_number' => SmsAlertcURLOTP::checkPhoneNos($phone_number),
+    'phone_number' => SOFTSMAL_cURLOTP::checkPhoneNos($phone_number),
     'otp_type'     => $otp_type,
     'from_both'    => $from_both,
     'user_email'   => '',

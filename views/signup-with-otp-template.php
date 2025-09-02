@@ -36,7 +36,7 @@
                     <div>
             <?php 
             if ('sa_subscribe group_name=""'===$shortcode['value']) {
-                $groups = SmsAlertcURLOTP::groupList();
+                $groups = SOFTSMAL_cURLOTP::groupList();
                 ?>
                                 <select name="softeria_alerts_general[subscribe_group]" id="user_group">
                 <?php

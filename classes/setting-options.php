@@ -24,35 +24,23 @@ class softeria_alerts_Setting_Options
      */
     public static function init()
     {
-        include_once plugin_dir_path(__DIR__) . '/helper/uncannyautomator.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/cshortcode.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/divi.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/wordpresswidget.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/upgrade.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/backend.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/edd.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/learnpress.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/woocommerce-booking.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/events-manager.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/cartbounty.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/delivery-drivers-woocommerce.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/sapopup.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/elementorwidget.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/backinstock.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/wc-low-stock.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/review.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/share-cart.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/terawallet.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/wc-subscriptions.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/abandonedcart.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/wc-integration.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/new-user-approve.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/return-warranty.php';
-        include_once plugin_dir_path(__DIR__) .'/helper/signup-with-otp.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/feedback.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/blocks.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/smscampaign.php';
-        include_once plugin_dir_path(__DIR__) . '/helper/wpfusion.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_cshortcode.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_divi.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_wordpresswidget.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_upgrade.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_backend.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_popup.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_elementorwidget.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_backinstock.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_wc-low-stock.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_review.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_share-cart.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_abandonedcart.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_wc-integration.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_signup-with-otp.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_feedback.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_blocks.php';
+        include_once plugin_dir_path(__DIR__) . '/helper/softsmal_smscampaign.php';
         
         add_action('admin_menu', __CLASS__ . '::smsAlertWcSubmenu', 50);
 
@@ -85,17 +73,17 @@ class softeria_alerts_Setting_Options
             case 'softeria-alert-woocommerce-senderlist':
                 $user = isset($_GET['user']) ? sanitize_text_field(wp_unslash($_GET['user'])) : '';
                 $pwd  = isset($_GET['pwd']) ? sanitize_text_field(wp_unslash($_GET['pwd'])) : '';
-                wp_send_json(SmsAlertcURLOTP::getSenderids($user, $pwd));
+                wp_send_json(SOFTSMAL_cURLOTP::getSenderids($user, $pwd));
                 exit;
             case 'softeria-alert-woocommerce-creategroup':
-                SmsAlertcURLOTP::creategrp();
-                wp_send_json(SmsAlertcURLOTP::groupList());
+                SOFTSMAL_cURLOTP::creategrp();
+                wp_send_json(SOFTSMAL_cURLOTP::groupList());
                 break;
             case 'softeria-alert-woocommerce-logout':
                 wp_send_json(self::logout());
                 break;
             case 'softeria-alert-woocommerce-countrylist':
-                wp_send_json(SmsAlertcURLOTP::country_list());
+                wp_send_json(SOFTSMAL_cURLOTP::country_list());
                 break;
             case 'dismiss_chatondesk_notice':
                 update_option('dismiss_chatondesk_notice', 1);
@@ -114,7 +102,7 @@ class softeria_alerts_Setting_Options
      */
     public static function action_woocommerce_loaded()
     {
-        $sa_abcart = new SA_Abandoned_Cart();
+        $sa_abcart = new SOFTSMAL_Abandoned_Cart();
         $sa_abcart->run();
     }
 
@@ -186,7 +174,7 @@ class softeria_alerts_Setting_Options
      */
     public static function showWhatsappNotification()
     {
-		$credits = SmsAlertcURLOTP::getCredits();  
+		$credits = SOFTSMAL_cURLOTP::getCredits();  
         if (! empty($credits) ) {
             if (!empty($credits['credit_balance'])) {
                 if ($credits['credit_balance']< 100) {
@@ -330,7 +318,7 @@ class softeria_alerts_Setting_Options
         if (! empty($softeria_alerts_name) && ! empty($softeria_alerts_password) ) {
             $islogged = true;
         }
-		if (SmsAlertUtility::isPlayground()) {
+		if (SOFTSMAL_Utility::isPlayground()) {
 			$islogged = true;
 		}
         return $islogged;
@@ -346,7 +334,7 @@ class softeria_alerts_Setting_Options
     public static function smsproAddDashboardWidgets( $items = array() )
     {
         if (self::is_user_authorised() ) {
-            $credits = SmsAlertcURLOTP::getCredits();
+            $credits = SOFTSMAL_cURLOTP::getCredits();
             $items[] = sprintf('<a href="%1$s" class="softeria-alert-credit"><strong>%2$s SMS</strong> : %3$s</a>', admin_url('admin.php?page=soft-sms-alerts'), 'Rate @'.$credits['rate'].'/SMS', $credits['credit_balance']) . '<br />';
         }
         return $items;
@@ -527,12 +515,12 @@ class softeria_alerts_Setting_Options
         $has_booking_calendar                         = ( is_plugin_active('booking/wpdev-booking.php') ) ? true : false;
         $sms_admin_phone                              = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
         $group_auto_sync                              = softeria_alerts_get_option('group_auto_sync', 'softeria_alerts_general', '');
-        $sms_body_on_hold                             = softeria_alerts_get_option('sms_body_on-hold', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_ON_HOLD'));
-        $sms_body_processing                          = softeria_alerts_get_option('sms_body_processing', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_PROCESSING'));
-        $sms_body_completed                           = softeria_alerts_get_option('sms_body_completed', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_COMPLETED'));
-        $sms_body_cancelled                           = softeria_alerts_get_option('sms_body_cancelled', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_SMS_CANCELLED'));
-        $sms_body_registration_msg                    = softeria_alerts_get_option('sms_body_registration_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
-        $sms_otp_send                                 = softeria_alerts_get_option('sms_otp_send', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_BUYER_OTP'));
+        $sms_body_on_hold                             = softeria_alerts_get_option('sms_body_on-hold', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_BUYER_SMS_ON_HOLD'));
+        $sms_body_processing                          = softeria_alerts_get_option('sms_body_processing', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_BUYER_SMS_PROCESSING'));
+        $sms_body_completed                           = softeria_alerts_get_option('sms_body_completed', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_BUYER_SMS_COMPLETED'));
+        $sms_body_cancelled                           = softeria_alerts_get_option('sms_body_cancelled', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_BUYER_SMS_CANCELLED'));
+        $sms_body_registration_msg                    = softeria_alerts_get_option('sms_body_registration_msg', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_NEW_USER_REGISTER'));
+        $sms_otp_send                                 = softeria_alerts_get_option('sms_otp_send', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_BUYER_OTP'));
         $softeria_alerts_notification_checkout_otp           = softeria_alerts_get_option('buyer_checkout_otp', 'softeria_alerts_general', 'on');
         $softeria_alerts_notification_signup_otp             = softeria_alerts_get_option('buyer_signup_otp', 'softeria_alerts_general', 'on');
         $softeria_alerts_notification_login_otp              = softeria_alerts_get_option('buyer_login_otp', 'softeria_alerts_general', 'on');
@@ -544,7 +532,7 @@ class softeria_alerts_Setting_Options
         $checkout_show_otp_guest_only                 = softeria_alerts_get_option('checkout_show_otp_guest_only', 'softeria_alerts_general', 'on');
 
         $checkout_show_country_code = softeria_alerts_get_option('checkout_show_country_code', 'softeria_alerts_general', 'off');
-		$disablePlayground     = SmsAlertUtility::isPlayground()?"disablePlayground":"";
+		$disablePlayground     = SOFTSMAL_Utility::isPlayground()?"disablePlayground":"";
         $enable_selected_country    = softeria_alerts_get_option('enable_selected_country', 'softeria_alerts_general', 'off');
         $enable_reset_password      = softeria_alerts_get_option('reset_password', 'softeria_alerts_general', 'off');
         $allow_otp_verification    = softeria_alerts_get_option('allow_otp_verification', 'softeria_alerts_general', 'off');
@@ -574,7 +562,7 @@ class softeria_alerts_Setting_Options
         $credit_show                = 'hidden';
         $softeria_alerts_helper            = '';
         if (! empty($softeria_alerts_name) && ! empty($softeria_alerts_password) ) {
-            $credits = SmsAlertcURLOTP::getCredits();
+            $credits = SOFTSMAL_cURLOTP::getCredits();
             $isError = ( is_array($credits) && array_key_exists('status', $credits) && 'error' === $credits['status'] ) ? true : false;
 
             if ($isError || $credits['credit_balance'] < 1) {
@@ -629,7 +617,7 @@ class softeria_alerts_Setting_Options
                     </div>
                     <!--/-general tab-->
         <?php
-        $tabs = apply_filters('sa_addTabs', array());
+        $tabs = apply_filters('softsmal_addTabs', array());
         $sno  = 1;
 		$not_disable = array('Shortcodes', 'Fluent Form','Form Maker', 'Forminator Form', 'WS Form');
         foreach ( $tabs as $tab ) {
@@ -904,7 +892,7 @@ class softeria_alerts_Setting_Options
                                 <td scope="row"> </td>
                                 <td class="td-heading">
                                     <input type="checkbox" name="softeria_alerts_general[auto_sync]" id="softeria_alerts_general[auto_sync]" class="SofteriaAlerts_box sync_group" <?php echo ( ( 'on' === $auto_sync ) ? "checked='checked'" : '' ); ?> /> <label for="softeria_alerts_general[auto_sync]"><?php esc_attr_e('Sync Customers To Group', 'soft-sms-alerts'); ?></label>
-                                    <?php $groups = SmsAlertcURLOTP::groupList();?>
+                                    <?php $groups = SOFTSMAL_cURLOTP::groupList();?>
     
                                     <select name="softeria_alerts_general[group_auto_sync]" data-parent_id="softeria_alerts_general[auto_sync]" id="group_auto_sync">
                                     <?php
@@ -1062,7 +1050,7 @@ class softeria_alerts_Setting_Options
             'admin-softeria-alert-scripts',
             'alert_msg',
             array(
-            'is_playground'             => SmsAlertUtility::isPlayground(),
+            'is_playground'             => SOFTSMAL_Utility::isPlayground(),
             'otp_error'             => __('Please add OTP tag in OTP Template.', 'soft-sms-alerts'),
             'payment_gateway_error' => __('Please choose any payment gateway.', 'soft-sms-alerts'),
             'invalid_email'         => __('You have entered an invalid email address in Advanced Settings option!', 'soft-sms-alerts'),
@@ -1260,7 +1248,7 @@ class softeria_alerts_Setting_Options
         $softeria_alerts_password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway', '');
         $hidden= '';
         if (!empty($softeria_alerts_password) ) {
-            $credits = SmsAlertcURLOTP::getCredits();
+            $credits = SOFTSMAL_cURLOTP::getCredits();
             if (!(array_key_exists('status', $credits) && $credits['status']=='error')) {
                 $hidden = 'hidden';
             }
@@ -1269,7 +1257,7 @@ class softeria_alerts_Setting_Options
             <tr valign="top" class="<?php echo esc_attr($hidden); ?>">
                 <th>&nbsp;</th>
                 <td>
-				<?php  if (SmsAlertUtility::isPlayground()) { ?>
+				<?php  if (SOFTSMAL_Utility::isPlayground()) { ?>
                     <a href="#" class="button-primary woocommerce-save-button" onclick="verifyUser(this); return false;"><?php esc_attr_e('verify and continue', 'soft-sms-alerts'); ?></a>
 				<?php } else { ?>
 				<a href="#" class="button-primary woocommerce-save-button" onclick="verifyUser(this); return false; "><?php esc_attr_e('verify and continue', 'soft-sms-alerts'); ?></a>

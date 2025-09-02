@@ -376,7 +376,7 @@ jQuery("#btn_popup").click(function(){
     });
     //modal preview
         function previewtemplate() {
-             var selected_modal =  '<?php echo !empty(SmsAlertUtility::get_elementor_data("form_list"))?SmsAlertUtility::get_elementor_data("form_list"):'popup-1';?>';
+             var selected_modal =  '<?php echo !empty(SOFTSMAL_Utility::get_elementor_data("form_list"))?SOFTSMAL_Utility::get_elementor_data("form_list"):'popup-1';?>';
             jQuery('.sa-edit-phone').hide(); 
             jQuery('.otp-number').removeClass('hide');
             if (selected_modal=='popup-1' || selected_modal=='popup-4')

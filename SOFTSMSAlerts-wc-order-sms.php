@@ -56,6 +56,10 @@ if (! defined('SHOPPING_KEY') ) {
     define('SHOPPING_KEY', 'smsProSoft3@r!atEchLim1t3d');
 }
 
+if (! defined('SOFTSMAL_PLUGIN_DIR') ) {
+    define( 'SOFTSMAL_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+}
+
 add_action(
     'before_woocommerce_init', function () {
         if (wp_doing_ajax() ) {
@@ -144,23 +148,23 @@ class softeriaAlerts_WC_Order_SMS
         add_action('init', array( $this, 'registerHookSendSms' ));
 
         add_action('woocommerce_checkout_update_order_meta', array( $this, 'buyerNotificationUpdateOrderMeta' ));
-        add_action('woocommerce_order_status_changed', array( 'WooCommerceCheckOutForm', 'trigger_after_order_place' ), 10, 3);
+        add_action('woocommerce_order_status_changed', array( 'SOFTSMAL_WooCommerceCheckOutForm', 'trigger_after_order_place' ), 10, 3);
         add_action('woocommerce_checkout_order_processed', array( $this, 'saWcOrderPlace' ), 10, 1);
         if (!did_action('woocommerce_checkout_order_processed') && is_admin()) {
             add_action('woocommerce_new_order', array( $this, 'saWcOrderPlace' ), 10, 1);
         }
-        add_filter('sa_wc_order_sms_customer_before_send', array( 'WooCommerceCheckOutForm', 'pharseSmsBody' ), 10, 2);
-        add_filter('sa_wc_order_sms_admin_before_send', array( 'WooCommerceCheckOutForm', 'pharseSmsBody' ), 10, 2);
-        add_action('woocommerce_new_customer_note', array( 'WooCommerceCheckOutForm', 'trigger_new_customer_note' ), 10);
+        add_filter('sa_wc_order_sms_customer_before_send', array( 'SOFTSMAL_WooCommerceCheckOutForm', 'pharseSmsBody' ), 10, 2);
+        add_filter('sa_wc_order_sms_admin_before_send', array( 'SOFTSMAL_WooCommerceCheckOutForm', 'pharseSmsBody' ), 10, 2);
+        add_action('woocommerce_new_customer_note', array( 'SOFTSMAL_WooCommerceCheckOutForm', 'trigger_new_customer_note' ), 10);
         add_filter('default_checkout_billing_phone', array( $this, 'modifyBillingPhoneField' ), 1, 2); 
         add_action('user_register', array( $this, 'wcUserCreated' ), 1, 1);
         add_action('softeria_alerts_after_update_new_user_phone', array( $this, 'smsproAfterUserRegister' ), 10, 2);
 
-        include_once 'helper/formlist.php';
+        include_once 'helper/softsmal_formlist.php';
         include_once 'views/common-elements.php';
-        include_once 'handler/forms/FormInterface.php';
+        include_once 'handler/forms/softsmal_FormInterface.php';
         include_once 'handler/softeria_alerts_form_handler.php';
-        include_once 'helper/shortcode.php';
+        include_once 'helper/softsmal_shortcode.php';
 
         if (is_admin() ) {
             add_action('admin_enqueue_scripts', array( $this, 'adminEnqueueScripts' ));
@@ -172,7 +176,7 @@ class softeriaAlerts_WC_Order_SMS
         self::saSyncGrpAction();
         add_filter('sa_before_send_sms', array( $this, 'replaceCommonTokenName' ), 100, 1);
         add_action('admin_init', array($this, 'smsproPluginRedirect'));
-        add_action('sa_addTabs', array( $this, 'addTabs' ), 10);
+        add_action('softsmal_addTabs', array( $this, 'addTabs' ), 10);
         add_filter('sAlertDefaultSettings', array( $this, 'addDefaultSetting' ), 1);
     }
     
@@ -180,7 +184,7 @@ class softeriaAlerts_WC_Order_SMS
     public function modifyBillingPhoneField( $value, $input )
     {
         if ('billing_phone' === $input && ! empty($value) ) {
-            return SmsAlertUtility::formatNumberForCountryCode($value);
+            return SOFTSMAL_Utility::formatNumberForCountryCode($value);
         }
     }
   
@@ -188,7 +192,7 @@ class softeriaAlerts_WC_Order_SMS
     {
         $billing_phone = ( ! empty($_POST['billing_phone']) ) ? sanitize_text_field(wp_unslash($_POST['billing_phone'])) : null;
         $billing_phone = apply_filters('sa_get_user_phone_no', $billing_phone, $user_id);
-        $billing_phone = SmsAlertcURLOTP::checkPhoneNos($billing_phone);
+        $billing_phone = SOFTSMAL_cURLOTP::checkPhoneNos($billing_phone);
         update_user_meta($user_id, 'billing_phone', $billing_phone);
         do_action('softeria_alerts_after_update_new_user_phone', $user_id, $billing_phone);
     }
@@ -199,10 +203,10 @@ class softeriaAlerts_WC_Order_SMS
         $role                = ( ! empty($user->roles[0]) ) ? $user->roles[0] : '';
         $role_display_name   = ( ! empty($role) ) ? self::get_user_roles($role) : '';
         $softeria_alerts_reg_notify = softeria_alerts_get_option('wc_user_roles_' . $role, 'softeria_alerts_signup_general', 'off');
-        $sms_body_new_user   = softeria_alerts_get_option('signup_sms_body_' . $role, 'softeria_alerts_signup_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
+        $sms_body_new_user   = softeria_alerts_get_option('signup_sms_body_' . $role, 'softeria_alerts_signup_message', SOFTSMAL_Messages::showMessage('DEFAULT_NEW_USER_REGISTER'));
 
         $softeria_alerts_reg_admin_notify = softeria_alerts_get_option('admin_registration_msg', 'softeria_alerts_general', 'off');
-        $sms_admin_body_new_user   = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
+        $sms_admin_body_new_user   = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
         $admin_phone_number        = softeria_alerts_get_option('sms_admin_phone', 'softeria_alerts_message', '');
 
         $store_name = trim(get_bloginfo());
@@ -228,7 +232,7 @@ class softeriaAlerts_WC_Order_SMS
             $obj             = array();
             $obj['number']   = $billing_phone;
             $obj['sms_body'] = $sms_body_new_user;
-            SmsAlertcURLOTP::sendsms($obj);
+            SOFTSMAL_cURLOTP::sendsms($obj);
         }
 
         if ('on' === $softeria_alerts_reg_admin_notify && ! empty($admin_phone_number) ) {
@@ -256,7 +260,7 @@ class softeriaAlerts_WC_Order_SMS
             $obj             = array();
             $obj['number']   = $admin_phone_number;
             $obj['sms_body'] = $sms_admin_body_new_user;
-            SmsAlertcURLOTP::sendsms($obj);
+            SOFTSMAL_cURLOTP::sendsms($obj);
         }
     }
     
@@ -313,7 +317,7 @@ class softeriaAlerts_WC_Order_SMS
 
             $checkbox_name_id = 'softeria_alerts_signup_general[wc_user_roles_' . $role_key . ']';
             $textarea_name_id = 'softeria_alerts_signup_message[signup_sms_body_' . $role_key . ']';
-            $text_body        = softeria_alerts_get_option('signup_sms_body_' . $role_key, 'softeria_alerts_signup_message', SmsAlertMessages::showMessage('DEFAULT_NEW_USER_REGISTER'));
+            $text_body        = softeria_alerts_get_option('signup_sms_body_' . $role_key, 'softeria_alerts_signup_message', SOFTSMAL_Messages::showMessage('DEFAULT_NEW_USER_REGISTER'));
 
             $templates[ $role_key ]['title']          = 'When ' . ucwords($role['name']) . ' is registered';
             $templates[ $role_key ]['enabled']        = $current_val;
@@ -329,7 +333,7 @@ class softeriaAlerts_WC_Order_SMS
     public static function getNewUserRegisterTemplates()
     {
         $softeria_alerts_notification_reg_admin_msg = softeria_alerts_get_option('admin_registration_msg', 'softeria_alerts_general', 'on');
-        $sms_body_registration_admin_msg     = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
+        $sms_body_registration_admin_msg     = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
 
         $templates = array();
 
@@ -356,7 +360,7 @@ class softeriaAlerts_WC_Order_SMS
  
     public static function addDefaultSetting( $defaults = array() )
     {
-        $sms_body_registration_admin_msg = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SmsAlertMessages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
+        $sms_body_registration_admin_msg = softeria_alerts_get_option('sms_body_registration_admin_msg', 'softeria_alerts_message', SOFTSMAL_Messages::showMessage('DEFAULT_ADMIN_NEW_USER_REGISTER'));
 
         $wc_user_roles = self::get_user_roles();
         foreach ( $wc_user_roles as $role_key => $role ) {
@@ -391,11 +395,11 @@ class softeriaAlerts_WC_Order_SMS
 
         include_once 'handler/softeria_alerts_logic_interface.php';
         include_once 'handler/softeria_alerts_phone_logic.php';
-        include_once 'helper/sessionVars.php';
-        include_once 'helper/utility.php';
-        include_once 'helper/constants.php';
-        include_once 'helper/messages.php';
-        include_once 'helper/curl.php';
+        include_once 'helper/softsmal_sessionVars.php';
+        include_once 'helper/softsmal_utility.php';
+        include_once 'helper/softsmal_constants.php';
+        include_once 'helper/softsmal_messages.php';
+        include_once 'helper/softsmal_curl.php';
 
         if (stripos($class, 'softeria_alerts_') !== false ) {
 
@@ -425,7 +429,7 @@ class softeriaAlerts_WC_Order_SMS
         $obj['number']   = $number;
         $obj['sms_body'] = $content;
         $obj['schedule'] = $schedule;
-        $response        = SmsAlertcURLOTP::sendsms($obj);
+        $response        = SOFTSMAL_cURLOTP::sendsms($obj);
         return $response;
     }
 
@@ -460,12 +464,12 @@ class softeriaAlerts_WC_Order_SMS
 
     public function adminEnqueueScripts()
     {
-        wp_enqueue_style('admin-softeria-alert-styles', plugins_url('css/admin.css', __FILE__), array(), SmsAlertConstants::SA_VERSION);
+        wp_enqueue_style('admin-softeria-alert-styles', plugins_url('css/admin.css', __FILE__), array(), SOFTSMAL_Constants::SA_VERSION);
         
-        wp_enqueue_style('admin-modal-styles', plugins_url('css/softeria_alerts_customer_validation_style.css', __FILE__), array(), SmsAlertConstants::SA_VERSION);
+        wp_enqueue_style('admin-modal-styles', plugins_url('css/softeria_alerts_customer_validation_style.css', __FILE__), array(), SOFTSMAL_Constants::SA_VERSION);
     
-        wp_enqueue_script('admin-softeria-alert-scripts', plugins_url('js/admin.js', __FILE__), array( 'jquery' ), SmsAlertConstants::SA_VERSION, true);
-        wp_enqueue_script('admin-softeria-alert-taggedinput', plugins_url('js/tagged-input.js', __FILE__), array( 'jquery' ), SmsAlertConstants::SA_VERSION, false);
+        wp_enqueue_script('admin-softeria-alert-scripts', plugins_url('js/admin.js', __FILE__), array( 'jquery' ), SOFTSMAL_Constants::SA_VERSION, true);
+        wp_enqueue_script('admin-softeria-alert-taggedinput', plugins_url('js/tagged-input.js', __FILE__), array( 'jquery' ), SOFTSMAL_Constants::SA_VERSION, false);
         $user_authorize = new softeria_alerts_Setting_Options();
         wp_localize_script(
             'admin-softeria-alert-scripts',
@@ -476,7 +480,7 @@ class softeriaAlerts_WC_Order_SMS
             'allow_otp_countries' => softeria_alerts_get_option('allow_otp_country', 'softeria_alerts_general'),
             'sa_default_countrycode' => softeria_alerts_get_option('default_country_code', 'softeria_alerts_general'),
             'islogged' => $user_authorize->is_user_authorised(),
-            'pattern' => SmsAlertConstants::PATTERN_PHONE,
+            'pattern' => SOFTSMAL_Constants::PATTERN_PHONE,
 			'nonce' => wp_create_nonce('softeria-alert-nonce')
             )
         );
@@ -502,7 +506,7 @@ class softeriaAlerts_WC_Order_SMS
     public static function onlyCredit()
     {
         $trans_credit = [ "credit_balance"=> "0"];
-        $credits      = SmsAlertcURLOTP::getCredits();
+        $credits      = SOFTSMAL_cURLOTP::getCredits();
         if (is_array($credits) ) {
             $trans_credit=$credits;
         }
@@ -750,7 +754,7 @@ class softeriaAlerts_WC_Order_SMS
                     $last_sync_id                = $user->ID;
                     $cnt++;
                 }
-                $resp = SmsAlertcURLOTP::createContact($obj, $group_name);
+                $resp = SOFTSMAL_cURLOTP::createContact($obj, $group_name);
                 update_option('softeria_alerts_sync', array( 'last_sync_userId' => $last_sync_id ));
                 $result = $resp;
                 if (true === $result['status'] ) {
@@ -844,7 +848,7 @@ class softeriaAlerts_WC_Order_SMS
         if (! $order_id ) {
             return;
         }
-        WooCommerceCheckOutForm::trigger_after_order_place($order_id, 'pending', 'pending');
+        SOFTSMAL_WooCommerceCheckOutForm::trigger_after_order_place($order_id, 'pending', 'pending');
     }
 } // SofteriaAlerts_WC_Order_SMS
 

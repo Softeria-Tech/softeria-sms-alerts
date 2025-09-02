@@ -31,20 +31,20 @@ if (! headers_sent() ) {
 									</div>
 									<div class="sa_customer_validation-modal-body center">
 										<div>' . esc_attr($message) . '</div><br /> ';
-if (! SmsAlertUtility::isBlank($user_email) || ! SmsAlertUtility::isBlank($phone_number) ) {
+if (! SOFTSMAL_Utility::isBlank($user_email) || ! SOFTSMAL_Utility::isBlank($phone_number) ) {
     echo '								<div class="sa_customer_validation-login-container">
 												<form name="f" id="sa-form" method="post" action="">
 													<input type="hidden" name="option" value="softeria-alert-validate-otp-form" />
-													<input type="text" name="softeria_alerts_customer_validation_otp_token"  autofocus="true" placeholder="" id="softeria_alerts_customer_validation_otp_token" required="true" class="sa_customer_validation-textbox" autofocus="true" pattern="[0-9]{4,8}" title="' . esc_attr(SmsAlertMessages::showMessage('OTP_RANGE')) . '" />
+													<input type="text" name="softeria_alerts_customer_validation_otp_token"  autofocus="true" placeholder="" id="softeria_alerts_customer_validation_otp_token" required="true" class="sa_customer_validation-textbox" autofocus="true" pattern="[0-9]{4,8}" title="' . esc_attr(SOFTSMAL_Messages::showMessage('OTP_RANGE')) . '" />
 													<br /><input type="submit" name="softeria_alerts_otp_token_submit" id="softeria_alerts_otp_token_submit" class="softeria_alerts_otp_token_submit"  value="' . esc_html__('Validate OTP', 'soft-sms-alerts') . '" />
 													<input type="hidden" name="otp_type" value="' . esc_attr($otp_type) . '">';
     if (! $from_both ) {
         echo '											<input type="hidden" id="from_both" name="from_both" value="false" />
-														<a style="float:right" id="verify_otp" onclick="sa_otp_verification_resend();">' . esc_attr(SmsAlertMessages::showMessage('RESEND_OTP')) . '</a>
+														<a style="float:right" id="verify_otp" onclick="sa_otp_verification_resend();">' . esc_attr(SOFTSMAL_Messages::showMessage('RESEND_OTP')) . '</a>
 														<span id="timer" style="min-width:80px; float:right;margin-right: 5px;"><span id="stimer">00:00</span> ' . esc_html__('sec', 'soft-sms-alerts') . '</span>';
     } else {
         echo '											<input type="hidden" id="from_both" name="from_both" value="true" />
-														<a style="float:right" id="verify_otp" onclick="sa_select_goback();">' . esc_attr(SmsAlertMessages::showMessage('RESEND_OTP')) . '</a>
+														<a style="float:right" id="verify_otp" onclick="sa_select_goback();">' . esc_attr(SOFTSMAL_Messages::showMessage('RESEND_OTP')) . '</a>
 														<span id="timer" style="min-width:80px; float:right;margin-right: 5px;"><span id="stimer">00:00</span> ' . esc_html__('sec', 'soft-sms-alerts') . '</span>';
     }
 

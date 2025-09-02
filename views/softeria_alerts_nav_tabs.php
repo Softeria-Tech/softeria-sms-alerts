@@ -10,7 +10,7 @@
             <a href="#general"><span class="dashicons-before dashicons-admin-generic"></span> <?php esc_html_e('API KEYS', 'soft-sms-alerts'); ?> </a>
         </li>
         <?php
-        $tabs = apply_filters('sa_addTabs', array());
+        $tabs = apply_filters('softsmal_addTabs', array());
         foreach ( $tabs as $tab ) {
             if (array_key_exists('inner_nav', $tab) ) {
                 if (! empty($tab['nav']) ) {

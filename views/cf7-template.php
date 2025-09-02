@@ -19,9 +19,9 @@ if (empty($wpcf7->id()) ) {
     $form_fields  = $contact_form->scan_form_tags();
     $visitor_msg_enable = ( isset($data['visitor_notification']) ) ? $data['visitor_notification'] : "off";
     $admin_msg_enable = ( isset($data['admin_notification']) ) ? $data['admin_notification'] : "off";
-    $admin_message = ( ! empty($data['text']) ) ? trim($data['text']) : SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE');
+    $admin_message = ( ! empty($data['text']) ) ? trim($data['text']) : SOFTSMAL_Messages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE');
     $visitor_no = ( ! empty($data['visitorNumber']) ) ? $data['visitorNumber'] : "[billing_phone]";
-    $visitor_msg = ( ! empty($data['visitorMessage']) ) ? $data['visitorMessage'] :SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE');
+    $visitor_msg = ( ! empty($data['visitorMessage']) ) ? $data['visitorMessage'] :SOFTSMAL_Messages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE');
     ?>    
 <div id="cf7si-sms-sortables" class="meta-box-sortables ui-sortable">
  <div class="tab-panels woocommerce">
@@ -123,7 +123,7 @@ if (empty($wpcf7->id()) ) {
                     <td>
                         <select name="wpcf7softeria-alert-settings[softeria_alerts_group]" id="softeria_alerts_group" data-parent_id="wpcf7softeria-alert-settings[auto_sync]">
                         <?php
-                        $groups = SmsAlertcURLOTP::groupList();
+                        $groups = SOFTSMAL_cURLOTP::groupList();
                         if (! is_array($groups['data']) ) {
                             ?>
                             <option value=""><?php esc_html_e('SELECT', 'soft-sms-alerts'); ?></option>

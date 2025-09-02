@@ -40,7 +40,7 @@ class PhoneLogic extends LogicInterface
      */
     public function _handle_logic( $user_login, $user_email, $phone_number, $otp_type, $form )
     {
-        //$match = preg_match( SmsAlertConstants::getPhonePattern(), $phone_number );
+        //$match = preg_match( SOFTSMAL_Constants::getPhonePattern(), $phone_number );
         
         /* switch ( $match ) {
         case 0:
@@ -51,7 +51,7 @@ class PhoneLogic extends LogicInterface
         break;
         } */
         
-        if (! SmsAlertcURLOTP::checkPhoneNos($phone_number) ) {
+        if (! SOFTSMAL_cURLOTP::checkPhoneNos($phone_number) ) {
             $this->_handle_not_matched($phone_number, $otp_type, $form);
         } else {
             $this->_handle_matched($user_login, $user_email, $phone_number, $otp_type, $form);
@@ -72,7 +72,7 @@ class PhoneLogic extends LogicInterface
     public function _handle_matched( $user_login, $user_email, $phone_number, $otp_type, $form )
     {
         
-        $content = SmsAlertcURLOTP::smsproSendOtpToken($form, '', $phone_number);
+        $content = SOFTSMAL_cURLOTP::smsproSendOtpToken($form, '', $phone_number);
         $status  = array_key_exists('status', $content) ? $content['status'] : '';
 
         switch ( $status ) {
@@ -96,11 +96,11 @@ class PhoneLogic extends LogicInterface
      */
     public function _handle_not_matched( $phone_number, $otp_type, $form )
     {
-        SmsAlertUtility::checkSession();
+        SOFTSMAL_Utility::checkSession();
 
         $message = str_replace('##phone##', $phone_number, self::_get_otp_invalid_format_message());
         if (self::_is_ajax_form() ) {
-            wp_send_json(SmsAlertUtility::_create_json_response($message, SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SOFTSMAL_Utility::_create_json_response($message, SOFTSMAL_Constants::ERROR_JSON_TYPE));
         } else {
             softeria_alerts_site_otp_validation_form(null, null, null, $message, $otp_type, $form);
         }
@@ -120,17 +120,17 @@ class PhoneLogic extends LogicInterface
      */
     public function _handle_otp_sent_failed( $user_login, $user_email, $phone_number, $otp_type, $form, $content )
     {
-        SmsAlertUtility::checkSession();
+        SOFTSMAL_Utility::checkSession();
         if (isset($content['description']['desc']) ) {
             $message = $content['description']['desc'];
         } elseif (isset($content['description']) && ! is_array($content['description']) ) {
             $message = $content['description'];
         } else {
-            $message = str_replace('##phone##', SmsAlertcURLOTP::checkPhoneNos($phone_number), self::_get_otp_sent_failed_message());
+            $message = str_replace('##phone##', SOFTSMAL_cURLOTP::checkPhoneNos($phone_number), self::_get_otp_sent_failed_message());
         }
 
         if (self::_is_ajax_form() || ( 'ajax' === $form ) ) {
-            wp_send_json(SmsAlertUtility::_create_json_response($message, SmsAlertConstants::ERROR_JSON_TYPE));
+            wp_send_json(SOFTSMAL_Utility::_create_json_response($message, SOFTSMAL_Constants::ERROR_JSON_TYPE));
         } else {
             softeria_alerts_site_otp_validation_form(null, null, null, $message, $otp_type, $form);
         }
@@ -150,18 +150,18 @@ class PhoneLogic extends LogicInterface
      */
     public function _handle_otp_sent( $user_login, $user_email, $phone_number, $otp_type, $form, $content )
     {
-        SmsAlertUtility::checkSession();
+        SOFTSMAL_Utility::checkSession();
 
-        if (! empty($_SESSION[ FormSessionVars::WP_DEFAULT_LOST_PWD ]) ) {
-            $number = SmsAlertcURLOTP::checkPhoneNos($phone_number);
+        if (! empty($_SESSION[ SOFTSMAL_FormSessionVars::WP_DEFAULT_LOST_PWD ]) ) {
+            $number = SOFTSMAL_cURLOTP::checkPhoneNos($phone_number);
             $mob    = str_repeat('x', strlen($number) - 4) . substr($number, -4);
         } else {
-            $mob = SmsAlertcURLOTP::checkPhoneNos($phone_number);
+            $mob = SOFTSMAL_cURLOTP::checkPhoneNos($phone_number);
         }
 
         $message = str_replace('##phone##', $mob, self::_get_otp_sent_message());
         if (self::_is_ajax_form() || ( 'ajax' === $form ) ) {
-            wp_send_json(SmsAlertUtility::_create_json_response($message, SmsAlertConstants::SUCCESS_JSON_TYPE));
+            wp_send_json(SOFTSMAL_Utility::_create_json_response($message, SOFTSMAL_Constants::SUCCESS_JSON_TYPE));
         } else {
             softeria_alerts_site_otp_validation_form($user_login, $user_email, $phone_number, $message, $otp_type, $form);
         }
@@ -174,10 +174,10 @@ class PhoneLogic extends LogicInterface
      */
     public function _get_otp_sent_message()
     {
-        if ( SmsAlertUtility::isPlayground()) {
-			 return SmsAlertMessages::showMessage( 'OTP_SENT_PHONE' ).'</br> '.SmsAlertMessages::showMessage('OTP_SENT_plarground');
+        if ( SOFTSMAL_Utility::isPlayground()) {
+			 return SOFTSMAL_Messages::showMessage( 'OTP_SENT_PHONE' ).'</br> '.SOFTSMAL_Messages::showMessage('OTP_SENT_plarground');
 		 }else{
-			return !empty(SmsAlertUtility::get_elementor_data("sa_ele_f_mobile_lbl")) ? SmsAlertUtility::get_elementor_data("sa_ele_f_mobile_lbl") : SmsAlertMessages::showMessage( 'OTP_SENT_PHONE' );
+			return !empty(SOFTSMAL_Utility::get_elementor_data("sa_ele_f_mobile_lbl")) ? SOFTSMAL_Utility::get_elementor_data("sa_ele_f_mobile_lbl") : SOFTSMAL_Messages::showMessage( 'OTP_SENT_PHONE' );
 		 }
     }
 

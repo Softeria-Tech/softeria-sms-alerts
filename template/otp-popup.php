@@ -21,7 +21,7 @@ if ('on' !== $otp_in_popup) {
 }
 $modal_style = softeria_alerts_get_option('modal_style', 'softeria_alerts_general', '');
 $otp_template_style = ('otp-popup-1.php'===$otp_template_style)?'popup-1':(('otp-popup-2.php'===$otp_template_style)?'popup-2':$otp_template_style);
-$sa_values              = !empty(SmsAlertUtility::get_elementor_data("form_list"))?SmsAlertUtility::get_elementor_data("form_list"):$otp_template_style;
+$sa_values              = !empty(SOFTSMAL_Utility::get_elementor_data("form_list"))?SOFTSMAL_Utility::get_elementor_data("form_list"):$otp_template_style;
 $form_id                = (isset($form_id) ? $form_id : $alt_form_id);
 $post = get_page_by_path('modal_style', OBJECT, 'soft-sms-alerts');
 if (is_plugin_active('elementor/elementor.php') && !empty($post)) {  
@@ -30,13 +30,13 @@ if (is_plugin_active('elementor/elementor.php') && !empty($post)) {
     $content =  $frontent->get_builder_content($post_id);
 } else {
     if ($sa_values == 'popup-2') {
-        $content = SAPopup::getModelStyle(array('otp_template_style'=>'popup-2'));
+        $content = SOFTSMAL_Popup::getModelStyle(array('otp_template_style'=>'popup-2'));
     } else if ($sa_values == 'popup-3') {
-        $content = SAPopup::getModelStyle(array('otp_template_style'=>'popup-3'));
+        $content = SOFTSMAL_Popup::getModelStyle(array('otp_template_style'=>'popup-3'));
     } else if ($sa_values == 'popup-1') {
-        $content = SAPopup::getModelStyle(array('otp_template_style'=>'popup-1'));
+        $content = SOFTSMAL_Popup::getModelStyle(array('otp_template_style'=>'popup-1'));
     } else {
-        $content = SAPopup::getModelStyle(array('otp_template_style'=>'popup-4'));
+        $content = SOFTSMAL_Popup::getModelStyle(array('otp_template_style'=>'popup-4'));
     }
 }
  echo ' <div class="modal smsproModal '.$modal_style.' '.$popup_class.' '.$form_id.' '. esc_attr($sa_values) . '" data-modal-close="' . esc_attr(substr($modal_style, 0, -2)) . '" data-form-id="'.$form_id.'">			

@@ -11,11 +11,11 @@
  */
     $username = softeria_alerts_get_option('softeria_alerts_name', 'softeria_alerts_gateway');
     $password = softeria_alerts_get_option('softeria_alerts_password', 'softeria_alerts_gateway');
-    $result    = SmsAlertcURLOTP::getTemplates($username, $password);
+    $result    = SOFTSMAL_cURLOTP::getTemplates($username, $password);
     $templates =  $result ;
-    $result = SmsAlertcURLOTP::getSenderids($username, $password);
+    $result = SOFTSMAL_cURLOTP::getSenderids($username, $password);
     $senderids =  $result ;
-    $credits =  SmsAlertcURLOTP::getCredits() ;
+    $credits =  SOFTSMAL_cURLOTP::getCredits() ;
     $phone = array();
     $tokens = array();
     $count = 0;
@@ -23,7 +23,7 @@
     $search_hide = 'display:none;';
     $send_hide = 'display:block;';
 if ($type == 'order_status_data') {
-    $tokens = WooCommerceCheckOutForm::getOrderVariables();
+    $tokens = SOFTSMAL_WooCommerceCheckOutForm::getOrderVariables();
     $search_hide = 'display:block;';
     $send_hide = 'display:none;';
 }
@@ -31,7 +31,7 @@ if ($type == 'order_status_data') {
 if (! empty($post_ids) ) {
     foreach ( $post_ids as $key => $post_id ) {
         if ($type == 'orders_data') {
-            $tokens = WooCommerceCheckOutForm::getOrderVariables();
+            $tokens = SOFTSMAL_WooCommerceCheckOutForm::getOrderVariables();
             if (version_compare(WC_VERSION, '7.1', '<') ) {
                   $user_phone = get_post_meta($post_id, '_billing_phone', true);
             } else {
@@ -50,7 +50,7 @@ if (! empty($post_ids) ) {
             $user_phone = get_user_meta($post_id, 'billing_phone', true); 
             $phone[] =$user_phone;
         } elseif ($type == 'abandoned_data') {
-            $tokens = SA_Abandoned_Cart::getAbandonCartvariables();
+            $tokens = SOFTSMAL_Abandoned_Cart::getAbandonCartvariables();
             $table_name = $wpdb->prefix . CHECKOUT_VIEW_NAME;
             $results=$wpdb->get_row("SELECT * FROM $table_name WHERE id = $post_id ", ARRAY_A);
             $phone[] =$results['phone'];

@@ -30,7 +30,7 @@ echo '	<html>';
 										</div>
 										<div class="sa_customer_validation-modal-body center">
 											<div id="message">' . $message. '</div><br /> ';
-if (! SmsAlertUtility::isBlank($user_email) ) {
+if (! SOFTSMAL_Utility::isBlank($user_email) ) {
     echo '									<div class="sa_customer_validation-login-container">
 													<form name="f" id="validate_otp_form" method="post" action="">
 														<input id="validate_phone" type="hidden" name="option" value="softeria_alerts_ajax_form_validate" />
@@ -46,12 +46,12 @@ if (! SmsAlertUtility::isBlank($user_email) ) {
 															name="softeria_alerts_customer_validation_otp_token"  autofocus="true" placeholder="" 
 															id="softeria_alerts_customer_validation_otp_token" required="true" 
 															class="sa_customer_validation-textbox" autofocus="true" pattern="[0-9]{4,8}" 
-															title="' . esc_attr(SmsAlertMessages::showMessage('OTP_RANGE')) . '"/>
+															title="' . esc_attr(SOFTSMAL_Messages::showMessage('OTP_RANGE')) . '"/>
 														</div>
 														<input type="button" hidden id="validate_otp" name="otp_token_submit" 
 															class="softeria_alerts_otp_token_submit"  value="Validate" />
 														<input type="button" id="send_otp" class="softeria_alerts_otp_token_submit" 
-															value="' . esc_attr(SmsAlertMessages::showMessage('SEND_OTP')) . '" />';
+															value="' . esc_attr(SOFTSMAL_Messages::showMessage('SEND_OTP')) . '" />';
     sa_extra_post_data($usermeta);
     echo '										</form>
 												</div>';

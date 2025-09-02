@@ -11,7 +11,7 @@
  */
 $forminator_forms = SA_Forminator::getForminatorForms();
 if (! empty($forminator_forms) ) {
-	$disablePlayground     = SmsAlertUtility::isPlayground()?"disablePlayground":"";
+	$disablePlayground     = SOFTSMAL_Utility::isPlayground()?"disablePlayground":"";
     ?>
 <div class="cvt-accordion <?php echo $disablePlayground; ?>">
     <div class="accordion-section">
@@ -33,7 +33,7 @@ if (! empty($forminator_forms) ) {
         }
         ?>
                 </div>                
-                <textarea data-parent_id="softeria_alerts_forminator_general[forminator_admin_notification_<?php echo esc_attr($ks); ?>]" name="softeria_alerts_forminator_message[forminator_admin_sms_body_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_forminator_message[forminator_admin_sms_body_<?php echo esc_attr($ks); ?>]" <?php echo( ( softeria_alerts_get_option('forminator_admin_notification_' . esc_attr($ks), 'softeria_alerts_forminator_general', 'on') === 'on' ) ? '' : "readonly='readonly'" ); ?> class="token-area"><?php echo esc_textarea(softeria_alerts_get_option('forminator_admin_sms_body_' . $ks, 'softeria_alerts_forminator_message', SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'))); ?></textarea>
+                <textarea data-parent_id="softeria_alerts_forminator_general[forminator_admin_notification_<?php echo esc_attr($ks); ?>]" name="softeria_alerts_forminator_message[forminator_admin_sms_body_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_forminator_message[forminator_admin_sms_body_<?php echo esc_attr($ks); ?>]" <?php echo( ( softeria_alerts_get_option('forminator_admin_notification_' . esc_attr($ks), 'softeria_alerts_forminator_general', 'on') === 'on' ) ? '' : "readonly='readonly'" ); ?> class="token-area"><?php echo esc_textarea(softeria_alerts_get_option('forminator_admin_sms_body_' . $ks, 'softeria_alerts_forminator_message', SOFTSMAL_Messages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'))); ?></textarea>
                 <div id="menu_forminator_admin_<?php echo esc_attr($ks); ?>" class="sa-menu-token" role="listbox"></div>
                 </td>
                 </tr>

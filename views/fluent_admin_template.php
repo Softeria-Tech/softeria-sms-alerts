@@ -11,7 +11,7 @@
  */
 $fluent_forms = SaFluentForm::getFluentForms();
 if (! empty($fluent_forms) ) {
-	$disablePlayground     = SmsAlertUtility::isPlayground()?"disablePlayground":"";
+	$disablePlayground     = SOFTSMAL_Utility::isPlayground()?"disablePlayground":"";
     ?>
 <div class="cvt-accordion <?php echo $disablePlayground; ?>">
     <div class="accordion-section">
@@ -33,7 +33,7 @@ if (! empty($fluent_forms) ) {
         }
         ?>
                 </div>                
-                <textarea data-parent_id="softeria_alerts_fluent_general[fluent_admin_notification_<?php echo esc_attr($ks); ?>]" name="softeria_alerts_fluent_message[fluent_admin_sms_body_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_fluent_message[fluent_admin_sms_body_<?php echo esc_attr($ks); ?>]" <?php echo( ( softeria_alerts_get_option('fluent_admin_notification_' . esc_attr($ks), 'softeria_alerts_fluent_general', 'on') === 'on' ) ? '' : "readonly='readonly'" ); ?> class="token-area"><?php echo esc_textarea(softeria_alerts_get_option('fluent_admin_sms_body_' . $ks, 'softeria_alerts_fluent_message', SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'))); ?></textarea>
+                <textarea data-parent_id="softeria_alerts_fluent_general[fluent_admin_notification_<?php echo esc_attr($ks); ?>]" name="softeria_alerts_fluent_message[fluent_admin_sms_body_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_fluent_message[fluent_admin_sms_body_<?php echo esc_attr($ks); ?>]" <?php echo( ( softeria_alerts_get_option('fluent_admin_notification_' . esc_attr($ks), 'softeria_alerts_fluent_general', 'on') === 'on' ) ? '' : "readonly='readonly'" ); ?> class="token-area"><?php echo esc_textarea(softeria_alerts_get_option('fluent_admin_sms_body_' . $ks, 'softeria_alerts_fluent_message', SOFTSMAL_Messages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE'))); ?></textarea>
                 <div id="menu_fluent_admin_<?php echo esc_attr($ks); ?>" class="sa-menu-token" role="listbox"></div>
                 </td>
                 </tr>

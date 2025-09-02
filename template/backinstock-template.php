@@ -16,7 +16,7 @@ if (is_plugin_active('elementor/elementor.php') && !empty($post)) {
     $frontent = new Frontend();
     $content =  $frontent->get_builder_content($post_id);    
 } else {
-    $content = SAPopup::getNotifyMeStyle();        
+    $content = SOFTSMAL_Popup::getNotifyMeStyle();        
 }        
     echo $content;
 ?>

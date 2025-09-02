@@ -44,7 +44,7 @@ if (! empty($ninja_forms) ) {
         }
         ?>
                         </div>
-                        <textarea data-parent_id="softeria_alerts_ninja_general[ninja_message_<?php echo esc_attr($ks); ?>]" name="softeria_alerts_ninja_message[ninja_sms_body_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_ninja_message[ninja_sms_body_<?php echo esc_attr($ks); ?>]" <?php echo( ( softeria_alerts_get_option('ninja_order_status_' . esc_attr($ks), 'softeria_alerts_ninja_general', 'on') === 'on' ) ? '' : "readonly='readonly'" ); ?> class="token-area"><?php echo esc_textarea(softeria_alerts_get_option('ninja_sms_body_' . esc_attr($ks), 'softeria_alerts_ninja_message', SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'))); ?></textarea>
+                        <textarea data-parent_id="softeria_alerts_ninja_general[ninja_message_<?php echo esc_attr($ks); ?>]" name="softeria_alerts_ninja_message[ninja_sms_body_<?php echo esc_attr($ks); ?>]" id="softeria_alerts_ninja_message[ninja_sms_body_<?php echo esc_attr($ks); ?>]" <?php echo( ( softeria_alerts_get_option('ninja_order_status_' . esc_attr($ks), 'softeria_alerts_ninja_general', 'on') === 'on' ) ? '' : "readonly='readonly'" ); ?> class="token-area"><?php echo esc_textarea(softeria_alerts_get_option('ninja_sms_body_' . esc_attr($ks), 'softeria_alerts_ninja_message', SOFTSMAL_Messages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE'))); ?></textarea>
                         <div id="menu_ninja_cust_<?php echo esc_attr($ks); ?>" class="sa-menu-token" role="listbox"></div>
                     </td>
                 </tr>

@@ -9,8 +9,8 @@
  * @license  URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://sms.softeriatech.com/
  */
-$admin_message = ( isset($values['admin_message']) ) ? trim($values['admin_message']) : SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE');
-$visitor_msg = ( isset($values['visitor_message']) ) ? $values['visitor_message'] :SmsAlertMessages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE');
+$admin_message = ( isset($values['admin_message']) ) ? trim($values['admin_message']) : SOFTSMAL_Messages::showMessage('DEFAULT_CONTACT_FORM_ADMIN_MESSAGE');
+$visitor_msg = ( isset($values['visitor_message']) ) ? $values['visitor_message'] :SOFTSMAL_Messages::showMessage('DEFAULT_CONTACT_FORM_CUSTOMER_MESSAGE');
 $results = Formidable::getFormFields($values['id']);
 $enable_otp = isset($values['softeria_alerts_enable_otp'])?$values['softeria_alerts_enable_otp']:'';
 $enable_message = isset($values['softeria_alerts_enable_message'])?$values['softeria_alerts_enable_message']:'';

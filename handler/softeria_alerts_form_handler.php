@@ -14,55 +14,15 @@
 if (! defined('ABSPATH') ) {
     exit;
 }
-    require_once 'forms/woocommerce/wc-checkout.php';
-    require_once 'forms/woocommerce/wc-registration.php';
-    require_once 'forms/wplogin.php';
-    require_once 'forms/wpcafe.php';
-    require_once 'forms/wpforms.php';
-    require_once 'forms/metform.php';
-    require_once 'forms/everestform.php';
-    require_once 'forms/jetform.php';
-    require_once 'forms/wployalty.php';
-    require_once 'forms/membermouse.php';
-    require_once 'forms/bookingcalendar.php';
-    require_once 'forms/bookitcalendar.php';
-	require_once 'forms/booknetic.php';
-    require_once 'forms/buddypress.php';
-	require_once 'forms/fatservicesbooking.php';
-    require_once 'forms/restaurantreservation.php';
-    require_once 'forms/quickrestaurantreservation.php';
-    require_once 'forms/wperp.php';
-    require_once 'forms/fluentcrm.php';
-    require_once 'forms/groundhoggcrm.php';
-    require_once 'forms/amelia.php';
-    require_once 'forms/jetpack.php';
-    require_once 'forms/armember.php';
-	require_once 'forms/formmaker.php';
-	require_once 'forms/registrationmagic.php';
-    require_once 'forms/ultimatemember.php';
-    require_once 'forms/userregistration.php';
-    require_once 'forms/easyregistration.php';
-    require_once 'forms/vendorregistration.php';
-    require_once 'forms/profileregistration.php';
-    require_once 'forms/wcfmarketplace.php';
-    require_once 'forms/contactform7.php';
-    require_once 'forms/fluentform.php';
-    require_once 'forms/easyappointments.php';
-    require_once 'forms/userswpform.php';
-    require_once 'forms/ninjaform.php';
-    require_once 'forms/wpmember.php';
-    require_once 'forms/pieregistration.php';
-    require_once 'forms/wpresetpassword.php';
-    require_once 'forms/learnpressregistration.php';
-    require_once 'forms/elementor.php';
-    require_once 'forms/formidable.php';
-    require_once 'forms/forminator.php';
-    require_once 'forms/gravityform.php';
-    require_once 'forms/wpadverts.php';
-	require_once 'forms/salonbooking.php';
-	require_once 'forms/simplyappointments.php';
-	require_once 'forms/wptravelengine.php';
-	require_once 'forms/wsform.php';
+    require_once 'forms/woocommerce/softsmal_wc-checkout.php';
+    require_once 'forms/woocommerce/softsmal_wc-registration.php';
+    require_once 'forms/softsmal_wplogin.php';
+    require_once 'forms/softsmal_jetpack.php';
+    require_once 'forms/softsmal_userregistration.php';
+    require_once 'forms/softsmal_vendorregistration.php';
+    require_once 'forms/softsmal_userswpform.php';
+    require_once 'forms/softsmal_ninjaform.php';
+    require_once 'forms/softsmal_elementor.php';
 	add_action('wp_loaded', 'softeria_alerts_customer_validation_handle_form', 1);	
     add_action('softeria_alerts_validate_otp', '_handle_validation_form_action', 1, 2);
 
@@ -82,8 +42,8 @@ if (! defined('ABSPATH') ) {
      */
 function softeria_alerts_site_challenge_otp( $user_login, $user_email, $errors, $phone_number, $otp_type, $password = '', $extra_data = null, $from_both = false )
 {
-    SmsAlertUtility::checkSession();
-    $_SESSION['current_url']     = SmsAlertUtility::currentPageUrl();
+    SOFTSMAL_Utility::checkSession();
+    $_SESSION['current_url']     = SOFTSMAL_Utility::currentPageUrl();
     $_SESSION['user_email']      = $user_email;
     $_SESSION['user_login']      = $user_login;
     $_SESSION['user_password']   = $password;
@@ -102,7 +62,7 @@ function softeria_alerts_site_challenge_otp( $user_login, $user_email, $errors, 
      */
 function _handle_verification_resend_otp_action( $otp_type, $from_both )
 {
-    SmsAlertUtility::checkSession();
+    SOFTSMAL_Utility::checkSession();
     $user_email   = sanitize_email($_SESSION['user_email']);
     $user_login   = sanitize_text_field($_SESSION['user_login']);
     $password     = sanitize_text_field($_SESSION['user_password']);
@@ -135,7 +95,7 @@ function _handle_otp_action( $user_login, $user_email, $phone_number, $otp_type,
      */
 function _handle_validation_goBack_action()
 {
-    SmsAlertUtility::checkSession();
+    SOFTSMAL_Utility::checkSession();
     $url = isset($_SESSION['current_url']) ? sanitize_text_field($_SESSION['current_url']) : '';
     session_unset();
     wp_safe_redirect($url);
@@ -152,20 +112,20 @@ function _handle_validation_goBack_action()
      */
 function _handle_validation_form_action( $requestVariable = 'softeria_alerts_customer_validation_otp_token', $from_both = false )
 {
-    SmsAlertUtility::checkSession();
+    SOFTSMAL_Utility::checkSession();
     $_REQUEST        = softeria_alerts_sanitize_array($_REQUEST);
-    $user_login      = ! SmsAlertUtility::isBlank($_SESSION['user_login']) ? sanitize_text_field(wp_unslash($_SESSION['user_login'])) : null;
-    $user_email      = ! SmsAlertUtility::isBlank($_SESSION['user_email']) ? sanitize_email(wp_unslash($_SESSION['user_email'])) : null;
+    $user_login      = ! SOFTSMAL_Utility::isBlank($_SESSION['user_login']) ? sanitize_text_field(wp_unslash($_SESSION['user_login'])) : null;
+    $user_email      = ! SOFTSMAL_Utility::isBlank($_SESSION['user_email']) ? sanitize_email(wp_unslash($_SESSION['user_email'])) : null;
     $phone_number    = ( array_key_exists('billing_phone', $_REQUEST) && ! empty($_REQUEST['billing_phone']) ) ? sanitize_text_field(wp_unslash($_REQUEST['billing_phone'])) : null;
-    $phone_number    = array_key_exists('phone_number_mo', $_SESSION) && ! SmsAlertUtility::isBlank($_SESSION['phone_number_mo']) ? sanitize_text_field($_SESSION['phone_number_mo']) : $phone_number;
-    $password        = ! SmsAlertUtility::isBlank($_SESSION['user_password']) ? sanitize_text_field($_SESSION['user_password']) : null;
-    $extra_data      = ! SmsAlertUtility::isBlank($_SESSION['extra_data']) ? softeria_alerts_sanitize_array($_SESSION['extra_data']) : null;
+    $phone_number    = array_key_exists('phone_number_mo', $_SESSION) && ! SOFTSMAL_Utility::isBlank($_SESSION['phone_number_mo']) ? sanitize_text_field($_SESSION['phone_number_mo']) : $phone_number;
+    $password        = ! SOFTSMAL_Utility::isBlank($_SESSION['user_password']) ? sanitize_text_field($_SESSION['user_password']) : null;
+    $extra_data      = ! SOFTSMAL_Utility::isBlank($_SESSION['extra_data']) ? softeria_alerts_sanitize_array($_SESSION['extra_data']) : null;
     $requestVariable = ( array_key_exists('phone', $_REQUEST) && ! array_key_exists('softeria_alerts_customer_validation_otp_token', $_REQUEST) ) ? sanitize_text_field(wp_unslash($_REQUEST['phone'])) : 'softeria_alerts_customer_validation_otp_token';
 
     //$requestVariable = array_key_exists( 'order_verify', $_REQUEST ) ? 'order_verify' : $requestVariable;
 
     $otp_token = ! empty($_REQUEST[ $requestVariable ]) ? sanitize_text_field(wp_unslash($_REQUEST[ $requestVariable ])) : null;
-    $content = SmsAlertcURLOTP::validateOtpToken($phone_number, $otp_token);
+    $content = SOFTSMAL_cURLOTP::validateOtpToken($phone_number, $otp_token);
     
     if ( true === $content['status'] ) {
         _handle_success_validated($user_login, $user_email, $password, $phone_number, $extra_data);
@@ -216,8 +176,8 @@ function _handle_error_validated( $user_login, $user_email, $phone_number )
      */
 function _handle_mo_ajax_phone_validate( $getdata )
 {
-    SmsAlertUtility::checkSession();
-    $_SESSION[ FormSessionVars::AJAX_FORM ] = trim($getdata['billing_phone']);
+    SOFTSMAL_Utility::checkSession();
+    $_SESSION[ SOFTSMAL_FormSessionVars::AJAX_FORM ] = trim($getdata['billing_phone']);
     softeria_alerts_site_challenge_otp(
         sanitize_text_field($_SESSION['user_login']),
         null,
@@ -237,13 +197,13 @@ function _handle_mo_ajax_phone_validate( $getdata )
      */
 function _handle_mo_ajax_form_validate_action()
 {
-    SmsAlertUtility::checkSession();
-    if (isset($_SESSION[ FormSessionVars::WC_SOCIAL_LOGIN ]) ) {
+    SOFTSMAL_Utility::checkSession();
+    if (isset($_SESSION[ SOFTSMAL_FormSessionVars::WC_SOCIAL_LOGIN ]) ) {
         _handle_validation_form_action();
-        if ('validated' === $_SESSION[ FormSessionVars::WC_SOCIAL_LOGIN ] ) {
-            wp_send_json(SmsAlertUtility::_create_json_response('successfully validated', 'success'));
+        if ('validated' === $_SESSION[ SOFTSMAL_FormSessionVars::WC_SOCIAL_LOGIN ] ) {
+            wp_send_json(SOFTSMAL_Utility::_create_json_response('successfully validated', 'success'));
         } else {
-            wp_send_json(SmsAlertUtility::_create_json_response(SmsAlertMessages::showMessage('INVALID_OTP'), 'error'));
+            wp_send_json(SOFTSMAL_Utility::_create_json_response(SOFTSMAL_Messages::showMessage('INVALID_OTP'), 'error'));
         }
     }
 }
@@ -257,8 +217,8 @@ function _handle_mo_ajax_form_validate_action()
      */
 function _handle_mo_create_user_wc_action( $postdata )
 {
-    SmsAlertUtility::checkSession();
-    if (isset($_SESSION[ FormSessionVars::WC_SOCIAL_LOGIN ]) && ( 'validated' === $_SESSION[ FormSessionVars::WC_SOCIAL_LOGIN ] ) ) {
+    SOFTSMAL_Utility::checkSession();
+    if (isset($_SESSION[ SOFTSMAL_FormSessionVars::WC_SOCIAL_LOGIN ]) && ( 'validated' === $_SESSION[ SOFTSMAL_FormSessionVars::WC_SOCIAL_LOGIN ] ) ) {
         create_new_wc_social_customer($postdata);
     }
 }
